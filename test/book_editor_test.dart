@@ -491,5 +491,38 @@ void main() {
       );
       await finish(tester);
     });
+
+    testWidgets(
+      'nomes de elementos escritos no texto ganham sublinhado pontilhado',
+      (tester) async {
+        final controller = await pumpEditor(
+          tester,
+          ops: [
+            {'insert': 'Ontem Lia correu\n'},
+          ],
+          elements: [element('lia', 'Lia')],
+        );
+        await tester.pump(const Duration(milliseconds: 600));
+        await tester.pump();
+        final dotted = <String>[];
+        for (final rich in tester.widgetList<RichText>(find.byType(RichText))) {
+          rich.text.visitChildren((child) {
+            if (child is TextSpan &&
+                child.style?.decorationStyle == TextDecorationStyle.dotted &&
+                child.text != null) {
+              dotted.add(child.text!);
+            }
+            return true;
+          });
+        }
+        expect(dotted, ['Lia']);
+        // Only paint: the document carries no mention until the writer links it.
+        expect(
+          RichDocument.mentionedIds(controller.document.toDelta()),
+          isEmpty,
+        );
+        await finish(tester);
+      },
+    );
   });
 }

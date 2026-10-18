@@ -402,6 +402,8 @@
     "fonts_skipped": "{count} file(s) were not added: they are not fonts or are too large.",
     "fonts_error": "Could not add the fonts.",
     "missing_fonts": "Fonts not available on this computer: {fonts}. The text is shown in another font.",
-    "missing_fonts_action": "Add fonts"
+    "missing_fonts_action": "Add fonts",
+    "link_to": "Link to {name}",
+    "ignore_term": "Stop marking “{term}”"
   }
 }

@@ -402,6 +402,8 @@
     "fonts_skipped": "{count} arquivo(s) não foram adicionados: não são fontes ou são grandes demais.",
     "fonts_error": "Não foi possível adicionar as fontes.",
     "missing_fonts": "Fontes indisponíveis neste computador: {fonts}. O texto aparece em outra fonte.",
-    "missing_fonts_action": "Adicionar fontes"
+    "missing_fonts_action": "Adicionar fontes",
+    "link_to": "Ligar a {name}",
+    "ignore_term": "Parar de marcar “{term}”"
   }
 }

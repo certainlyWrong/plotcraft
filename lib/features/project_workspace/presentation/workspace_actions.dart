@@ -285,6 +285,27 @@ class WorkspaceActions {
   /// Opens the manuscript document that references an element.
   void openReference(String? chapterId) => controller.openManuscript(chapterId);
 
+  /// Stops the automatic detection of [term] as a mention of [element].
+  Future<void> ignoreMentionTerm(
+    BuildContext context,
+    NarrativeElement element,
+    String term,
+  ) async {
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      final policy = element.mentionPolicy;
+      await store.saveElement(
+        element.copyWith(
+          mentionPolicy: policy.copyWith(
+            ignoredTerms: [...policy.ignoredTerms, term],
+          ),
+        ),
+      );
+    } catch (_) {
+      _snack(messenger, 'elements.save_error');
+    }
+  }
+
   Future<void> manageFonts(BuildContext context) => showProjectFontsDialog(
     context,
     fonts: controller.fonts,

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
 import 'spell_check_backend.dart';
+import 'text_overlays.dart';
 
 /// Spell checking for a [QuillController].
 ///
@@ -17,7 +18,7 @@ import 'spell_check_backend.dart';
 /// * [spanBuilder] splits Quill's text spans at the ranges and underlines them
 ///   with a wavy line. Nothing is written to the document, so the underline
 ///   does not appear in the saved Delta or in the undo history.
-class QuillSpellChecker extends ChangeNotifier {
+class QuillSpellChecker extends ChangeNotifier implements TextOverlaySource {
   QuillSpellChecker({
     required this.backend,
     required this.locale,
@@ -126,7 +127,24 @@ class QuillSpellChecker extends ChangeNotifier {
     return null;
   }
 
-  /// Quill's `textSpanBuilder`: underlines the misspelled parts of [text].
+  @override
+  List<TextOverlay> overlays(BuildContext context) {
+    final color = Theme.of(context).colorScheme.error;
+    return [
+      for (final item in _misspellings)
+        TextOverlay(
+          item.start,
+          item.end,
+          TextStyle(
+            decoration: TextDecoration.underline,
+            decorationStyle: TextDecorationStyle.wavy,
+            decorationColor: color,
+          ),
+        ),
+    ];
+  }
+
+  /// Quill's `textSpanBuilder` when this is the only decoration.
   InlineSpan spanBuilder(
     BuildContext context,
     Node node,
@@ -134,71 +152,15 @@ class QuillSpellChecker extends ChangeNotifier {
     String text,
     TextStyle? style,
     GestureRecognizer? recognizer,
-  ) {
-    final from = node.documentOffset + nodeOffset;
-    final to = from + text.length;
-    final mouseCursor = recognizer != null ? SystemMouseCursors.click : null;
-    if (_misspellings.isEmpty || text.isEmpty) {
-      return TextSpan(
-        text: text,
-        style: style,
-        recognizer: recognizer,
-        mouseCursor: mouseCursor,
-      );
-    }
-    final underline = (style ?? const TextStyle()).merge(
-      TextStyle(
-        decoration: TextDecoration.combine([
-          if (style?.decoration != null) style!.decoration!,
-          TextDecoration.underline,
-        ]),
-        decorationStyle: TextDecorationStyle.wavy,
-        decorationColor: Theme.of(context).colorScheme.error,
-      ),
-    );
-    final children = <TextSpan>[];
-    var cursor = from;
-    for (final item in _misspellings) {
-      if (item.end <= from) continue;
-      if (item.start >= to) break;
-      final start = item.start < from ? from : item.start;
-      final end = item.end > to ? to : item.end;
-      if (start > cursor) {
-        children.add(
-          TextSpan(
-            text: text.substring(cursor - from, start - from),
-            style: style,
-            recognizer: recognizer,
-            mouseCursor: mouseCursor,
-          ),
-        );
-      }
-      children.add(
-        TextSpan(
-          text: text.substring(start - from, end - from),
-          style: underline,
-          recognizer: recognizer,
-          mouseCursor: mouseCursor,
-        ),
-      );
-      cursor = end;
-    }
-    if (cursor < to) {
-      children.add(
-        TextSpan(
-          text: text.substring(cursor - from),
-          style: style,
-          recognizer: recognizer,
-          mouseCursor: mouseCursor,
-        ),
-      );
-    }
-    return TextSpan(children: children, style: style);
-  }
+  ) => layeredSpan(context, node, nodeOffset, text, style, recognizer, [this]);
 
   /// Quill's `contextMenuBuilder`: the usual menu, with the suggestions for
   /// the misspelled word under the cursor first.
-  Widget buildContextMenu(BuildContext context, QuillRawEditorState state) {
+  Widget buildContextMenu(
+    BuildContext context,
+    QuillRawEditorState state, {
+    List<ContextMenuButtonItem> extraItems = const [],
+  }) {
     final selection = state.textEditingValue.selection;
     final target = selection.isValid
         ? misspellingAt(selection.baseOffset)
@@ -231,6 +193,7 @@ class QuillSpellChecker extends ChangeNotifier {
                 unawaited(learn(word));
               },
             ),
+          ...extraItems,
           ...state.contextMenuButtonItems,
         ];
         return AdaptiveTextSelectionToolbar.buttonItems(

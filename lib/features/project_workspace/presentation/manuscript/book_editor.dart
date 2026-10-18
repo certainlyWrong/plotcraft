@@ -10,6 +10,7 @@ import 'package:icons_flutter/icons_flutter.dart';
 import '../../../../core/fonts/editor_font_catalog.dart';
 import '../../../../core/spellcheck/quill_spell_checker.dart';
 import '../../../../core/spellcheck/spell_check_backend.dart';
+import '../../../../core/spellcheck/text_overlays.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../domain/element_type.dart';
 import '../../domain/gallery_item.dart';
@@ -19,6 +20,7 @@ import '../../domain/rich/quill_find_replace.dart';
 import '../../domain/rich/rich_document.dart';
 import '../elements/gallery_picker_dialog.dart';
 import 'element_mention_picker.dart';
+import 'auto_mention_tracker.dart';
 import 'embeds.dart';
 import 'editor_fonts.dart';
 import 'find_bar.dart';
@@ -40,6 +42,7 @@ class BookEditor extends StatefulWidget {
     this.galleryItems = const [],
     this.fonts = const EditorFontCatalog(bundled: bundledEditorFontFamilies),
     this.onManageFonts,
+    this.onIgnoreTerm,
     this.backend = const MethodChannelSpellCheckBackend(),
   });
 
@@ -64,6 +67,9 @@ class BookEditor extends StatefulWidget {
   final EditorFontCatalog fonts;
   final VoidCallback? onManageFonts;
 
+  /// Asked to stop detecting [term] as a mention of [element].
+  final void Function(NarrativeElement element, String term)? onIgnoreTerm;
+
   /// The system spell checker (a fake in tests).
   final SpellCheckBackend backend;
 
@@ -77,6 +83,7 @@ class _BookEditorState extends State<BookEditor> {
   final _find = TextEditingController();
   final _replace = TextEditingController();
   late final QuillSpellChecker _spell;
+  late final AutoMentionTracker _auto;
   bool _showFind = false;
   bool _spellStarted = false;
   StreamSubscription<DocChange>? _changes;
@@ -90,6 +97,7 @@ class _BookEditorState extends State<BookEditor> {
       backend: widget.backend,
       locale: const Locale('en'),
     );
+    _auto = AutoMentionTracker(elements: widget.elements);
     _changes = widget.controller.document.changes.listen(_onDocumentChange);
   }
 
@@ -102,6 +110,7 @@ class _BookEditorState extends State<BookEditor> {
     if (!_spellStarted) {
       _spellStarted = true;
       _spell.attach(widget.controller);
+      _auto.attach(widget.controller);
     } else {
       _spell.schedule();
     }
@@ -110,8 +119,10 @@ class _BookEditorState extends State<BookEditor> {
   @override
   void didUpdateWidget(covariant BookEditor oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.elements != widget.elements) _auto.elements = widget.elements;
     if (oldWidget.controller != widget.controller) {
       _spell.attach(widget.controller);
+      _auto.attach(widget.controller);
       unawaited(_changes?.cancel());
       _changes = widget.controller.document.changes.listen(_onDocumentChange);
     }
@@ -121,11 +132,46 @@ class _BookEditorState extends State<BookEditor> {
   void dispose() {
     unawaited(_changes?.cancel());
     _spell.dispose();
+    _auto.dispose();
     _focus.dispose();
     _scroll.dispose();
     _find.dispose();
     _replace.dispose();
     super.dispose();
+  }
+
+  /// The usual menu with spelling suggestions and, over a name that could be
+  /// a mention, the choice to link it or to stop detecting it.
+  Widget _contextMenu(BuildContext context, QuillRawEditorState state) {
+    final selection = state.textEditingValue.selection;
+    final hit = selection.isValid ? _auto.hitAt(selection.baseOffset) : null;
+    final element = hit == null
+        ? null
+        : widget.elements.where((e) => e.id == hit.elementId).firstOrNull;
+    final linkItems = <ContextMenuButtonItem>[
+      if (hit != null && element != null) ...[
+        ContextMenuButtonItem(
+          label: 'editor.link_to'.tr(namedArgs: {'name': element.title}),
+          onPressed: () {
+            state.hideToolbar();
+            widget.controller.formatText(
+              hit.start,
+              hit.length,
+              MentionEdit.attribute(element),
+            );
+          },
+        ),
+        if (widget.onIgnoreTerm != null)
+          ContextMenuButtonItem(
+            label: 'editor.ignore_term'.tr(namedArgs: {'term': hit.term}),
+            onPressed: () {
+              state.hideToolbar();
+              widget.onIgnoreTerm!(element, hit.term);
+            },
+          ),
+      ],
+    ];
+    return _spell.buildContextMenu(context, state, extraItems: linkItems);
   }
 
   /// Typing `@` at the start of a word opens the element picker.
@@ -305,7 +351,7 @@ class _BookEditorState extends State<BookEditor> {
     final scheme = theme.colorScheme;
     final base = theme.textTheme.bodyLarge!.copyWith(height: 1.7);
     return ListenableBuilder(
-      listenable: _spell,
+      listenable: Listenable.merge([_spell, _auto]),
       builder: (context, _) => QuillEditor(
         controller: widget.controller,
         focusNode: _focus,
@@ -322,8 +368,12 @@ class _BookEditorState extends State<BookEditor> {
             const DividerEmbedBuilder(),
             const ExternalImageEmbedBuilder(),
           ],
-          textSpanBuilder: _spell.spanBuilder,
-          contextMenuBuilder: _spell.buildContextMenu,
+          textSpanBuilder: (context, node, offset, text, style, recognizer) =>
+              layeredSpan(context, node, offset, text, style, recognizer, [
+                _auto,
+                _spell,
+              ]),
+          contextMenuBuilder: _contextMenu,
           customStyleBuilder: (attribute) {
             if (attribute.key == Attribute.font.key) {
               // Project fonts are registered under project-specific names.
