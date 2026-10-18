@@ -4,7 +4,6 @@ import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../core/icons/icon_ref.dart';
 import '../../../../core/ui/plotcraft_context_menu.dart';
-import '../../../../core/ui/plotcraft_dropdown.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
 import '../../domain/element_filter.dart';
 import '../../domain/element_type.dart';
@@ -55,12 +54,19 @@ class _ElementListState extends State<ElementList> {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(18),
-          child: Text(
-            'elements.empty'.tr(),
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Feather.users, size: 28, color: theme.colorScheme.outline),
+              const SizedBox(height: 10),
+              Text(
+                'elements.empty'.tr(),
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
           ),
         ),
       );
@@ -80,6 +86,23 @@ class _ElementListState extends State<ElementList> {
       typeId: typeId,
       tag: tag,
     );
+    // Grouped by type, in the order of the catalog, when the list is long
+    // enough for headings to help.
+    final groups = <(ElementType?, List<NarrativeElement>)>[
+      for (final type in usedTypes)
+        (
+          type,
+          [
+            for (final element in visible)
+              if (element.typeId == type.id) element,
+          ],
+        ),
+    ].where((group) => group.$2.isNotEmpty).toList();
+    final ungrouped = [
+      for (final element in visible)
+        if (!usedTypes.any((type) => type.id == element.typeId)) element,
+    ];
+    if (ungrouped.isNotEmpty) groups.add((null, ungrouped));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -98,60 +121,35 @@ class _ElementListState extends State<ElementList> {
                 ),
               ),
               if (usedTypes.length > 1 || tags.isNotEmpty) ...[
-                const SizedBox(height: 6),
+                const SizedBox(height: 8),
                 Row(
                   children: [
                     if (usedTypes.length > 1)
-                      Expanded(
-                        child: PlotcraftDropdown<String>(
-                          initialValue: typeId ?? '',
-                          items: [
-                            DropdownMenuItem(
-                              value: '',
-                              child: Text('elements.all_types'.tr()),
-                            ),
-                            for (final type in usedTypes)
-                              DropdownMenuItem(
-                                value: type.id,
-                                child: Text(
-                                  type.label,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                          ],
-                          onChanged: (value) => setState(
-                            () => _typeId = value == null || value.isEmpty
-                                ? null
-                                : value,
-                          ),
-                        ),
+                      _FilterButton(
+                        icon: Feather.layers,
+                        label: 'elements.filter_type'.tr(),
+                        allLabel: 'elements.all_types'.tr(),
+                        value: typeId,
+                        valueLabel: usedTypes
+                            .where((type) => type.id == typeId)
+                            .map((type) => type.label)
+                            .firstOrNull,
+                        options: {
+                          for (final type in usedTypes) type.id: type.label,
+                        },
+                        onChanged: (value) => setState(() => _typeId = value),
                       ),
                     if (usedTypes.length > 1 && tags.isNotEmpty)
                       const SizedBox(width: 6),
                     if (tags.isNotEmpty)
-                      Expanded(
-                        child: PlotcraftDropdown<String>(
-                          initialValue: tag ?? '',
-                          items: [
-                            DropdownMenuItem(
-                              value: '',
-                              child: Text('elements.all_tags'.tr()),
-                            ),
-                            for (final name in tags)
-                              DropdownMenuItem(
-                                value: name,
-                                child: Text(
-                                  name,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                          ],
-                          onChanged: (value) => setState(
-                            () => _tag = value == null || value.isEmpty
-                                ? null
-                                : value,
-                          ),
-                        ),
+                      _FilterButton(
+                        icon: Feather.tag,
+                        label: 'elements.filter_tag'.tr(),
+                        allLabel: 'elements.all_tags'.tr(),
+                        value: tag,
+                        valueLabel: tag,
+                        options: {for (final name in tags) name: name},
+                        onChanged: (value) => setState(() => _tag = value),
                       ),
                   ],
                 ),
@@ -169,37 +167,170 @@ class _ElementListState extends State<ElementList> {
                     ),
                   ),
                 )
-              : ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  itemCount: visible.length,
-                  itemBuilder: (context, index) {
-                    final element = visible[index];
-                    final type = ElementTypeCatalog.resolve(
-                      element.typeId,
-                      widget.types,
-                    );
-                    return PlotcraftContextRegion<ElementAction>(
-                      itemsBuilder: (_) => [
-                        PopupMenuItem(
-                          value: ElementAction.remove,
-                          child: Text('elements.remove'.tr()),
+              : ListView(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  children: [
+                    for (final group in groups) ...[
+                      if (groups.length > 1)
+                        _GroupHeader(
+                          label: group.$1?.label ?? '',
+                          count: group.$2.length,
                         ),
-                      ],
-                      onSelected: (action) => widget.onAction(element, action),
-                      child: PanelListItem(
-                        icon: (element.icon ?? type?.icon ?? IconRef.fallback)
-                            .data,
-                        iconColor: element.color ?? type?.color,
-                        label: element.title,
-                        subtitle: type?.label ?? element.typeId,
-                        selected: element.id == widget.activeElementId,
-                        onTap: () => widget.onOpen(element),
-                      ),
-                    );
-                  },
+                      for (final element in group.$2)
+                        _row(element, group.$1, grouped: groups.length > 1),
+                    ],
+                  ],
                 ),
         ),
       ],
+    );
+  }
+
+  Widget _row(
+    NarrativeElement element,
+    ElementType? groupType, {
+    required bool grouped,
+  }) {
+    final type =
+        groupType ?? ElementTypeCatalog.resolve(element.typeId, widget.types);
+    return PlotcraftContextRegion<ElementAction>(
+      itemsBuilder: (_) => [
+        PopupMenuItem(
+          value: ElementAction.remove,
+          child: Text('elements.remove'.tr()),
+        ),
+      ],
+      onSelected: (action) => widget.onAction(element, action),
+      child: PanelListItem(
+        icon: (element.icon ?? type?.icon ?? IconRef.fallback).data,
+        iconColor: element.color ?? type?.color,
+        label: element.title,
+        subtitle: grouped ? null : type?.label ?? element.typeId,
+        selected: element.id == widget.activeElementId,
+        onTap: () => widget.onOpen(element),
+      ),
+    );
+  }
+}
+
+class _GroupHeader extends StatelessWidget {
+  const _GroupHeader({required this.label, required this.count});
+
+  final String label;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 14, 4),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              label.toUpperCase(),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+                letterSpacing: .8,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          Text(
+            '$count',
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Compact filter: shows its name, or the chosen value when active, and opens
+/// a menu with an "all" entry on top.
+class _FilterButton extends StatelessWidget {
+  const _FilterButton({
+    required this.icon,
+    required this.label,
+    required this.allLabel,
+    required this.value,
+    required this.valueLabel,
+    required this.options,
+    required this.onChanged,
+  });
+
+  final IconData icon;
+  final String label;
+  final String allLabel;
+  final String? value;
+  final String? valueLabel;
+  final Map<String, String> options;
+  final ValueChanged<String?> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final active = value != null;
+    return Flexible(
+      child: PopupMenuButton<String>(
+        tooltip: label,
+        position: PopupMenuPosition.under,
+        onSelected: (picked) => onChanged(picked.isEmpty ? null : picked),
+        itemBuilder: (_) => [
+          PopupMenuItem(value: '', child: Text(allLabel)),
+          for (final option in options.entries)
+            PopupMenuItem(value: option.key, child: Text(option.value)),
+        ],
+        child: Container(
+          height: 28,
+          padding: const EdgeInsets.symmetric(horizontal: 9),
+          decoration: BoxDecoration(
+            color: active ? scheme.primaryContainer : Colors.transparent,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: active ? scheme.primary : scheme.outlineVariant,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 13,
+                color: active
+                    ? scheme.onPrimaryContainer
+                    : scheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: 5),
+              Flexible(
+                child: Text(
+                  active ? (valueLabel ?? label) : label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: active
+                        ? scheme.onPrimaryContainer
+                        : scheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 2),
+              Icon(
+                active ? Feather.x : Feather.chevron_down,
+                size: 13,
+                color: active
+                    ? scheme.onPrimaryContainer
+                    : scheme.onSurfaceVariant,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

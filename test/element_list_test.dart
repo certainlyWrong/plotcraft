@@ -128,7 +128,7 @@ void main() {
 
     testWidgets('filtra por tipo usando o seletor', (tester) async {
       await pumpList(tester);
-      await tester.tap(find.byType(DropdownButtonFormField<String>).first);
+      await tester.tap(find.byTooltip('elements.filter_type'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('elements.types.place').last);
       await tester.pumpAndSettle();
@@ -139,7 +139,7 @@ void main() {
 
     testWidgets('filtra por etiqueta usando o seletor', (tester) async {
       await pumpList(tester);
-      await tester.tap(find.byType(DropdownButtonFormField<String>).last);
+      await tester.tap(find.byTooltip('elements.filter_tag'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('apoio').last);
       await tester.pumpAndSettle();

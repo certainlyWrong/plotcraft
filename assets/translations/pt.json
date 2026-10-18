@@ -312,6 +312,23 @@
       "when": "Quando",
       "where": "Onde"
     },
+    "type_hints": {
+      "character": "Pessoas e figuras da história",
+      "place": "Cenários, cidades e regiões",
+      "object": "Itens, artefatos e relíquias",
+      "creature": "Animais, monstros e seres",
+      "organization": "Grupos, famílias e instituições",
+      "event": "Acontecimentos e marcos da trama",
+      "concept": "Ideias, regras e magias do mundo",
+      "note": "Anotações livres e pesquisa"
+    },
+    "choose_type_hint": "Cada tipo já vem com os detalhes certos para começar.",
+    "builtin_types": "Tipos prontos",
+    "custom_types": "Seus tipos",
+    "custom_type_hint": "Tipo personalizado",
+    "new_type_hint": "Defina nome, ícone, cor e detalhes",
+    "filter_type": "Tipo",
+    "filter_tag": "Etiqueta",
     "choose_type": "O que você quer criar?",
     "new_type": "Novo tipo",
     "create_type": "Novo tipo de elemento",

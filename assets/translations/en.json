@@ -312,6 +312,23 @@
       "when": "When",
       "where": "Where"
     },
+    "type_hints": {
+      "character": "People and figures of the story",
+      "place": "Settings, cities and regions",
+      "object": "Items, artifacts and relics",
+      "creature": "Animals, monsters and beings",
+      "organization": "Groups, families and institutions",
+      "event": "Happenings and plot milestones",
+      "concept": "Ideas, rules and magic of the world",
+      "note": "Free notes and research"
+    },
+    "choose_type_hint": "Each type comes with the right details to get started.",
+    "builtin_types": "Ready-made types",
+    "custom_types": "Your types",
+    "custom_type_hint": "Custom type",
+    "new_type_hint": "Set a name, icon, color and details",
+    "filter_type": "Type",
+    "filter_tag": "Tag",
     "choose_type": "What do you want to create?",
     "new_type": "New type",
     "create_type": "New element type",
