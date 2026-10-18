@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -7,6 +6,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import 'package:plotcraft_core/features/projects/data/project_creation_service.dart';
+import 'package:plotcraft_core/features/projects/data/project_library.dart';
 import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 
 import '../../../core/storage/local_storage.dart';
@@ -17,6 +17,7 @@ class ProjectRepository {
 
   final LocalStorage _storage;
   final ProjectCreationService _creation;
+  static const _library = ProjectLibrary();
   static const _folderAccess = MethodChannel('plotcraft/folder_access');
 
   late final Future<String> _defaultRoot = _resolveDefaultRoot();
@@ -97,25 +98,10 @@ class ProjectRepository {
       }
     }
     final indexedPaths = _storage.loadProjectDirectories();
-    final paths = <String>{...indexedPaths};
-    final root = Directory(await projectsRoot);
-    if (await root.exists()) {
-      try {
-        await for (final entity in root.list(followLinks: false)) {
-          if (entity is Directory) paths.add(entity.path);
-        }
-      } on FileSystemException {
-        // The selected folder may be on an unplugged or inaccessible volume.
-      }
-    }
-
-    final projects = <StoryProject>[];
-    for (final path in paths) {
-      final project = await _read(path);
-      if (project != null && !projects.any((item) => item.id == project.id)) {
-        projects.add(project);
-      }
-    }
+    final projects = await _library.discover(
+      knownFolders: indexedPaths,
+      root: await projectsRoot,
+    );
 
     // Older versions kept the complete library in SharedPreferences.
     final legacy = <StoryProject>[];
@@ -141,22 +127,6 @@ class ProjectRepository {
     return projects;
   }
 
-  Future<StoryProject?> _read(String folder) async {
-    final file = File(p.join(folder, 'project.json'));
-    if (!await file.exists()) return null;
-    try {
-      final json =
-          jsonDecode(await file.readAsString()) as Map<String, dynamic>;
-      return StoryProject.fromJson(json, directoryPath: folder);
-    } on FormatException {
-      return null;
-    } on TypeError {
-      return null;
-    } on FileSystemException {
-      return null;
-    }
-  }
-
   Future<void> register(StoryProject project) async {
     final path = project.directoryPath;
     if (path == null) throw StateError('Project folder is unknown');
@@ -167,11 +137,7 @@ class ProjectRepository {
   Future<void> delete(StoryProject project) async {
     final folder = project.directoryPath;
     if (folder == null) throw StateError('Project folder is unknown');
-    final existing = await _read(folder);
-    if (existing?.id != project.id) {
-      throw StateError('Project manifest does not match the selected project');
-    }
-    await Directory(folder).delete(recursive: true);
+    await _library.delete(project);
     final paths = _storage.loadProjectDirectories()..remove(folder);
     await _storage.saveProjectDirectories(paths);
   }
