@@ -4,11 +4,21 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 /// A style laid over a stretch of the document (document offsets).
 class TextOverlay {
-  const TextOverlay(this.start, this.end, this.style);
+  const TextOverlay(
+    this.start,
+    this.end,
+    this.style, {
+    this.onEnter,
+    this.onExit,
+  });
 
   final int start;
   final int end;
   final TextStyle style;
+
+  /// Called when a mouse pointer enters or leaves the covered text.
+  final void Function(PointerEnterEvent event)? onEnter;
+  final void Function(PointerExitEvent event)? onExit;
 }
 
 /// Something that decorates stretches of text without changing the document:
@@ -32,11 +42,18 @@ InlineSpan layeredSpan(
   final from = node.documentOffset + nodeOffset;
   final to = from + text.length;
   final mouseCursor = recognizer != null ? SystemMouseCursors.click : null;
-  TextSpan plain(String value, TextStyle? s) => TextSpan(
+  TextSpan plain(
+    String value,
+    TextStyle? s, {
+    void Function(PointerEnterEvent event)? onEnter,
+    void Function(PointerExitEvent event)? onExit,
+  }) => TextSpan(
     text: value,
     style: s,
     recognizer: recognizer,
     mouseCursor: mouseCursor,
+    onEnter: onEnter,
+    onExit: onExit,
   );
   if (text.isEmpty) return plain(text, style);
   final overlays = [
@@ -57,12 +74,23 @@ InlineSpan layeredSpan(
     final a = points[i];
     final b = points[i + 1];
     var piece = style;
+    void Function(PointerEnterEvent event)? onEnter;
+    void Function(PointerExitEvent event)? onExit;
     for (final overlay in overlays) {
       if (overlay.start <= a && overlay.end >= b) {
         piece = (piece ?? const TextStyle()).merge(overlay.style);
+        onEnter = overlay.onEnter ?? onEnter;
+        onExit = overlay.onExit ?? onExit;
       }
     }
-    children.add(plain(text.substring(a - from, b - from), piece));
+    children.add(
+      plain(
+        text.substring(a - from, b - from),
+        piece,
+        onEnter: onEnter,
+        onExit: onExit,
+      ),
+    );
   }
   return TextSpan(children: children, style: style);
 }

@@ -18,6 +18,7 @@ class ElementHoverCard extends StatelessWidget {
     required this.type,
     required this.coverPath,
     required this.phase,
+    this.auto = false,
   });
 
   static const width = 320.0;
@@ -28,6 +29,9 @@ class ElementHoverCard extends StatelessWidget {
   /// File of the element's cover image, when it has one that exists.
   final String? coverPath;
   final NarrativePhase? phase;
+
+  /// The name was detected in the text, not linked: the hint says how to link.
+  final bool auto;
 
   /// Up to three filled details: the phase's values win over the element's.
   List<(String, String)> _details() {
@@ -169,7 +173,8 @@ class ElementHoverCard extends StatelessWidget {
                   ],
                   const SizedBox(height: 10),
                   Text(
-                    'editor.hover_open_hint'.tr(),
+                    (auto ? 'editor.hover_auto_hint' : 'editor.hover_open_hint')
+                        .tr(),
                     style: theme.textTheme.labelSmall?.copyWith(
                       color: scheme.onSurfaceVariant,
                     ),

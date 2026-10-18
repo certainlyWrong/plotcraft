@@ -138,4 +138,69 @@ void main() {
     await tester.pumpWidget(const SizedBox());
     await tester.pump(const Duration(seconds: 1));
   });
+
+  testWidgets('um nome detectado, sem ligação, também mostra o cartão', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1300, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    final controller = QuillController(
+      document: Document.fromJson([
+        {'insert': 'Ela viu Lia correr.\n'},
+      ]),
+      selection: const TextSelection.collapsed(offset: 0),
+    );
+    addTearDown(controller.dispose);
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: builtInThemes.first.toThemeData(fontFamily: 'Lora'),
+        localizationsDelegates:
+            FlutterQuillLocalizations.localizationsDelegates,
+        supportedLocales: FlutterQuillLocalizations.supportedLocales,
+        home: Scaffold(
+          body: BookEditor(
+            controller: controller,
+            dirty: false,
+            saving: false,
+            fullscreen: false,
+            onSave: () {},
+            onToggleFullscreen: () {},
+            onOpenElement: (_) {},
+            elements: [_lia()],
+            types: ElementTypeCatalog.builtin,
+            backend: _NoSpell(),
+          ),
+        ),
+      ),
+    );
+    // The automatic detection runs after a pause in typing.
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump();
+
+    final line = find.byWidgetPredicate(
+      (w) => w is RichText && w.text.toPlainText().contains('Lia'),
+    );
+    final paragraph = tester.renderObject<RenderParagraph>(line.first);
+    final box = paragraph
+        .getBoxesForSelection(
+          const TextSelection(baseOffset: 8, extentOffset: 11),
+        )
+        .first;
+    final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+    addTearDown(mouse.removePointer);
+    await mouse.addPointer(location: Offset.zero);
+    await mouse.moveTo(paragraph.localToGlobal(box.toRect().center));
+    await tester.pump(const Duration(milliseconds: 500));
+    final card = find.byType(ElementHoverCard);
+    expect(card, findsOneWidget);
+    expect(tester.widget<ElementHoverCard>(card).auto, isTrue);
+    expect(find.text('editor.hover_auto_hint'), findsOneWidget);
+
+    await mouse.moveTo(const Offset(5, 5));
+    await tester.pump();
+    expect(card, findsNothing);
+    await tester.pumpWidget(const SizedBox());
+    await tester.pump(const Duration(seconds: 1));
+  });
 }

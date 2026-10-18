@@ -29,6 +29,10 @@ class AutoMentionTracker extends ChangeNotifier implements TextOverlaySource {
 
   List<MentionHit> get hits => _hits;
 
+  /// Told when the pointer rests on or leaves a detected name.
+  void Function(MentionHit hit, Offset position)? onHoverEnter;
+  VoidCallback? onHoverExit;
+
   void attach(QuillController controller) {
     _changes?.cancel();
     _controller = controller;
@@ -117,6 +121,8 @@ class AutoMentionTracker extends ChangeNotifier implements TextOverlaySource {
             decorationStyle: TextDecorationStyle.dotted,
             decorationColor: color,
           ),
+          onEnter: (event) => onHoverEnter?.call(hit, event.position),
+          onExit: (_) => onHoverExit?.call(),
         ),
     ];
   }

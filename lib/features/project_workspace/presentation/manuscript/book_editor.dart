@@ -129,6 +129,10 @@ class _BookEditorState extends State<BookEditor> {
       cardFor: _hoverCard,
     );
     _scroll.addListener(_hover.hide);
+    _auto.onHoverEnter = (hit, position) {
+      _hover.enter(hit.elementId, position, auto: true);
+    };
+    _auto.onHoverExit = _hover.leave;
     _scheduleReveal();
     _changes = widget.controller.document.changes.listen(_onDocumentChange);
   }
@@ -299,7 +303,7 @@ class _BookEditorState extends State<BookEditor> {
   }
 
   /// The card for the element a mention points to, or null if it is gone.
-  Widget? _hoverCard(String id) {
+  Widget? _hoverCard(String id, {required bool auto}) {
     final element = widget.elements.where((e) => e.id == id).firstOrNull;
     if (element == null) return null;
     ElementImage? cover = element.images.firstOrNull;
@@ -314,6 +318,7 @@ class _BookEditorState extends State<BookEditor> {
       type: ElementTypeCatalog.resolve(element.typeId, widget.types),
       coverPath: coverPath,
       phase: activePhaseAt(element, widget.chapterOrder, widget.chapterId),
+      auto: auto,
     );
   }
 

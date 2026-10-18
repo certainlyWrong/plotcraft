@@ -15,7 +15,8 @@ class MentionHoverController {
   final BuildContext Function() context;
 
   /// The card for an element ID; null shows nothing.
-  final Widget? Function(String elementId) cardFor;
+  /// [auto] is true for a name detected in the text rather than linked.
+  final Widget? Function(String elementId, {required bool auto}) cardFor;
   final Duration delay;
 
   static const _cardWidth = 320.0;
@@ -28,21 +29,21 @@ class MentionHoverController {
   bool get isShowing => _entry != null;
 
   /// The pointer entered a mention of [elementId] at global [position].
-  void enter(String elementId, Offset position) {
+  void enter(String elementId, Offset position, {bool auto = false}) {
     if (_shownId == elementId && _entry != null) {
       _timer?.cancel();
       return;
     }
     hide();
-    _timer = Timer(delay, () => _show(elementId, position));
+    _timer = Timer(delay, () => _show(elementId, position, auto));
   }
 
   void leave() => hide();
 
-  void _show(String elementId, Offset position) {
+  void _show(String elementId, Offset position, bool auto) {
     final host = context();
     if (!host.mounted) return;
-    final card = cardFor(elementId);
+    final card = cardFor(elementId, auto: auto);
     if (card == null) return;
     final screen = MediaQuery.sizeOf(host);
     var left = position.dx + 12;

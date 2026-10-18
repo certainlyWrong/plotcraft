@@ -269,6 +269,30 @@ void main() {
     await mouse.removePointer();
   });
 
+  testWidgets('popup: nome detectado', (tester) async {
+    await prepare(tester);
+    final controller = await openWorkspace(tester, book);
+    controller.openManuscript(controller.store.book.chapters.first.id);
+    await settle(tester, rounds: 8);
+    final line = find.byWidgetPredicate(
+      (w) => w is RichText && w.text.toPlainText().contains('Maria respirou'),
+    );
+    final paragraph = tester.renderObject<RenderParagraph>(line.first);
+    final at = paragraph.text.toPlainText().indexOf('Maria');
+    final box = paragraph
+        .getBoxesForSelection(
+          TextSelection(baseOffset: at, extentOffset: at + 5),
+        )
+        .first;
+    final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+    await mouse.addPointer(location: Offset.zero);
+    await mouse.moveTo(paragraph.localToGlobal(box.toRect().center));
+    await tester.pump(const Duration(milliseconds: 600));
+    await settle(tester, rounds: 3);
+    await shot(tester, '23-popup-mencao-automatica');
+    await mouse.removePointer();
+  });
+
   testWidgets('workspace: galeria', (tester) async {
     await prepare(tester);
     final controller = await openWorkspace(tester, book);

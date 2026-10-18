@@ -409,6 +409,7 @@
     "color_picker_hex": "#RRGGBB"
   },
   "editor": {
+    "hover_auto_hint": "Detected name — right-click to link it to the element",
     "hover_open_hint": "Cmd+click to open the element",
     "font": "Font",
     "size": "Size",
