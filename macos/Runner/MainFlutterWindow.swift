@@ -58,6 +58,63 @@ class MainFlutterWindow: NSWindow {
       binaryMessenger: flutterViewController.engine.binaryMessenger
     )
     spellCheckChannel.setMethodCallHandler { call, result in
+      switch call.method {
+      case "checkRanges":
+        // Asynchronous check of a whole text; only misspelled ranges (UTF-16
+        // offsets, like Dart strings) are returned. Suggestions are fetched
+        // on demand with "suggest" because they cost about 15 ms per word.
+        guard let arguments = call.arguments as? [String: Any],
+              let text = arguments["text"] as? String else {
+          result(FlutterError(code: "invalid_argument", message: "Expected text", details: nil))
+          return
+        }
+        let checker = NSSpellChecker.shared
+        let language = MainFlutterWindow.spellLanguage(arguments["locale"] as? String ?? "", checker)
+        // With automatic identification the requested language is ignored.
+        checker.automaticallyIdentifiesLanguages = false
+        checker.setLanguage(language)
+        let length = (text as NSString).length
+        if length == 0 {
+          result([])
+          return
+        }
+        checker.requestChecking(
+          of: text,
+          range: NSRange(location: 0, length: length),
+          types: NSTextCheckingResult.CheckingType.spelling.rawValue,
+          options: nil,
+          inSpellDocumentWithTag: 0
+        ) { _, results, _, _ in
+          result(results.filter { $0.resultType == .spelling }.map {
+            ["start": $0.range.location, "end": NSMaxRange($0.range)]
+          })
+        }
+        return
+      case "suggest":
+        guard let arguments = call.arguments as? [String: Any],
+              let word = arguments["word"] as? String else {
+          result(FlutterError(code: "invalid_argument", message: "Expected word", details: nil))
+          return
+        }
+        let checker = NSSpellChecker.shared
+        let language = MainFlutterWindow.spellLanguage(arguments["locale"] as? String ?? "", checker)
+        let guesses = checker.guesses(
+          forWordRange: NSRange(location: 0, length: (word as NSString).length),
+          in: word,
+          language: language,
+          inSpellDocumentWithTag: 0
+        ) ?? []
+        result(Array(guesses.prefix(6)))
+        return
+      case "learn":
+        if let word = (call.arguments as? [String: Any])?["word"] as? String {
+          NSSpellChecker.shared.learnWord(word)
+        }
+        result(nil)
+        return
+      default:
+        break
+      }
       guard call.method == "check",
             let arguments = call.arguments as? [String: Any],
             let text = arguments["text"] as? String else {
@@ -102,6 +159,17 @@ class MainFlutterWindow: NSWindow {
     }
 
     super.awakeFromNib()
+  }
+
+  /// Picks the installed spelling language that best matches a locale tag
+  /// such as "pt-BR" or "en".
+  private static func spellLanguage(_ requested: String, _ checker: NSSpellChecker) -> String {
+    let wanted = requested.replacingOccurrences(of: "-", with: "_")
+    return checker.availableLanguages.first {
+      $0.caseInsensitiveCompare(wanted) == .orderedSame
+    } ?? checker.availableLanguages.first {
+      $0.lowercased().hasPrefix(wanted.lowercased() + "_")
+    } ?? checker.language()
   }
 
   private func selectProjectFolder(initialPath: String?, result: @escaping FlutterResult) {

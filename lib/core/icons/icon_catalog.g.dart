@@ -295,20 +295,25 @@ const iconCatalog = <String, Map<String, IconData>>{
     'account_alert': MaterialCommunityIcons.account_alert,
     'account_alert_outline': MaterialCommunityIcons.account_alert_outline,
     'account_arrow_left': MaterialCommunityIcons.account_arrow_left,
-    'account_arrow_left_outline': MaterialCommunityIcons.account_arrow_left_outline,
+    'account_arrow_left_outline':
+        MaterialCommunityIcons.account_arrow_left_outline,
     'account_arrow_right': MaterialCommunityIcons.account_arrow_right,
-    'account_arrow_right_outline': MaterialCommunityIcons.account_arrow_right_outline,
+    'account_arrow_right_outline':
+        MaterialCommunityIcons.account_arrow_right_outline,
     'account_badge': MaterialCommunityIcons.account_badge,
     'account_badge_alert': MaterialCommunityIcons.account_badge_alert,
-    'account_badge_alert_outline': MaterialCommunityIcons.account_badge_alert_outline,
+    'account_badge_alert_outline':
+        MaterialCommunityIcons.account_badge_alert_outline,
     'account_badge_horizontal': MaterialCommunityIcons.account_badge_horizontal,
-    'account_badge_horizontal_outline': MaterialCommunityIcons.account_badge_horizontal_outline,
+    'account_badge_horizontal_outline':
+        MaterialCommunityIcons.account_badge_horizontal_outline,
     'account_badge_outline': MaterialCommunityIcons.account_badge_outline,
     'account_box': MaterialCommunityIcons.account_box,
     'account_box_multiple': MaterialCommunityIcons.account_box_multiple,
     'account_box_outline': MaterialCommunityIcons.account_box_outline,
     'account_card_details': MaterialCommunityIcons.account_card_details,
-    'account_card_details_outline': MaterialCommunityIcons.account_card_details_outline,
+    'account_card_details_outline':
+        MaterialCommunityIcons.account_card_details_outline,
     'account_check': MaterialCommunityIcons.account_check,
     'account_check_outline': MaterialCommunityIcons.account_check_outline,
     'account_child': MaterialCommunityIcons.account_child,
@@ -332,10 +337,12 @@ const iconCatalog = <String, Map<String, IconData>>{
     'account_multiple': MaterialCommunityIcons.account_multiple,
     'account_multiple_check': MaterialCommunityIcons.account_multiple_check,
     'account_multiple_minus': MaterialCommunityIcons.account_multiple_minus,
-    'account_multiple_minus_outline': MaterialCommunityIcons.account_multiple_minus_outline,
+    'account_multiple_minus_outline':
+        MaterialCommunityIcons.account_multiple_minus_outline,
     'account_multiple_outline': MaterialCommunityIcons.account_multiple_outline,
     'account_multiple_plus': MaterialCommunityIcons.account_multiple_plus,
-    'account_multiple_plus_outline': MaterialCommunityIcons.account_multiple_plus_outline,
+    'account_multiple_plus_outline':
+        MaterialCommunityIcons.account_multiple_plus_outline,
     'account_network': MaterialCommunityIcons.account_network,
     'account_network_outline': MaterialCommunityIcons.account_network_outline,
     'account_off': MaterialCommunityIcons.account_off,
@@ -353,7 +360,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'account_star': MaterialCommunityIcons.account_star,
     'account_star_outline': MaterialCommunityIcons.account_star_outline,
     'account_supervisor': MaterialCommunityIcons.account_supervisor,
-    'account_supervisor_circle': MaterialCommunityIcons.account_supervisor_circle,
+    'account_supervisor_circle':
+        MaterialCommunityIcons.account_supervisor_circle,
     'account_switch': MaterialCommunityIcons.account_switch,
     'account_tie': MaterialCommunityIcons.account_tie,
     'accusoft': MaterialCommunityIcons.accusoft,
@@ -581,36 +589,45 @@ const iconCatalog = <String, Map<String, IconData>>{
     'arrange_send_to_back': MaterialCommunityIcons.arrange_send_to_back,
     'arrow_all': MaterialCommunityIcons.arrow_all,
     'arrow_bottom_left': MaterialCommunityIcons.arrow_bottom_left,
-    'arrow_bottom_left_bold_outline': MaterialCommunityIcons.arrow_bottom_left_bold_outline,
+    'arrow_bottom_left_bold_outline':
+        MaterialCommunityIcons.arrow_bottom_left_bold_outline,
     'arrow_bottom_left_thick': MaterialCommunityIcons.arrow_bottom_left_thick,
     'arrow_bottom_right': MaterialCommunityIcons.arrow_bottom_right,
-    'arrow_bottom_right_bold_outline': MaterialCommunityIcons.arrow_bottom_right_bold_outline,
+    'arrow_bottom_right_bold_outline':
+        MaterialCommunityIcons.arrow_bottom_right_bold_outline,
     'arrow_bottom_right_thick': MaterialCommunityIcons.arrow_bottom_right_thick,
     'arrow_collapse': MaterialCommunityIcons.arrow_collapse,
     'arrow_collapse_all': MaterialCommunityIcons.arrow_collapse_all,
     'arrow_collapse_down': MaterialCommunityIcons.arrow_collapse_down,
-    'arrow_collapse_horizontal': MaterialCommunityIcons.arrow_collapse_horizontal,
+    'arrow_collapse_horizontal':
+        MaterialCommunityIcons.arrow_collapse_horizontal,
     'arrow_collapse_left': MaterialCommunityIcons.arrow_collapse_left,
     'arrow_collapse_right': MaterialCommunityIcons.arrow_collapse_right,
     'arrow_collapse_up': MaterialCommunityIcons.arrow_collapse_up,
     'arrow_collapse_vertical': MaterialCommunityIcons.arrow_collapse_vertical,
     'arrow_decision': MaterialCommunityIcons.arrow_decision,
     'arrow_decision_auto': MaterialCommunityIcons.arrow_decision_auto,
-    'arrow_decision_auto_outline': MaterialCommunityIcons.arrow_decision_auto_outline,
+    'arrow_decision_auto_outline':
+        MaterialCommunityIcons.arrow_decision_auto_outline,
     'arrow_decision_outline': MaterialCommunityIcons.arrow_decision_outline,
     'arrow_down': MaterialCommunityIcons.arrow_down,
     'arrow_down_bold': MaterialCommunityIcons.arrow_down_bold,
     'arrow_down_bold_box': MaterialCommunityIcons.arrow_down_bold_box,
-    'arrow_down_bold_box_outline': MaterialCommunityIcons.arrow_down_bold_box_outline,
+    'arrow_down_bold_box_outline':
+        MaterialCommunityIcons.arrow_down_bold_box_outline,
     'arrow_down_bold_circle': MaterialCommunityIcons.arrow_down_bold_circle,
-    'arrow_down_bold_circle_outline': MaterialCommunityIcons.arrow_down_bold_circle_outline,
-    'arrow_down_bold_hexagon_outline': MaterialCommunityIcons.arrow_down_bold_hexagon_outline,
+    'arrow_down_bold_circle_outline':
+        MaterialCommunityIcons.arrow_down_bold_circle_outline,
+    'arrow_down_bold_hexagon_outline':
+        MaterialCommunityIcons.arrow_down_bold_hexagon_outline,
     'arrow_down_bold_outline': MaterialCommunityIcons.arrow_down_bold_outline,
     'arrow_down_box': MaterialCommunityIcons.arrow_down_box,
     'arrow_down_circle': MaterialCommunityIcons.arrow_down_circle,
-    'arrow_down_circle_outline': MaterialCommunityIcons.arrow_down_circle_outline,
+    'arrow_down_circle_outline':
+        MaterialCommunityIcons.arrow_down_circle_outline,
     'arrow_down_drop_circle': MaterialCommunityIcons.arrow_down_drop_circle,
-    'arrow_down_drop_circle_outline': MaterialCommunityIcons.arrow_down_drop_circle_outline,
+    'arrow_down_drop_circle_outline':
+        MaterialCommunityIcons.arrow_down_drop_circle_outline,
     'arrow_down_thick': MaterialCommunityIcons.arrow_down_thick,
     'arrow_expand': MaterialCommunityIcons.arrow_expand,
     'arrow_expand_all': MaterialCommunityIcons.arrow_expand_all,
@@ -623,62 +640,84 @@ const iconCatalog = <String, Map<String, IconData>>{
     'arrow_left': MaterialCommunityIcons.arrow_left,
     'arrow_left_bold': MaterialCommunityIcons.arrow_left_bold,
     'arrow_left_bold_box': MaterialCommunityIcons.arrow_left_bold_box,
-    'arrow_left_bold_box_outline': MaterialCommunityIcons.arrow_left_bold_box_outline,
+    'arrow_left_bold_box_outline':
+        MaterialCommunityIcons.arrow_left_bold_box_outline,
     'arrow_left_bold_circle': MaterialCommunityIcons.arrow_left_bold_circle,
-    'arrow_left_bold_circle_outline': MaterialCommunityIcons.arrow_left_bold_circle_outline,
-    'arrow_left_bold_hexagon_outline': MaterialCommunityIcons.arrow_left_bold_hexagon_outline,
+    'arrow_left_bold_circle_outline':
+        MaterialCommunityIcons.arrow_left_bold_circle_outline,
+    'arrow_left_bold_hexagon_outline':
+        MaterialCommunityIcons.arrow_left_bold_hexagon_outline,
     'arrow_left_bold_outline': MaterialCommunityIcons.arrow_left_bold_outline,
     'arrow_left_box': MaterialCommunityIcons.arrow_left_box,
     'arrow_left_circle': MaterialCommunityIcons.arrow_left_circle,
-    'arrow_left_circle_outline': MaterialCommunityIcons.arrow_left_circle_outline,
+    'arrow_left_circle_outline':
+        MaterialCommunityIcons.arrow_left_circle_outline,
     'arrow_left_drop_circle': MaterialCommunityIcons.arrow_left_drop_circle,
-    'arrow_left_drop_circle_outline': MaterialCommunityIcons.arrow_left_drop_circle_outline,
+    'arrow_left_drop_circle_outline':
+        MaterialCommunityIcons.arrow_left_drop_circle_outline,
     'arrow_left_right': MaterialCommunityIcons.arrow_left_right,
     'arrow_left_right_bold': MaterialCommunityIcons.arrow_left_right_bold,
-    'arrow_left_right_bold_outline': MaterialCommunityIcons.arrow_left_right_bold_outline,
+    'arrow_left_right_bold_outline':
+        MaterialCommunityIcons.arrow_left_right_bold_outline,
     'arrow_left_thick': MaterialCommunityIcons.arrow_left_thick,
     'arrow_right': MaterialCommunityIcons.arrow_right,
     'arrow_right_bold': MaterialCommunityIcons.arrow_right_bold,
     'arrow_right_bold_box': MaterialCommunityIcons.arrow_right_bold_box,
-    'arrow_right_bold_box_outline': MaterialCommunityIcons.arrow_right_bold_box_outline,
+    'arrow_right_bold_box_outline':
+        MaterialCommunityIcons.arrow_right_bold_box_outline,
     'arrow_right_bold_circle': MaterialCommunityIcons.arrow_right_bold_circle,
-    'arrow_right_bold_circle_outline': MaterialCommunityIcons.arrow_right_bold_circle_outline,
-    'arrow_right_bold_hexagon_outline': MaterialCommunityIcons.arrow_right_bold_hexagon_outline,
+    'arrow_right_bold_circle_outline':
+        MaterialCommunityIcons.arrow_right_bold_circle_outline,
+    'arrow_right_bold_hexagon_outline':
+        MaterialCommunityIcons.arrow_right_bold_hexagon_outline,
     'arrow_right_bold_outline': MaterialCommunityIcons.arrow_right_bold_outline,
     'arrow_right_box': MaterialCommunityIcons.arrow_right_box,
     'arrow_right_circle': MaterialCommunityIcons.arrow_right_circle,
-    'arrow_right_circle_outline': MaterialCommunityIcons.arrow_right_circle_outline,
+    'arrow_right_circle_outline':
+        MaterialCommunityIcons.arrow_right_circle_outline,
     'arrow_right_drop_circle': MaterialCommunityIcons.arrow_right_drop_circle,
-    'arrow_right_drop_circle_outline': MaterialCommunityIcons.arrow_right_drop_circle_outline,
+    'arrow_right_drop_circle_outline':
+        MaterialCommunityIcons.arrow_right_drop_circle_outline,
     'arrow_right_thick': MaterialCommunityIcons.arrow_right_thick,
     'arrow_split_horizontal': MaterialCommunityIcons.arrow_split_horizontal,
     'arrow_split_vertical': MaterialCommunityIcons.arrow_split_vertical,
     'arrow_top_left': MaterialCommunityIcons.arrow_top_left,
-    'arrow_top_left_bold_outline': MaterialCommunityIcons.arrow_top_left_bold_outline,
-    'arrow_top_left_bottom_right': MaterialCommunityIcons.arrow_top_left_bottom_right,
-    'arrow_top_left_bottom_right_bold': MaterialCommunityIcons.arrow_top_left_bottom_right_bold,
+    'arrow_top_left_bold_outline':
+        MaterialCommunityIcons.arrow_top_left_bold_outline,
+    'arrow_top_left_bottom_right':
+        MaterialCommunityIcons.arrow_top_left_bottom_right,
+    'arrow_top_left_bottom_right_bold':
+        MaterialCommunityIcons.arrow_top_left_bottom_right_bold,
     'arrow_top_left_thick': MaterialCommunityIcons.arrow_top_left_thick,
     'arrow_top_right': MaterialCommunityIcons.arrow_top_right,
-    'arrow_top_right_bold_outline': MaterialCommunityIcons.arrow_top_right_bold_outline,
-    'arrow_top_right_bottom_left': MaterialCommunityIcons.arrow_top_right_bottom_left,
-    'arrow_top_right_bottom_left_bold': MaterialCommunityIcons.arrow_top_right_bottom_left_bold,
+    'arrow_top_right_bold_outline':
+        MaterialCommunityIcons.arrow_top_right_bold_outline,
+    'arrow_top_right_bottom_left':
+        MaterialCommunityIcons.arrow_top_right_bottom_left,
+    'arrow_top_right_bottom_left_bold':
+        MaterialCommunityIcons.arrow_top_right_bottom_left_bold,
     'arrow_top_right_thick': MaterialCommunityIcons.arrow_top_right_thick,
     'arrow_up': MaterialCommunityIcons.arrow_up,
     'arrow_up_bold': MaterialCommunityIcons.arrow_up_bold,
     'arrow_up_bold_box': MaterialCommunityIcons.arrow_up_bold_box,
-    'arrow_up_bold_box_outline': MaterialCommunityIcons.arrow_up_bold_box_outline,
+    'arrow_up_bold_box_outline':
+        MaterialCommunityIcons.arrow_up_bold_box_outline,
     'arrow_up_bold_circle': MaterialCommunityIcons.arrow_up_bold_circle,
-    'arrow_up_bold_circle_outline': MaterialCommunityIcons.arrow_up_bold_circle_outline,
-    'arrow_up_bold_hexagon_outline': MaterialCommunityIcons.arrow_up_bold_hexagon_outline,
+    'arrow_up_bold_circle_outline':
+        MaterialCommunityIcons.arrow_up_bold_circle_outline,
+    'arrow_up_bold_hexagon_outline':
+        MaterialCommunityIcons.arrow_up_bold_hexagon_outline,
     'arrow_up_bold_outline': MaterialCommunityIcons.arrow_up_bold_outline,
     'arrow_up_box': MaterialCommunityIcons.arrow_up_box,
     'arrow_up_circle': MaterialCommunityIcons.arrow_up_circle,
     'arrow_up_circle_outline': MaterialCommunityIcons.arrow_up_circle_outline,
     'arrow_up_down': MaterialCommunityIcons.arrow_up_down,
     'arrow_up_down_bold': MaterialCommunityIcons.arrow_up_down_bold,
-    'arrow_up_down_bold_outline': MaterialCommunityIcons.arrow_up_down_bold_outline,
+    'arrow_up_down_bold_outline':
+        MaterialCommunityIcons.arrow_up_down_bold_outline,
     'arrow_up_drop_circle': MaterialCommunityIcons.arrow_up_drop_circle,
-    'arrow_up_drop_circle_outline': MaterialCommunityIcons.arrow_up_drop_circle_outline,
+    'arrow_up_drop_circle_outline':
+        MaterialCommunityIcons.arrow_up_drop_circle_outline,
     'arrow_up_thick': MaterialCommunityIcons.arrow_up_thick,
     'artist': MaterialCommunityIcons.artist,
     'artist_outline': MaterialCommunityIcons.artist_outline,
@@ -708,16 +747,19 @@ const iconCatalog = <String, Map<String, IconData>>{
     'axis_x_arrow': MaterialCommunityIcons.axis_x_arrow,
     'axis_x_arrow_lock': MaterialCommunityIcons.axis_x_arrow_lock,
     'axis_x_rotate_clockwise': MaterialCommunityIcons.axis_x_rotate_clockwise,
-    'axis_x_rotate_counterclockwise': MaterialCommunityIcons.axis_x_rotate_counterclockwise,
+    'axis_x_rotate_counterclockwise':
+        MaterialCommunityIcons.axis_x_rotate_counterclockwise,
     'axis_x_y_arrow_lock': MaterialCommunityIcons.axis_x_y_arrow_lock,
     'axis_y_arrow': MaterialCommunityIcons.axis_y_arrow,
     'axis_y_arrow_lock': MaterialCommunityIcons.axis_y_arrow_lock,
     'axis_y_rotate_clockwise': MaterialCommunityIcons.axis_y_rotate_clockwise,
-    'axis_y_rotate_counterclockwise': MaterialCommunityIcons.axis_y_rotate_counterclockwise,
+    'axis_y_rotate_counterclockwise':
+        MaterialCommunityIcons.axis_y_rotate_counterclockwise,
     'axis_z_arrow': MaterialCommunityIcons.axis_z_arrow,
     'axis_z_arrow_lock': MaterialCommunityIcons.axis_z_arrow_lock,
     'axis_z_rotate_clockwise': MaterialCommunityIcons.axis_z_rotate_clockwise,
-    'axis_z_rotate_counterclockwise': MaterialCommunityIcons.axis_z_rotate_counterclockwise,
+    'axis_z_rotate_counterclockwise':
+        MaterialCommunityIcons.axis_z_rotate_counterclockwise,
     'azure': MaterialCommunityIcons.azure,
     'babel': MaterialCommunityIcons.babel,
     'baby': MaterialCommunityIcons.baby,
@@ -731,7 +773,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'backspace': MaterialCommunityIcons.backspace,
     'backspace_outline': MaterialCommunityIcons.backspace_outline,
     'backspace_reverse': MaterialCommunityIcons.backspace_reverse,
-    'backspace_reverse_outline': MaterialCommunityIcons.backspace_reverse_outline,
+    'backspace_reverse_outline':
+        MaterialCommunityIcons.backspace_reverse_outline,
     'backup_restore': MaterialCommunityIcons.backup_restore,
     'bacteria': MaterialCommunityIcons.bacteria,
     'bacteria_outline': MaterialCommunityIcons.bacteria_outline,
@@ -798,7 +841,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'battery_alert': MaterialCommunityIcons.battery_alert,
     'battery_alert_bluetooth': MaterialCommunityIcons.battery_alert_bluetooth,
     'battery_bluetooth': MaterialCommunityIcons.battery_bluetooth,
-    'battery_bluetooth_variant': MaterialCommunityIcons.battery_bluetooth_variant,
+    'battery_bluetooth_variant':
+        MaterialCommunityIcons.battery_bluetooth_variant,
     'battery_charging': MaterialCommunityIcons.battery_charging,
     'battery_charging_10': MaterialCommunityIcons.battery_charging_10,
     'battery_charging_100': MaterialCommunityIcons.battery_charging_100,
@@ -811,25 +855,38 @@ const iconCatalog = <String, Map<String, IconData>>{
     'battery_charging_80': MaterialCommunityIcons.battery_charging_80,
     'battery_charging_90': MaterialCommunityIcons.battery_charging_90,
     'battery_charging_outline': MaterialCommunityIcons.battery_charging_outline,
-    'battery_charging_wireless': MaterialCommunityIcons.battery_charging_wireless,
-    'battery_charging_wireless_10': MaterialCommunityIcons.battery_charging_wireless_10,
-    'battery_charging_wireless_20': MaterialCommunityIcons.battery_charging_wireless_20,
-    'battery_charging_wireless_30': MaterialCommunityIcons.battery_charging_wireless_30,
-    'battery_charging_wireless_40': MaterialCommunityIcons.battery_charging_wireless_40,
-    'battery_charging_wireless_50': MaterialCommunityIcons.battery_charging_wireless_50,
-    'battery_charging_wireless_60': MaterialCommunityIcons.battery_charging_wireless_60,
-    'battery_charging_wireless_70': MaterialCommunityIcons.battery_charging_wireless_70,
-    'battery_charging_wireless_80': MaterialCommunityIcons.battery_charging_wireless_80,
-    'battery_charging_wireless_90': MaterialCommunityIcons.battery_charging_wireless_90,
-    'battery_charging_wireless_alert': MaterialCommunityIcons.battery_charging_wireless_alert,
-    'battery_charging_wireless_outline': MaterialCommunityIcons.battery_charging_wireless_outline,
+    'battery_charging_wireless':
+        MaterialCommunityIcons.battery_charging_wireless,
+    'battery_charging_wireless_10':
+        MaterialCommunityIcons.battery_charging_wireless_10,
+    'battery_charging_wireless_20':
+        MaterialCommunityIcons.battery_charging_wireless_20,
+    'battery_charging_wireless_30':
+        MaterialCommunityIcons.battery_charging_wireless_30,
+    'battery_charging_wireless_40':
+        MaterialCommunityIcons.battery_charging_wireless_40,
+    'battery_charging_wireless_50':
+        MaterialCommunityIcons.battery_charging_wireless_50,
+    'battery_charging_wireless_60':
+        MaterialCommunityIcons.battery_charging_wireless_60,
+    'battery_charging_wireless_70':
+        MaterialCommunityIcons.battery_charging_wireless_70,
+    'battery_charging_wireless_80':
+        MaterialCommunityIcons.battery_charging_wireless_80,
+    'battery_charging_wireless_90':
+        MaterialCommunityIcons.battery_charging_wireless_90,
+    'battery_charging_wireless_alert':
+        MaterialCommunityIcons.battery_charging_wireless_alert,
+    'battery_charging_wireless_outline':
+        MaterialCommunityIcons.battery_charging_wireless_outline,
     'battery_minus': MaterialCommunityIcons.battery_minus,
     'battery_negative': MaterialCommunityIcons.battery_negative,
     'battery_outline': MaterialCommunityIcons.battery_outline,
     'battery_plus': MaterialCommunityIcons.battery_plus,
     'battery_positive': MaterialCommunityIcons.battery_positive,
     'battery_unknown': MaterialCommunityIcons.battery_unknown,
-    'battery_unknown_bluetooth': MaterialCommunityIcons.battery_unknown_bluetooth,
+    'battery_unknown_bluetooth':
+        MaterialCommunityIcons.battery_unknown_bluetooth,
     'battlenet': MaterialCommunityIcons.battlenet,
     'beach': MaterialCommunityIcons.beach,
     'beaker': MaterialCommunityIcons.beaker,
@@ -916,7 +973,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'bookmark_minus': MaterialCommunityIcons.bookmark_minus,
     'bookmark_minus_outline': MaterialCommunityIcons.bookmark_minus_outline,
     'bookmark_multiple': MaterialCommunityIcons.bookmark_multiple,
-    'bookmark_multiple_outline': MaterialCommunityIcons.bookmark_multiple_outline,
+    'bookmark_multiple_outline':
+        MaterialCommunityIcons.bookmark_multiple_outline,
     'bookmark_music': MaterialCommunityIcons.bookmark_music,
     'bookmark_off': MaterialCommunityIcons.bookmark_off,
     'bookmark_off_outline': MaterialCommunityIcons.bookmark_off_outline,
@@ -967,10 +1025,12 @@ const iconCatalog = <String, Map<String, IconData>>{
     'bridge': MaterialCommunityIcons.bridge,
     'briefcase': MaterialCommunityIcons.briefcase,
     'briefcase_account': MaterialCommunityIcons.briefcase_account,
-    'briefcase_account_outline': MaterialCommunityIcons.briefcase_account_outline,
+    'briefcase_account_outline':
+        MaterialCommunityIcons.briefcase_account_outline,
     'briefcase_check': MaterialCommunityIcons.briefcase_check,
     'briefcase_download': MaterialCommunityIcons.briefcase_download,
-    'briefcase_download_outline': MaterialCommunityIcons.briefcase_download_outline,
+    'briefcase_download_outline':
+        MaterialCommunityIcons.briefcase_download_outline,
     'briefcase_edit': MaterialCommunityIcons.briefcase_edit,
     'briefcase_edit_outline': MaterialCommunityIcons.briefcase_edit_outline,
     'briefcase_minus': MaterialCommunityIcons.briefcase_minus,
@@ -1145,10 +1205,12 @@ const iconCatalog = <String, Map<String, IconData>>{
     'card': MaterialCommunityIcons.card,
     'card_bulleted': MaterialCommunityIcons.card_bulleted,
     'card_bulleted_off': MaterialCommunityIcons.card_bulleted_off,
-    'card_bulleted_off_outline': MaterialCommunityIcons.card_bulleted_off_outline,
+    'card_bulleted_off_outline':
+        MaterialCommunityIcons.card_bulleted_off_outline,
     'card_bulleted_outline': MaterialCommunityIcons.card_bulleted_outline,
     'card_bulleted_settings': MaterialCommunityIcons.card_bulleted_settings,
-    'card_bulleted_settings_outline': MaterialCommunityIcons.card_bulleted_settings_outline,
+    'card_bulleted_settings_outline':
+        MaterialCommunityIcons.card_bulleted_settings_outline,
     'card_outline': MaterialCommunityIcons.card_outline,
     'card_text': MaterialCommunityIcons.card_text,
     'card_text_outline': MaterialCommunityIcons.card_text_outline,
@@ -1204,7 +1266,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'cellphone_off': MaterialCommunityIcons.cellphone_off,
     'cellphone_screenshot': MaterialCommunityIcons.cellphone_screenshot,
     'cellphone_settings': MaterialCommunityIcons.cellphone_settings,
-    'cellphone_settings_variant': MaterialCommunityIcons.cellphone_settings_variant,
+    'cellphone_settings_variant':
+        MaterialCommunityIcons.cellphone_settings_variant,
     'cellphone_sound': MaterialCommunityIcons.cellphone_sound,
     'cellphone_text': MaterialCommunityIcons.cellphone_text,
     'cellphone_wireless': MaterialCommunityIcons.cellphone_wireless,
@@ -1219,7 +1282,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'chart_bar': MaterialCommunityIcons.chart_bar,
     'chart_bar_stacked': MaterialCommunityIcons.chart_bar_stacked,
     'chart_bell_curve': MaterialCommunityIcons.chart_bell_curve,
-    'chart_bell_curve_cumulative': MaterialCommunityIcons.chart_bell_curve_cumulative,
+    'chart_bell_curve_cumulative':
+        MaterialCommunityIcons.chart_bell_curve_cumulative,
     'chart_bubble': MaterialCommunityIcons.chart_bubble,
     'chart_donut': MaterialCommunityIcons.chart_donut,
     'chart_donut_variant': MaterialCommunityIcons.chart_donut_variant,
@@ -1231,7 +1295,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'chart_multiline': MaterialCommunityIcons.chart_multiline,
     'chart_pie': MaterialCommunityIcons.chart_pie,
     'chart_scatter_plot': MaterialCommunityIcons.chart_scatter_plot,
-    'chart_scatter_plot_hexbin': MaterialCommunityIcons.chart_scatter_plot_hexbin,
+    'chart_scatter_plot_hexbin':
+        MaterialCommunityIcons.chart_scatter_plot_hexbin,
     'chart_timeline': MaterialCommunityIcons.chart_timeline,
     'chart_timeline_variant': MaterialCommunityIcons.chart_timeline_variant,
     'chart_tree': MaterialCommunityIcons.chart_tree,
@@ -1242,7 +1307,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'check': MaterialCommunityIcons.check,
     'check_all': MaterialCommunityIcons.check_all,
     'check_bold': MaterialCommunityIcons.check_bold,
-    'check_box_multiple_outline': MaterialCommunityIcons.check_box_multiple_outline,
+    'check_box_multiple_outline':
+        MaterialCommunityIcons.check_box_multiple_outline,
     'check_box_outline': MaterialCommunityIcons.check_box_outline,
     'check_circle': MaterialCommunityIcons.check_circle,
     'check_circle_outline': MaterialCommunityIcons.check_circle_outline,
@@ -1252,25 +1318,34 @@ const iconCatalog = <String, Map<String, IconData>>{
     'check_outline': MaterialCommunityIcons.check_outline,
     'check_underline': MaterialCommunityIcons.check_underline,
     'check_underline_circle': MaterialCommunityIcons.check_underline_circle,
-    'check_underline_circle_outline': MaterialCommunityIcons.check_underline_circle_outline,
+    'check_underline_circle_outline':
+        MaterialCommunityIcons.check_underline_circle_outline,
     'checkbook': MaterialCommunityIcons.checkbook,
     'checkbox_blank': MaterialCommunityIcons.checkbox_blank,
     'checkbox_blank_circle': MaterialCommunityIcons.checkbox_blank_circle,
-    'checkbox_blank_circle_outline': MaterialCommunityIcons.checkbox_blank_circle_outline,
+    'checkbox_blank_circle_outline':
+        MaterialCommunityIcons.checkbox_blank_circle_outline,
     'checkbox_blank_outline': MaterialCommunityIcons.checkbox_blank_outline,
     'checkbox_intermediate': MaterialCommunityIcons.checkbox_intermediate,
     'checkbox_marked': MaterialCommunityIcons.checkbox_marked,
     'checkbox_marked_circle': MaterialCommunityIcons.checkbox_marked_circle,
-    'checkbox_marked_circle_outline': MaterialCommunityIcons.checkbox_marked_circle_outline,
+    'checkbox_marked_circle_outline':
+        MaterialCommunityIcons.checkbox_marked_circle_outline,
     'checkbox_marked_outline': MaterialCommunityIcons.checkbox_marked_outline,
     'checkbox_multiple_blank': MaterialCommunityIcons.checkbox_multiple_blank,
-    'checkbox_multiple_blank_circle': MaterialCommunityIcons.checkbox_multiple_blank_circle,
-    'checkbox_multiple_blank_circle_outline': MaterialCommunityIcons.checkbox_multiple_blank_circle_outline,
-    'checkbox_multiple_blank_outline': MaterialCommunityIcons.checkbox_multiple_blank_outline,
+    'checkbox_multiple_blank_circle':
+        MaterialCommunityIcons.checkbox_multiple_blank_circle,
+    'checkbox_multiple_blank_circle_outline':
+        MaterialCommunityIcons.checkbox_multiple_blank_circle_outline,
+    'checkbox_multiple_blank_outline':
+        MaterialCommunityIcons.checkbox_multiple_blank_outline,
     'checkbox_multiple_marked': MaterialCommunityIcons.checkbox_multiple_marked,
-    'checkbox_multiple_marked_circle': MaterialCommunityIcons.checkbox_multiple_marked_circle,
-    'checkbox_multiple_marked_circle_outline': MaterialCommunityIcons.checkbox_multiple_marked_circle_outline,
-    'checkbox_multiple_marked_outline': MaterialCommunityIcons.checkbox_multiple_marked_outline,
+    'checkbox_multiple_marked_circle':
+        MaterialCommunityIcons.checkbox_multiple_marked_circle,
+    'checkbox_multiple_marked_circle_outline':
+        MaterialCommunityIcons.checkbox_multiple_marked_circle_outline,
+    'checkbox_multiple_marked_outline':
+        MaterialCommunityIcons.checkbox_multiple_marked_outline,
     'checkerboard': MaterialCommunityIcons.checkerboard,
     'chef_hat': MaterialCommunityIcons.chef_hat,
     'chemical_weapon': MaterialCommunityIcons.chemical_weapon,
@@ -1288,17 +1363,21 @@ const iconCatalog = <String, Map<String, IconData>>{
     'chevron_down_box': MaterialCommunityIcons.chevron_down_box,
     'chevron_down_box_outline': MaterialCommunityIcons.chevron_down_box_outline,
     'chevron_down_circle': MaterialCommunityIcons.chevron_down_circle,
-    'chevron_down_circle_outline': MaterialCommunityIcons.chevron_down_circle_outline,
+    'chevron_down_circle_outline':
+        MaterialCommunityIcons.chevron_down_circle_outline,
     'chevron_left': MaterialCommunityIcons.chevron_left,
     'chevron_left_box': MaterialCommunityIcons.chevron_left_box,
     'chevron_left_box_outline': MaterialCommunityIcons.chevron_left_box_outline,
     'chevron_left_circle': MaterialCommunityIcons.chevron_left_circle,
-    'chevron_left_circle_outline': MaterialCommunityIcons.chevron_left_circle_outline,
+    'chevron_left_circle_outline':
+        MaterialCommunityIcons.chevron_left_circle_outline,
     'chevron_right': MaterialCommunityIcons.chevron_right,
     'chevron_right_box': MaterialCommunityIcons.chevron_right_box,
-    'chevron_right_box_outline': MaterialCommunityIcons.chevron_right_box_outline,
+    'chevron_right_box_outline':
+        MaterialCommunityIcons.chevron_right_box_outline,
     'chevron_right_circle': MaterialCommunityIcons.chevron_right_circle,
-    'chevron_right_circle_outline': MaterialCommunityIcons.chevron_right_circle_outline,
+    'chevron_right_circle_outline':
+        MaterialCommunityIcons.chevron_right_circle_outline,
     'chevron_triple_down': MaterialCommunityIcons.chevron_triple_down,
     'chevron_triple_left': MaterialCommunityIcons.chevron_triple_left,
     'chevron_triple_right': MaterialCommunityIcons.chevron_triple_right,
@@ -1307,7 +1386,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'chevron_up_box': MaterialCommunityIcons.chevron_up_box,
     'chevron_up_box_outline': MaterialCommunityIcons.chevron_up_box_outline,
     'chevron_up_circle': MaterialCommunityIcons.chevron_up_circle,
-    'chevron_up_circle_outline': MaterialCommunityIcons.chevron_up_circle_outline,
+    'chevron_up_circle_outline':
+        MaterialCommunityIcons.chevron_up_circle_outline,
     'chili_hot': MaterialCommunityIcons.chili_hot,
     'chili_medium': MaterialCommunityIcons.chili_medium,
     'chili_mild': MaterialCommunityIcons.chili_mild,
@@ -1337,17 +1417,22 @@ const iconCatalog = <String, Map<String, IconData>>{
     'city_variant_outline': MaterialCommunityIcons.city_variant_outline,
     'clipboard': MaterialCommunityIcons.clipboard,
     'clipboard_account': MaterialCommunityIcons.clipboard_account,
-    'clipboard_account_outline': MaterialCommunityIcons.clipboard_account_outline,
+    'clipboard_account_outline':
+        MaterialCommunityIcons.clipboard_account_outline,
     'clipboard_alert': MaterialCommunityIcons.clipboard_alert,
     'clipboard_alert_outline': MaterialCommunityIcons.clipboard_alert_outline,
     'clipboard_arrow_down': MaterialCommunityIcons.clipboard_arrow_down,
-    'clipboard_arrow_down_outline': MaterialCommunityIcons.clipboard_arrow_down_outline,
+    'clipboard_arrow_down_outline':
+        MaterialCommunityIcons.clipboard_arrow_down_outline,
     'clipboard_arrow_left': MaterialCommunityIcons.clipboard_arrow_left,
-    'clipboard_arrow_left_outline': MaterialCommunityIcons.clipboard_arrow_left_outline,
+    'clipboard_arrow_left_outline':
+        MaterialCommunityIcons.clipboard_arrow_left_outline,
     'clipboard_arrow_right': MaterialCommunityIcons.clipboard_arrow_right,
-    'clipboard_arrow_right_outline': MaterialCommunityIcons.clipboard_arrow_right_outline,
+    'clipboard_arrow_right_outline':
+        MaterialCommunityIcons.clipboard_arrow_right_outline,
     'clipboard_arrow_up': MaterialCommunityIcons.clipboard_arrow_up,
-    'clipboard_arrow_up_outline': MaterialCommunityIcons.clipboard_arrow_up_outline,
+    'clipboard_arrow_up_outline':
+        MaterialCommunityIcons.clipboard_arrow_up_outline,
     'clipboard_check': MaterialCommunityIcons.clipboard_check,
     'clipboard_check_outline': MaterialCommunityIcons.clipboard_check_outline,
     'clipboard_flow': MaterialCommunityIcons.clipboard_flow,
@@ -1360,7 +1445,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'clipboard_text': MaterialCommunityIcons.clipboard_text,
     'clipboard_text_outline': MaterialCommunityIcons.clipboard_text_outline,
     'clipboard_text_play': MaterialCommunityIcons.clipboard_text_play,
-    'clipboard_text_play_outline': MaterialCommunityIcons.clipboard_text_play_outline,
+    'clipboard_text_play_outline':
+        MaterialCommunityIcons.clipboard_text_play_outline,
     'clippy': MaterialCommunityIcons.clippy,
     'clock': MaterialCommunityIcons.clock,
     'clock_alert': MaterialCommunityIcons.clock_alert,
@@ -1377,7 +1463,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'close': MaterialCommunityIcons.close,
     'close_box': MaterialCommunityIcons.close_box,
     'close_box_multiple': MaterialCommunityIcons.close_box_multiple,
-    'close_box_multiple_outline': MaterialCommunityIcons.close_box_multiple_outline,
+    'close_box_multiple_outline':
+        MaterialCommunityIcons.close_box_multiple_outline,
     'close_box_outline': MaterialCommunityIcons.close_box_outline,
     'close_circle': MaterialCommunityIcons.close_circle,
     'close_circle_outline': MaterialCommunityIcons.close_circle_outline,
@@ -1412,7 +1499,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'code_brackets': MaterialCommunityIcons.code_brackets,
     'code_equal': MaterialCommunityIcons.code_equal,
     'code_greater_than': MaterialCommunityIcons.code_greater_than,
-    'code_greater_than_or_equal': MaterialCommunityIcons.code_greater_than_or_equal,
+    'code_greater_than_or_equal':
+        MaterialCommunityIcons.code_greater_than_or_equal,
     'code_less_than': MaterialCommunityIcons.code_less_than,
     'code_less_than_or_equal': MaterialCommunityIcons.code_less_than_or_equal,
     'code_not_equal': MaterialCommunityIcons.code_not_equal,
@@ -1446,9 +1534,11 @@ const iconCatalog = <String, Map<String, IconData>>{
     'comment_alert': MaterialCommunityIcons.comment_alert,
     'comment_alert_outline': MaterialCommunityIcons.comment_alert_outline,
     'comment_arrow_left': MaterialCommunityIcons.comment_arrow_left,
-    'comment_arrow_left_outline': MaterialCommunityIcons.comment_arrow_left_outline,
+    'comment_arrow_left_outline':
+        MaterialCommunityIcons.comment_arrow_left_outline,
     'comment_arrow_right': MaterialCommunityIcons.comment_arrow_right,
-    'comment_arrow_right_outline': MaterialCommunityIcons.comment_arrow_right_outline,
+    'comment_arrow_right_outline':
+        MaterialCommunityIcons.comment_arrow_right_outline,
     'comment_check': MaterialCommunityIcons.comment_check,
     'comment_check_outline': MaterialCommunityIcons.comment_check_outline,
     'comment_eye': MaterialCommunityIcons.comment_eye,
@@ -1459,7 +1549,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'comment_plus': MaterialCommunityIcons.comment_plus,
     'comment_plus_outline': MaterialCommunityIcons.comment_plus_outline,
     'comment_processing': MaterialCommunityIcons.comment_processing,
-    'comment_processing_outline': MaterialCommunityIcons.comment_processing_outline,
+    'comment_processing_outline':
+        MaterialCommunityIcons.comment_processing_outline,
     'comment_question': MaterialCommunityIcons.comment_question,
     'comment_question_outline': MaterialCommunityIcons.comment_question_outline,
     'comment_remove': MaterialCommunityIcons.comment_remove,
@@ -1468,7 +1559,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'comment_search_outline': MaterialCommunityIcons.comment_search_outline,
     'comment_text': MaterialCommunityIcons.comment_text,
     'comment_text_multiple': MaterialCommunityIcons.comment_text_multiple,
-    'comment_text_multiple_outline': MaterialCommunityIcons.comment_text_multiple_outline,
+    'comment_text_multiple_outline':
+        MaterialCommunityIcons.comment_text_multiple_outline,
     'comment_text_outline': MaterialCommunityIcons.comment_text_outline,
     'compare': MaterialCommunityIcons.compare,
     'compass': MaterialCommunityIcons.compass,
@@ -1494,21 +1586,26 @@ const iconCatalog = <String, Map<String, IconData>>{
     'content_paste': MaterialCommunityIcons.content_paste,
     'content_save': MaterialCommunityIcons.content_save,
     'content_save_alert': MaterialCommunityIcons.content_save_alert,
-    'content_save_alert_outline': MaterialCommunityIcons.content_save_alert_outline,
+    'content_save_alert_outline':
+        MaterialCommunityIcons.content_save_alert_outline,
     'content_save_all': MaterialCommunityIcons.content_save_all,
     'content_save_all_outline': MaterialCommunityIcons.content_save_all_outline,
     'content_save_edit': MaterialCommunityIcons.content_save_edit,
-    'content_save_edit_outline': MaterialCommunityIcons.content_save_edit_outline,
+    'content_save_edit_outline':
+        MaterialCommunityIcons.content_save_edit_outline,
     'content_save_move': MaterialCommunityIcons.content_save_move,
-    'content_save_move_outline': MaterialCommunityIcons.content_save_move_outline,
+    'content_save_move_outline':
+        MaterialCommunityIcons.content_save_move_outline,
     'content_save_outline': MaterialCommunityIcons.content_save_outline,
     'content_save_settings': MaterialCommunityIcons.content_save_settings,
-    'content_save_settings_outline': MaterialCommunityIcons.content_save_settings_outline,
+    'content_save_settings_outline':
+        MaterialCommunityIcons.content_save_settings_outline,
     'contrast': MaterialCommunityIcons.contrast,
     'contrast_box': MaterialCommunityIcons.contrast_box,
     'contrast_circle': MaterialCommunityIcons.contrast_circle,
     'controller_classic': MaterialCommunityIcons.controller_classic,
-    'controller_classic_outline': MaterialCommunityIcons.controller_classic_outline,
+    'controller_classic_outline':
+        MaterialCommunityIcons.controller_classic_outline,
     'cookie': MaterialCommunityIcons.cookie,
     'coolant_temperature': MaterialCommunityIcons.coolant_temperature,
     'copyright': MaterialCommunityIcons.copyright,
@@ -1524,28 +1621,36 @@ const iconCatalog = <String, Map<String, IconData>>{
     'creative_commons': MaterialCommunityIcons.creative_commons,
     'credit_card': MaterialCommunityIcons.credit_card,
     'credit_card_clock': MaterialCommunityIcons.credit_card_clock,
-    'credit_card_clock_outline': MaterialCommunityIcons.credit_card_clock_outline,
+    'credit_card_clock_outline':
+        MaterialCommunityIcons.credit_card_clock_outline,
     'credit_card_marker': MaterialCommunityIcons.credit_card_marker,
-    'credit_card_marker_outline': MaterialCommunityIcons.credit_card_marker_outline,
+    'credit_card_marker_outline':
+        MaterialCommunityIcons.credit_card_marker_outline,
     'credit_card_minus': MaterialCommunityIcons.credit_card_minus,
-    'credit_card_minus_outline': MaterialCommunityIcons.credit_card_minus_outline,
+    'credit_card_minus_outline':
+        MaterialCommunityIcons.credit_card_minus_outline,
     'credit_card_multiple': MaterialCommunityIcons.credit_card_multiple,
-    'credit_card_multiple_outline': MaterialCommunityIcons.credit_card_multiple_outline,
+    'credit_card_multiple_outline':
+        MaterialCommunityIcons.credit_card_multiple_outline,
     'credit_card_off': MaterialCommunityIcons.credit_card_off,
     'credit_card_off_outline': MaterialCommunityIcons.credit_card_off_outline,
     'credit_card_outline': MaterialCommunityIcons.credit_card_outline,
     'credit_card_plus': MaterialCommunityIcons.credit_card_plus,
     'credit_card_plus_outline': MaterialCommunityIcons.credit_card_plus_outline,
     'credit_card_refund': MaterialCommunityIcons.credit_card_refund,
-    'credit_card_refund_outline': MaterialCommunityIcons.credit_card_refund_outline,
+    'credit_card_refund_outline':
+        MaterialCommunityIcons.credit_card_refund_outline,
     'credit_card_remove': MaterialCommunityIcons.credit_card_remove,
-    'credit_card_remove_outline': MaterialCommunityIcons.credit_card_remove_outline,
+    'credit_card_remove_outline':
+        MaterialCommunityIcons.credit_card_remove_outline,
     'credit_card_scan': MaterialCommunityIcons.credit_card_scan,
     'credit_card_scan_outline': MaterialCommunityIcons.credit_card_scan_outline,
     'credit_card_settings': MaterialCommunityIcons.credit_card_settings,
-    'credit_card_settings_outline': MaterialCommunityIcons.credit_card_settings_outline,
+    'credit_card_settings_outline':
+        MaterialCommunityIcons.credit_card_settings_outline,
     'credit_card_wireless': MaterialCommunityIcons.credit_card_wireless,
-    'credit_card_wireless_outline': MaterialCommunityIcons.credit_card_wireless_outline,
+    'credit_card_wireless_outline':
+        MaterialCommunityIcons.credit_card_wireless_outline,
     'cricket': MaterialCommunityIcons.cricket,
     'crop': MaterialCommunityIcons.crop,
     'crop_free': MaterialCommunityIcons.crop_free,
@@ -1596,7 +1701,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'current_dc': MaterialCommunityIcons.current_dc,
     'cursor_default': MaterialCommunityIcons.cursor_default,
     'cursor_default_click': MaterialCommunityIcons.cursor_default_click,
-    'cursor_default_click_outline': MaterialCommunityIcons.cursor_default_click_outline,
+    'cursor_default_click_outline':
+        MaterialCommunityIcons.cursor_default_click_outline,
     'cursor_default_outline': MaterialCommunityIcons.cursor_default_outline,
     'cursor_move': MaterialCommunityIcons.cursor_move,
     'cursor_pointer': MaterialCommunityIcons.cursor_pointer,
@@ -1685,7 +1791,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'diving_scuba': MaterialCommunityIcons.diving_scuba,
     'diving_scuba_flag': MaterialCommunityIcons.diving_scuba_flag,
     'diving_scuba_tank': MaterialCommunityIcons.diving_scuba_tank,
-    'diving_scuba_tank_multiple': MaterialCommunityIcons.diving_scuba_tank_multiple,
+    'diving_scuba_tank_multiple':
+        MaterialCommunityIcons.diving_scuba_tank_multiple,
     'diving_snorkel': MaterialCommunityIcons.diving_snorkel,
     'division': MaterialCommunityIcons.division,
     'division_box': MaterialCommunityIcons.division_box,
@@ -1712,10 +1819,12 @@ const iconCatalog = <String, Map<String, IconData>>{
     'dot_net': MaterialCommunityIcons.dot_net,
     'dots_horizontal': MaterialCommunityIcons.dots_horizontal,
     'dots_horizontal_circle': MaterialCommunityIcons.dots_horizontal_circle,
-    'dots_horizontal_circle_outline': MaterialCommunityIcons.dots_horizontal_circle_outline,
+    'dots_horizontal_circle_outline':
+        MaterialCommunityIcons.dots_horizontal_circle_outline,
     'dots_vertical': MaterialCommunityIcons.dots_vertical,
     'dots_vertical_circle': MaterialCommunityIcons.dots_vertical_circle,
-    'dots_vertical_circle_outline': MaterialCommunityIcons.dots_vertical_circle_outline,
+    'dots_vertical_circle_outline':
+        MaterialCommunityIcons.dots_vertical_circle_outline,
     'douban': MaterialCommunityIcons.douban,
     'download': MaterialCommunityIcons.download,
     'download_multiple': MaterialCommunityIcons.download_multiple,
@@ -1775,7 +1884,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'email_newsletter': MaterialCommunityIcons.email_newsletter,
     'email_open': MaterialCommunityIcons.email_open,
     'email_open_multiple': MaterialCommunityIcons.email_open_multiple,
-    'email_open_multiple_outline': MaterialCommunityIcons.email_open_multiple_outline,
+    'email_open_multiple_outline':
+        MaterialCommunityIcons.email_open_multiple_outline,
     'email_open_outline': MaterialCommunityIcons.email_open_outline,
     'email_outline': MaterialCommunityIcons.email_outline,
     'email_plus': MaterialCommunityIcons.email_plus,
@@ -1904,20 +2014,29 @@ const iconCatalog = <String, Map<String, IconData>>{
     'file_document': MaterialCommunityIcons.file_document,
     'file_document_box': MaterialCommunityIcons.file_document_box,
     'file_document_box_check': MaterialCommunityIcons.file_document_box_check,
-    'file_document_box_check_outline': MaterialCommunityIcons.file_document_box_check_outline,
+    'file_document_box_check_outline':
+        MaterialCommunityIcons.file_document_box_check_outline,
     'file_document_box_minus': MaterialCommunityIcons.file_document_box_minus,
-    'file_document_box_minus_outline': MaterialCommunityIcons.file_document_box_minus_outline,
-    'file_document_box_multiple': MaterialCommunityIcons.file_document_box_multiple,
-    'file_document_box_multiple_outline': MaterialCommunityIcons.file_document_box_multiple_outline,
-    'file_document_box_outline': MaterialCommunityIcons.file_document_box_outline,
+    'file_document_box_minus_outline':
+        MaterialCommunityIcons.file_document_box_minus_outline,
+    'file_document_box_multiple':
+        MaterialCommunityIcons.file_document_box_multiple,
+    'file_document_box_multiple_outline':
+        MaterialCommunityIcons.file_document_box_multiple_outline,
+    'file_document_box_outline':
+        MaterialCommunityIcons.file_document_box_outline,
     'file_document_box_plus': MaterialCommunityIcons.file_document_box_plus,
-    'file_document_box_plus_outline': MaterialCommunityIcons.file_document_box_plus_outline,
+    'file_document_box_plus_outline':
+        MaterialCommunityIcons.file_document_box_plus_outline,
     'file_document_box_remove': MaterialCommunityIcons.file_document_box_remove,
-    'file_document_box_remove_outline': MaterialCommunityIcons.file_document_box_remove_outline,
+    'file_document_box_remove_outline':
+        MaterialCommunityIcons.file_document_box_remove_outline,
     'file_document_box_search': MaterialCommunityIcons.file_document_box_search,
-    'file_document_box_search_outline': MaterialCommunityIcons.file_document_box_search_outline,
+    'file_document_box_search_outline':
+        MaterialCommunityIcons.file_document_box_search_outline,
     'file_document_edit': MaterialCommunityIcons.file_document_edit,
-    'file_document_edit_outline': MaterialCommunityIcons.file_document_edit_outline,
+    'file_document_edit_outline':
+        MaterialCommunityIcons.file_document_edit_outline,
     'file_document_outline': MaterialCommunityIcons.file_document_outline,
     'file_download': MaterialCommunityIcons.file_download,
     'file_download_outline': MaterialCommunityIcons.file_download_outline,
@@ -2052,7 +2171,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'folder_image': MaterialCommunityIcons.folder_image,
     'folder_key': MaterialCommunityIcons.folder_key,
     'folder_key_network': MaterialCommunityIcons.folder_key_network,
-    'folder_key_network_outline': MaterialCommunityIcons.folder_key_network_outline,
+    'folder_key_network_outline':
+        MaterialCommunityIcons.folder_key_network_outline,
     'folder_lock': MaterialCommunityIcons.folder_lock,
     'folder_lock_open': MaterialCommunityIcons.folder_lock_open,
     'folder_move': MaterialCommunityIcons.folder_move,
@@ -2116,8 +2236,10 @@ const iconCatalog = <String, Map<String, IconData>>{
     'format_float_none': MaterialCommunityIcons.format_float_none,
     'format_float_right': MaterialCommunityIcons.format_float_right,
     'format_font': MaterialCommunityIcons.format_font,
-    'format_font_size_decrease': MaterialCommunityIcons.format_font_size_decrease,
-    'format_font_size_increase': MaterialCommunityIcons.format_font_size_increase,
+    'format_font_size_decrease':
+        MaterialCommunityIcons.format_font_size_decrease,
+    'format_font_size_increase':
+        MaterialCommunityIcons.format_font_size_increase,
     'format_header_1': MaterialCommunityIcons.format_header_1,
     'format_header_2': MaterialCommunityIcons.format_header_2,
     'format_header_3': MaterialCommunityIcons.format_header_3,
@@ -2128,9 +2250,12 @@ const iconCatalog = <String, Map<String, IconData>>{
     'format_header_equal': MaterialCommunityIcons.format_header_equal,
     'format_header_increase': MaterialCommunityIcons.format_header_increase,
     'format_header_pound': MaterialCommunityIcons.format_header_pound,
-    'format_horizontal_align_center': MaterialCommunityIcons.format_horizontal_align_center,
-    'format_horizontal_align_left': MaterialCommunityIcons.format_horizontal_align_left,
-    'format_horizontal_align_right': MaterialCommunityIcons.format_horizontal_align_right,
+    'format_horizontal_align_center':
+        MaterialCommunityIcons.format_horizontal_align_center,
+    'format_horizontal_align_left':
+        MaterialCommunityIcons.format_horizontal_align_left,
+    'format_horizontal_align_right':
+        MaterialCommunityIcons.format_horizontal_align_right,
     'format_indent_decrease': MaterialCommunityIcons.format_indent_decrease,
     'format_indent_increase': MaterialCommunityIcons.format_indent_increase,
     'format_italic': MaterialCommunityIcons.format_italic,
@@ -2139,14 +2264,18 @@ const iconCatalog = <String, Map<String, IconData>>{
     'format_letter_case_upper': MaterialCommunityIcons.format_letter_case_upper,
     'format_letter_ends_with': MaterialCommunityIcons.format_letter_ends_with,
     'format_letter_matches': MaterialCommunityIcons.format_letter_matches,
-    'format_letter_starts_with': MaterialCommunityIcons.format_letter_starts_with,
+    'format_letter_starts_with':
+        MaterialCommunityIcons.format_letter_starts_with,
     'format_line_spacing': MaterialCommunityIcons.format_line_spacing,
     'format_line_style': MaterialCommunityIcons.format_line_style,
     'format_line_weight': MaterialCommunityIcons.format_line_weight,
     'format_list_bulleted': MaterialCommunityIcons.format_list_bulleted,
-    'format_list_bulleted_square': MaterialCommunityIcons.format_list_bulleted_square,
-    'format_list_bulleted_triangle': MaterialCommunityIcons.format_list_bulleted_triangle,
-    'format_list_bulleted_type': MaterialCommunityIcons.format_list_bulleted_type,
+    'format_list_bulleted_square':
+        MaterialCommunityIcons.format_list_bulleted_square,
+    'format_list_bulleted_triangle':
+        MaterialCommunityIcons.format_list_bulleted_triangle,
+    'format_list_bulleted_type':
+        MaterialCommunityIcons.format_list_bulleted_type,
     'format_list_checkbox': MaterialCommunityIcons.format_list_checkbox,
     'format_list_checks': MaterialCommunityIcons.format_list_checks,
     'format_list_numbered': MaterialCommunityIcons.format_list_numbered,
@@ -2162,29 +2291,44 @@ const iconCatalog = <String, Map<String, IconData>>{
     'format_section': MaterialCommunityIcons.format_section,
     'format_size': MaterialCommunityIcons.format_size,
     'format_strikethrough': MaterialCommunityIcons.format_strikethrough,
-    'format_strikethrough_variant': MaterialCommunityIcons.format_strikethrough_variant,
+    'format_strikethrough_variant':
+        MaterialCommunityIcons.format_strikethrough_variant,
     'format_subscript': MaterialCommunityIcons.format_subscript,
     'format_superscript': MaterialCommunityIcons.format_superscript,
     'format_text': MaterialCommunityIcons.format_text,
-    'format_text_rotation_angle_down': MaterialCommunityIcons.format_text_rotation_angle_down,
-    'format_text_rotation_angle_up': MaterialCommunityIcons.format_text_rotation_angle_up,
-    'format_text_rotation_down': MaterialCommunityIcons.format_text_rotation_down,
-    'format_text_rotation_down_vertical': MaterialCommunityIcons.format_text_rotation_down_vertical,
-    'format_text_rotation_none': MaterialCommunityIcons.format_text_rotation_none,
+    'format_text_rotation_angle_down':
+        MaterialCommunityIcons.format_text_rotation_angle_down,
+    'format_text_rotation_angle_up':
+        MaterialCommunityIcons.format_text_rotation_angle_up,
+    'format_text_rotation_down':
+        MaterialCommunityIcons.format_text_rotation_down,
+    'format_text_rotation_down_vertical':
+        MaterialCommunityIcons.format_text_rotation_down_vertical,
+    'format_text_rotation_none':
+        MaterialCommunityIcons.format_text_rotation_none,
     'format_text_rotation_up': MaterialCommunityIcons.format_text_rotation_up,
-    'format_text_rotation_vertical': MaterialCommunityIcons.format_text_rotation_vertical,
+    'format_text_rotation_vertical':
+        MaterialCommunityIcons.format_text_rotation_vertical,
     'format_text_variant': MaterialCommunityIcons.format_text_variant,
-    'format_text_wrapping_clip': MaterialCommunityIcons.format_text_wrapping_clip,
-    'format_text_wrapping_overflow': MaterialCommunityIcons.format_text_wrapping_overflow,
-    'format_text_wrapping_wrap': MaterialCommunityIcons.format_text_wrapping_wrap,
+    'format_text_wrapping_clip':
+        MaterialCommunityIcons.format_text_wrapping_clip,
+    'format_text_wrapping_overflow':
+        MaterialCommunityIcons.format_text_wrapping_overflow,
+    'format_text_wrapping_wrap':
+        MaterialCommunityIcons.format_text_wrapping_wrap,
     'format_textbox': MaterialCommunityIcons.format_textbox,
-    'format_textdirection_l_to_r': MaterialCommunityIcons.format_textdirection_l_to_r,
-    'format_textdirection_r_to_l': MaterialCommunityIcons.format_textdirection_r_to_l,
+    'format_textdirection_l_to_r':
+        MaterialCommunityIcons.format_textdirection_l_to_r,
+    'format_textdirection_r_to_l':
+        MaterialCommunityIcons.format_textdirection_r_to_l,
     'format_title': MaterialCommunityIcons.format_title,
     'format_underline': MaterialCommunityIcons.format_underline,
-    'format_vertical_align_bottom': MaterialCommunityIcons.format_vertical_align_bottom,
-    'format_vertical_align_center': MaterialCommunityIcons.format_vertical_align_center,
-    'format_vertical_align_top': MaterialCommunityIcons.format_vertical_align_top,
+    'format_vertical_align_bottom':
+        MaterialCommunityIcons.format_vertical_align_bottom,
+    'format_vertical_align_center':
+        MaterialCommunityIcons.format_vertical_align_center,
+    'format_vertical_align_top':
+        MaterialCommunityIcons.format_vertical_align_top,
     'format_wrap_inline': MaterialCommunityIcons.format_wrap_inline,
     'format_wrap_square': MaterialCommunityIcons.format_wrap_square,
     'format_wrap_tight': MaterialCommunityIcons.format_wrap_tight,
@@ -2198,7 +2342,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'fountain_pen_tip': MaterialCommunityIcons.fountain_pen_tip,
     'foursquare': MaterialCommunityIcons.foursquare,
     'freebsd': MaterialCommunityIcons.freebsd,
-    'frequently_asked_questions': MaterialCommunityIcons.frequently_asked_questions,
+    'frequently_asked_questions':
+        MaterialCommunityIcons.frequently_asked_questions,
     'fridge': MaterialCommunityIcons.fridge,
     'fridge_bottom': MaterialCommunityIcons.fridge_bottom,
     'fridge_outline': MaterialCommunityIcons.fridge_outline,
@@ -2306,7 +2451,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'google_cardboard': MaterialCommunityIcons.google_cardboard,
     'google_chrome': MaterialCommunityIcons.google_chrome,
     'google_circles': MaterialCommunityIcons.google_circles,
-    'google_circles_communities': MaterialCommunityIcons.google_circles_communities,
+    'google_circles_communities':
+        MaterialCommunityIcons.google_circles_communities,
     'google_circles_extended': MaterialCommunityIcons.google_circles_extended,
     'google_circles_group': MaterialCommunityIcons.google_circles_group,
     'google_classroom': MaterialCommunityIcons.google_classroom,
@@ -2490,7 +2636,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'human_male_female': MaterialCommunityIcons.human_male_female,
     'human_male_girl': MaterialCommunityIcons.human_male_girl,
     'human_male_height': MaterialCommunityIcons.human_male_height,
-    'human_male_height_variant': MaterialCommunityIcons.human_male_height_variant,
+    'human_male_height_variant':
+        MaterialCommunityIcons.human_male_height_variant,
     'human_male_male': MaterialCommunityIcons.human_male_male,
     'human_pregnant': MaterialCommunityIcons.human_pregnant,
     'humble_bundle': MaterialCommunityIcons.humble_bundle,
@@ -2509,10 +2656,14 @@ const iconCatalog = <String, Map<String, IconData>>{
     'image_broken_variant': MaterialCommunityIcons.image_broken_variant,
     'image_filter': MaterialCommunityIcons.image_filter,
     'image_filter_black_white': MaterialCommunityIcons.image_filter_black_white,
-    'image_filter_center_focus': MaterialCommunityIcons.image_filter_center_focus,
-    'image_filter_center_focus_strong': MaterialCommunityIcons.image_filter_center_focus_strong,
-    'image_filter_center_focus_strong_outline': MaterialCommunityIcons.image_filter_center_focus_strong_outline,
-    'image_filter_center_focus_weak': MaterialCommunityIcons.image_filter_center_focus_weak,
+    'image_filter_center_focus':
+        MaterialCommunityIcons.image_filter_center_focus,
+    'image_filter_center_focus_strong':
+        MaterialCommunityIcons.image_filter_center_focus_strong,
+    'image_filter_center_focus_strong_outline':
+        MaterialCommunityIcons.image_filter_center_focus_strong_outline,
+    'image_filter_center_focus_weak':
+        MaterialCommunityIcons.image_filter_center_focus_weak,
     'image_filter_drama': MaterialCommunityIcons.image_filter_drama,
     'image_filter_frames': MaterialCommunityIcons.image_filter_frames,
     'image_filter_hdr': MaterialCommunityIcons.image_filter_hdr,
@@ -2583,7 +2734,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'keyboard_outline': MaterialCommunityIcons.keyboard_outline,
     'keyboard_return': MaterialCommunityIcons.keyboard_return,
     'keyboard_settings': MaterialCommunityIcons.keyboard_settings,
-    'keyboard_settings_outline': MaterialCommunityIcons.keyboard_settings_outline,
+    'keyboard_settings_outline':
+        MaterialCommunityIcons.keyboard_settings_outline,
     'keyboard_tab': MaterialCommunityIcons.keyboard_tab,
     'keyboard_variant': MaterialCommunityIcons.keyboard_variant,
     'kickstarter': MaterialCommunityIcons.kickstarter,
@@ -2697,7 +2849,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'lock_open': MaterialCommunityIcons.lock_open,
     'lock_open_outline': MaterialCommunityIcons.lock_open_outline,
     'lock_open_variant': MaterialCommunityIcons.lock_open_variant,
-    'lock_open_variant_outline': MaterialCommunityIcons.lock_open_variant_outline,
+    'lock_open_variant_outline':
+        MaterialCommunityIcons.lock_open_variant_outline,
     'lock_outline': MaterialCommunityIcons.lock_outline,
     'lock_pattern': MaterialCommunityIcons.lock_pattern,
     'lock_plus': MaterialCommunityIcons.lock_plus,
@@ -2754,10 +2907,12 @@ const iconCatalog = <String, Map<String, IconData>>{
     'map_marker_path': MaterialCommunityIcons.map_marker_path,
     'map_marker_plus': MaterialCommunityIcons.map_marker_plus,
     'map_marker_question': MaterialCommunityIcons.map_marker_question,
-    'map_marker_question_outline': MaterialCommunityIcons.map_marker_question_outline,
+    'map_marker_question_outline':
+        MaterialCommunityIcons.map_marker_question_outline,
     'map_marker_radius': MaterialCommunityIcons.map_marker_radius,
     'map_marker_remove': MaterialCommunityIcons.map_marker_remove,
-    'map_marker_remove_variant': MaterialCommunityIcons.map_marker_remove_variant,
+    'map_marker_remove_variant':
+        MaterialCommunityIcons.map_marker_remove_variant,
     'map_minus': MaterialCommunityIcons.map_minus,
     'map_outline': MaterialCommunityIcons.map_outline,
     'map_plus': MaterialCommunityIcons.map_plus,
@@ -2898,8 +3053,10 @@ const iconCatalog = <String, Map<String, IconData>>{
     'mushroom': MaterialCommunityIcons.mushroom,
     'mushroom_outline': MaterialCommunityIcons.mushroom_outline,
     'music': MaterialCommunityIcons.music,
-    'music_accidental_double_flat': MaterialCommunityIcons.music_accidental_double_flat,
-    'music_accidental_double_sharp': MaterialCommunityIcons.music_accidental_double_sharp,
+    'music_accidental_double_flat':
+        MaterialCommunityIcons.music_accidental_double_flat,
+    'music_accidental_double_sharp':
+        MaterialCommunityIcons.music_accidental_double_sharp,
     'music_accidental_flat': MaterialCommunityIcons.music_accidental_flat,
     'music_accidental_natural': MaterialCommunityIcons.music_accidental_natural,
     'music_accidental_sharp': MaterialCommunityIcons.music_accidental_sharp,
@@ -2922,9 +3079,11 @@ const iconCatalog = <String, Map<String, IconData>>{
     'music_note_outline': MaterialCommunityIcons.music_note_outline,
     'music_note_plus': MaterialCommunityIcons.music_note_plus,
     'music_note_quarter': MaterialCommunityIcons.music_note_quarter,
-    'music_note_quarter_dotted': MaterialCommunityIcons.music_note_quarter_dotted,
+    'music_note_quarter_dotted':
+        MaterialCommunityIcons.music_note_quarter_dotted,
     'music_note_sixteenth': MaterialCommunityIcons.music_note_sixteenth,
-    'music_note_sixteenth_dotted': MaterialCommunityIcons.music_note_sixteenth_dotted,
+    'music_note_sixteenth_dotted':
+        MaterialCommunityIcons.music_note_sixteenth_dotted,
     'music_note_whole': MaterialCommunityIcons.music_note_whole,
     'music_note_whole_dotted': MaterialCommunityIcons.music_note_whole_dotted,
     'music_off': MaterialCommunityIcons.music_off,
@@ -2956,16 +3115,20 @@ const iconCatalog = <String, Map<String, IconData>>{
     'network_strength_4': MaterialCommunityIcons.network_strength_4,
     'network_strength_4_alert': MaterialCommunityIcons.network_strength_4_alert,
     'network_strength_off': MaterialCommunityIcons.network_strength_off,
-    'network_strength_off_outline': MaterialCommunityIcons.network_strength_off_outline,
+    'network_strength_off_outline':
+        MaterialCommunityIcons.network_strength_off_outline,
     'network_strength_outline': MaterialCommunityIcons.network_strength_outline,
     'new_box': MaterialCommunityIcons.new_box,
     'newspaper': MaterialCommunityIcons.newspaper,
     'newspaper_minus': MaterialCommunityIcons.newspaper_minus,
     'newspaper_plus': MaterialCommunityIcons.newspaper_plus,
     'newspaper_variant': MaterialCommunityIcons.newspaper_variant,
-    'newspaper_variant_multiple': MaterialCommunityIcons.newspaper_variant_multiple,
-    'newspaper_variant_multiple_outline': MaterialCommunityIcons.newspaper_variant_multiple_outline,
-    'newspaper_variant_outline': MaterialCommunityIcons.newspaper_variant_outline,
+    'newspaper_variant_multiple':
+        MaterialCommunityIcons.newspaper_variant_multiple,
+    'newspaper_variant_multiple_outline':
+        MaterialCommunityIcons.newspaper_variant_multiple_outline,
+    'newspaper_variant_outline':
+        MaterialCommunityIcons.newspaper_variant_outline,
     'nfc': MaterialCommunityIcons.nfc,
     'nfc_off': MaterialCommunityIcons.nfc_off,
     'nfc_search_variant': MaterialCommunityIcons.nfc_search_variant,
@@ -2997,87 +3160,103 @@ const iconCatalog = <String, Map<String, IconData>>{
     'numeric_0': MaterialCommunityIcons.numeric_0,
     'numeric_0_box': MaterialCommunityIcons.numeric_0_box,
     'numeric_0_box_multiple': MaterialCommunityIcons.numeric_0_box_multiple,
-    'numeric_0_box_multiple_outline': MaterialCommunityIcons.numeric_0_box_multiple_outline,
+    'numeric_0_box_multiple_outline':
+        MaterialCommunityIcons.numeric_0_box_multiple_outline,
     'numeric_0_box_outline': MaterialCommunityIcons.numeric_0_box_outline,
     'numeric_0_circle': MaterialCommunityIcons.numeric_0_circle,
     'numeric_0_circle_outline': MaterialCommunityIcons.numeric_0_circle_outline,
     'numeric_1': MaterialCommunityIcons.numeric_1,
     'numeric_1_box': MaterialCommunityIcons.numeric_1_box,
     'numeric_1_box_multiple': MaterialCommunityIcons.numeric_1_box_multiple,
-    'numeric_1_box_multiple_outline': MaterialCommunityIcons.numeric_1_box_multiple_outline,
+    'numeric_1_box_multiple_outline':
+        MaterialCommunityIcons.numeric_1_box_multiple_outline,
     'numeric_1_box_outline': MaterialCommunityIcons.numeric_1_box_outline,
     'numeric_1_circle': MaterialCommunityIcons.numeric_1_circle,
     'numeric_1_circle_outline': MaterialCommunityIcons.numeric_1_circle_outline,
     'numeric_10': MaterialCommunityIcons.numeric_10,
     'numeric_10_box': MaterialCommunityIcons.numeric_10_box,
     'numeric_10_box_multiple': MaterialCommunityIcons.numeric_10_box_multiple,
-    'numeric_10_box_multiple_outline': MaterialCommunityIcons.numeric_10_box_multiple_outline,
+    'numeric_10_box_multiple_outline':
+        MaterialCommunityIcons.numeric_10_box_multiple_outline,
     'numeric_10_box_outline': MaterialCommunityIcons.numeric_10_box_outline,
     'numeric_10_circle': MaterialCommunityIcons.numeric_10_circle,
-    'numeric_10_circle_outline': MaterialCommunityIcons.numeric_10_circle_outline,
+    'numeric_10_circle_outline':
+        MaterialCommunityIcons.numeric_10_circle_outline,
     'numeric_2': MaterialCommunityIcons.numeric_2,
     'numeric_2_box': MaterialCommunityIcons.numeric_2_box,
     'numeric_2_box_multiple': MaterialCommunityIcons.numeric_2_box_multiple,
-    'numeric_2_box_multiple_outline': MaterialCommunityIcons.numeric_2_box_multiple_outline,
+    'numeric_2_box_multiple_outline':
+        MaterialCommunityIcons.numeric_2_box_multiple_outline,
     'numeric_2_box_outline': MaterialCommunityIcons.numeric_2_box_outline,
     'numeric_2_circle': MaterialCommunityIcons.numeric_2_circle,
     'numeric_2_circle_outline': MaterialCommunityIcons.numeric_2_circle_outline,
     'numeric_3': MaterialCommunityIcons.numeric_3,
     'numeric_3_box': MaterialCommunityIcons.numeric_3_box,
     'numeric_3_box_multiple': MaterialCommunityIcons.numeric_3_box_multiple,
-    'numeric_3_box_multiple_outline': MaterialCommunityIcons.numeric_3_box_multiple_outline,
+    'numeric_3_box_multiple_outline':
+        MaterialCommunityIcons.numeric_3_box_multiple_outline,
     'numeric_3_box_outline': MaterialCommunityIcons.numeric_3_box_outline,
     'numeric_3_circle': MaterialCommunityIcons.numeric_3_circle,
     'numeric_3_circle_outline': MaterialCommunityIcons.numeric_3_circle_outline,
     'numeric_4': MaterialCommunityIcons.numeric_4,
     'numeric_4_box': MaterialCommunityIcons.numeric_4_box,
     'numeric_4_box_multiple': MaterialCommunityIcons.numeric_4_box_multiple,
-    'numeric_4_box_multiple_outline': MaterialCommunityIcons.numeric_4_box_multiple_outline,
+    'numeric_4_box_multiple_outline':
+        MaterialCommunityIcons.numeric_4_box_multiple_outline,
     'numeric_4_box_outline': MaterialCommunityIcons.numeric_4_box_outline,
     'numeric_4_circle': MaterialCommunityIcons.numeric_4_circle,
     'numeric_4_circle_outline': MaterialCommunityIcons.numeric_4_circle_outline,
     'numeric_5': MaterialCommunityIcons.numeric_5,
     'numeric_5_box': MaterialCommunityIcons.numeric_5_box,
     'numeric_5_box_multiple': MaterialCommunityIcons.numeric_5_box_multiple,
-    'numeric_5_box_multiple_outline': MaterialCommunityIcons.numeric_5_box_multiple_outline,
+    'numeric_5_box_multiple_outline':
+        MaterialCommunityIcons.numeric_5_box_multiple_outline,
     'numeric_5_box_outline': MaterialCommunityIcons.numeric_5_box_outline,
     'numeric_5_circle': MaterialCommunityIcons.numeric_5_circle,
     'numeric_5_circle_outline': MaterialCommunityIcons.numeric_5_circle_outline,
     'numeric_6': MaterialCommunityIcons.numeric_6,
     'numeric_6_box': MaterialCommunityIcons.numeric_6_box,
     'numeric_6_box_multiple': MaterialCommunityIcons.numeric_6_box_multiple,
-    'numeric_6_box_multiple_outline': MaterialCommunityIcons.numeric_6_box_multiple_outline,
+    'numeric_6_box_multiple_outline':
+        MaterialCommunityIcons.numeric_6_box_multiple_outline,
     'numeric_6_box_outline': MaterialCommunityIcons.numeric_6_box_outline,
     'numeric_6_circle': MaterialCommunityIcons.numeric_6_circle,
     'numeric_6_circle_outline': MaterialCommunityIcons.numeric_6_circle_outline,
     'numeric_7': MaterialCommunityIcons.numeric_7,
     'numeric_7_box': MaterialCommunityIcons.numeric_7_box,
     'numeric_7_box_multiple': MaterialCommunityIcons.numeric_7_box_multiple,
-    'numeric_7_box_multiple_outline': MaterialCommunityIcons.numeric_7_box_multiple_outline,
+    'numeric_7_box_multiple_outline':
+        MaterialCommunityIcons.numeric_7_box_multiple_outline,
     'numeric_7_box_outline': MaterialCommunityIcons.numeric_7_box_outline,
     'numeric_7_circle': MaterialCommunityIcons.numeric_7_circle,
     'numeric_7_circle_outline': MaterialCommunityIcons.numeric_7_circle_outline,
     'numeric_8': MaterialCommunityIcons.numeric_8,
     'numeric_8_box': MaterialCommunityIcons.numeric_8_box,
     'numeric_8_box_multiple': MaterialCommunityIcons.numeric_8_box_multiple,
-    'numeric_8_box_multiple_outline': MaterialCommunityIcons.numeric_8_box_multiple_outline,
+    'numeric_8_box_multiple_outline':
+        MaterialCommunityIcons.numeric_8_box_multiple_outline,
     'numeric_8_box_outline': MaterialCommunityIcons.numeric_8_box_outline,
     'numeric_8_circle': MaterialCommunityIcons.numeric_8_circle,
     'numeric_8_circle_outline': MaterialCommunityIcons.numeric_8_circle_outline,
     'numeric_9': MaterialCommunityIcons.numeric_9,
     'numeric_9_box': MaterialCommunityIcons.numeric_9_box,
     'numeric_9_box_multiple': MaterialCommunityIcons.numeric_9_box_multiple,
-    'numeric_9_box_multiple_outline': MaterialCommunityIcons.numeric_9_box_multiple_outline,
+    'numeric_9_box_multiple_outline':
+        MaterialCommunityIcons.numeric_9_box_multiple_outline,
     'numeric_9_box_outline': MaterialCommunityIcons.numeric_9_box_outline,
     'numeric_9_circle': MaterialCommunityIcons.numeric_9_circle,
     'numeric_9_circle_outline': MaterialCommunityIcons.numeric_9_circle_outline,
     'numeric_9_plus': MaterialCommunityIcons.numeric_9_plus,
     'numeric_9_plus_box': MaterialCommunityIcons.numeric_9_plus_box,
-    'numeric_9_plus_box_multiple': MaterialCommunityIcons.numeric_9_plus_box_multiple,
-    'numeric_9_plus_box_multiple_outline': MaterialCommunityIcons.numeric_9_plus_box_multiple_outline,
-    'numeric_9_plus_box_outline': MaterialCommunityIcons.numeric_9_plus_box_outline,
+    'numeric_9_plus_box_multiple':
+        MaterialCommunityIcons.numeric_9_plus_box_multiple,
+    'numeric_9_plus_box_multiple_outline':
+        MaterialCommunityIcons.numeric_9_plus_box_multiple_outline,
+    'numeric_9_plus_box_outline':
+        MaterialCommunityIcons.numeric_9_plus_box_outline,
     'numeric_9_plus_circle': MaterialCommunityIcons.numeric_9_plus_circle,
-    'numeric_9_plus_circle_outline': MaterialCommunityIcons.numeric_9_plus_circle_outline,
+    'numeric_9_plus_circle_outline':
+        MaterialCommunityIcons.numeric_9_plus_circle_outline,
     'nut': MaterialCommunityIcons.nut,
     'nutrition': MaterialCommunityIcons.nutrition,
     'oar': MaterialCommunityIcons.oar,
@@ -3121,9 +3300,11 @@ const iconCatalog = <String, Map<String, IconData>>{
     'page_layout_body': MaterialCommunityIcons.page_layout_body,
     'page_layout_footer': MaterialCommunityIcons.page_layout_footer,
     'page_layout_header': MaterialCommunityIcons.page_layout_header,
-    'page_layout_header_footer': MaterialCommunityIcons.page_layout_header_footer,
+    'page_layout_header_footer':
+        MaterialCommunityIcons.page_layout_header_footer,
     'page_layout_sidebar_left': MaterialCommunityIcons.page_layout_sidebar_left,
-    'page_layout_sidebar_right': MaterialCommunityIcons.page_layout_sidebar_right,
+    'page_layout_sidebar_right':
+        MaterialCommunityIcons.page_layout_sidebar_right,
     'page_next': MaterialCommunityIcons.page_next,
     'page_next_outline': MaterialCommunityIcons.page_next_outline,
     'page_previous': MaterialCommunityIcons.page_previous,
@@ -3232,10 +3413,14 @@ const iconCatalog = <String, Map<String, IconData>>{
     'pi_hole': MaterialCommunityIcons.pi_hole,
     'piano': MaterialCommunityIcons.piano,
     'pickaxe': MaterialCommunityIcons.pickaxe,
-    'picture_in_picture_bottom_right': MaterialCommunityIcons.picture_in_picture_bottom_right,
-    'picture_in_picture_bottom_right_outline': MaterialCommunityIcons.picture_in_picture_bottom_right_outline,
-    'picture_in_picture_top_right': MaterialCommunityIcons.picture_in_picture_top_right,
-    'picture_in_picture_top_right_outline': MaterialCommunityIcons.picture_in_picture_top_right_outline,
+    'picture_in_picture_bottom_right':
+        MaterialCommunityIcons.picture_in_picture_bottom_right,
+    'picture_in_picture_bottom_right_outline':
+        MaterialCommunityIcons.picture_in_picture_bottom_right_outline,
+    'picture_in_picture_top_right':
+        MaterialCommunityIcons.picture_in_picture_top_right,
+    'picture_in_picture_top_right_outline':
+        MaterialCommunityIcons.picture_in_picture_top_right_outline,
     'pier': MaterialCommunityIcons.pier,
     'pier_crane': MaterialCommunityIcons.pier_crane,
     'pig': MaterialCommunityIcons.pig,
@@ -3285,7 +3470,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'plus_box': MaterialCommunityIcons.plus_box,
     'plus_box_outline': MaterialCommunityIcons.plus_box_outline,
     'plus_circle': MaterialCommunityIcons.plus_circle,
-    'plus_circle_multiple_outline': MaterialCommunityIcons.plus_circle_multiple_outline,
+    'plus_circle_multiple_outline':
+        MaterialCommunityIcons.plus_circle_multiple_outline,
     'plus_circle_outline': MaterialCommunityIcons.plus_circle_outline,
     'plus_minus': MaterialCommunityIcons.plus_minus,
     'plus_minus_box': MaterialCommunityIcons.plus_minus_box,
@@ -3337,7 +3523,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'printer': MaterialCommunityIcons.printer,
     'printer_3d': MaterialCommunityIcons.printer_3d,
     'printer_3d_nozzle': MaterialCommunityIcons.printer_3d_nozzle,
-    'printer_3d_nozzle_outline': MaterialCommunityIcons.printer_3d_nozzle_outline,
+    'printer_3d_nozzle_outline':
+        MaterialCommunityIcons.printer_3d_nozzle_outline,
     'printer_alert': MaterialCommunityIcons.printer_alert,
     'printer_off': MaterialCommunityIcons.printer_off,
     'printer_settings': MaterialCommunityIcons.printer_settings,
@@ -3558,7 +3745,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'selection': MaterialCommunityIcons.selection,
     'selection_drag': MaterialCommunityIcons.selection_drag,
     'selection_ellipse': MaterialCommunityIcons.selection_ellipse,
-    'selection_ellipse_arrow_inside': MaterialCommunityIcons.selection_ellipse_arrow_inside,
+    'selection_ellipse_arrow_inside':
+        MaterialCommunityIcons.selection_ellipse_arrow_inside,
     'selection_off': MaterialCommunityIcons.selection_off,
     'send': MaterialCommunityIcons.send,
     'send_circle': MaterialCommunityIcons.send_circle,
@@ -3617,7 +3805,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'shield_key': MaterialCommunityIcons.shield_key,
     'shield_key_outline': MaterialCommunityIcons.shield_key_outline,
     'shield_link_variant': MaterialCommunityIcons.shield_link_variant,
-    'shield_link_variant_outline': MaterialCommunityIcons.shield_link_variant_outline,
+    'shield_link_variant_outline':
+        MaterialCommunityIcons.shield_link_variant_outline,
     'shield_lock': MaterialCommunityIcons.shield_lock,
     'shield_lock_outline': MaterialCommunityIcons.shield_lock_outline,
     'shield_off': MaterialCommunityIcons.shield_off,
@@ -3695,7 +3884,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'skip_next_outline': MaterialCommunityIcons.skip_next_outline,
     'skip_previous': MaterialCommunityIcons.skip_previous,
     'skip_previous_circle': MaterialCommunityIcons.skip_previous_circle,
-    'skip_previous_circle_outline': MaterialCommunityIcons.skip_previous_circle_outline,
+    'skip_previous_circle_outline':
+        MaterialCommunityIcons.skip_previous_circle_outline,
     'skip_previous_outline': MaterialCommunityIcons.skip_previous_outline,
     'skull': MaterialCommunityIcons.skull,
     'skull_crossbones': MaterialCommunityIcons.skull_crossbones,
@@ -3743,12 +3933,14 @@ const iconCatalog = <String, Map<String, IconData>>{
     'source_commit_local': MaterialCommunityIcons.source_commit_local,
     'source_commit_next_local': MaterialCommunityIcons.source_commit_next_local,
     'source_commit_start': MaterialCommunityIcons.source_commit_start,
-    'source_commit_start_next_local': MaterialCommunityIcons.source_commit_start_next_local,
+    'source_commit_start_next_local':
+        MaterialCommunityIcons.source_commit_start_next_local,
     'source_fork': MaterialCommunityIcons.source_fork,
     'source_merge': MaterialCommunityIcons.source_merge,
     'source_pull': MaterialCommunityIcons.source_pull,
     'source_repository': MaterialCommunityIcons.source_repository,
-    'source_repository_multiple': MaterialCommunityIcons.source_repository_multiple,
+    'source_repository_multiple':
+        MaterialCommunityIcons.source_repository_multiple,
     'soy_sauce': MaterialCommunityIcons.soy_sauce,
     'spa': MaterialCommunityIcons.spa,
     'spa_outline': MaterialCommunityIcons.spa_outline,
@@ -3802,7 +3994,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'star_off': MaterialCommunityIcons.star_off,
     'star_outline': MaterialCommunityIcons.star_outline,
     'star_three_points': MaterialCommunityIcons.star_three_points,
-    'star_three_points_outline': MaterialCommunityIcons.star_three_points_outline,
+    'star_three_points_outline':
+        MaterialCommunityIcons.star_three_points_outline,
     'steam': MaterialCommunityIcons.steam,
     'steam_box': MaterialCommunityIcons.steam_box,
     'steering': MaterialCommunityIcons.steering,
@@ -3842,12 +4035,14 @@ const iconCatalog = <String, Map<String, IconData>>{
     'swap_horizontal': MaterialCommunityIcons.swap_horizontal,
     'swap_horizontal_bold': MaterialCommunityIcons.swap_horizontal_bold,
     'swap_horizontal_circle': MaterialCommunityIcons.swap_horizontal_circle,
-    'swap_horizontal_circle_outline': MaterialCommunityIcons.swap_horizontal_circle_outline,
+    'swap_horizontal_circle_outline':
+        MaterialCommunityIcons.swap_horizontal_circle_outline,
     'swap_horizontal_variant': MaterialCommunityIcons.swap_horizontal_variant,
     'swap_vertical': MaterialCommunityIcons.swap_vertical,
     'swap_vertical_bold': MaterialCommunityIcons.swap_vertical_bold,
     'swap_vertical_circle': MaterialCommunityIcons.swap_vertical_circle,
-    'swap_vertical_circle_outline': MaterialCommunityIcons.swap_vertical_circle_outline,
+    'swap_vertical_circle_outline':
+        MaterialCommunityIcons.swap_vertical_circle_outline,
     'swap_vertical_variant': MaterialCommunityIcons.swap_vertical_variant,
     'swim': MaterialCommunityIcons.swim,
     'switch_': MaterialCommunityIcons.switch_,
@@ -3990,7 +4185,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'toaster_oven': MaterialCommunityIcons.toaster_oven,
     'toggle_switch': MaterialCommunityIcons.toggle_switch,
     'toggle_switch_off': MaterialCommunityIcons.toggle_switch_off,
-    'toggle_switch_off_outline': MaterialCommunityIcons.toggle_switch_off_outline,
+    'toggle_switch_off_outline':
+        MaterialCommunityIcons.toggle_switch_off_outline,
     'toggle_switch_outline': MaterialCommunityIcons.toggle_switch_outline,
     'toilet': MaterialCommunityIcons.toilet,
     'toolbox': MaterialCommunityIcons.toolbox,
@@ -4031,7 +4227,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'transfer_right': MaterialCommunityIcons.transfer_right,
     'transfer_up': MaterialCommunityIcons.transfer_up,
     'transit_connection': MaterialCommunityIcons.transit_connection,
-    'transit_connection_variant': MaterialCommunityIcons.transit_connection_variant,
+    'transit_connection_variant':
+        MaterialCommunityIcons.transit_connection_variant,
     'transit_detour': MaterialCommunityIcons.transit_detour,
     'transit_transfer': MaterialCommunityIcons.transit_transfer,
     'transition': MaterialCommunityIcons.transition,
@@ -4080,7 +4277,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'twitter_box': MaterialCommunityIcons.twitter_box,
     'twitter_circle': MaterialCommunityIcons.twitter_circle,
     'twitter_retweet': MaterialCommunityIcons.twitter_retweet,
-    'two_factor_authentication': MaterialCommunityIcons.two_factor_authentication,
+    'two_factor_authentication':
+        MaterialCommunityIcons.two_factor_authentication,
     'typewriter': MaterialCommunityIcons.typewriter,
     'uber': MaterialCommunityIcons.uber,
     'ubisoft': MaterialCommunityIcons.ubisoft,
@@ -4248,7 +4446,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'waze': MaterialCommunityIcons.waze,
     'weather_cloudy': MaterialCommunityIcons.weather_cloudy,
     'weather_cloudy_alert': MaterialCommunityIcons.weather_cloudy_alert,
-    'weather_cloudy_arrow_right': MaterialCommunityIcons.weather_cloudy_arrow_right,
+    'weather_cloudy_arrow_right':
+        MaterialCommunityIcons.weather_cloudy_arrow_right,
     'weather_fog': MaterialCommunityIcons.weather_fog,
     'weather_hail': MaterialCommunityIcons.weather_hail,
     'weather_hazy': MaterialCommunityIcons.weather_hazy,
@@ -4256,12 +4455,14 @@ const iconCatalog = <String, Map<String, IconData>>{
     'weather_lightning': MaterialCommunityIcons.weather_lightning,
     'weather_lightning_rainy': MaterialCommunityIcons.weather_lightning_rainy,
     'weather_night': MaterialCommunityIcons.weather_night,
-    'weather_night_partly_cloudy': MaterialCommunityIcons.weather_night_partly_cloudy,
+    'weather_night_partly_cloudy':
+        MaterialCommunityIcons.weather_night_partly_cloudy,
     'weather_partly_cloudy': MaterialCommunityIcons.weather_partly_cloudy,
     'weather_partly_lightning': MaterialCommunityIcons.weather_partly_lightning,
     'weather_partly_rainy': MaterialCommunityIcons.weather_partly_rainy,
     'weather_partly_snowy': MaterialCommunityIcons.weather_partly_snowy,
-    'weather_partly_snowy_rainy': MaterialCommunityIcons.weather_partly_snowy_rainy,
+    'weather_partly_snowy_rainy':
+        MaterialCommunityIcons.weather_partly_snowy_rainy,
     'weather_pouring': MaterialCommunityIcons.weather_pouring,
     'weather_rainy': MaterialCommunityIcons.weather_rainy,
     'weather_snowy': MaterialCommunityIcons.weather_snowy,
@@ -4289,7 +4490,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'wheelchair_accessibility': MaterialCommunityIcons.wheelchair_accessibility,
     'whistle': MaterialCommunityIcons.whistle,
     'white_balance_auto': MaterialCommunityIcons.white_balance_auto,
-    'white_balance_incandescent': MaterialCommunityIcons.white_balance_incandescent,
+    'white_balance_incandescent':
+        MaterialCommunityIcons.white_balance_incandescent,
     'white_balance_iridescent': MaterialCommunityIcons.white_balance_iridescent,
     'white_balance_sunny': MaterialCommunityIcons.white_balance_sunny,
     'widgets': MaterialCommunityIcons.widgets,
@@ -4308,10 +4510,13 @@ const iconCatalog = <String, Map<String, IconData>>{
     'wifi_strength_4': MaterialCommunityIcons.wifi_strength_4,
     'wifi_strength_4_alert': MaterialCommunityIcons.wifi_strength_4_alert,
     'wifi_strength_4_lock': MaterialCommunityIcons.wifi_strength_4_lock,
-    'wifi_strength_alert_outline': MaterialCommunityIcons.wifi_strength_alert_outline,
-    'wifi_strength_lock_outline': MaterialCommunityIcons.wifi_strength_lock_outline,
+    'wifi_strength_alert_outline':
+        MaterialCommunityIcons.wifi_strength_alert_outline,
+    'wifi_strength_lock_outline':
+        MaterialCommunityIcons.wifi_strength_lock_outline,
     'wifi_strength_off': MaterialCommunityIcons.wifi_strength_off,
-    'wifi_strength_off_outline': MaterialCommunityIcons.wifi_strength_off_outline,
+    'wifi_strength_off_outline':
+        MaterialCommunityIcons.wifi_strength_off_outline,
     'wifi_strength_outline': MaterialCommunityIcons.wifi_strength_outline,
     'wii': MaterialCommunityIcons.wii,
     'wiiu': MaterialCommunityIcons.wiiu,
@@ -4339,13 +4544,20 @@ const iconCatalog = <String, Map<String, IconData>>{
     'xaml': MaterialCommunityIcons.xaml,
     'xbox': MaterialCommunityIcons.xbox,
     'xbox_controller': MaterialCommunityIcons.xbox_controller,
-    'xbox_controller_battery_alert': MaterialCommunityIcons.xbox_controller_battery_alert,
-    'xbox_controller_battery_charging': MaterialCommunityIcons.xbox_controller_battery_charging,
-    'xbox_controller_battery_empty': MaterialCommunityIcons.xbox_controller_battery_empty,
-    'xbox_controller_battery_full': MaterialCommunityIcons.xbox_controller_battery_full,
-    'xbox_controller_battery_low': MaterialCommunityIcons.xbox_controller_battery_low,
-    'xbox_controller_battery_medium': MaterialCommunityIcons.xbox_controller_battery_medium,
-    'xbox_controller_battery_unknown': MaterialCommunityIcons.xbox_controller_battery_unknown,
+    'xbox_controller_battery_alert':
+        MaterialCommunityIcons.xbox_controller_battery_alert,
+    'xbox_controller_battery_charging':
+        MaterialCommunityIcons.xbox_controller_battery_charging,
+    'xbox_controller_battery_empty':
+        MaterialCommunityIcons.xbox_controller_battery_empty,
+    'xbox_controller_battery_full':
+        MaterialCommunityIcons.xbox_controller_battery_full,
+    'xbox_controller_battery_low':
+        MaterialCommunityIcons.xbox_controller_battery_low,
+    'xbox_controller_battery_medium':
+        MaterialCommunityIcons.xbox_controller_battery_medium,
+    'xbox_controller_battery_unknown':
+        MaterialCommunityIcons.xbox_controller_battery_unknown,
     'xbox_controller_menu': MaterialCommunityIcons.xbox_controller_menu,
     'xbox_controller_off': MaterialCommunityIcons.xbox_controller_off,
     'xbox_controller_view': MaterialCommunityIcons.xbox_controller_view,
@@ -4411,7 +4623,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'adjust': MaterialIcons.adjust,
     'airline_seat_flat': MaterialIcons.airline_seat_flat,
     'airline_seat_flat_angled': MaterialIcons.airline_seat_flat_angled,
-    'airline_seat_individual_suite': MaterialIcons.airline_seat_individual_suite,
+    'airline_seat_individual_suite':
+        MaterialIcons.airline_seat_individual_suite,
     'airline_seat_legroom_extra': MaterialIcons.airline_seat_legroom_extra,
     'airline_seat_legroom_normal': MaterialIcons.airline_seat_legroom_normal,
     'airline_seat_legroom_reduced': MaterialIcons.airline_seat_legroom_reduced,
@@ -5143,7 +5356,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'show_chart': MaterialIcons.show_chart,
     'shuffle': MaterialIcons.shuffle,
     'signal_cellular_4_bar': MaterialIcons.signal_cellular_4_bar,
-    'signal_cellular_connected_no_internet_4_bar': MaterialIcons.signal_cellular_connected_no_internet_4_bar,
+    'signal_cellular_connected_no_internet_4_bar':
+        MaterialIcons.signal_cellular_connected_no_internet_4_bar,
     'signal_cellular_no_sim': MaterialIcons.signal_cellular_no_sim,
     'signal_cellular_null': MaterialIcons.signal_cellular_null,
     'signal_cellular_off': MaterialIcons.signal_cellular_off,
@@ -5330,7 +5544,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'align_right': FontAwesome5Solid.align_right,
     'allergies': FontAwesome5Solid.allergies,
     'ambulance': FontAwesome5Solid.ambulance,
-    'american_sign_language_interpreting': FontAwesome5Solid.american_sign_language_interpreting,
+    'american_sign_language_interpreting':
+        FontAwesome5Solid.american_sign_language_interpreting,
     'anchor': FontAwesome5Solid.anchor,
     'angle_double_down': FontAwesome5Solid.angle_double_down,
     'angle_double_left': FontAwesome5Solid.angle_double_left,
@@ -5360,7 +5575,8 @@ const iconCatalog = <String, Map<String, IconData>>{
     'arrows_alt_h': FontAwesome5Solid.arrows_alt_h,
     'arrows_alt_v': FontAwesome5Solid.arrows_alt_v,
     'arrows_alt': FontAwesome5Solid.arrows_alt,
-    'assistive_listening_systems': FontAwesome5Solid.assistive_listening_systems,
+    'assistive_listening_systems':
+        FontAwesome5Solid.assistive_listening_systems,
     'asterisk': FontAwesome5Solid.asterisk,
     'at': FontAwesome5Solid.at,
     'atlas': FontAwesome5Solid.atlas,
@@ -7558,8 +7774,10 @@ const iconCatalog = <String, Map<String, IconData>>{
     'creative_commons': Entypo.creative_commons,
     'creative_commons_attribution': Entypo.creative_commons_attribution,
     'creative_commons_noderivs': Entypo.creative_commons_noderivs,
-    'creative_commons_noncommercial_eu': Entypo.creative_commons_noncommercial_eu,
-    'creative_commons_noncommercial_us': Entypo.creative_commons_noncommercial_us,
+    'creative_commons_noncommercial_eu':
+        Entypo.creative_commons_noncommercial_eu,
+    'creative_commons_noncommercial_us':
+        Entypo.creative_commons_noncommercial_us,
     'creative_commons_public_domain': Entypo.creative_commons_public_domain,
     'creative_commons_remix': Entypo.creative_commons_remix,
     'creative_commons_share': Entypo.creative_commons_share,
