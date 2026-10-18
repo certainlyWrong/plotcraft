@@ -27,7 +27,13 @@ class PlotcraftButton extends StatelessWidget {
             children: [
               Icon(icon, size: 17),
               const SizedBox(width: 9),
-              Text(label),
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ],
           );
     return switch (variant) {
