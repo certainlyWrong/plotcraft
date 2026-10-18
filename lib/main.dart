@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -16,7 +15,6 @@ import 'stores/theme_store.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-  GoogleFonts.config.allowRuntimeFetching = false;
   await EasyLocalization.ensureInitialized();
 
   final supportedLocales = await _loadLocalesFromAssets();

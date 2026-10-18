@@ -21,7 +21,7 @@ O idioma da interface não determina o idioma em que a pessoa escreve suas hist�
 
 ## Fonte da interface
 
-A fonte padrão é **Times New Roman**. A pessoa pode escolher outra família no painel de preferências. A lista inicial inclui DM Sans, Lora, Merriweather e Roboto, carregadas pelo pacote `google_fonts`; as opções ficam centralizadas em `lib/theme/interface_fonts.dart` para facilitar sua extensão. Os arquivos das fontes selecionáveis e suas licenças ficam em `assets/fonts/`; a busca de fontes pela rede fica desativada e a troca usa somente arquivos locais. A preferência é salva localmente e aplicada a todos os estilos de texto.
+A fonte padrão é **Times New Roman**. A pessoa pode escolher outra família no painel de preferências. A lista inicial inclui DM Sans, Lora, Merriweather e Roboto, empacotadas no aplicativo. Cada família é declarada em `pubspec.yaml` (seção `fonts`, arquivos em `assets/fonts/`) e listada em `lib/theme/interface_fonts.dart`; a troca usa somente arquivos locais, sem rede. Os pesos empacotados são regular e médio; pesos maiores usam o mais próximo da mesma família. A preferência é salva localmente e aplicada a todos os estilos de texto, inclusive diálogos, dicas, menus e campos, porque o `ThemeData` deriva todos eles do mesmo `TextTheme`.
 
 ## Pasta de projetos
 

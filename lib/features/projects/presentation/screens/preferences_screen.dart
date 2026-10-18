@@ -92,17 +92,14 @@ class PreferencesScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               PlotcraftDropdown<String>(
-                                key: ValueKey(
-                                  '$fontFamily-${themes.isLoadingFont}',
-                                ),
+                                key: ValueKey(fontFamily),
                                 initialValue: fontFamily,
                                 items: interfaceFonts
                                     .map(
                                       (font) => DropdownMenuItem(
                                         value: font.family,
                                         child: Text(
-                                          font.provider ==
-                                                  InterfaceFontProvider.system
+                                          font.isSystem
                                               ? 'preferences.default_font'.tr(
                                                   namedArgs: {
                                                     'font': font.family,
@@ -123,10 +120,6 @@ class PreferencesScreen extends StatelessWidget {
                                   }
                                 },
                               ),
-                              if (themes.isLoadingFont) ...[
-                                const SizedBox(height: 10),
-                                const LinearProgressIndicator(),
-                              ],
                             ],
                           );
                         },

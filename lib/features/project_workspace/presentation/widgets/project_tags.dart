@@ -9,12 +9,11 @@ class ProjectTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final labelStyle = Theme.of(context).textTheme.labelLarge;
     return Wrap(
       spacing: 7,
       runSpacing: 7,
       children: tags
-          .map((tag) => Chip(label: Text(tag, style: labelStyle)))
+          .map((tag) => Chip(label: Text(tag)))
           .toList(),
     );
   }

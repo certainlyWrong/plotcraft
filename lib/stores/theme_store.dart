@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mobx/mobx.dart';
 
 import '../data/local_storage.dart';
@@ -26,9 +25,6 @@ abstract class _ThemeStore with Store {
   @observable
   String fontFamily = defaultInterfaceFont;
 
-  @observable
-  bool isLoadingFont = false;
-
   @computed
   ThemeDefinition get selectedTheme => themes.firstWhere(
     (theme) => theme.id == selectedThemeId,
@@ -42,12 +38,6 @@ abstract class _ThemeStore with Store {
     fontFamily = interfaceFonts.any((font) => font.family == savedFontFamily)
         ? savedFontFamily
         : defaultInterfaceFont;
-    try {
-      await _preloadFont(fontFamily);
-    } catch (_) {
-      fontFamily = defaultInterfaceFont;
-      await _storage.saveFontFamily(defaultInterfaceFont);
-    }
     final manifest = await AssetManifest.loadFromAssetBundle(rootBundle);
     final themePaths =
         manifest
@@ -88,25 +78,9 @@ abstract class _ThemeStore with Store {
 
   @action
   Future<bool> selectFont(String family) async {
-    if (!interfaceFonts.any((font) => font.family == family) || isLoadingFont) {
-      return false;
-    }
-    isLoadingFont = true;
-    try {
-      await _preloadFont(family);
-      await _storage.saveFontFamily(family);
-      fontFamily = family;
-      return true;
-    } catch (_) {
-      return false;
-    } finally {
-      isLoadingFont = false;
-    }
-  }
-
-  Future<void> _preloadFont(String family) async {
-    if (family == defaultInterfaceFont) return;
-    GoogleFonts.getTextTheme(family);
-    await GoogleFonts.pendingFonts();
+    if (!interfaceFonts.any((font) => font.family == family)) return false;
+    await _storage.saveFontFamily(family);
+    fontFamily = family;
+    return true;
   }
 }

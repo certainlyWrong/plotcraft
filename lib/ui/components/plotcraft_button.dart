@@ -20,18 +20,14 @@ class PlotcraftButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final labelStyle = TextStyle(
-      fontFamily: Theme.of(context).textTheme.labelLarge?.fontFamily,
-      fontWeight: FontWeight.w600,
-    );
     final child = icon == null
-        ? Text(label, style: labelStyle)
+        ? Text(label)
         : Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(icon, size: 17),
               const SizedBox(width: 9),
-              Text(label, style: labelStyle),
+              Text(label),
             ],
           );
     return switch (variant) {

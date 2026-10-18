@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import 'interface_fonts.dart';
-
 class ThemeDefinition {
   const ThemeDefinition({
     required this.id,
@@ -65,12 +61,17 @@ class ThemeDefinition {
       inverseSurface: foreground,
       onInverseSurface: background,
     );
-    final baseTheme = ThemeData(
+    // The base theme is built first so every component theme below derives
+    // its text style from the same font-aware text theme.
+    final base = ThemeData(
       useMaterial3: true,
       brightness: isDark ? Brightness.dark : Brightness.light,
       fontFamily: fontFamily,
-      scaffoldBackgroundColor: background,
       colorScheme: scheme,
+    );
+    final text = base.textTheme;
+    return base.copyWith(
+      scaffoldBackgroundColor: background,
       visualDensity: VisualDensity.standard,
       splashFactory: InkSparkle.splashFactory,
       focusColor: accent.withValues(alpha: .12),
@@ -111,12 +112,14 @@ class ThemeDefinition {
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(color: subtleBorder),
         ),
-        titleTextStyle: TextStyle(
+        titleTextStyle: text.titleLarge?.copyWith(
           color: foreground,
-          fontSize: 20,
           fontWeight: FontWeight.w700,
         ),
-        contentTextStyle: TextStyle(color: mutedForeground, height: 1.4),
+        contentTextStyle: text.bodyMedium?.copyWith(
+          color: mutedForeground,
+          height: 1.4,
+        ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
@@ -129,7 +132,7 @@ class ThemeDefinition {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(11),
           ),
-          textStyle: const TextStyle(fontWeight: FontWeight.w600),
+          textStyle: text.labelLarge?.copyWith(fontWeight: FontWeight.w600),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -141,7 +144,7 @@ class ThemeDefinition {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(11),
           ),
-          textStyle: const TextStyle(fontWeight: FontWeight.w600),
+          textStyle: text.labelLarge?.copyWith(fontWeight: FontWeight.w600),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
@@ -152,16 +155,16 @@ class ThemeDefinition {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          textStyle: const TextStyle(fontWeight: FontWeight.w600),
+          textStyle: text.labelLarge?.copyWith(fontWeight: FontWeight.w600),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: mutedPanel,
         isDense: true,
-        hintStyle: TextStyle(color: scheme.onSurfaceVariant),
-        labelStyle: TextStyle(color: scheme.onSurfaceVariant),
-        floatingLabelStyle: TextStyle(color: scheme.primary),
+        hintStyle: text.bodyLarge?.copyWith(color: scheme.onSurfaceVariant),
+        labelStyle: text.bodyLarge?.copyWith(color: scheme.onSurfaceVariant),
+        floatingLabelStyle: text.bodyLarge?.copyWith(color: scheme.primary),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 15,
           vertical: 14,
@@ -193,7 +196,7 @@ class ThemeDefinition {
           side: BorderSide(color: scheme.outlineVariant),
         ),
         menuPadding: const EdgeInsets.symmetric(vertical: 6),
-        textStyle: TextStyle(color: scheme.onSurface),
+        textStyle: text.bodyLarge?.copyWith(color: scheme.onSurface),
       ),
       navigationRailTheme: NavigationRailThemeData(
         backgroundColor: background,
@@ -206,8 +209,10 @@ class ThemeDefinition {
         backgroundColor: mutedPanel,
         selectedColor: scheme.primaryContainer,
         secondarySelectedColor: scheme.primaryContainer,
-        labelStyle: TextStyle(color: scheme.onSurface),
-        secondaryLabelStyle: TextStyle(color: scheme.onPrimaryContainer),
+        labelStyle: text.labelLarge?.copyWith(color: scheme.onSurface),
+        secondaryLabelStyle: text.labelLarge?.copyWith(
+          color: scheme.onPrimaryContainer,
+        ),
         side: BorderSide(color: scheme.outlineVariant),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
@@ -216,7 +221,7 @@ class ThemeDefinition {
           color: scheme.inverseSurface,
           borderRadius: BorderRadius.circular(8),
         ),
-        textStyle: TextStyle(color: scheme.onInverseSurface),
+        textStyle: text.bodySmall?.copyWith(color: scheme.onInverseSurface),
         waitDuration: const Duration(milliseconds: 500),
       ),
       scrollbarTheme: ScrollbarThemeData(
@@ -229,26 +234,22 @@ class ThemeDefinition {
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: scheme.inverseSurface,
-        contentTextStyle: TextStyle(color: scheme.onInverseSurface),
+        contentTextStyle: text.bodyMedium?.copyWith(
+          color: scheme.onInverseSurface,
+        ),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
-    );
-    final textTheme = _fontTextTheme(baseTheme.textTheme, fontFamily);
-    final primaryTextTheme = _fontTextTheme(
-      baseTheme.primaryTextTheme,
-      fontFamily,
-    );
-    return baseTheme.copyWith(
-      textTheme: textTheme,
-      primaryTextTheme: primaryTextTheme,
+      listTileTheme: ListTileThemeData(
+        textColor: scheme.onSurface,
+        iconColor: scheme.onSurfaceVariant,
+        titleTextStyle: text.bodyLarge?.copyWith(color: scheme.onSurface),
+        subtitleTextStyle: text.bodyMedium?.copyWith(
+          color: scheme.onSurfaceVariant,
+        ),
+      ),
     );
   }
-
-  static TextTheme _fontTextTheme(TextTheme textTheme, String fontFamily) =>
-      fontFamily == defaultInterfaceFont
-      ? textTheme.apply(fontFamily: fontFamily)
-      : GoogleFonts.getTextTheme(fontFamily, textTheme);
 
   static OutlineInputBorder _fieldBorder(Color color, {double width = 1}) =>
       OutlineInputBorder(

@@ -16,7 +16,6 @@ dependencies:
   flutter_mobx: ^2.3.0
   easy_localization: ^3.0.8
   icons_flutter: ^1.0.0
-  google_fonts: ^8.0.2
 
   cupertino_icons: ^2.0.0
   path: ^1.9.1
@@ -39,4 +38,25 @@ flutter:
   assets:
     - assets/translations/
     - assets/themes/
-    - assets/fonts/
+
+  fonts:
+    - family: DM Sans
+      fonts:
+        - asset: assets/fonts/DMSans-Regular.ttf
+        - asset: assets/fonts/DMSans-Medium.ttf
+          weight: 500
+    - family: Lora
+      fonts:
+        - asset: assets/fonts/Lora-Regular.ttf
+        - asset: assets/fonts/Lora-Medium.ttf
+          weight: 500
+    - family: Merriweather
+      fonts:
+        - asset: assets/fonts/Merriweather-Regular.ttf
+        - asset: assets/fonts/Merriweather-Medium.ttf
+          weight: 500
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500

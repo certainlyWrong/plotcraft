@@ -69,24 +69,6 @@ mixin _$ThemeStore on _ThemeStore, Store {
     });
   }
 
-  late final _$isLoadingFontAtom = Atom(
-    name: '_ThemeStore.isLoadingFont',
-    context: context,
-  );
-
-  @override
-  bool get isLoadingFont {
-    _$isLoadingFontAtom.reportRead();
-    return super.isLoadingFont;
-  }
-
-  @override
-  set isLoadingFont(bool value) {
-    _$isLoadingFontAtom.reportWrite(value, super.isLoadingFont, () {
-      super.isLoadingFont = value;
-    });
-  }
-
   late final _$loadAsyncAction = AsyncAction(
     '_ThemeStore.load',
     context: context,
@@ -123,7 +105,6 @@ mixin _$ThemeStore on _ThemeStore, Store {
 themes: ${themes},
 selectedThemeId: ${selectedThemeId},
 fontFamily: ${fontFamily},
-isLoadingFont: ${isLoadingFont},
 selectedTheme: ${selectedTheme}
     ''';
   }

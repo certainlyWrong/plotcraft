@@ -1,25 +1,21 @@
 class InterfaceFont {
-  const InterfaceFont({required this.family, required this.provider});
+  const InterfaceFont({required this.family, this.isSystem = false});
 
   final String family;
-  final InterfaceFontProvider provider;
-}
 
-enum InterfaceFontProvider { system, googleFonts }
+  /// System fonts are not bundled; the operating system provides them.
+  final bool isSystem;
+}
 
 const defaultInterfaceFont = 'Times New Roman';
 
-/// Add Google Fonts families here to make them available in Preferences.
+/// Bundled families are declared under `flutter: fonts:` in `pubspec.yaml`
+/// (files in `assets/fonts/`). Add the family there and here to make it
+/// available in Preferences.
 const interfaceFonts = <InterfaceFont>[
-  InterfaceFont(
-    family: defaultInterfaceFont,
-    provider: InterfaceFontProvider.system,
-  ),
-  InterfaceFont(family: 'DM Sans', provider: InterfaceFontProvider.googleFonts),
-  InterfaceFont(family: 'Lora', provider: InterfaceFontProvider.googleFonts),
-  InterfaceFont(
-    family: 'Merriweather',
-    provider: InterfaceFontProvider.googleFonts,
-  ),
-  InterfaceFont(family: 'Roboto', provider: InterfaceFontProvider.googleFonts),
+  InterfaceFont(family: defaultInterfaceFont, isSystem: true),
+  InterfaceFont(family: 'DM Sans'),
+  InterfaceFont(family: 'Lora'),
+  InterfaceFont(family: 'Merriweather'),
+  InterfaceFont(family: 'Roboto'),
 ];
