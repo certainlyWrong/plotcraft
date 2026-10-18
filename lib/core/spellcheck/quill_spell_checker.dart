@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -211,11 +212,23 @@ class QuillSpellChecker extends ChangeNotifier implements TextOverlaySource {
   bool applySuggestion(String word, int near, String replacement) {
     final target = locate(word, near);
     if (target == null) {
-      debugPrint('Spell check: "$word" is no longer in the text');
+      _log('"$word" is no longer in the text (near $near)');
       return false;
     }
+    final before = _controller?.document.toPlainText();
     replaceMisspelling(target, replacement);
+    final after = _controller?.document.toPlainText();
+    _log(
+      'replaced "$word" at ${target.start}-${target.end} with "$replacement"; '
+      'text changed: ${before != after}',
+    );
     return true;
+  }
+
+  /// Diagnostics for the menu flow, printed in debug builds only
+  /// (`flutter run -d macos`, lines starting with `[spell]`).
+  static void _log(String message) {
+    if (kDebugMode) debugPrint('[spell] $message');
   }
 
   /// Label of the "add to dictionary" item; the interface sets a translation.
@@ -275,15 +288,27 @@ class _SpellContextMenuState extends State<_SpellContextMenu> {
     final checker = widget.checker;
     _target = checker.targetAt(widget.editor.textEditingValue.selection);
     final target = _target;
+    QuillSpellChecker._log(
+      'menu opened: selection ${widget.editor.textEditingValue.selection}, '
+      'target ${target == null ? 'none' : '"${target.word}" ${target.range}'}',
+    );
     if (target != null) {
       _suggestions = checker.backend
           .suggest(target.word, checker.locale)
-          .catchError((_) => const <String>[]);
+          .then((list) {
+            QuillSpellChecker._log('suggestions for "${target.word}": $list');
+            return list;
+          })
+          .catchError((Object error) {
+            QuillSpellChecker._log('suggest failed: $error');
+            return const <String>[];
+          });
     }
   }
 
   /// Closes the menu, runs [action] and gives the editor its focus back.
   void _run(void Function() action) {
+    QuillSpellChecker._log('menu item pressed');
     widget.editor.hideToolbar();
     action();
     widget.editor.requestKeyboard();
