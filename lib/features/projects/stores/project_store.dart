@@ -1,5 +1,8 @@
 import 'package:mobx/mobx.dart';
 
+import 'dart:async';
+
+import '../data/library_watcher.dart';
 import '../data/project_repository.dart';
 
 import 'package:plotcraft_core/features/projects/domain/project_format.dart';
@@ -73,13 +76,41 @@ abstract class _ProjectStore with Store {
   Future<void> selectProjectsRoot(String? path) async {
     await _repository.setProjectsRoot(path);
     projectsRoot = await _repository.projectsRoot;
+    startWatching();
   }
 
   @action
   Future<void> chooseProjectsRoot() async {
     if (await _repository.chooseProjectsRoot()) {
       projectsRoot = await _repository.projectsRoot;
+      startWatching();
     }
+  }
+
+  LibraryWatcher? _watcher;
+  StreamSubscription<void>? _watching;
+
+  /// Reloads the library when another program adds, removes or renames a
+  /// project in the projects folder. Call again after the folder changes.
+  void startWatching() {
+    unawaited(_watching?.cancel());
+    _watcher?.dispose();
+    _watcher = LibraryWatcher(projectsRoot)..start();
+    _watching = _watcher!.changes.listen((_) => unawaited(_reloadQuietly()));
+  }
+
+  Future<void> _reloadQuietly() async {
+    try {
+      await load();
+    } catch (_) {
+      // Keep the list that is already shown.
+    }
+  }
+
+  void stopWatching() {
+    unawaited(_watching?.cancel());
+    _watcher?.dispose();
+    _watcher = null;
   }
 
   @action

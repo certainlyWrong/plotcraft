@@ -32,6 +32,7 @@ Future<void> main() async {
   );
   final themes = ThemeStore(storage);
   await Future.wait([projects.load(), themes.load()]);
+  projects.startWatching();
 
   final english = supportedLocales.firstWhere(
     (locale) => locale.languageCode == 'en',
