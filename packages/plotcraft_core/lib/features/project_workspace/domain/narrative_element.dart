@@ -51,6 +51,21 @@ class NarrativePhase {
   final Map<String, String> fieldOverrides;
   final ElementImage? image;
 
+  NarrativePhase copyWith({
+    String? title,
+    String? description,
+    NarrativeAnchor? anchor,
+    Map<String, String>? fieldOverrides,
+    ElementImage? image,
+  }) => NarrativePhase(
+    id: id,
+    title: title ?? this.title,
+    description: description ?? this.description,
+    anchor: anchor ?? this.anchor,
+    fieldOverrides: fieldOverrides ?? this.fieldOverrides,
+    image: image ?? this.image,
+  );
+
   Map<String, Object?> toJson() => {
     'id': id,
     'title': title,
