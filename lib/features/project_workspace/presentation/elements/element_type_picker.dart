@@ -6,7 +6,9 @@ import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
-import '../../domain/element_type.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+
 import 'element_type_label.dart';
 import '../../../../core/icons/icon_data.dart';
 import '../element_colors.dart';

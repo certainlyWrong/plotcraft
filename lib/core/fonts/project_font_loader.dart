@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 
-import 'font_file_info.dart';
+import 'package:plotcraft_core/core/fonts/font_file_info.dart';
 
 /// Registers font files with Flutter under project-specific family names.
 /// A registration lasts for the whole run, so each file is loaded once.

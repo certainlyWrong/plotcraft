@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/ui/plotcraft_dialog.dart';
-import '../../../projects/domain/story_project.dart';
+
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+
 import '../../domain/workspace_tab.dart';
 import '../../stores/workspace_controller.dart';
 import '../elements/element_editor.dart';

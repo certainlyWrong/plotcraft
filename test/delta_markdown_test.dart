@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:plotcraft/features/project_workspace/domain/rich/delta_to_markdown.dart';
-import 'package:plotcraft/features/project_workspace/domain/rich/markdown_to_delta.dart';
-import 'package:plotcraft/features/project_workspace/domain/rich/rich_document.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/delta_to_markdown.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/markdown_to_delta.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/rich_document.dart';
 
 String? _fileOf(String id) => id == 'g1' ? 'foto da pista.png' : null;
 String? _idOf(String file) => file == 'foto da pista.png' ? 'g1' : null;

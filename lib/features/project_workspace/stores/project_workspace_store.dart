@@ -1,16 +1,16 @@
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../projects/domain/story_project.dart';
-import '../../projects/domain/project_metadata_input.dart';
-import '../data/book_repository.dart';
-import '../data/project_workspace_repository.dart';
-import '../domain/book_content.dart';
-import '../domain/element_type.dart';
-import '../domain/element_type_catalog.dart';
-import '../domain/element_image.dart';
-import '../domain/gallery_item.dart';
-import '../domain/narrative_element.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+import 'package:plotcraft_core/features/projects/domain/project_metadata_input.dart';
+import 'package:plotcraft_core/features/project_workspace/data/book_repository.dart';
+import 'package:plotcraft_core/features/project_workspace/data/project_workspace_repository.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/book_content.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type_catalog.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_image.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/gallery_item.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
 
 part 'project_workspace_store.g.dart';
 

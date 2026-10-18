@@ -9,7 +9,9 @@ import '../../../../core/ui/plotcraft_dropdown.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../../../core/ui/plotcraft_icon_picker.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
-import '../../domain/element_type.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+
 import '../../../../core/icons/icon_data.dart';
 import '../element_colors.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plotcraft/core/theme/theme_definition.dart';
-import 'package:plotcraft/features/project_workspace/domain/element_type_catalog.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type_catalog.dart';
 import 'package:plotcraft/features/project_workspace/presentation/elements/element_type_picker.dart';
 
 void main() {

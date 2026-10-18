@@ -5,9 +5,12 @@ import '../../../../core/ui/count_label.dart';
 
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../projects/domain/story_project.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+
 import '../../../../core/ui/plotcraft_button.dart';
-import '../../../projects/domain/project_format.dart';
+
+import 'package:plotcraft_core/features/projects/domain/project_format.dart';
+
 import 'project_cover_art.dart';
 import '../../../../core/ui/project_image.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';

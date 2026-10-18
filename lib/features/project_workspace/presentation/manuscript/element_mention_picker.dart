@@ -5,10 +5,12 @@ import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
-import '../../domain/element_filter.dart';
-import '../../domain/element_type.dart';
-import '../../domain/element_type_catalog.dart';
-import '../../domain/narrative_element.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/element_filter.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type_catalog.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+
 import '../elements/element_type_label.dart';
 import '../../../../core/icons/icon_data.dart';
 import '../element_colors.dart';

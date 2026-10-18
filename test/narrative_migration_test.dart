@@ -4,13 +4,13 @@ import 'dart:io';
 import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
-import 'package:plotcraft/core/icons/icon_ref.dart';
-import 'package:plotcraft/features/project_workspace/data/project_workspace_repository.dart';
-import 'package:plotcraft/features/project_workspace/domain/element_image.dart';
-import 'package:plotcraft/features/project_workspace/domain/element_type.dart';
-import 'package:plotcraft/features/project_workspace/domain/narrative_element.dart';
-import 'package:plotcraft/features/project_workspace/domain/narrative_migration.dart';
-import 'package:plotcraft/features/projects/domain/story_project.dart';
+import 'package:plotcraft_core/core/icons/icon_ref.dart';
+import 'package:plotcraft_core/features/project_workspace/data/project_workspace_repository.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_image.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_migration.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 import 'package:plotcraft/features/project_workspace/presentation/element_colors.dart';
 
 NarrativeElement _element(String id, String typeId) => NarrativeElement(

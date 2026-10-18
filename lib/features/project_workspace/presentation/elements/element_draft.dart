@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/icons/icon_ref.dart';
-import '../../domain/element_image.dart';
-import '../../domain/element_relation.dart';
-import '../../domain/narrative_element.dart';
+import 'package:plotcraft_core/core/icons/icon_ref.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_image.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_relation.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+
 import '../element_colors.dart';
 
 /// Everything the element editor can change, held while the form is open. It

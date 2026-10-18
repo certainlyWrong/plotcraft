@@ -1,6 +1,6 @@
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:plotcraft/features/project_workspace/domain/rich/rich_document.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/rich_document.dart';
 
 /// The embeds are written by hand (no Flutter in the domain layer); they must
 /// stay identical to what the editor's own classes produce, because the

@@ -6,7 +6,9 @@ import 'package:flutter_quill/quill_delta.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../core/storage/local_storage.dart';
-import '../../projects/domain/story_project.dart';
+
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+
 import '../domain/workspace_tab.dart';
 import 'editor_fonts_store.dart';
 import 'project_workspace_store.dart';

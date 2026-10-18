@@ -1,9 +1,10 @@
 import 'package:flutter/widgets.dart';
 
 import 'icon_catalog.g.dart';
-import 'icon_ref.dart';
 
-export 'icon_ref.dart';
+import 'package:plotcraft_core/core/icons/icon_ref.dart';
+
+export 'package:plotcraft_core/core/icons/icon_ref.dart';
 
 /// Draws an [IconRef] with the generated catalog. A reference that is not in
 /// the catalog shows [IconRef.fallback].

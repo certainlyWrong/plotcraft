@@ -1,8 +1,9 @@
 import 'package:mobx/mobx.dart';
 
 import '../data/project_repository.dart';
-import '../domain/project_format.dart';
-import '../domain/story_project.dart';
+
+import 'package:plotcraft_core/features/projects/domain/project_format.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 
 part 'project_store.g.dart';
 

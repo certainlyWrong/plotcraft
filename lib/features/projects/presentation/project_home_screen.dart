@@ -6,10 +6,14 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../core/storage/local_storage.dart';
-import '../domain/story_project.dart';
+
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+
 import '../../project_creation/presentation/project_creation_screen.dart';
 import '../../project_creation/stores/project_creation_store.dart';
-import '../../project_workspace/data/project_workspace_repository.dart';
+
+import 'package:plotcraft_core/features/project_workspace/data/project_workspace_repository.dart';
+
 import '../../project_workspace/presentation/project_workspace_screen.dart';
 import '../../project_workspace/stores/project_workspace_store.dart';
 import '../stores/project_store.dart';
@@ -22,7 +26,9 @@ import 'widgets/project_sidebar.dart';
 import 'widgets/project_top_bar.dart';
 import '../../preferences/presentation/preferences_screen.dart';
 import '../../../core/theme/plotcraft_tokens.dart';
-import '../domain/project_format.dart';
+
+import 'package:plotcraft_core/features/projects/domain/project_format.dart';
+
 import '../../../core/icons/icon_data.dart';
 
 enum _DesktopPage { projects, createProject, preferences }

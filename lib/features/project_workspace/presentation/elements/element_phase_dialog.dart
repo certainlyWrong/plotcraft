@@ -8,11 +8,13 @@ import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/plotcraft_dropdown.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
 import '../../../../core/ui/project_image.dart';
-import '../../domain/book_content.dart';
-import '../../domain/element_image.dart';
-import '../../domain/element_type.dart';
-import '../../domain/narrative_anchor.dart';
-import '../../domain/narrative_element.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/book_content.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_image.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_anchor.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+
 import 'element_type_label.dart';
 
 const _none = '';

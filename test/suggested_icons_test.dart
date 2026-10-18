@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:plotcraft/core/icons/suggested_icons.dart';
+import 'package:plotcraft_core/core/icons/suggested_icons.dart';
 
 void main() {
   test('todo ícone sugerido existe no catálogo e aparece uma vez', () {

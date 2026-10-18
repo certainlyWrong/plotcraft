@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plotcraft/core/theme/theme_definition.dart';
-import 'package:plotcraft/features/project_workspace/domain/book_content.dart';
-import 'package:plotcraft/features/project_workspace/domain/element_image.dart';
-import 'package:plotcraft/features/project_workspace/domain/element_type_catalog.dart';
-import 'package:plotcraft/features/project_workspace/domain/narrative_anchor.dart';
-import 'package:plotcraft/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/book_content.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_image.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type_catalog.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_anchor.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
 import 'package:plotcraft/features/project_workspace/presentation/elements/element_phase_dialog.dart';
 
 void main() {

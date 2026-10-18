@@ -7,7 +7,8 @@ import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/project_image.dart';
-import '../../domain/rich/rich_document.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/rich/rich_document.dart';
 
 /// Shows a gallery image by ID. [pathOf] gives its file on this computer, or
 /// null when the image is not in the gallery (any more).

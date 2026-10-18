@@ -15,15 +15,19 @@ import '../../../../core/spellcheck/quill_spell_checker.dart';
 import '../../../../core/spellcheck/spell_check_backend.dart';
 import '../../../../core/spellcheck/text_overlays.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
-import '../../domain/active_phase.dart';
-import '../../domain/element_image.dart';
-import '../../domain/element_type.dart';
-import '../../domain/element_type_catalog.dart';
-import '../../domain/gallery_item.dart';
-import '../../domain/narrative_element.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/active_phase.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_image.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type_catalog.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/gallery_item.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+
 import 'mention_edit.dart';
 import 'quill_find_replace.dart';
-import '../../domain/rich/rich_document.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/rich/rich_document.dart';
+
 import '../elements/gallery_picker_dialog.dart';
 import 'element_mention_picker.dart';
 import 'auto_mention_tracker.dart';

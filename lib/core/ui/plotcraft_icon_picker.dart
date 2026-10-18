@@ -2,7 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../icons/suggested_icons.dart';
+import 'package:plotcraft_core/core/icons/suggested_icons.dart';
+
 import '../theme/plotcraft_tokens.dart';
 import 'plotcraft_button.dart';
 import 'plotcraft_dialog.dart';

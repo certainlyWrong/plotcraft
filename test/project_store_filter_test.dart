@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plotcraft/core/storage/local_storage.dart';
-import 'package:plotcraft/features/projects/data/project_creation_service.dart';
+import 'package:plotcraft_core/features/projects/data/project_creation_service.dart';
 import 'package:plotcraft/features/projects/data/project_repository.dart';
-import 'package:plotcraft/features/projects/domain/story_project.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 import 'package:plotcraft/features/projects/stores/project_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

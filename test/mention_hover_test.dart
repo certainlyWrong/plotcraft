@@ -5,11 +5,11 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plotcraft/core/spellcheck/spell_check_backend.dart';
 import 'package:plotcraft/core/theme/theme_definition.dart';
-import 'package:plotcraft/features/project_workspace/domain/active_phase.dart';
-import 'package:plotcraft/features/project_workspace/domain/element_type_catalog.dart';
-import 'package:plotcraft/features/project_workspace/domain/narrative_anchor.dart';
-import 'package:plotcraft/features/project_workspace/domain/narrative_element.dart';
-import 'package:plotcraft/features/project_workspace/domain/rich/rich_document.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/active_phase.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type_catalog.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_anchor.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/rich_document.dart';
 import 'package:plotcraft/features/project_workspace/presentation/manuscript/book_editor.dart';
 import 'package:plotcraft/features/project_workspace/presentation/manuscript/element_hover_card.dart';
 

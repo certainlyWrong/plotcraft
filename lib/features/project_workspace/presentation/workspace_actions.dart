@@ -6,14 +6,18 @@ import 'package:path/path.dart' as p;
 import '../../../core/platform/window_service.dart';
 import '../../../core/theme/plotcraft_tokens.dart';
 import '../../../core/ui/plotcraft_dialog.dart';
-import '../../projects/domain/project_metadata_input.dart';
-import '../domain/book_content.dart';
-import '../domain/narrative_element.dart';
+
+import 'package:plotcraft_core/features/projects/domain/project_metadata_input.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/book_content.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+
 import '../domain/workspace_tab.dart';
 import '../stores/project_workspace_store.dart';
 import '../stores/workspace_controller.dart';
 import 'manuscript/chapter_dialogs.dart';
-import '../domain/element_type.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+
 import 'elements/element_type_editor.dart';
 import 'elements/element_type_picker.dart';
 import 'manuscript/chapter_list.dart';

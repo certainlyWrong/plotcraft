@@ -1,8 +1,8 @@
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:plotcraft/features/project_workspace/domain/narrative_element.dart';
-import 'package:plotcraft/features/project_workspace/domain/rich/mention_index.dart';
-import 'package:plotcraft/features/project_workspace/domain/rich/rich_document.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/mention_index.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/rich_document.dart';
 
 NarrativeElement _el(
   String id,

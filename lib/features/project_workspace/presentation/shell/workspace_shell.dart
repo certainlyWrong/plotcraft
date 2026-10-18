@@ -8,8 +8,10 @@ import '../../../../core/ui/plotcraft_context_menu.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../../../core/ui/plotcraft_splitter.dart';
 import '../../../../core/ui/plotcraft_tab_bar.dart';
-import '../../../projects/domain/project_format.dart';
-import '../../../projects/domain/story_project.dart';
+
+import 'package:plotcraft_core/features/projects/domain/project_format.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+
 import '../../domain/workspace_tab.dart';
 import '../../stores/workspace_controller.dart';
 import '../elements/element_list.dart';

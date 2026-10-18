@@ -6,8 +6,9 @@ import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_dropdown.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
-import '../../domain/element_relation.dart';
-import '../../domain/narrative_element.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/element_relation.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
 
 /// Links from an element to others ("sister of"), plus the links other
 /// elements have to it, which are read-only here.

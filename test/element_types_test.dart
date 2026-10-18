@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
-import 'package:plotcraft/core/icons/icon_ref.dart';
-import 'package:plotcraft/features/project_workspace/data/element_types_repository.dart';
-import 'package:plotcraft/features/project_workspace/data/project_files.dart';
-import 'package:plotcraft/features/project_workspace/domain/element_type.dart';
-import 'package:plotcraft/features/project_workspace/domain/element_type_catalog.dart';
-import 'package:plotcraft/features/projects/domain/story_project.dart';
+import 'package:plotcraft_core/core/icons/icon_ref.dart';
+import 'package:plotcraft_core/features/project_workspace/data/element_types_repository.dart';
+import 'package:plotcraft_core/features/project_workspace/data/project_files.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type_catalog.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 import 'package:plotcraft/features/project_workspace/presentation/element_colors.dart';
 
 void main() {

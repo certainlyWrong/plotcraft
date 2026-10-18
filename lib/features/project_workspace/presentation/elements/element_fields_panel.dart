@@ -5,8 +5,10 @@ import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../core/ui/plotcraft_dropdown.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
-import '../../domain/element_type.dart';
-import '../../domain/narrative_element.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+
 import 'element_type_label.dart';
 
 /// Inputs for the details defined by an element's type. Values are strings

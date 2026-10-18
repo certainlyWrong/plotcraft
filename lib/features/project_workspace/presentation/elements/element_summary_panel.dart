@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/project_image.dart';
-import '../../domain/element_type.dart';
-import '../../domain/narrative_element.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+
 import '../../../../core/ui/count_label.dart';
 import '../widgets/project_tags.dart';
 import 'element_type_label.dart';

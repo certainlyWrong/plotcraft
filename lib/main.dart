@@ -7,7 +7,9 @@ import 'app/plotcraft_app.dart';
 import 'core/platform/window_service.dart';
 import 'core/storage/local_storage.dart';
 import 'features/projects/data/project_repository.dart';
-import 'features/projects/data/project_creation_service.dart';
+
+import 'package:plotcraft_core/features/projects/data/project_creation_service.dart';
+
 import 'features/project_creation/stores/project_creation_store.dart';
 import 'features/projects/stores/project_store.dart';
 import 'features/preferences/stores/theme_store.dart';

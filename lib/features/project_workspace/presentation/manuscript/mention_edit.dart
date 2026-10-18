@@ -2,8 +2,8 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:dart_quill_delta/dart_quill_delta.dart';
 
-import '../../domain/narrative_element.dart';
-import '../../domain/rich/rich_document.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/rich_document.dart';
 
 /// Edits that create element mentions in a [QuillController]. A mention is
 /// text carrying the inline `mention` attribute with the element's ID, so it

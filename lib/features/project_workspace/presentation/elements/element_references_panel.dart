@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../domain/rich/mention_scan.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/mention_scan.dart';
 
 /// Where an element appears in the book. Choosing an occurrence opens that
 /// chapter with the text selected.

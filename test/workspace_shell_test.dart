@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
 import 'package:plotcraft/core/theme/theme_definition.dart';
 import 'package:plotcraft/core/ui/plotcraft_tab_bar.dart';
-import 'package:plotcraft/features/project_workspace/data/project_workspace_repository.dart';
+import 'package:plotcraft_core/features/project_workspace/data/project_workspace_repository.dart';
 import 'package:plotcraft/features/project_workspace/presentation/elements/element_editor.dart';
 import 'package:plotcraft/features/project_workspace/presentation/manuscript/book_editor.dart';
 import 'package:plotcraft/features/project_workspace/presentation/manuscript/chapter_list.dart';
@@ -15,7 +15,7 @@ import 'package:plotcraft/features/project_workspace/presentation/shell/workspac
 import 'package:plotcraft/features/project_workspace/presentation/workspace_actions.dart';
 import 'package:plotcraft/features/project_workspace/stores/project_workspace_store.dart';
 import 'package:plotcraft/features/project_workspace/stores/workspace_controller.dart';
-import 'package:plotcraft/features/projects/domain/story_project.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 
 import 'support/fake_fonts.dart';
 

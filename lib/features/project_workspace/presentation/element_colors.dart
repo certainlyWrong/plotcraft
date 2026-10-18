@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import '../domain/element_type.dart';
-import '../domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
 
 /// The colors of the domain models are plain ARGB numbers so that the models
 /// work without Flutter; the interface reads them as [Color] through these.

@@ -5,8 +5,9 @@ import '../../../../core/ui/count_label.dart';
 
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../projects/domain/project_format.dart';
-import '../../../projects/domain/story_project.dart';
+import 'package:plotcraft_core/features/projects/domain/project_format.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+
 import '../../domain/workspace_tab.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';

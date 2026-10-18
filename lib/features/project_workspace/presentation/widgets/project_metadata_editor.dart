@@ -3,15 +3,19 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../projects/domain/story_project.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
-import '../../../projects/domain/project_metadata_input.dart';
+
+import 'package:plotcraft_core/features/projects/domain/project_metadata_input.dart';
+
 import '../../../projects/presentation/cover_palettes.dart';
 import 'project_cover_art.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/project_image.dart';
-import '../../../projects/domain/cover_image_rules.dart';
+
+import 'package:plotcraft_core/features/projects/domain/cover_image_rules.dart';
 
 class ProjectMetadataEditor extends StatefulWidget {
   const ProjectMetadataEditor({

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 import 'package:path/path.dart' as p;
 
-import '../../../projects/domain/story_project.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+
 import '../../../projects/presentation/cover_palettes.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/project_image.dart';

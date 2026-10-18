@@ -6,7 +6,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:plotcraft/core/spellcheck/quill_spell_checker.dart';
 import 'package:plotcraft/core/spellcheck/spell_check_backend.dart';
 import 'package:plotcraft/core/theme/theme_definition.dart';
-import 'package:plotcraft/features/project_workspace/domain/element_type_catalog.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type_catalog.dart';
 import 'package:plotcraft/features/project_workspace/presentation/manuscript/book_editor.dart';
 
 /// Runs the real macOS spell checker (`flutter test integration_test -d macos`).

@@ -1,9 +1,9 @@
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:plotcraft/features/project_workspace/domain/book_content.dart';
-import 'package:plotcraft/features/project_workspace/domain/narrative_element.dart';
-import 'package:plotcraft/features/project_workspace/domain/rich/mention_scan.dart';
-import 'package:plotcraft/features/project_workspace/domain/rich/rich_document.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/book_content.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/mention_scan.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/rich_document.dart';
 
 NarrativeElement _lia({MentionPolicy policy = const MentionPolicy()}) =>
     NarrativeElement(

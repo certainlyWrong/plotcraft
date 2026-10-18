@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter_test/flutter_test.dart';
-import 'package:plotcraft/features/project_workspace/domain/element_relation.dart';
-import 'package:plotcraft/features/project_workspace/domain/narrative_element.dart';
+import 'package:test/test.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_relation.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
 
 NarrativeElement _element(
   String id, [

@@ -6,8 +6,9 @@ import 'package:file_selector/file_selector.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-import 'project_creation_service.dart';
-import '../domain/story_project.dart';
+import 'package:plotcraft_core/features/projects/data/project_creation_service.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+
 import '../../../core/storage/local_storage.dart';
 
 /// Owns the on-disk project format. The preference store only indexes folders.

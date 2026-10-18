@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'package:path/path.dart' as p;
-import 'package:plotcraft/features/project_workspace/data/project_workspace_repository.dart';
-import 'package:plotcraft/features/projects/domain/cover_image_rules.dart';
-import 'package:plotcraft/features/projects/domain/project_metadata_input.dart';
-import 'package:plotcraft/features/projects/domain/story_project.dart';
+import 'package:plotcraft_core/features/project_workspace/data/project_workspace_repository.dart';
+import 'package:plotcraft_core/features/projects/domain/cover_image_rules.dart';
+import 'package:plotcraft_core/features/projects/domain/project_metadata_input.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 
 void main() {
   late Directory folder;

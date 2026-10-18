@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
-import 'package:plotcraft/features/project_workspace/data/project_workspace_repository.dart';
-import 'package:plotcraft/features/project_workspace/domain/book_content.dart';
-import 'package:plotcraft/features/project_workspace/domain/markdown_extensions.dart';
-import 'package:plotcraft/features/project_workspace/domain/narrative_element.dart';
-import 'package:plotcraft/features/projects/domain/story_project.dart';
+import 'package:plotcraft_core/features/project_workspace/data/project_workspace_repository.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/book_content.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/markdown_extensions.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 
 void main() {
   late Directory folder;

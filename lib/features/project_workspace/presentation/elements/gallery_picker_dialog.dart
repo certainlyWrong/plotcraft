@@ -6,7 +6,8 @@ import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/project_image.dart';
-import '../../domain/gallery_item.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/gallery_item.dart';
 
 /// Lets the person pick images from the project gallery. Resolves to the IDs
 /// of the chosen images (those already used start selected), or null if

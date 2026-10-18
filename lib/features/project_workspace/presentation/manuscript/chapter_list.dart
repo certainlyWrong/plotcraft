@@ -6,7 +6,9 @@ import '../../../../core/ui/count_label.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_context_menu.dart';
 import '../../../../core/ui/plotcraft_popup_menu.dart';
-import '../../domain/book_content.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/book_content.dart';
+
 import '../shell/side_panel_widgets.dart';
 
 enum ChapterAction { rename, up, down, remove }

@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'argb_hex.dart';
+import 'package:plotcraft_core/core/theme/argb_hex.dart';
 
 /// `#RRGGBB` for [color], the format used in project files.
 String colorToHex(Color color) => argbToHex(color.toARGB32());

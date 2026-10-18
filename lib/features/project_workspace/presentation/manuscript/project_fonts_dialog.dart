@@ -7,8 +7,10 @@ import 'package:icons_flutter/icons_flutter.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
-import '../../../projects/domain/story_project.dart';
-import '../../domain/project_font.dart';
+
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/project_font.dart';
+
 import '../../stores/editor_fonts_store.dart';
 
 /// Lists the fonts that belong to the project and lets the person add font

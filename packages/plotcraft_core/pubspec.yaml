@@ -1,0 +1,15 @@
+name: plotcraft_core
+description: Plotcraft's story model, file formats and repositories, without Flutter.
+publish_to: none
+version: 0.1.0
+
+environment:
+  sdk: ^3.13.3
+
+dependencies:
+  dart_quill_delta: ^10.8.3
+  markdown: ^7.3.1
+  path: ^1.9.1
+
+dev_dependencies:
+  test: ^1.25.0

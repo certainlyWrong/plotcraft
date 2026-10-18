@@ -3,9 +3,11 @@ import 'package:mobx/mobx.dart';
 import '../../../core/fonts/editor_font_catalog.dart';
 import '../../../core/fonts/project_font_loader.dart';
 import '../../../core/fonts/system_fonts.dart';
-import '../../projects/domain/story_project.dart';
-import '../data/project_fonts_repository.dart';
-import '../domain/project_font.dart';
+
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+import 'package:plotcraft_core/features/project_workspace/data/project_fonts_repository.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/project_font.dart';
+
 import '../presentation/manuscript/editor_fonts.dart';
 
 part 'editor_fonts_store.g.dart';

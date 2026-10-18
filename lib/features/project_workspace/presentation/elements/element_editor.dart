@@ -9,13 +9,15 @@ import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/plotcraft_dropdown.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
-import '../../domain/book_content.dart';
-import '../../domain/element_image.dart';
-import '../../domain/element_relation.dart';
-import '../../domain/element_type.dart';
-import '../../domain/element_type_catalog.dart';
-import '../../domain/narrative_anchor.dart';
-import '../../domain/narrative_element.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/book_content.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_image.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_relation.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type_catalog.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_anchor.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+
 import '../../domain/workspace_tab.dart';
 import '../../stores/project_workspace_store.dart';
 import '../../stores/workspace_controller.dart';
@@ -26,7 +28,9 @@ import 'element_fields_panel.dart';
 import 'element_items_panel.dart';
 import 'element_phase_dialog.dart';
 import 'gallery_picker_dialog.dart';
-import '../../domain/rich/mention_scan.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/rich/mention_scan.dart';
+
 import 'element_references_panel.dart';
 import 'element_relations_panel.dart';
 import 'element_section_card.dart';

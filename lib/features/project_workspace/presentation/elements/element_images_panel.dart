@@ -6,7 +6,8 @@ import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../../../core/ui/project_image.dart';
-import '../../domain/element_image.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/element_image.dart';
 
 /// The images of an element: the first one is its cover. Images come from the
 /// project gallery or from the computer.

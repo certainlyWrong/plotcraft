@@ -1,9 +1,10 @@
 import 'package:mobx/mobx.dart';
 
 import '../../projects/data/project_repository.dart';
-import '../../projects/domain/story_project.dart';
-import '../../projects/data/project_creation_service.dart';
-import '../../projects/domain/project_metadata_input.dart';
+
+import 'package:plotcraft_core/features/projects/domain/story_project.dart';
+import 'package:plotcraft_core/features/projects/data/project_creation_service.dart';
+import 'package:plotcraft_core/features/projects/domain/project_metadata_input.dart';
 
 part 'project_creation_store.g.dart';
 

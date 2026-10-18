@@ -26,6 +26,8 @@ dependencies:
   window_manager: ^0.5.2
   flutter_quill: ^11.6.0
   dart_quill_delta: ^10.8.3
+  plotcraft_core:
+    path: packages/plotcraft_core
 
 dev_dependencies:
   flutter_test:

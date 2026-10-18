@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
 import '../../../../core/spellcheck/text_overlays.dart';
-import '../../domain/narrative_element.dart';
-import '../../domain/rich/mention_index.dart';
+
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/mention_index.dart';
 
 /// Keeps track of the names of elements written in plain text in a document
 /// and draws a dotted underline under them. Like the spell checker it works

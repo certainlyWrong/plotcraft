@@ -1,10 +1,10 @@
 import 'package:flutter/painting.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:plotcraft/features/project_workspace/domain/narrative_element.dart';
-import 'package:plotcraft/features/project_workspace/domain/rich/delta_to_markdown.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/delta_to_markdown.dart';
 import 'package:plotcraft/features/project_workspace/presentation/manuscript/mention_edit.dart';
-import 'package:plotcraft/features/project_workspace/domain/rich/rich_document.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/rich_document.dart';
 
 NarrativeElement _element(String id, String title) => NarrativeElement(
   id: id,
