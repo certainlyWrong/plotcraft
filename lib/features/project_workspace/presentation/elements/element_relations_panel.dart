@@ -110,6 +110,7 @@ class _ElementRelationsPanelState extends State<ElementRelationsPanel> {
               ),
             ),
           ),
+        if (widget.relations.isNotEmpty) _columnHeaders(context),
         for (final relation in widget.relations) _row(context, relation),
         if (widget.incoming.isNotEmpty) ...[
           const SizedBox(height: 12),
@@ -127,6 +128,33 @@ class _ElementRelationsPanelState extends State<ElementRelationsPanel> {
             ),
         ],
       ],
+    );
+  }
+
+  Widget _columnHeaders(BuildContext context) {
+    final style = Theme.of(context).textTheme.labelSmall?.copyWith(
+      color: Theme.of(context).colorScheme.onSurfaceVariant,
+      fontWeight: FontWeight.w700,
+    );
+    Widget cell(String key) => Expanded(
+      flex: 3,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 2),
+        child: Text(key.tr(), style: style),
+      ),
+    );
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Row(
+        children: [
+          cell('elements.relation_col_target'),
+          const SizedBox(width: 8),
+          cell('elements.relation_col_label'),
+          const SizedBox(width: 8),
+          cell('elements.relation_col_reciprocal'),
+          const SizedBox(width: 40),
+        ],
+      ),
     );
   }
 

@@ -52,13 +52,15 @@ class RichToolbar extends StatelessWidget {
               controller: controller,
               config: QuillSimpleToolbarConfig(
                 multiRowsDisplay: false,
+                showListCheck: false,
+                showDirection: false,
+                showSmallButton: false,
                 toolbarIconAlignment: WrapAlignment.start,
                 showSearchButton: false,
                 showSubscript: false,
                 showSuperscript: false,
                 showInlineCode: false,
                 showCodeBlock: false,
-                showListCheck: true,
                 color: Colors.transparent,
                 buttonOptions: QuillSimpleToolbarButtonOptions(
                   fontFamily: QuillToolbarFontFamilyButtonOptions(

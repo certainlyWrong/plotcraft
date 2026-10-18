@@ -521,20 +521,6 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
             Divider(color: theme.colorScheme.outlineVariant),
             const SizedBox(height: 18),
             Text(
-              'project.initial_format'.tr(),
-              style: theme.textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              'project.initial_format_description'.tr(),
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-            const SizedBox(height: 17),
-            Text(
               'project.destination'.tr(),
               style: theme.textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.w700,

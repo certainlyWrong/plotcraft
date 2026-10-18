@@ -320,13 +320,22 @@ class _FilterButton extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 2),
-              Icon(
-                active ? Feather.x : Feather.chevron_down,
-                size: 13,
-                color: active
-                    ? scheme.onPrimaryContainer
-                    : scheme.onSurfaceVariant,
-              ),
+              if (active)
+                InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () => onChanged(null),
+                  child: Icon(
+                    Feather.x,
+                    size: 13,
+                    color: scheme.onPrimaryContainer,
+                  ),
+                )
+              else
+                Icon(
+                  Feather.chevron_down,
+                  size: 13,
+                  color: scheme.onSurfaceVariant,
+                ),
             ],
           ),
         ),
