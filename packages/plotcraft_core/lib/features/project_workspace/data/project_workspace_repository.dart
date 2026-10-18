@@ -9,6 +9,7 @@ import 'element_types_repository.dart';
 import 'gallery_repository.dart';
 import 'narrative_repository.dart';
 import 'project_files.dart';
+import 'project_fonts_repository.dart';
 import 'project_metadata_repository.dart';
 
 class ProjectWorkspaceData {
@@ -39,7 +40,8 @@ class ProjectWorkspaceRepository {
       book = BookRepository(files, GalleryRepository(files).items),
       narrative = NarrativeRepository(files),
       metadata = ProjectMetadataRepository(files),
-      types = ElementTypesRepository(files);
+      types = ElementTypesRepository(files),
+      fonts = ProjectFontsRepository(files);
 
   final ProjectFiles _files;
   final BookRepository book;
@@ -47,6 +49,7 @@ class ProjectWorkspaceRepository {
   final GalleryRepository gallery;
   final ProjectMetadataRepository metadata;
   final ElementTypesRepository types;
+  final ProjectFontsRepository fonts;
 
   Future<ProjectWorkspaceData> load(StoryProject project) async {
     final folder = _files.folder(project);
