@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -208,6 +210,33 @@ void main() {
       await _finish(tester, checker);
     },
   );
+
+  testWidgets('clique direito na palavra e escolha da sugestão no menu', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
+    checker.attach(controller);
+    await _pumpEditor(tester, controller, checker);
+    await tester.pump(const Duration(milliseconds: 150));
+    await tester.pump();
+    final origin = tester.getTopLeft(find.byType(QuillEditor));
+    // "Um errro": the word starts after three characters of default text.
+    await tester.tapAt(
+      origin + const Offset(45, 14),
+      buttons: kSecondaryButton,
+    );
+    await tester.pumpAndSettle();
+    // ignore: avoid_print
+    print(
+      'SEL ${controller.selection} TEXTS ${tester.widgetList<Text>(find.byType(Text)).map((t) => t.data).toList()}',
+    );
+    debugDefaultTargetPlatformOverride = null;
+    expect(find.text('erro'), findsOneWidget);
+    await tester.tap(find.text('erro'));
+    await tester.pumpAndSettle();
+    expect(controller.document.toPlainText(), startsWith('Um erro na pasagem'));
+    await _finish(tester, checker);
+  });
 
   testWidgets('"adicionar ao dicionário" ensina a palavra e refaz a checagem', (
     tester,

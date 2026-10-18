@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -524,5 +525,40 @@ void main() {
         await finish(tester);
       },
     );
+
+    testWidgets('corretor: clique direito e sugestão aplicam a correção', (
+      tester,
+    ) async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
+      final controller = await pumpEditor(
+        tester,
+        ops: [
+          {'insert': 'Um errro aqui\n'},
+        ],
+      );
+      await tester.pump(const Duration(milliseconds: 600));
+      await tester.pump();
+      final line = find.byWidgetPredicate(
+        (w) => w is RichText && w.text.toPlainText().contains('errro'),
+      );
+      final rect = tester.getRect(line.first);
+      // ignore: avoid_print
+      print('LINE $rect');
+      await tester.tapAt(
+        rect.topLeft + const Offset(48, 8),
+        buttons: kSecondaryButton,
+      );
+      await tester.pumpAndSettle();
+      // ignore: avoid_print
+      print(
+        'SEL ${controller.selection} TEXTS '
+        '${tester.widgetList<Text>(find.byType(Text)).map((t) => t.data).toList()}',
+      );
+      debugDefaultTargetPlatformOverride = null;
+      await tester.tap(find.text('erro'));
+      await tester.pumpAndSettle();
+      expect(controller.document.toPlainText(), startsWith('Um erro aqui'));
+      await finish(tester);
+    });
   });
 }
