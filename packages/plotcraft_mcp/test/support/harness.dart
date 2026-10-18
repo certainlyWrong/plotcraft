@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dart_mcp/client.dart';
 import 'package:plotcraft_core/features/project_workspace/services/story_workspace.dart';
 import 'package:plotcraft_core/features/projects/data/project_creation_service.dart';
+import 'package:plotcraft_core/features/projects/data/project_library.dart';
 import 'package:plotcraft_core/features/projects/domain/project_metadata_input.dart';
 import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 import 'package:plotcraft_mcp/plotcraft_mcp.dart';
@@ -64,6 +65,11 @@ class Harness {
 
   Future<StoryWorkspace> story(StoryProject project) =>
       StoryWorkspace.open(project);
+
+  /// The project with [id], read from disk.
+  Future<StoryProject> makeProjectLookup(String id) async =>
+      (await const ProjectLibrary().discover(root: root.path))
+          .firstWhere((p) => p.id == id);
 
   /// Calls a tool and returns its result.
   Future<ToolResult> call(
