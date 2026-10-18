@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,7 @@ import '../../../projects/domain/story_project.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
 import '../../../projects/domain/project_metadata_input.dart';
-import '../../../project_creation/presentation/cover_palettes.dart';
+import '../../../projects/presentation/cover_palettes.dart';
 import 'project_cover_art.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/project_image.dart';

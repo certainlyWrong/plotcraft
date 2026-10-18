@@ -6,7 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../domain/story_project.dart';
-import '../../project_creation/presentation/screens/project_creation_screen.dart';
+import '../../project_creation/presentation/project_creation_screen.dart';
 import '../../project_creation/stores/project_creation_store.dart';
 import '../../project_workspace/data/project_workspace_repository.dart';
 import '../../project_workspace/presentation/project_workspace_screen.dart';

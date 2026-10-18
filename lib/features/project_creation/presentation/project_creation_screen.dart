@@ -1,19 +1,18 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../core/ui/plotcraft_button.dart';
-import '../../../../core/ui/plotcraft_text_field.dart';
-import '../../../projects/domain/story_project.dart';
-import '../../../projects/domain/project_metadata_input.dart';
-import '../../stores/project_creation_store.dart';
-import '../cover_palettes.dart';
-import '../../../../core/theme/plotcraft_tokens.dart';
-import '../../../../core/ui/project_image.dart';
-import '../../../projects/domain/cover_image_rules.dart';
+import '../../../core/ui/plotcraft_button.dart';
+import '../../../core/ui/plotcraft_text_field.dart';
+import '../../projects/domain/story_project.dart';
+import '../../projects/domain/project_metadata_input.dart';
+import '../stores/project_creation_store.dart';
+import '../../projects/presentation/cover_palettes.dart';
+import '../../../core/theme/plotcraft_tokens.dart';
+import '../../../core/ui/project_image.dart';
+import '../../projects/domain/cover_image_rules.dart';
 
 class ProjectCreationScreen extends StatefulWidget {
   const ProjectCreationScreen({

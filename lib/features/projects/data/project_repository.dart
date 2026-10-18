@@ -117,7 +117,16 @@ class ProjectRepository {
     }
 
     // Older versions kept the complete library in SharedPreferences.
-    final legacy = _storage.loadProjects();
+    final legacy = <StoryProject>[];
+    for (final record in _storage.loadLegacyProjects()) {
+      try {
+        legacy.add(StoryProject.fromJson(record));
+      } on TypeError {
+        // Skip records that do not match the project schema.
+      } on FormatException {
+        // Skip records that do not match the project schema.
+      }
+    }
     for (final project in legacy) {
       if (projects.any((item) => item.id == project.id)) continue;
       final migrated = await _creation.materialize(project, await projectsRoot);

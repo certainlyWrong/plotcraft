@@ -6,7 +6,7 @@ Plotcraft é essencialmente desktop. A interface principal deve priorizar navega
 
 ## Janela e densidade
 
-A janela abre com 1280x800 e tem tamanho mínimo de 1000x680 (`lib/core/platform/window_service.dart`). Por isso as telas não têm layouts de largura de celular. A interface usa densidade compacta: botões de 34 px, campos e ícones de 32 px e cantos pequenos (6 px em controles, 8 px em painéis e 10 px em superfícies, definidos em `PlotcraftRadii`). Cores de texto e ícones sobre imagens ficam em `PlotcraftTokens` (`lib/theme/plotcraft_tokens.dart`).
+A janela abre com 1280x800 e tem tamanho mínimo de 1000x680 (`lib/core/platform/window_service.dart`). Por isso as telas não têm layouts de largura de celular. A interface usa densidade compacta: botões de 34 px, campos e ícones de 32 px e cantos pequenos (6 px em controles, 8 px em painéis e 10 px em superfícies, definidos em `PlotcraftRadii`). Cores de texto e ícones sobre imagens ficam em `PlotcraftTokens` (`lib/core/theme/plotcraft_tokens.dart`).
 
 ## Temas
 
@@ -25,7 +25,7 @@ O idioma da interface não determina o idioma em que a pessoa escreve suas hist�
 
 ## Fonte da interface
 
-A fonte padrão é **Times New Roman**. A pessoa pode escolher outra família no painel de preferências. A lista inicial inclui DM Sans, Lora, Merriweather e Roboto, empacotadas no aplicativo. Cada família é declarada em `pubspec.yaml` (seção `fonts`, arquivos em `assets/fonts/`) e listada em `lib/theme/interface_fonts.dart`; a troca usa somente arquivos locais, sem rede. Os pesos empacotados são regular e médio; pesos maiores usam o mais próximo da mesma família. A preferência é salva localmente e aplicada a todos os estilos de texto, inclusive diálogos, dicas, menus e campos, porque o `ThemeData` deriva todos eles do mesmo `TextTheme`.
+A fonte padrão é **Times New Roman**. A pessoa pode escolher outra família no painel de preferências. A lista inicial inclui DM Sans, Lora, Merriweather e Roboto, empacotadas no aplicativo. Cada família é declarada em `pubspec.yaml` (seção `fonts`, arquivos em `assets/fonts/`) e listada em `lib/core/theme/interface_fonts.dart`; a troca usa somente arquivos locais, sem rede. Os pesos empacotados são regular e médio; pesos maiores usam o mais próximo da mesma família. A preferência é salva localmente e aplicada a todos os estilos de texto, inclusive diálogos, dicas, menus e campos, porque o `ThemeData` deriva todos eles do mesmo `TextTheme`.
 
 ## Pasta de projetos
 

@@ -6,7 +6,7 @@ import 'package:icons_flutter/icons_flutter.dart';
 import 'package:path/path.dart' as p;
 
 import '../../domain/story_project.dart';
-import '../../../project_creation/presentation/cover_palettes.dart';
+import '../cover_palettes.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_popup_menu.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';

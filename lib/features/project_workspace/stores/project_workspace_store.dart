@@ -2,6 +2,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../projects/domain/story_project.dart';
 import '../../projects/domain/project_metadata_input.dart';
+import '../data/book_repository.dart';
 import '../data/project_workspace_repository.dart';
 import '../domain/book_content.dart';
 import '../domain/narrative_element.dart';
@@ -77,7 +78,7 @@ abstract class _ProjectWorkspaceStore with Store {
     if (current == null || isSaving) return;
     isSaving = true;
     try {
-      final result = await _repository.saveBookDocument(
+      final result = await _repository.book.saveBookDocument(
         current,
         book,
         chapterId,
@@ -96,7 +97,7 @@ abstract class _ProjectWorkspaceStore with Store {
     isBookUpdating = true;
     try {
       _applyBookResult(
-        await _repository.setChapterMode(current, book, enabled),
+        await _repository.book.setChapterMode(current, book, enabled),
       );
     } finally {
       isBookUpdating = false;
@@ -109,7 +110,7 @@ abstract class _ProjectWorkspaceStore with Store {
     if (current == null || isBookUpdating) return null;
     isBookUpdating = true;
     try {
-      final result = await _repository.addChapter(current, book, title);
+      final result = await _repository.book.addChapter(current, book, title);
       _applyBookResult(result);
       return result.book.chapters.last.id;
     } finally {
@@ -124,7 +125,7 @@ abstract class _ProjectWorkspaceStore with Store {
     isBookUpdating = true;
     try {
       _applyBookResult(
-        await _repository.updateChapters(current, book, chapters),
+        await _repository.book.updateChapters(current, book, chapters),
       );
     } finally {
       isBookUpdating = false;
@@ -137,7 +138,7 @@ abstract class _ProjectWorkspaceStore with Store {
     if (current == null || isBookUpdating) return;
     isBookUpdating = true;
     try {
-      _applyBookResult(await _repository.removeChapter(current, book, id));
+      _applyBookResult(await _repository.book.removeChapter(current, book, id));
     } finally {
       isBookUpdating = false;
     }
@@ -151,7 +152,10 @@ abstract class _ProjectWorkspaceStore with Store {
     }
     isElementSaving = true;
     try {
-      final (updated, saved) = await _repository.saveElement(current, element);
+      final (updated, saved) = await _repository.narrative.saveElement(
+        current,
+        element,
+      );
       project = updated;
       elements = ObservableList.of(
         [...elements.where((item) => item.id != saved.id), saved]..sort(
@@ -170,7 +174,7 @@ abstract class _ProjectWorkspaceStore with Store {
     if (current == null || isElementSaving) return;
     isElementSaving = true;
     try {
-      final updated = await _repository.removeElement(current, id);
+      final updated = await _repository.narrative.removeElement(current, id);
       project = updated;
       elements = ObservableList.of(elements.where((item) => item.id != id));
       _onProjectUpdated(updated);
@@ -191,7 +195,7 @@ abstract class _ProjectWorkspaceStore with Store {
     if (current == null || isImporting || paths.isEmpty) return;
     isImporting = true;
     try {
-      final result = await _repository.importImages(current, paths);
+      final result = await _repository.gallery.importImages(current, paths);
       project = result.project;
       galleryImages = ObservableList.of(result.images);
       _onProjectUpdated(result.project);
@@ -209,7 +213,7 @@ abstract class _ProjectWorkspaceStore with Store {
     if (current == null || isUpdating) return;
     isUpdating = true;
     try {
-      final updated = await _repository.updateMetadata(
+      final updated = await _repository.metadata.updateMetadata(
         current,
         input,
         removeCover: removeCover,
@@ -227,7 +231,7 @@ abstract class _ProjectWorkspaceStore with Store {
     if (current == null || isRemovingImage || isImporting) return;
     isRemovingImage = true;
     try {
-      final result = await _repository.removeImage(current, imagePath);
+      final result = await _repository.gallery.removeImage(current, imagePath);
       project = result.project;
       galleryImages = ObservableList.of(result.images);
       _onProjectUpdated(result.project);

@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../features/projects/domain/story_project.dart';
-
 class LocalStorage {
   LocalStorage(this._preferences);
 
@@ -16,13 +14,14 @@ class LocalStorage {
   static const _themeKey = 'plotcraft.theme';
   static const _fontFamilyKey = 'plotcraft.interface_font_family';
 
-  List<StoryProject> loadProjects() {
+  /// Raw project records saved by versions that kept the library in
+  /// preferences. The projects feature turns them into folders.
+  List<Map<String, dynamic>> loadLegacyProjects() {
     final value = _preferences.getString(_projectsKey);
     if (value == null) return const [];
     try {
-      final decoded = jsonDecode(value) as List<dynamic>;
-      return decoded
-          .map((item) => StoryProject.fromJson(item as Map<String, dynamic>))
+      return (jsonDecode(value) as List<dynamic>)
+          .cast<Map<String, dynamic>>()
           .toList();
     } on FormatException {
       return const [];

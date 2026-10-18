@@ -45,7 +45,7 @@ void main() {
       expect(legacy.book.chaptersEnabled, isFalse);
       expect(legacy.book.singleText, contains('Texto original.'));
 
-      final divided = await repository.setChapterMode(
+      final divided = await repository.book.setChapterMode(
         project,
         legacy.book,
         true,
@@ -54,13 +54,13 @@ void main() {
       expect(divided.book.chapters, hasLength(1));
       expect(divided.book.combinedText, contains('Texto original.'));
 
-      final added = await repository.addChapter(
+      final added = await repository.book.addChapter(
         divided.project,
         divided.book,
         'Capítulo dois',
       );
       final secondId = added.book.chapters.last.id;
-      final saved = await repository.saveBookDocument(
+      final saved = await repository.book.saveBookDocument(
         added.project,
         added.book,
         secondId,
@@ -68,14 +68,14 @@ void main() {
       );
       expect(saved.book.combinedText, contains('Uma nova cena.'));
 
-      final reordered = await repository.updateChapters(
+      final reordered = await repository.book.updateChapters(
         saved.project,
         saved.book,
         saved.book.chapters.reversed.toList(),
       );
       expect(reordered.book.chapters.first.id, secondId);
 
-      final joined = await repository.setChapterMode(
+      final joined = await repository.book.setChapterMode(
         reordered.project,
         reordered.book,
         false,
@@ -118,7 +118,10 @@ void main() {
       createdAt: now,
       updatedAt: now,
     );
-    final (updated, _) = await repository.saveElement(project, element);
+    final (updated, _) = await repository.narrative.saveElement(
+      project,
+      element,
+    );
     final reopened = await repository.load(updated);
     expect(reopened.elements.single.sections.single.markdown, 'Sua origem.');
     expect(reopened.elements.single.phases.single.title, 'Início');
@@ -133,7 +136,7 @@ void main() {
         .preparePreview('Encontrei $marker.');
     expect(preview, contains('plotcraft://element/personagem_1'));
 
-    await repository.removeElement(updated, element.id);
+    await repository.narrative.removeElement(updated, element.id);
     expect((await repository.load(updated)).elements, isEmpty);
     expect(
       await File(
@@ -151,18 +154,18 @@ void main() {
 
   test('não permite reordenar perdendo capítulos', () async {
     final initial = await repository.load(project);
-    final divided = await repository.setChapterMode(
+    final divided = await repository.book.setChapterMode(
       project,
       initial.book,
       true,
     );
-    final added = await repository.addChapter(
+    final added = await repository.book.addChapter(
       divided.project,
       divided.book,
       'Segundo',
     );
     await expectLater(
-      repository.updateChapters(added.project, added.book, [
+      repository.book.updateChapters(added.project, added.book, [
         added.book.chapters.first,
       ]),
       throwsA(isA<FormatException>()),
