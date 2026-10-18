@@ -1,4 +1,5 @@
 import '../tool_spec.dart';
+import 'app_tools.dart';
 import 'asset_tools.dart';
 import 'element_tools.dart';
 import 'library_tools.dart';
@@ -14,4 +15,5 @@ List<ToolSpec> allTools() => [
   ...elementTools(),
   ...typeTools(),
   ...assetTools(),
+  ...appTools(),
 ];

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dart_mcp/server.dart';
+import 'package:plotcraft_core/features/app_bridge/bridge_protocol.dart';
 import 'package:plotcraft_core/features/project_workspace/services/story_error.dart';
 import 'package:plotcraft_core/features/project_workspace/services/story_workspace.dart';
 
@@ -103,6 +104,20 @@ class ToolSpec {
       return _success(result);
     } on StoryError catch (error) {
       return _failure(error.code.name, error.message, error.hint);
+    } on BridgeError catch (error) {
+      return _failure(
+        switch (error.code) {
+          'app_not_running' => 'appNotRunning',
+          'unknown_method' => 'unsupported',
+          'invalid_params' => 'validation',
+          final other => other,
+        },
+        error.message,
+        error.code == 'app_not_running'
+            ? 'Open the Plotcraft app with the same projects folder '
+                  '(${context.config.root}) and try again.'
+            : null,
+      );
     } on FormatException catch (error) {
       return _failure('validation', error.message, null);
     } on RangeError catch (error) {

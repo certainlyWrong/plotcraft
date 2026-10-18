@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:path/path.dart' as p;
+import 'package:plotcraft_core/features/app_bridge/app_bridge_client.dart';
 import 'package:plotcraft_core/features/project_workspace/services/story_error.dart';
 import 'package:plotcraft_core/features/project_workspace/services/story_workspace.dart';
 import 'package:plotcraft_core/features/projects/data/project_library.dart';
@@ -18,6 +19,12 @@ class ToolContext {
 
   final ServerConfig config;
   final ProjectLibrary _library;
+
+  /// Talks to the running app; null when no projects folder was given (the
+  /// app is found through that folder).
+  late final AppBridgeClient? bridge = config.root == null
+      ? null
+      : AppBridgeClient(config.root!);
 
   /// Every project the server can see.
   Future<List<StoryProject>> projects() =>
