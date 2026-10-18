@@ -13,6 +13,7 @@ import '../domain/workspace_tab.dart';
 import '../stores/project_workspace_store.dart';
 import '../stores/workspace_controller.dart';
 import 'manuscript/chapter_dialogs.dart';
+import 'elements/element_type_picker.dart';
 import 'manuscript/chapter_list.dart';
 import 'shell/gallery_image_viewer_launcher.dart';
 
@@ -213,6 +214,13 @@ class WorkspaceActions {
     } catch (_) {
       _snack(messenger, 'elements.remove_error');
     }
+  }
+
+  /// Asks which type of element to create and opens a new draft of it.
+  Future<void> newElement(BuildContext context) async {
+    final choice = await showElementTypePicker(context, store.elementTypes);
+    if (choice == null || !context.mounted) return;
+    controller.newElementDraft(choice);
   }
 
   /// Opens the manuscript document that references an element.

@@ -131,9 +131,13 @@ void main() {
     await tester.tap(find.byTooltip('elements.title'));
     await tester.pump();
     await tester.tap(find.byTooltip('elements.new'));
-    await tester.pump();
+    await tester.pumpAndSettle();
+    expect(find.text('elements.choose_type'), findsOneWidget);
+    await tester.tap(find.text('elements.types.place'));
+    await tester.pumpAndSettle();
     expect(find.byType(ElementEditor), findsOneWidget);
     expect(tabTitles(tester).last, 'elements.new');
+    expect(controller.draftTypeFor(controller.activeTabId!), 'place');
   });
 
   testWidgets('alternar o inspetor e arrastar o divisor altera a largura', (

@@ -56,6 +56,7 @@ abstract class _WorkspaceController with Store {
   final _buffers = <String, DocumentBuffer>{};
   final _guards = <String, Future<bool> Function()>{};
   var _draftCounter = 0;
+  final _draftTypes = <String, String>{};
 
   @observable
   ObservableList<WorkspaceTab> tabs = ObservableList.of([
@@ -123,14 +124,19 @@ abstract class _WorkspaceController with Store {
     if (tabs.any((tab) => tab.id == tabId)) activeTabId = tabId;
   }
 
+  /// Opens an unsaved element of [typeId] (character when omitted).
   @action
-  String newElementDraft() {
+  String newElementDraft([String? typeId]) {
     final tab = WorkspaceTab.element(
       '${WorkspaceTab.draftPrefix}${++_draftCounter}',
     );
+    if (typeId != null) _draftTypes[tab.id] = typeId;
     openTab(tab);
     return tab.id;
   }
+
+  /// Type chosen when the draft [tabId] was created.
+  String? draftTypeFor(String tabId) => _draftTypes[tabId];
 
   /// Replaces a draft element tab with the saved element's tab.
   @action
@@ -146,6 +152,7 @@ abstract class _WorkspaceController with Store {
       tabs[index] = next;
     }
     _guards.remove(draftTabId);
+    _draftTypes.remove(draftTabId);
     dirtyTabs.remove(draftTabId);
     if (wasActive) activeTabId = next.id;
   }
@@ -160,6 +167,7 @@ abstract class _WorkspaceController with Store {
     tabs.removeAt(index);
     dirtyTabs.remove(tabId);
     _guards.remove(tabId);
+    _draftTypes.remove(tabId);
     if (tab.isManuscript) _disposeBuffer(_bufferKey(tab));
     if (activeTabId == tabId) {
       activeTabId = tabs.isEmpty

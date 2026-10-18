@@ -122,7 +122,7 @@ class WorkspaceShell extends StatelessWidget {
           PlotcraftIconButton(
             icon: Feather.plus,
             tooltip: 'elements.new'.tr(),
-            onPressed: controller.newElementDraft,
+            onPressed: () => actions.newElement(context),
           ),
         ],
         child: ElementList(

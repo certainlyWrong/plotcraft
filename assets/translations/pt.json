@@ -308,7 +308,9 @@
       "leader": "Líder",
       "when": "Quando",
       "where": "Onde"
-    }
+    },
+    "choose_type": "O que você quer criar?",
+    "new_type": "Novo tipo"
   },
   "ui": {
     "icon_picker_title": "Escolher um ícone",

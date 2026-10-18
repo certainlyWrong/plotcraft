@@ -228,12 +228,12 @@ mixin _$WorkspaceController on _WorkspaceController, Store {
   }
 
   @override
-  String newElementDraft() {
+  String newElementDraft([String? typeId]) {
     final _$actionInfo = _$_WorkspaceControllerActionController.startAction(
       name: '_WorkspaceController.newElementDraft',
     );
     try {
-      return super.newElementDraft();
+      return super.newElementDraft(typeId);
     } finally {
       _$_WorkspaceControllerActionController.endAction(_$actionInfo);
     }

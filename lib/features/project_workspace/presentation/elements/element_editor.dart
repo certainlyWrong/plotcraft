@@ -66,7 +66,10 @@ class _ElementEditorState extends State<ElementEditor> {
               .where((element) => element.id == widget.tab.refId)
               .firstOrNull;
     _title.text = _element?.title ?? '';
-    _typeId = _element?.typeId ?? ElementTypeCatalog.character;
+    _typeId =
+        _element?.typeId ??
+        widget.controller.draftTypeFor(_tabId) ??
+        ElementTypeCatalog.character;
     _summary.text = _element?.summary ?? '';
     _sections = [...?_element?.sections];
     _phases = [...?_element?.phases];
