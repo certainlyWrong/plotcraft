@@ -267,6 +267,7 @@ class _ElementTypeEditorState extends State<_ElementTypeEditor> {
         Expanded(
           flex: 2,
           child: PlotcraftDropdown<ElementFieldKind>(
+            compact: true,
             initialValue: row.kind,
             items: [
               for (final kind in ElementFieldKind.values)

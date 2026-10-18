@@ -166,6 +166,7 @@ class _ElementRelationsPanelState extends State<ElementRelationsPanel> {
         Expanded(
           flex: 3,
           child: PlotcraftDropdown<String>(
+            compact: true,
             initialValue:
                 widget.candidates.any((e) => e.id == relation.targetId)
                 ? relation.targetId

@@ -176,6 +176,7 @@ class _PhaseDialogState extends State<_PhaseDialog> {
               ),
               const SizedBox(height: 6),
               PlotcraftDropdown<String>(
+                compact: true,
                 initialValue: _anchor,
                 items: [
                   DropdownMenuItem(
