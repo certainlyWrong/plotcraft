@@ -1,7 +1,6 @@
 // Runs the native spell checker once and prints the result, then exits.
 //   flutter run -d macos -t tool/spellcheck_probe.dart
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
 import 'package:plotcraft/core/spellcheck/spell_check_backend.dart';
