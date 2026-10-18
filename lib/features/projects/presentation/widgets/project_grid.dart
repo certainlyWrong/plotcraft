@@ -11,6 +11,7 @@ import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_popup_menu.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/project_image.dart';
+import '../../domain/project_format.dart';
 
 class ProjectGrid extends StatelessWidget {
   const ProjectGrid({
@@ -181,10 +182,17 @@ class _ProjectCardState extends State<_ProjectCard> {
                                     PlotcraftRadii.control,
                                   ),
                                 ),
-                                child: Icon(
-                                  Feather.book,
-                                  size: 18,
-                                  color: context.tokens.onImage,
+                                child: Tooltip(
+                                  message: ProjectFormats.of(
+                                    project.primaryFormat,
+                                  ).nameKey.tr(),
+                                  child: Icon(
+                                    ProjectFormats.of(project.primaryFormat)
+                                        .icon
+                                        .data,
+                                    size: 18,
+                                    color: context.tokens.onImage,
+                                  ),
                                 ),
                               ),
                             ),

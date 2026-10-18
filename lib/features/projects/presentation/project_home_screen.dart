@@ -22,6 +22,7 @@ import 'widgets/project_sidebar.dart';
 import 'widgets/project_top_bar.dart';
 import '../../preferences/presentation/preferences_screen.dart';
 import '../../../core/theme/plotcraft_tokens.dart';
+import '../domain/project_format.dart';
 
 enum _DesktopPage { projects, createProject, preferences }
 
@@ -187,6 +188,9 @@ class _ProjectsPage extends StatelessWidget {
                 count: projects.length,
                 sortBy: store.sortBy,
                 onSort: store.setSort,
+                formats: store.usedFormats,
+                formatFilter: store.formatFilter,
+                onFormat: store.setFormatFilter,
               ),
               const SizedBox(height: 17),
               if (projects.isEmpty)
@@ -345,8 +349,15 @@ class _ProjectSectionHeader extends StatelessWidget {
     required this.count,
     required this.sortBy,
     required this.onSort,
+    required this.formats,
+    required this.formatFilter,
+    required this.onFormat,
   });
 
+  /// Formats present in the library; the filter is shown for two or more.
+  final List<String> formats;
+  final String formatFilter;
+  final ValueChanged<String> onFormat;
   final int count;
   final String sortBy;
   final ValueChanged<String> onSort;
@@ -365,6 +376,41 @@ class _ProjectSectionHeader extends StatelessWidget {
         const SizedBox(width: 9),
         _CountBadge(count: count),
         const Spacer(),
+        if (formats.length > 1)
+          PlotcraftPopupMenuButton<String>(
+            initialValue: formatFilter,
+            onSelected: onFormat,
+            tooltip: 'formats.filter'.tr(),
+            itemBuilder: (_) => [
+              PopupMenuItem(value: '', child: Text('formats.all'.tr())),
+              for (final id in formats)
+                PopupMenuItem(
+                  value: id,
+                  child: Text(ProjectFormats.of(id).nameKey.tr()),
+                ),
+            ],
+            child: Padding(
+              padding: const EdgeInsets.all(6),
+              child: Row(
+                children: [
+                  Icon(
+                    formatFilter.isEmpty
+                        ? Feather.layers
+                        : ProjectFormats.of(formatFilter).icon.data,
+                    size: 16,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    formatFilter.isEmpty
+                        ? 'formats.filter'.tr()
+                        : ProjectFormats.of(formatFilter).nameKey.tr(),
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                ],
+              ),
+            ),
+          ),
         PlotcraftPopupMenuButton<String>(
           initialValue: sortBy,
           onSelected: onSort,

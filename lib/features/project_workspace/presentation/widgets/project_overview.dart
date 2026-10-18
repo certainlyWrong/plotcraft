@@ -4,6 +4,7 @@ import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../projects/domain/story_project.dart';
 import '../../../../core/ui/plotcraft_button.dart';
+import '../../../projects/domain/project_format.dart';
 import 'project_cover_art.dart';
 import '../../../../core/ui/project_image.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';
@@ -19,6 +20,8 @@ class ProjectOverview extends StatelessWidget {
     required this.onOpenManuscript,
     required this.onOpenGallery,
     required this.onImportImages,
+    this.elementCount = 0,
+    this.chapterCount = 0,
   });
 
   final StoryProject project;
@@ -28,6 +31,10 @@ class ProjectOverview extends StatelessWidget {
   final bool isImporting;
   final VoidCallback onOpenManuscript;
   final VoidCallback onOpenGallery;
+
+  /// Totals shown in the summary row.
+  final int elementCount;
+  final int chapterCount;
   final VoidCallback onImportImages;
 
   @override
@@ -57,11 +64,15 @@ class ProjectOverview extends StatelessWidget {
               const SizedBox(height: 18),
               _hero(context),
               const SizedBox(height: 18),
+              _summary(context),
+              const SizedBox(height: 18),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(flex: 4, child: _manuscriptCard(context)),
-                  const SizedBox(width: 16),
+                  if (format.hasManuscript) ...[
+                    Expanded(flex: 4, child: _manuscriptCard(context)),
+                    const SizedBox(width: 16),
+                  ],
                   Expanded(flex: 6, child: _galleryCard(context)),
                 ],
               ),
@@ -69,6 +80,63 @@ class ProjectOverview extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  ProjectFormat get format => ProjectFormats.of(project.primaryFormat);
+
+  /// One-line totals: type, words, chapters, elements and images.
+  Widget _summary(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    Widget stat(IconData icon, String value, String label) => Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: scheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
+        border: Border.all(color: scheme.outlineVariant),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 18, color: scheme.primary),
+          const SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Text(
+                label,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: [
+        stat(format.icon.data, format.nameKey.tr(), 'workspace.format'.tr()),
+        if (format.hasManuscript) ...[
+          stat(Feather.type, '$wordCount', 'workspace.words_label'.tr()),
+          stat(
+            Feather.file_text,
+            '$chapterCount',
+            'workspace.chapters_label'.tr(),
+          ),
+        ],
+        stat(Feather.users, '$elementCount', 'elements.title'.tr()),
+        stat(Feather.image, '${images.length}', 'workspace.gallery'.tr()),
+      ],
     );
   }
 

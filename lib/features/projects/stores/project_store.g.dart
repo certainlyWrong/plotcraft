@@ -17,6 +17,14 @@ mixin _$ProjectStore on _ProjectStore, Store {
         () => super.visibleProjects,
         name: '_ProjectStore.visibleProjects',
       )).value;
+  Computed<List<String>>? _$usedFormatsComputed;
+
+  @override
+  List<String> get usedFormats =>
+      (_$usedFormatsComputed ??= Computed<List<String>>(
+        () => super.usedFormats,
+        name: '_ProjectStore.usedFormats',
+      )).value;
 
   late final _$projectsAtom = Atom(
     name: '_ProjectStore.projects',
@@ -66,6 +74,24 @@ mixin _$ProjectStore on _ProjectStore, Store {
   set sortBy(String value) {
     _$sortByAtom.reportWrite(value, super.sortBy, () {
       super.sortBy = value;
+    });
+  }
+
+  late final _$formatFilterAtom = Atom(
+    name: '_ProjectStore.formatFilter',
+    context: context,
+  );
+
+  @override
+  String get formatFilter {
+    _$formatFilterAtom.reportRead();
+    return super.formatFilter;
+  }
+
+  @override
+  set formatFilter(String value) {
+    _$formatFilterAtom.reportWrite(value, super.formatFilter, () {
+      super.formatFilter = value;
     });
   }
 
@@ -197,6 +223,18 @@ mixin _$ProjectStore on _ProjectStore, Store {
   }
 
   @override
+  void setFormatFilter(String value) {
+    final _$actionInfo = _$_ProjectStoreActionController.startAction(
+      name: '_ProjectStore.setFormatFilter',
+    );
+    try {
+      return super.setFormatFilter(value);
+    } finally {
+      _$_ProjectStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void addCreated(StoryProject project) {
     final _$actionInfo = _$_ProjectStoreActionController.startAction(
       name: '_ProjectStore.addCreated',
@@ -226,10 +264,12 @@ mixin _$ProjectStore on _ProjectStore, Store {
 projects: ${projects},
 query: ${query},
 sortBy: ${sortBy},
+formatFilter: ${formatFilter},
 isLoaded: ${isLoaded},
 projectsRoot: ${projectsRoot},
 defaultProjectsRoot: ${defaultProjectsRoot},
-visibleProjects: ${visibleProjects}
+visibleProjects: ${visibleProjects},
+usedFormats: ${usedFormats}
     ''';
   }
 }

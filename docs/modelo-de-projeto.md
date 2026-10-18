@@ -80,9 +80,14 @@ Na criação, o título deve ter de 3 a 120 caracteres. Subtítulo, autoria, gê
 
 O manifesto é a fonte dos dados de cada projeto. As preferências guardam somente a lista de caminhos das pastas para que a biblioteca possa localizar projetos em diferentes diretórios. Nenhum arquivo do projeto deve depender de um caminho absoluto salvo no manifesto.
 
-## Outros formatos
+## Tipos de projeto
 
-A estrutura comum permanece válida para audiolivros, mangás e outros formatos. Seus materiais podem ocupar novos diretórios dentro de `content/`, por exemplo `content/audiobook/` ou `content/manga/`. Esses formatos ainda não possuem modelo de capítulos, páginas, faixas ou interface de edição definidos. `primaryFormat` permite identificar o formato principal sem limitar a história a um único tipo de material.
+O `primaryFormat` do manifesto diz que tipo de história é o projeto e é escolhido na criação (não muda depois). Os tipos ficam em um registro (`ProjectFormats`):
+
+- `book` (livro ou romance): tem manuscrito, com capítulos ou um texto único, além de elementos e galeria.
+- `manga`: por enquanto é um esqueleto, só com visão geral, elementos e galeria. Não cria `content/book/` e o espaço de trabalho não mostra o manuscrito. Páginas e quadros ainda não têm modelo nem editor.
+
+Um `primaryFormat` desconhecido (de uma versão mais nova) abre como livro. A biblioteca mostra o ícone do tipo em cada cartão e, quando há mais de um tipo, permite filtrar por ele. A visão geral do projeto resume tipo, palavras, capítulos, elementos e imagens. Audiolivros e outros formatos podem ocupar novos diretórios dentro de `content/` e entrar no registro.
 
 ## Ciclo de vida atual
 

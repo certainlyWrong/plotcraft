@@ -13,6 +13,7 @@ import '../../projects/presentation/cover_palettes.dart';
 import '../../../core/theme/plotcraft_tokens.dart';
 import '../../../core/ui/project_image.dart';
 import '../../projects/domain/cover_image_rules.dart';
+import '../../projects/domain/project_format.dart';
 
 class ProjectCreationScreen extends StatefulWidget {
   const ProjectCreationScreen({
@@ -41,6 +42,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
   final _description = TextEditingController();
   final _tags = TextEditingController();
   int _coverIndex = 0;
+  String _format = ProjectFormats.book.id;
   String? _coverPath;
   String? _coverError;
   bool _showErrors = false;
@@ -102,6 +104,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
       tags: ProjectMetadataInput.parseTags(_tags.text),
       coverIndex: _coverIndex,
       coverSourcePath: _coverPath,
+      primaryFormat: _format,
     );
     try {
       final project = await widget.store.create(input);
@@ -169,7 +172,9 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 24),
+                      _formatPicker(context),
+                      const SizedBox(height: 24),
                       LayoutBuilder(
                         builder: (context, content) {
                           final form = Form(
@@ -207,6 +212,74 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
           },
         );
       },
+    );
+  }
+
+  /// Which kind of story this project is. It cannot be changed afterwards.
+  Widget _formatPicker(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: [
+        for (final format in ProjectFormats.all)
+          SizedBox(
+            width: 300,
+            child: Material(
+              color: format.id == _format
+                  ? scheme.primaryContainer
+                  : scheme.surfaceContainerLow,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
+                side: BorderSide(
+                  color: format.id == _format
+                      ? scheme.primary
+                      : scheme.outlineVariant,
+                  width: format.id == _format ? 2 : 1,
+                ),
+              ),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
+                onTap: () => setState(() => _format = format.id),
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Row(
+                    children: [
+                      Icon(
+                        format.icon.data,
+                        size: 26,
+                        color: format.id == _format
+                            ? scheme.onPrimaryContainer
+                            : scheme.primary,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              format.nameKey.tr(),
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              format.descriptionKey.tr(),
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: scheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 

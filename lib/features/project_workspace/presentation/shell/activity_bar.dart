@@ -13,13 +13,30 @@ class ActivityBar extends StatelessWidget {
     required this.selected,
     required this.onSelect,
     required this.onBack,
+    this.sections = WorkspaceSection.values,
   });
 
   static const width = 48.0;
 
+  static const _icons = {
+    WorkspaceSection.overview: Feather.grid,
+    WorkspaceSection.manuscript: Feather.file_text,
+    WorkspaceSection.elements: Feather.users,
+    WorkspaceSection.gallery: Feather.image,
+  };
+  static const _labels = {
+    WorkspaceSection.overview: 'workspace.overview',
+    WorkspaceSection.manuscript: 'workspace.manuscript',
+    WorkspaceSection.elements: 'elements.title',
+    WorkspaceSection.gallery: 'workspace.gallery',
+  };
+
   final WorkspaceSection selected;
   final ValueChanged<WorkspaceSection> onSelect;
   final VoidCallback onBack;
+
+  /// Sections the project's format offers, in order.
+  final List<WorkspaceSection> sections;
 
   @override
   Widget build(BuildContext context) {
@@ -35,30 +52,8 @@ class ActivityBar extends StatelessWidget {
           const SizedBox(height: 8),
           _BrandMark(color: scheme.primary),
           const SizedBox(height: 12),
-          _item(
-            context,
-            WorkspaceSection.overview,
-            Feather.grid,
-            'workspace.overview',
-          ),
-          _item(
-            context,
-            WorkspaceSection.manuscript,
-            Feather.file_text,
-            'workspace.manuscript',
-          ),
-          _item(
-            context,
-            WorkspaceSection.elements,
-            Feather.users,
-            'elements.title',
-          ),
-          _item(
-            context,
-            WorkspaceSection.gallery,
-            Feather.image,
-            'workspace.gallery',
-          ),
+          for (final section in sections)
+            _item(context, section, _icons[section]!, _labels[section]!),
           const Spacer(),
           Tooltip(
             message: 'workspace.back_to_library'.tr(),

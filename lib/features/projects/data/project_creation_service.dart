@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 
 import '../domain/story_project.dart';
+import '../domain/project_format.dart';
 import '../domain/project_metadata_input.dart';
 import '../domain/cover_image_rules.dart';
 
@@ -36,6 +37,7 @@ class ProjectCreationService {
       updatedAt: now,
       coverIndex: input.coverIndex,
       coverFile: coverFile,
+      primaryFormat: input.primaryFormat,
     );
     return materialize(project, root, coverSource: coverSource);
   }
@@ -79,19 +81,36 @@ class ProjectCreationService {
     try {
       await Directory(p.join(folder, 'covers')).create();
       await Directory(p.join(folder, 'gallery')).create();
-      await Directory(p.join(folder, 'content', 'book'))
-          .create(recursive: true);
+      if (ProjectFormats.of(project.primaryFormat).hasManuscript) {
+        final book = p.join(folder, 'content', 'book');
+        await Directory(book).create(recursive: true);
+        // A new manuscript starts as a Delta (the source of truth) with its
+        // Markdown copy, so nothing needs converting on the first open.
+        await File(p.join(book, 'manuscript.delta.json')).writeAsString(
+          const JsonEncoder.withIndent('  ').convert({
+            'schemaVersion': 1,
+            'ops': [
+              {'insert': project.title},
+              {
+                'insert': '\n',
+                'attributes': {'header': 1},
+              },
+              {'insert': '\n'},
+            ],
+          }),
+        );
+        await File(p.join(book, 'manuscript.md'))
+            .writeAsString('# ${project.title}\n');
+        await File(p.join(book, 'book.json')).writeAsString(
+          const JsonEncoder.withIndent('  ').convert({
+            'schemaVersion': 1,
+            'mode': 'single',
+            'chapters': <Object>[],
+          }),
+        );
+      }
       await Directory(p.join(folder, 'content', 'narrative', 'elements'))
           .create(recursive: true);
-      await File(p.join(folder, 'content', 'book', 'manuscript.md'))
-          .writeAsString('# ${project.title}\n\n');
-      await File(p.join(folder, 'content', 'book', 'book.json')).writeAsString(
-        const JsonEncoder.withIndent('  ').convert({
-          'schemaVersion': 1,
-          'mode': 'single',
-          'chapters': <Object>[],
-        }),
-      );
       if (coverSource != null && project.coverFile != null) {
         await coverSource.copy(p.join(folder, project.coverFile!));
       }

@@ -1,3 +1,5 @@
+import 'project_format.dart';
+
 enum ProjectFieldIssue { required, tooShort, tooLong, tooMany, duplicated }
 
 class ProjectMetadataInput {
@@ -10,6 +12,7 @@ class ProjectMetadataInput {
     required this.tags,
     required this.coverIndex,
     this.coverSourcePath,
+    this.primaryFormat = 'book',
   });
 
   final String title;
@@ -20,6 +23,9 @@ class ProjectMetadataInput {
   final List<String> tags;
   final int coverIndex;
   final String? coverSourcePath;
+
+  /// Kind of project; only used when a project is created.
+  final String primaryFormat;
 
   static ProjectFieldIssue? validateTitle(String value) {
     final length = value.trim().length;
@@ -67,6 +73,7 @@ class ProjectMetadataInput {
         validateDescription(description) != null ||
         validateGenre(genre) != null ||
         validateTags(tags) != null ||
+        !ProjectFormats.isKnown(primaryFormat) ||
         coverIndex < 0 ||
         coverIndex >= 5) {
       throw const FormatException('Invalid project metadata');

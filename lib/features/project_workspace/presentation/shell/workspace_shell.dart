@@ -8,6 +8,7 @@ import '../../../../core/ui/plotcraft_context_menu.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../../../core/ui/plotcraft_splitter.dart';
 import '../../../../core/ui/plotcraft_tab_bar.dart';
+import '../../../projects/domain/project_format.dart';
 import '../../../projects/domain/story_project.dart';
 import '../../domain/workspace_tab.dart';
 import '../../stores/workspace_controller.dart';
@@ -40,6 +41,14 @@ class WorkspaceShell extends StatelessWidget {
   /// The store holds the latest project (for example after editing it).
   StoryProject get _project => controller.store.project ?? project;
 
+  /// Sections of the activity bar for this project's format.
+  List<WorkspaceSection> get _sections => [
+    for (final section in WorkspaceSection.values)
+      if (section != WorkspaceSection.manuscript ||
+          ProjectFormats.of(_project.primaryFormat).hasManuscript)
+        section,
+  ];
+
   @override
   Widget build(BuildContext context) => Observer(
     builder: (context) {
@@ -67,6 +76,7 @@ class WorkspaceShell extends StatelessWidget {
             children: [
               ActivityBar(
                 selected: controller.activeSection,
+                sections: _sections,
                 onSelect: controller.selectSection,
                 onBack: onBack,
               ),

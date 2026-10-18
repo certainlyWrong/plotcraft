@@ -207,7 +207,8 @@
     "load_error": "Could not open this project. Check that its folder is available.",
     "retry": "Try again",
     "close_tab": "Close tab",
-    "close_others": "Close other tabs"
+    "close_others": "Close other tabs",
+    "chapters_label": "Chapters"
   },
   "sidebar": {
     "projects": "Projects",
@@ -410,5 +411,17 @@
     "missing_fonts_action": "Add fonts",
     "link_to": "Link to {name}",
     "ignore_term": "Stop marking “{term}”"
+  },
+  "formats": {
+    "book": {
+      "name": "Book or novel",
+      "description": "Chapters and a manuscript, with story elements and a gallery."
+    },
+    "manga": {
+      "name": "Manga",
+      "description": "Story elements and a gallery. Pages and panels are coming later."
+    },
+    "all": "All types",
+    "filter": "Type"
   }
 }

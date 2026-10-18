@@ -37,6 +37,8 @@ class WorkspaceTabContent extends StatelessWidget {
           manuscript: store.manuscript,
           images: store.galleryImages.toList(),
           wordCount: store.wordCount,
+          elementCount: store.elements.length,
+          chapterCount: store.book.chapters.length,
           isImporting: store.isImporting,
           onOpenManuscript: () => controller.openManuscript(
             store.book.chaptersEnabled ? store.book.chapters.first.id : null,

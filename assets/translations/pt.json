@@ -207,7 +207,8 @@
     "load_error": "Não foi possível abrir este projeto. Confira se a pasta está disponível.",
     "retry": "Tentar novamente",
     "close_tab": "Fechar aba",
-    "close_others": "Fechar outras abas"
+    "close_others": "Fechar outras abas",
+    "chapters_label": "Capítulos"
   },
   "sidebar": {
     "projects": "Projetos",
@@ -410,5 +411,17 @@
     "missing_fonts_action": "Adicionar fontes",
     "link_to": "Ligar a {name}",
     "ignore_term": "Parar de marcar “{term}”"
+  },
+  "formats": {
+    "book": {
+      "name": "Livro ou romance",
+      "description": "Capítulos e manuscrito, com elementos da história e galeria."
+    },
+    "manga": {
+      "name": "Mangá",
+      "description": "Elementos da história e galeria. Páginas e quadros virão depois."
+    },
+    "all": "Todos os tipos",
+    "filter": "Tipo"
   }
 }

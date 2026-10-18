@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
+import '../../../projects/domain/project_format.dart';
 import '../../../projects/domain/story_project.dart';
 import '../../domain/workspace_tab.dart';
 import '../../../../core/ui/plotcraft_button.dart';
@@ -93,9 +94,7 @@ class WorkspaceInspector extends StatelessWidget {
                 _detail(
                   context,
                   'workspace.format'.tr(),
-                  project.primaryFormat == 'book'
-                      ? 'workspace.book'.tr()
-                      : project.primaryFormat,
+                  ProjectFormats.of(project.primaryFormat).nameKey.tr(),
                 ),
                 if (project.tags.isNotEmpty) ...[
                   const SizedBox(height: 6),

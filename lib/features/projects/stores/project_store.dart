@@ -1,6 +1,7 @@
 import 'package:mobx/mobx.dart';
 
 import '../data/project_repository.dart';
+import '../domain/project_format.dart';
 import '../domain/story_project.dart';
 
 part 'project_store.g.dart';
@@ -21,6 +22,10 @@ abstract class _ProjectStore with Store {
   @observable
   String sortBy = 'recent';
 
+  /// Only projects of this format are listed; empty shows every format.
+  @observable
+  String formatFilter = '';
+
   @observable
   bool isLoaded = false;
 
@@ -34,6 +39,9 @@ abstract class _ProjectStore with Store {
   List<StoryProject> get visibleProjects {
     final normalized = query.trim().toLowerCase();
     final result = projects.where((project) {
+      if (formatFilter.isNotEmpty && project.primaryFormat != formatFilter) {
+        return false;
+      }
       return normalized.isEmpty ||
           project.title.toLowerCase().contains(normalized) ||
           project.subtitle.toLowerCase().contains(normalized) ||
@@ -78,6 +86,17 @@ abstract class _ProjectStore with Store {
 
   @action
   void setSort(String value) => sortBy = value;
+
+  @action
+  void setFormatFilter(String value) => formatFilter = value;
+
+  /// Formats used by the projects in the library, in the registry's order.
+  @computed
+  List<String> get usedFormats => [
+    for (final format in ProjectFormats.all)
+      if (projects.any((project) => project.primaryFormat == format.id))
+        format.id,
+  ];
 
   @action
   void addCreated(StoryProject project) => projects.insert(0, project);
