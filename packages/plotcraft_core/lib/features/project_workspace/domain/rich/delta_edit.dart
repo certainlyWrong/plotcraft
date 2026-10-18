@@ -149,9 +149,9 @@ abstract final class DeltaEdit {
     return delta.compose(change);
   }
 
-  /// Every place where [query] occurs. Without [regex] the search ignores
-  /// case and accents' case only (plain, literal text); with it, [query] is a
-  /// regular expression.
+  /// Every place where [query] occurs. Without [regex] it is literal text;
+  /// with it, [query] is a regular expression. Case is ignored unless
+  /// [caseSensitive].
   static List<TextHit> find(
     Delta delta,
     String query, {
