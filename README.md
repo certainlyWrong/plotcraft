@@ -12,4 +12,6 @@ Plotcraft é um aplicativo desktop para arquitetar histórias. A proposta vai al
 
 ## Estado atual
 
-A primeira versão da área desktop de gerenciamento de projetos está implementada. Ela permite criar, buscar, ordenar e excluir projetos, além de escolher entre temas e idiomas. Os dados e as preferências são armazenados localmente.
+A área de projetos permite criar, buscar, ordenar e excluir projetos, além de escolher entre temas, idiomas e fontes. Cada projeto abre em um espaço de trabalho em painéis, com abas para visão geral, configurações, galeria, capítulos e elementos.
+
+Os elementos narrativos (personagens, lugares, objetos, criaturas, organizações, eventos, conceitos, notas e tipos próprios) têm ícone e cor, apelidos, etiquetas, detalhes definidos pelo tipo, imagens da galeria ou do computador, relações, seções e fases ligadas a capítulos. O manuscrito ainda é editado em Markdown; um editor de texto rico está planejado. Os dados ficam em arquivos locais na pasta de cada projeto.

@@ -11,6 +11,7 @@ lib/
   core/
     platform/              WindowService (tamanho da janela) e corretor ortográfico nativo
     storage/               LocalStorage (preferências com SharedPreferences)
+    icons/                 IconRef e IconCatalog (catálogo gerado de ícones do icons_flutter)
     theme/                 ThemeDefinition, fontes da interface, PlotcraftTokens e PlotcraftRadii
     ui/                    componentes reutilizáveis (botões, campos, diálogos, menus, imagens)
   features/
@@ -31,13 +32,16 @@ lib/
   - `data/` tem um repositório por assunto, todos sobre `ProjectFiles` (manifesto e escritas atômicas): `BookRepository`, `NarrativeRepository`, `GalleryRepository` e `ProjectMetadataRepository`. `ProjectWorkspaceRepository` os agrupa e carrega tudo de uma vez.
   - `stores/` tem `ProjectWorkspaceStore`: projeto aberto, manuscrito, galeria, metadados e estados das operações.
   - `stores/` tem também `WorkspaceController` (MobX): abas abertas, painel lateral, inspetor, tamanhos dos painéis, buffers de texto dos capítulos e salvamento automático. Ele não abre diálogos; quem pergunta ao usuário é `WorkspaceActions`.
-  - `presentation/` está dividida em `shell/` (barra de atividades, painel lateral, área de abas e `WorkspaceShell`, que une tudo com divisores arrastáveis), `manuscript/` (editor, barra de ferramentas, prévia e lista de capítulos), `elements/` (lista, editor de elemento e diálogo de título e texto) e `widgets/` (visão geral, galeria, metadados e inspetor). `workspace_actions.dart` reúne as operações iniciadas pela pessoa (fechar aba, capítulos, galeria, metadados, tela cheia).
+  - `domain/` também tem os tipos de elemento (`element_type.dart`, `element_type_catalog.dart`), as imagens, relações, âncoras de fase e a migração dos elementos antigos.
+  - `presentation/` está dividida em `shell/` (barra de atividades, painel lateral, área de abas e `WorkspaceShell`, que une tudo com divisores arrastáveis), `manuscript/` (editor, barra de ferramentas, prévia e lista de capítulos), `elements/` (lista com busca e filtros, escolha de tipo, editor de tipos, editor de elemento dividido em painéis de imagens, relações, detalhes, seções e fases, e os diálogos de aparência, fase e galeria) e `widgets/` (visão geral, galeria, metadados e inspetor). `workspace_actions.dart` reúne as operações iniciadas pela pessoa (fechar aba, capítulos, galeria, metadados, tela cheia).
 - **`features/preferences/`**: `ThemeStore` (catálogo de temas, fonte e persistência) e a página de preferências.
 - **`core/ui/`**: os componentes recebem dados e callbacks; cores, foco, bordas e estados vêm do tema ativo. `ProjectImage` mostra imagens da pasta do projeto.
 - A interface usa ícones Feather do pacote `icons_flutter`; a tipografia padrão é Times New Roman, com famílias empacotadas selecionáveis.
 - `assets/translations/`, `assets/themes/` e `assets/fonts/` guardam os idiomas, os temas JSON e as fontes (declaradas em `pubspec.yaml`).
 
 Dependências entre funcionalidades vão sempre em direção a `projects` (domínio e dados); apenas a tela inicial de `projects` compõe as páginas das outras funcionalidades.
+
+O catálogo de ícones (`lib/core/icons/icon_catalog.g.dart`) é gerado por `dart tool/gen_icon_catalog.dart`: o pacote `icons_flutter` não tem um registro nome → ícone, então o script lê as constantes de sete conjuntos e gera referências a elas, o que mantém o tree-shaking. Só o conjunto e o nome do ícone são gravados nos projetos.
 
 Os arquivos `.g.dart` das stores são gerados pelo `mobx_codegen`; edite os arquivos-fonte das stores, não os arquivos gerados.
 

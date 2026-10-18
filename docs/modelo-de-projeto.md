@@ -24,15 +24,19 @@ Documentos/Plotcraft/
         manuscript.md
         chapters/
       narrative/
+        types.json
         elements/
+        attachments/
 ```
 
 - `project.json` contém os metadados comuns e a versão do esquema.
 - `covers/` guarda a capa importada, quando escolhida. Enquanto não houver arquivo de capa, `coverIndex` identifica uma capa visual gerada pela interface.
-- `gallery/` reúne imagens de referência e materiais visuais da história.
+- `gallery/` reúne imagens de referência e materiais visuais da história. `gallery/index.json` dá a cada imagem um ID estável (`g_...`), para que elementos e textos se refiram a ela sem usar caminho. Arquivos colocados na pasta à mão ganham um ID na leitura seguinte; se um arquivo some, a entrada continua no índice e a imagem aparece como ausente até voltar.
 - `content/book/manuscript.md` é o ponto de partida textual criado automaticamente para um projeto novo.
 - `content/book/book.json` define se o livro usa manuscrito único ou capítulos e, nesse caso, guarda a ordem e os títulos. Cada capítulo é um arquivo Markdown em `content/book/chapters/<id>.md`.
-- `content/narrative/elements/` guarda um JSON por elemento narrativo. Personagens, lugares e outros tipos compartilham a mesma estrutura; o tipo é texto aberto, permitindo novos tipos sem alterar o esquema.
+- `content/narrative/elements/` guarda um JSON por elemento narrativo (personagem, lugar, objeto...). Todos compartilham a mesma estrutura; o tipo é um ID que aponta para um tipo de elemento.
+- `content/narrative/types.json` guarda os tipos de elemento **personalizados**. Os oito tipos pré-criados (`character`, `place`, `object`, `creature`, `organization`, `event`, `concept` e `note`) ficam no código, com IDs estáveis, e não são gravados.
+- `content/narrative/attachments/<id do elemento>/` guarda as cópias das imagens que a pessoa anexou do computador a um elemento.
 
 ## Livro e capítulos
 
@@ -42,7 +46,22 @@ O editor grava Markdown em arquivos legíveis fora do Plotcraft. Oferece formata
 
 ## Elementos narrativos e referências
 
-Um elemento tem identificador estável, tipo, nome, resumo, seções de conteúdo em Markdown e fases com descrição. O usuário pode criar quantas seções e fases forem necessárias. O editor insere referências com a sintaxe `[[element:<id>|nome exibido]]`. O ID continua válido quando o elemento é renomeado. A prévia transforma a referência em um link para abrir o elemento, e o elemento mostra em quais documentos é citado. Um pipeline de extensões transforma sintaxes próprias para a prévia sem mudar o Markdown de origem. Ao remover um elemento, seu JSON é movido para `content/narrative/archive/`; as marcas já escritas permanecem no texto para recuperação ou atualização.
+### Tipos de elemento
+Um tipo tem `id`, nome, ícone (`{set, name}` do pacote `icons_flutter`, nunca o código do glifo), cor (`#RRGGBB`) e uma lista de detalhes (`fields`). Cada detalhe tem `id`, rótulo e tipo: texto curto, texto longo, número, data, escolha (com opções), sim/não, outro elemento ou link. Os tipos pré-criados trazem detalhes padrão com rótulos traduzidos. Um tipo personalizado só pode ser excluído quando nenhum elemento o usa.
+
+### Elemento (`schemaVersion` 2)
+Campos: `id`, `typeId`, `title`, `aliases` (outros nomes, usados também para detectar menções), `summary`, `tags`, `icon` e `color` (substituem os do tipo, opcionais), `images`, `fields` (valores dos detalhes do tipo, por ID), `sections` (texto em Markdown), `phases`, `relations`, `mentionPolicy` (`auto` e `ignoredTerms`), `createdAt` e `updatedAt`.
+
+- **Imagens:** cada item é `{ref: gallery, id}` (imagem da galeria por ID) ou `{ref: attachment, file}` (cópia em `attachments/`, com caminho relativo ao projeto). A primeira imagem é a capa. Ao salvar o elemento, cópias que ele deixou de usar são apagadas.
+- **Fases:** mostram como o elemento muda ao longo da história. Cada fase tem título, descrição, `anchor` (`chapter` com o ID do capítulo, `manual` com um texto livre, ou `none`), `fieldOverrides` (detalhes que mudam nessa fase) e `image` (uma das imagens do elemento).
+- **Relações:** `{id, targetId, label, reciprocalLabel, note}`. Ficam gravadas só no elemento de origem; o outro lado enxerga a relação por um índice derivado em memória (com o rótulo recíproco, ou o mesmo rótulo se não houver). Relações para elementos que não existem mais são ignoradas e removidas ao salvar.
+- **Menções:** não são gravadas no elemento. A política (`mentionPolicy`) diz se nomes e apelidos são destacados no texto e quais termos ignorar.
+
+### Elementos antigos (`schemaVersion` 1)
+Arquivos antigos têm um `kind` em texto livre. Eles continuam legíveis: o `kind` vira o `typeId`. Quando o valor não é um tipo conhecido (por exemplo `Dragão`), é criado um tipo personalizado com esse nome, salvo em `types.json`. Os arquivos dos elementos não são alterados até que o elemento seja editado e salvo.
+
+### Referências no texto
+O editor insere referências com a sintaxe `[[element:<id>|nome exibido]]`. O ID continua válido quando o elemento é renomeado. A prévia transforma a referência em um link para abrir o elemento, e o elemento mostra em quais documentos é citado. Um pipeline de extensões transforma sintaxes próprias para a prévia sem mudar o Markdown de origem. Ao remover um elemento, seu JSON é movido para `content/narrative/archive/`; as marcas já escritas permanecem no texto para recuperação ou atualização.
 
 ## Metadados comuns
 
