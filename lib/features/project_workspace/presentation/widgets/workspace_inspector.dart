@@ -1,5 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/ui/count_label.dart';
+
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../projects/domain/project_format.dart';
@@ -136,7 +139,7 @@ class WorkspaceInspector extends StatelessWidget {
       WorkspaceSection.manuscript => (
         Feather.file_text,
         'workspace.manuscript'.tr(),
-        'workspace.word_count'.tr(namedArgs: {'count': '$wordCount'}),
+        countLabel('workspace.word_count', wordCount),
       ),
       WorkspaceSection.elements => (
         Feather.users,
@@ -146,7 +149,7 @@ class WorkspaceInspector extends StatelessWidget {
       WorkspaceSection.gallery => (
         Feather.image,
         'workspace.gallery'.tr(),
-        'workspace.image_count'.tr(namedArgs: {'count': '$imageCount'}),
+        countLabel('workspace.image_count', imageCount),
       ),
     };
     final scheme = Theme.of(context).colorScheme;

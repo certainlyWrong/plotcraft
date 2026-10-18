@@ -126,7 +126,7 @@ Future<void> pumpApp(
       () => Future<void>.delayed(const Duration(milliseconds: 50)),
     );
     await tester.pump();
-    if (tester.element(find.byType(MaterialApp)).mounted &&
+    if (find.byType(MaterialApp).evaluate().isNotEmpty &&
         'workspace.overview'.tr() != 'workspace.overview') {
       break;
     }

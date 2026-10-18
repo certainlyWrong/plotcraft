@@ -1,7 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/ui/count_label.dart';
+
 import 'package:icons_flutter/icons_flutter.dart';
 
+import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import 'gallery_mosaic.dart';
 
@@ -28,45 +32,70 @@ class GalleryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     return Column(
       children: [
-        SizedBox(
-          height: 40,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                if (importing)
-                  const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                else
-                  PlotcraftIconButton(
-                    icon: Feather.plus,
-                    tooltip: 'workspace.add_images'.tr(),
-                    onPressed: onImport,
-                  ),
-                PlotcraftIconButton(
-                  icon: Feather.refresh_cw,
-                  tooltip: 'workspace.refresh_gallery'.tr(),
-                  onPressed: importing ? null : onRefresh,
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 18, 24, 14),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'workspace.gallery'.tr(),
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      countLabel('workspace.image_count', images.length),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: scheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              PlotcraftIconButton(
+                icon: Feather.refresh_cw,
+                tooltip: 'workspace.refresh_gallery'.tr(),
+                onPressed: importing ? null : onRefresh,
+              ),
+              const SizedBox(width: 8),
+              if (importing)
+                const SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              else
+                PlotcraftButton(
+                  icon: Feather.plus,
+                  label: 'workspace.add_images'.tr(),
+                  onPressed: onImport,
+                ),
+            ],
           ),
         ),
         Expanded(
           child: images.isEmpty
               ? Center(
-                  child: IconButton(
-                    tooltip: 'workspace.add_images'.tr(),
-                    onPressed: importing ? null : onImport,
-                    iconSize: 34,
-                    icon: Icon(Feather.plus, color: scheme.onSurfaceVariant),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Feather.image, size: 34, color: scheme.outline),
+                      const SizedBox(height: 12),
+                      Text(
+                        'workspace.gallery_empty'.tr(),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: scheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
                   ),
                 )
               : GalleryMosaic(

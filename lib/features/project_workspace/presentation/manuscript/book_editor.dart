@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/ui/count_label.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:icons_flutter/icons_flutter.dart';
@@ -521,7 +524,7 @@ class _BookEditorState extends State<BookEditor> {
                   ? 0
                   : text.split(RegExp(r'\s+')).length;
               return Text(
-                'workspace.word_count'.tr(namedArgs: {'count': '$count'}),
+                countLabel('workspace.word_count', count),
                 style: style,
               );
             },

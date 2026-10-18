@@ -26,17 +26,18 @@ class GalleryMosaic extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) {
-      final columns = constraints.maxWidth >= 1100 ? 4 : 3;
+      final columns = constraints.maxWidth >= 900 ? 4 : 3;
       final columnImages = List.generate(columns, (_) => <int>[]);
       for (var index = 0; index < images.length; index++) {
         columnImages[index % columns].add(index);
       }
-      const gap = 10.0;
+      const gap = 12.0;
+      const margin = 24.0;
       final columnWidth =
-          (constraints.maxWidth - gap * (columns + 1)) / columns;
+          (constraints.maxWidth - margin * 2 - gap * (columns - 1)) / columns;
 
       return SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(gap, 0, gap, gap),
+        padding: EdgeInsets.fromLTRB(margin, 0, margin, margin),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

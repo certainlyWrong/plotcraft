@@ -1,5 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/ui/count_label.dart';
+
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../projects/domain/story_project.dart';
@@ -257,9 +260,7 @@ class ProjectOverview extends StatelessWidget {
             _cardHeading(context, Feather.image, 'workspace.gallery'.tr()),
             const SizedBox(height: 7),
             Text(
-              'workspace.image_count'.tr(
-                namedArgs: {'count': '${images.length}'},
-              ),
+              countLabel('workspace.image_count', images.length),
               style: theme.textTheme.labelMedium?.copyWith(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.w700,

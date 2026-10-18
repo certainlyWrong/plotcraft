@@ -108,6 +108,9 @@ void main() {
   }
 
   Future<void> tapTip(WidgetTester tester, String tooltip) async {
+    for (var i = 0; i < 20 && find.byTooltip(tooltip).evaluate().isEmpty; i++) {
+      await settle(tester, rounds: 2);
+    }
     await tester.tap(find.byTooltip(tooltip).first);
     await settle(tester);
   }
