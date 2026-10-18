@@ -127,9 +127,21 @@ class _ElementTypeEditorState extends State<_ElementTypeEditor> {
     );
   }
 
+  /// A new type starts with a placeholder icon; the picker only highlights
+  /// and opens on it once it is a real choice.
+  bool _iconChosen = false;
+
   Future<void> _chooseIcon() async {
-    final picked = await showIconPicker(context, current: _icon);
-    if (picked != null && mounted) setState(() => _icon = picked);
+    final picked = await showIconPicker(
+      context,
+      current: widget.current != null || _iconChosen ? _icon : null,
+    );
+    if (picked != null && mounted) {
+      setState(() {
+        _icon = picked;
+        _iconChosen = true;
+      });
+    }
   }
 
   @override

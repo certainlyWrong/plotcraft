@@ -32,6 +32,8 @@ void main() {
     await tester.pumpWidget(
       _app(PlotcraftIconPicker(onSelected: (ref) => picked = ref)),
     );
+    await tester.tap(find.text('Feather'));
+    await tester.pump();
     await tester.enterText(find.byType(TextField), 'activity');
     await tester.pump();
     expect(find.byIcon(Feather.activity), findsOneWidget);
@@ -41,6 +43,45 @@ void main() {
     await tester.enterText(find.byType(TextField), 'zzzzzz');
     await tester.pump();
     expect(find.text('ui.icon_picker_empty'), findsOneWidget);
+  });
+
+  testWidgets('o seletor abre nos ícones sugeridos e a busca os filtra', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1000, 800);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    IconRef? picked;
+    await tester.pumpWidget(
+      _app(PlotcraftIconPicker(onSelected: (ref) => picked = ref)),
+    );
+    // Starts on the suggestions: groups with their titles.
+    expect(find.text('UI.ICON_GROUPS.PEOPLE'), findsOneWidget);
+    expect(find.byIcon(RpgAwesome.dragon), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField), 'dragon');
+    await tester.pump();
+    expect(find.byIcon(RpgAwesome.dragon), findsOneWidget);
+    expect(find.text('UI.ICON_GROUPS.PEOPLE'), findsNothing);
+    await tester.tap(find.byIcon(RpgAwesome.dragon));
+    expect(picked, const IconRef('RpgAwesome', 'dragon'));
+  });
+
+  testWidgets('um ícone atual fora das sugestões abre no próprio conjunto', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1000, 800);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      _app(
+        PlotcraftIconPicker(
+          current: const IconRef('Feather', 'activity'),
+          onSelected: (_) {},
+        ),
+      ),
+    );
+    expect(find.byIcon(Feather.activity), findsOneWidget);
   });
 
   testWidgets('o seletor de ícones troca de conjunto', (tester) async {

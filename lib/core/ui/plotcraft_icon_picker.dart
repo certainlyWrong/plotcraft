@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../icons/icon_ref.dart';
+import '../icons/suggested_icons.dart';
 import '../theme/plotcraft_tokens.dart';
 import 'plotcraft_button.dart';
 import 'plotcraft_dialog.dart';
@@ -50,6 +51,9 @@ class PlotcraftIconPicker extends StatefulWidget {
 }
 
 class _PlotcraftIconPickerState extends State<PlotcraftIconPicker> {
+  /// Pseudo-set of the hand-picked icons, shown before the real sets.
+  static const _suggested = '';
+
   final _search = TextEditingController();
   late String _set;
 
@@ -57,9 +61,7 @@ class _PlotcraftIconPickerState extends State<PlotcraftIconPicker> {
   void initState() {
     super.initState();
     final current = widget.current;
-    _set = current != null && current.exists
-        ? current.set
-        : IconCatalog.sets.first;
+    _set = current != null && current.exists ? current.set : _suggested;
   }
 
   @override
@@ -68,77 +70,133 @@ class _PlotcraftIconPickerState extends State<PlotcraftIconPicker> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _cell(IconRef ref, String name) {
     final scheme = Theme.of(context).colorScheme;
-    final names = IconCatalog.search(_set, _search.text);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        PlotcraftTextField(
-          controller: _search,
-          autofocus: true,
-          compact: true,
-          hint: 'ui.icon_picker_search'.tr(),
-          prefixIcon: const Icon(Feather.search, size: 16),
-          onChanged: (_) => setState(() {}),
+    final selected = ref == widget.current;
+    return Tooltip(
+      message: name.replaceAll('_', ' '),
+      waitDuration: const Duration(milliseconds: 300),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+        onTap: () => widget.onSelected(ref),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: selected ? scheme.primaryContainer : null,
+            borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+          ),
+          child: Icon(
+            ref.data,
+            size: 22,
+            color: selected ? scheme.onPrimaryContainer : scheme.onSurface,
+          ),
         ),
-        const SizedBox(height: 10),
-        Wrap(
-          spacing: 6,
-          runSpacing: 6,
-          children: [
-            for (final set in IconCatalog.sets)
-              ChoiceChip(
-                label: Text(IconCatalog.labelOf(set)),
-                selected: set == _set,
-                onSelected: (_) => setState(() => _set = set),
-              ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Expanded(
-          child: names.isEmpty
-              ? Center(child: Text('ui.icon_picker_empty'.tr()))
-              : GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 48,
-                    mainAxisSpacing: 4,
-                    crossAxisSpacing: 4,
-                  ),
-                  itemCount: names.length,
-                  itemBuilder: (context, index) {
-                    final ref = IconRef(_set, names[index]);
-                    final selected = ref == widget.current;
-                    return Tooltip(
-                      message: names[index].replaceAll('_', ' '),
-                      waitDuration: const Duration(milliseconds: 300),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(
-                          PlotcraftRadii.control,
-                        ),
-                        onTap: () => widget.onSelected(ref),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: selected ? scheme.primaryContainer : null,
-                            borderRadius: BorderRadius.circular(
-                              PlotcraftRadii.control,
-                            ),
-                          ),
-                          child: Icon(
-                            ref.data,
-                            size: 22,
-                            color: selected
-                                ? scheme.onPrimaryContainer
-                                : scheme.onSurface,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-        ),
-      ],
+      ),
     );
   }
+
+  static const _gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+    maxCrossAxisExtent: 48,
+    mainAxisSpacing: 4,
+    crossAxisSpacing: 4,
+  );
+
+  /// The suggested icons, in titled groups; the search matches an icon's name
+  /// or its group's title.
+  Widget _suggestedBody() {
+    final theme = Theme.of(context);
+    final words = _search.text
+        .toLowerCase()
+        .split(RegExp(r'[\s_\-]+'))
+        .where((word) => word.isNotEmpty);
+    final children = <Widget>[];
+    for (final group in suggestedIconGroups) {
+      final title = 'ui.icon_groups.${group.id}'.tr();
+      final icons = [
+        for (final ref in group.icons)
+          if (words.every(
+            (word) =>
+                ref.name.replaceAll('_', ' ').contains(word) ||
+                title.toLowerCase().contains(word),
+          ))
+            ref,
+      ];
+      if (icons.isEmpty) continue;
+      children
+        ..add(
+          Padding(
+            padding: const EdgeInsets.only(top: 8, bottom: 6),
+            child: Text(
+              title.toUpperCase(),
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+                letterSpacing: .8,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        )
+        ..add(
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: _gridDelegate,
+            itemCount: icons.length,
+            itemBuilder: (context, index) =>
+                _cell(icons[index], icons[index].name),
+          ),
+        );
+    }
+    if (children.isEmpty) {
+      return Center(child: Text('ui.icon_picker_empty'.tr()));
+    }
+    return ListView(children: children);
+  }
+
+  Widget _setBody() {
+    final names = IconCatalog.search(_set, _search.text);
+    if (names.isEmpty) {
+      return Center(child: Text('ui.icon_picker_empty'.tr()));
+    }
+    return GridView.builder(
+      gridDelegate: _gridDelegate,
+      itemCount: names.length,
+      itemBuilder: (context, index) =>
+          _cell(IconRef(_set, names[index]), names[index]),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      PlotcraftTextField(
+        controller: _search,
+        autofocus: true,
+        compact: true,
+        hint: 'ui.icon_picker_search'.tr(),
+        prefixIcon: const Icon(Feather.search, size: 16),
+        onChanged: (_) => setState(() {}),
+      ),
+      const SizedBox(height: 10),
+      Wrap(
+        spacing: 6,
+        runSpacing: 6,
+        children: [
+          ChoiceChip(
+            label: Text('ui.icon_suggested'.tr()),
+            selected: _set == _suggested,
+            onSelected: (_) => setState(() => _set = _suggested),
+          ),
+          for (final set in IconCatalog.sets)
+            ChoiceChip(
+              label: Text(IconCatalog.labelOf(set)),
+              selected: set == _set,
+              onSelected: (_) => setState(() => _set = set),
+            ),
+        ],
+      ),
+      const SizedBox(height: 10),
+      Expanded(child: _set == _suggested ? _suggestedBody() : _setBody()),
+    ],
+  );
 }

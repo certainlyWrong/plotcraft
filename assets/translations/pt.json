@@ -406,7 +406,18 @@
     "icon_picker_title": "Escolher um ícone",
     "icon_picker_search": "Buscar ícones",
     "icon_picker_empty": "Nenhum ícone encontrado",
-    "color_picker_hex": "#RRGGBB"
+    "color_picker_hex": "#RRGGBB",
+    "icon_suggested": "Sugeridos",
+    "icon_groups": {
+      "people": "Pessoas",
+      "places": "Lugares",
+      "objects": "Objetos",
+      "creatures": "Criaturas",
+      "organizations": "Organizações",
+      "magic": "Mundo e magia",
+      "events": "Eventos e tempo",
+      "notes": "Ideias e notas"
+    }
   },
   "editor": {
     "hover_auto_hint": "Nome detectado — clique direito para ligar ao elemento",
