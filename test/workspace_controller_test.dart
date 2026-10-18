@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -67,18 +68,26 @@ void main() {
   test('editar marca a aba como suja e salvar grava o arquivo', () async {
     controller.openManuscript(null);
     final buffer = controller.bufferFor(null);
-    expect(buffer.controller.text, 'Texto inicial.');
+    expect(buffer.controller.text.trim(), 'Texto inicial.');
     buffer.controller.text = 'Texto novo.';
     controller.onBufferChanged(null);
     expect(controller.isDirty('manuscript'), isTrue);
 
     expect(await controller.saveBuffer('single'), isTrue);
     expect(controller.isDirty('manuscript'), isFalse);
+    final book = p.join(folder.path, 'content', 'book');
+    // The Markdown copy is derived from the Delta, which is the saved truth.
     expect(
-      await File(p.join(folder.path, 'content', 'book', 'manuscript.md'))
-          .readAsString(),
+      (await File(p.join(book, 'manuscript.md')).readAsString()).trim(),
       'Texto novo.',
     );
+    final delta = jsonDecode(
+      await File(p.join(book, 'manuscript.delta.json')).readAsString(),
+    ) as Map<String, dynamic>;
+    expect(delta['schemaVersion'], 1);
+    expect(delta['ops'], [
+      {'insert': 'Texto novo.\n'},
+    ]);
   });
 
   test(
@@ -88,7 +97,7 @@ void main() {
       controller.bufferFor(null).controller.text = 'Mudou.';
       controller.onBufferChanged(null);
       expect(await controller.canClose('manuscript'), isTrue);
-      expect(store.book.singleText, 'Mudou.');
+      expect(store.book.singleText.trim(), 'Mudou.');
 
       controller.openTab(WorkspaceTab.settings);
       controller.setGuard('settings', () async => false);

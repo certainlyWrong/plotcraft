@@ -82,13 +82,36 @@ abstract final class RichDocument {
     'name': name,
   };
 
-  /// Plain text of [delta]: embeds count as one character, like Quill does.
-  static String plainText(Delta delta) {
+  /// Plain text of [delta]. Embeds are written as [embed]: Quill counts each
+  /// as one character; pass an empty string to leave them out.
+  static String plainText(Delta delta, {String embed = objectReplacement}) {
     final buffer = StringBuffer();
     for (final op in delta.toList()) {
       final data = op.data;
-      buffer.write(data is String ? data : '￼');
+      buffer.write(data is String ? data : embed);
     }
     return buffer.toString();
   }
+
+  /// The character Quill uses for an embed in its plain text.
+  static const objectReplacement = '\u{FFFC}';
+
+  /// IDs of the elements mentioned in [delta], in order of appearance.
+  static List<String> mentionedIds(Delta delta) {
+    final ids = <String>[];
+    for (final op in delta.toList()) {
+      final mention = op.attributes?[mentionKey];
+      if (mention is Map && mention['id'] is String) {
+        final id = mention['id'] as String;
+        if (!ids.contains(id)) ids.add(id);
+      }
+    }
+    return ids;
+  }
+
+  /// IDs of the gallery images shown in [delta].
+  static Set<String> galleryImageIds(Delta delta) => {
+    for (final op in delta.toList())
+      if (readGalleryImage(op.data) case final image?) image['id'] as String,
+  };
 }

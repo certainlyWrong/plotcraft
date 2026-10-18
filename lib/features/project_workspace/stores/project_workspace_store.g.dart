@@ -282,7 +282,7 @@ mixin _$ProjectWorkspaceStore on _ProjectWorkspaceStore, Store {
   );
 
   @override
-  Future<void> saveBookDocument(String? chapterId, String content) {
+  Future<void> saveBookDocument(String? chapterId, Delta content) {
     return _$saveBookDocumentAsyncAction.run(
       () => super.saveBookDocument(chapterId, content),
     );

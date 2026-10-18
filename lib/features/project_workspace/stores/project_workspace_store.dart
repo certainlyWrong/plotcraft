@@ -1,3 +1,4 @@
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../projects/domain/story_project.dart';
@@ -26,7 +27,7 @@ abstract class _ProjectWorkspaceStore with Store {
   StoryProject? project;
 
   @observable
-  BookContent book = const BookContent.empty();
+  BookContent book = BookContent.empty();
 
   @observable
   ObservableList<NarrativeElement> elements =
@@ -95,7 +96,7 @@ abstract class _ProjectWorkspaceStore with Store {
   }
 
   @action
-  Future<void> saveBookDocument(String? chapterId, String content) async {
+  Future<void> saveBookDocument(String? chapterId, Delta content) async {
     final current = project;
     if (current == null || isSaving) return;
     isSaving = true;

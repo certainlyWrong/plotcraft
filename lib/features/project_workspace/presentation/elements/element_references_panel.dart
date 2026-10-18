@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../domain/book_content.dart';
-import '../../domain/markdown_extensions.dart';
 
 /// Lists the manuscript documents that link to an element.
 class ElementReferencesPanel extends StatelessWidget {
@@ -22,18 +21,10 @@ class ElementReferencesPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final references = book.chaptersEnabled
-        ? [
-            for (final chapter in book.chapters)
-              if (NarrativeLinkExtension.references(
-                book.chapterTexts[chapter.id] ?? '',
-                elementId,
-              ))
-                (chapter.id as String?, chapter.title),
-          ]
-        : NarrativeLinkExtension.references(book.singleText, elementId)
-        ? <(String?, String)>[(null, 'workspace.manuscript'.tr())]
-        : <(String?, String)>[];
+    final references = book.referencesTo(
+      elementId,
+      'workspace.manuscript'.tr(),
+    );
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,8 +40,8 @@ class ElementReferencesPanel extends StatelessWidget {
         for (final reference in references)
           ListTile(
             leading: const Icon(Feather.file_text, size: 17),
-            title: Text(reference.$2),
-            onTap: () => onOpen(reference.$1),
+            title: Text(reference.title),
+            onTap: () => onOpen(reference.chapterId),
           ),
       ],
     );

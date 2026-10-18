@@ -35,9 +35,9 @@ class ProjectWorkspaceData {
 class ProjectWorkspaceRepository {
   ProjectWorkspaceRepository({ProjectFiles files = const ProjectFiles()})
     : _files = files,
-      book = BookRepository(files),
-      narrative = NarrativeRepository(files),
       gallery = GalleryRepository(files),
+      book = BookRepository(files, GalleryRepository(files).items),
+      narrative = NarrativeRepository(files),
       metadata = ProjectMetadataRepository(files),
       types = ElementTypesRepository(files);
 
@@ -62,7 +62,7 @@ class ProjectWorkspaceRepository {
     }
     final galleryItems = await gallery.items(project);
     return ProjectWorkspaceData(
-      book: await book.load(folder),
+      book: await book.load(project),
       elements: upgrade.elements,
       galleryImages: [
         for (final item in galleryItems)

@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../core/storage/local_storage.dart';
 import '../../projects/domain/story_project.dart';
+import '../domain/rich/delta_to_markdown.dart';
+import '../domain/rich/markdown_to_delta.dart';
 import '../domain/workspace_tab.dart';
 import 'project_workspace_store.dart';
 
@@ -272,9 +275,24 @@ abstract class _WorkspaceController with Store {
       ? WorkspaceTab.singleManuscript
       : WorkspaceTab.chapter(chapterId);
 
+  // The editor still works on Markdown text; the book is stored as Deltas, so
+  // text is converted both ways until the rich editor replaces it.
+  String _markdownOf(String? chapterId) {
+    final files = {for (final item in store.galleryItems) item.id: item.file};
+    return DeltaToMarkdown(
+      galleryFile: files.isEmpty ? null : (id) => files[id],
+    ).convert(store.book.deltaFor(chapterId));
+  }
+
+  Delta _deltaOf(String markdown) {
+    final ids = {for (final item in store.galleryItems) item.file: item.id};
+    return MarkdownToDelta(galleryId: ids.isEmpty ? null : (file) => ids[file])
+        .convert(markdown);
+  }
+
   DocumentBuffer bufferFor(String? chapterId) => _buffers.putIfAbsent(
     chapterId ?? 'single',
-    () => DocumentBuffer(store.book.textFor(chapterId)),
+    () => DocumentBuffer(_markdownOf(chapterId)),
   );
 
   @action
@@ -305,7 +323,7 @@ abstract class _WorkspaceController with Store {
     if (store.isSaving) return false;
     buffer.autosave?.cancel();
     final text = buffer.controller.text;
-    await store.saveBookDocument(chapterId, text);
+    await store.saveBookDocument(chapterId, _deltaOf(text));
     buffer.savedText = text;
     final current = buffer.controller.text == text;
     runInAction(() => setDirty(tabId, !current));

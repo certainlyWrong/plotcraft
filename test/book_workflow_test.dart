@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
 import 'package:plotcraft/features/project_workspace/data/project_workspace_repository.dart';
@@ -64,7 +65,7 @@ void main() {
         added.project,
         added.book,
         secondId,
-        'Uma nova cena.',
+        Delta()..insert('Uma nova cena.\n'),
       );
       expect(saved.book.combinedText, contains('Uma nova cena.'));
 

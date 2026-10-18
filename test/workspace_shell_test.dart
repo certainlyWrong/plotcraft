@@ -120,7 +120,7 @@ void main() {
             File(p.join(folder.path, 'content', 'book', 'manuscript.md'))
                 .readAsString(),
       );
-      expect(saved, 'Texto editado.');
+      expect(saved, 'Texto editado.\n');
       // Let the spell check debounce and autosave timers elapse.
       await tester.pump(const Duration(seconds: 3));
     },
