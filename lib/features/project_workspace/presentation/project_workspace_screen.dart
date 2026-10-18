@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
@@ -12,6 +14,7 @@ import '../../../core/fonts/system_fonts.dart';
 import 'package:plotcraft_core/features/project_workspace/data/project_files.dart';
 import 'package:plotcraft_core/features/project_workspace/data/project_fonts_repository.dart';
 
+import '../data/project_change_watcher.dart';
 import '../stores/editor_fonts_store.dart';
 import '../stores/project_workspace_store.dart';
 import '../stores/workspace_controller.dart';
@@ -58,7 +61,44 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
     );
     _actions = WorkspaceActions(_controller);
     windowManager.addListener(this);
-    _controller.load(firstChapterTitle: 'book.first_chapter'.tr());
+    _controller
+        .load(firstChapterTitle: 'book.first_chapter'.tr())
+        .then((_) => _startWatching());
+  }
+
+  ProjectChangeWatcher? _watcher;
+  StreamSubscription<void>? _watching;
+  bool _reloading = false;
+  bool _reloadAgain = false;
+
+  /// Starts noticing changes other programs (the MCP server for an AI) make
+  /// to the project's files.
+  void _startWatching() {
+    final folder = widget.store.project?.directoryPath;
+    if (!mounted || folder == null || _watcher != null) return;
+    _watcher = ProjectChangeWatcher(folder)..start();
+    _watching = _watcher!.changes.listen((_) => _reloadFromDisk());
+  }
+
+  Future<void> _reloadFromDisk() async {
+    if (_reloading) {
+      _reloadAgain = true;
+      return;
+    }
+    _reloading = true;
+    try {
+      do {
+        _reloadAgain = false;
+        var done = await _controller.reloadFromDisk();
+        // The store was busy (saving): wait for it and try again.
+        for (var i = 0; !done && i < 10 && mounted; i++) {
+          await Future<void>.delayed(const Duration(milliseconds: 300));
+          done = await _controller.reloadFromDisk();
+        }
+      } while (_reloadAgain && mounted);
+    } finally {
+      _reloading = false;
+    }
   }
 
   @override
@@ -66,6 +106,8 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
 
   @override
   void dispose() {
+    unawaited(_watching?.cancel());
+    _watcher?.dispose();
     windowManager.removeListener(this);
     if (_controller.editorFullscreen) {
       windowManager.setFullScreen(false);

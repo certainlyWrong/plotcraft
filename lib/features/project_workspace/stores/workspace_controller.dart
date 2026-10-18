@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -35,6 +36,24 @@ class DocumentBuffer {
   Delta get currentDelta => controller.document.toDelta();
 
   bool get isModified => currentDelta != savedDelta;
+
+  /// Brings in a change made outside the app: the text becomes [delta] as a
+  /// remote change (no undo step) and counts as saved.
+  void applyExternal(Delta delta) {
+    savedDelta = delta;
+    final diff = currentDelta.diff(delta);
+    if (diff.isEmpty) return;
+    final last = (delta.length - 1).clamp(0, delta.length);
+    final selection = controller.selection;
+    controller.compose(
+      diff,
+      TextSelection(
+        baseOffset: selection.baseOffset.clamp(0, last),
+        extentOffset: selection.extentOffset.clamp(0, last),
+      ),
+      ChangeSource.remote,
+    );
+  }
 
   void dispose() {
     autosave?.cancel();
@@ -119,6 +138,16 @@ abstract class _WorkspaceController with Store {
 
   @observable
   ObservableSet<String> dirtyTabs = ObservableSet<String>();
+
+  /// Tabs (`chapter:<id>`, `element:<id>`) whose file changed outside the app
+  /// while they had unsaved edits: the person decides which version stays.
+  @observable
+  ObservableSet<String> externalConflicts = ObservableSet<String>();
+
+  /// Bumped when a tab's content was replaced by a newer version from disk,
+  /// so its editor is rebuilt from the fresh data.
+  @observable
+  ObservableMap<String, int> externalVersions = ObservableMap<String, int>();
 
   @computed
   WorkspaceTab? get activeTab =>
@@ -334,18 +363,22 @@ abstract class _WorkspaceController with Store {
     setDirty(tabId, buffer.isModified);
     buffer.autosave?.cancel();
     buffer.autosave = Timer(_autosaveDelay, () {
-      if (isDirty(tabId) && !store.isSaving) {
+      if (isDirty(tabId) &&
+          !store.isSaving &&
+          !externalConflicts.contains(tabId)) {
         unawaited(saveBuffer(chapterId ?? 'single'));
       }
     });
   }
 
   /// Saves one document. Returns true when it ends up clean.
-  Future<bool> saveBuffer(String key) async {
+  Future<bool> saveBuffer(String key, {bool force = false}) async {
     final chapterId = key == 'single' ? null : key;
     final buffer = _buffers[key];
     final tabId = manuscriptTab(chapterId).id;
     if (buffer == null) return true;
+    // Writing now would erase what changed outside the app.
+    if (!force && externalConflicts.contains(tabId)) return false;
     // The Delta is the truth; the dirty flag is updated by a stream event that
     // can lag behind an edit made a moment ago.
     if (!buffer.isModified) {
@@ -369,6 +402,85 @@ abstract class _WorkspaceController with Store {
       if (!await saveBuffer(key)) return false;
     }
     return true;
+  }
+
+  // --- Changes made outside the app ---------------------------------------
+
+  /// Reads the project folder again after an external change and brings the
+  /// open documents up to date: untouched ones are replaced, ones with unsaved
+  /// edits are flagged in [externalConflicts]. Returns false when the store
+  /// was busy and the caller should try again shortly.
+  @action
+  Future<bool> reloadFromDisk() async {
+    final before = {
+      for (final element in store.elements)
+        element.id: jsonEncode(element.toJson()),
+    };
+    if (!await store.refreshFromDisk()) return false;
+    for (final entry in _buffers.entries.toList()) {
+      final chapterId = entry.key == 'single' ? null : entry.key;
+      if (chapterId != null &&
+          !store.book.chapters.any((chapter) => chapter.id == chapterId)) {
+        continue;
+      }
+      final buffer = entry.value;
+      final disk = store.book.deltaFor(chapterId);
+      final tabId = manuscriptTab(chapterId).id;
+      if (disk == buffer.savedDelta) continue;
+      if (disk == buffer.currentDelta || !buffer.isModified) {
+        buffer.applyExternal(disk);
+        setDirty(tabId, false);
+        externalConflicts.remove(tabId);
+      } else {
+        externalConflicts.add(tabId);
+      }
+    }
+    for (final tab in [...tabs]) {
+      if (tab.kind != WorkspaceTabKind.element || tab.isDraftElement) continue;
+      final id = tab.refId!;
+      final now = store.elements
+          .where((element) => element.id == id)
+          .firstOrNull;
+      final changed = now == null
+          ? before.containsKey(id)
+          : before[id] != jsonEncode(now.toJson());
+      if (!changed) continue;
+      if (isDirty(tab.id)) {
+        externalConflicts.add(tab.id);
+      } else if (now == null) {
+        closeTabNow(tab.id);
+      } else {
+        externalVersions[tab.id] = (externalVersions[tab.id] ?? 0) + 1;
+      }
+    }
+    syncWithBook();
+    return true;
+  }
+
+  /// Settles a tab flagged by [reloadFromDisk]: take the version on disk, or
+  /// keep the edits (which will overwrite the file on the next save).
+  @action
+  Future<void> resolveExternalConflict(
+    String tabId, {
+    required bool keepMine,
+  }) async {
+    externalConflicts.remove(tabId);
+    final tab = tabs.where((item) => item.id == tabId).firstOrNull;
+    if (tab == null) return;
+    if (tab.isManuscript) {
+      final chapterId = tab.refId;
+      final buffer = _buffers[chapterId ?? 'single'];
+      if (buffer == null) return;
+      if (keepMine) {
+        await saveBuffer(chapterId ?? 'single', force: true);
+      } else {
+        buffer.applyExternal(store.book.deltaFor(chapterId));
+        setDirty(tabId, false);
+      }
+    } else if (!keepMine) {
+      setDirty(tabId, false);
+      externalVersions[tabId] = (externalVersions[tabId] ?? 0) + 1;
+    }
   }
 
   /// Aligns open documents with the book after chapters or the mode changed.

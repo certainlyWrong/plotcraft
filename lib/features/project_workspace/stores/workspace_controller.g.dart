@@ -206,6 +206,42 @@ mixin _$WorkspaceController on _WorkspaceController, Store {
     });
   }
 
+  late final _$externalConflictsAtom = Atom(
+    name: '_WorkspaceController.externalConflicts',
+    context: context,
+  );
+
+  @override
+  ObservableSet<String> get externalConflicts {
+    _$externalConflictsAtom.reportRead();
+    return super.externalConflicts;
+  }
+
+  @override
+  set externalConflicts(ObservableSet<String> value) {
+    _$externalConflictsAtom.reportWrite(value, super.externalConflicts, () {
+      super.externalConflicts = value;
+    });
+  }
+
+  late final _$externalVersionsAtom = Atom(
+    name: '_WorkspaceController.externalVersions',
+    context: context,
+  );
+
+  @override
+  ObservableMap<String, int> get externalVersions {
+    _$externalVersionsAtom.reportRead();
+    return super.externalVersions;
+  }
+
+  @override
+  set externalVersions(ObservableMap<String, int> value) {
+    _$externalVersionsAtom.reportWrite(value, super.externalVersions, () {
+      super.externalVersions = value;
+    });
+  }
+
   late final _$loadAsyncAction = AsyncAction(
     '_WorkspaceController.load',
     context: context,
@@ -215,6 +251,28 @@ mixin _$WorkspaceController on _WorkspaceController, Store {
   Future<void> load({String? firstChapterTitle}) {
     return _$loadAsyncAction.run(
       () => super.load(firstChapterTitle: firstChapterTitle),
+    );
+  }
+
+  late final _$reloadFromDiskAsyncAction = AsyncAction(
+    '_WorkspaceController.reloadFromDisk',
+    context: context,
+  );
+
+  @override
+  Future<bool> reloadFromDisk() {
+    return _$reloadFromDiskAsyncAction.run(() => super.reloadFromDisk());
+  }
+
+  late final _$resolveExternalConflictAsyncAction = AsyncAction(
+    '_WorkspaceController.resolveExternalConflict',
+    context: context,
+  );
+
+  @override
+  Future<void> resolveExternalConflict(String tabId, {required bool keepMine}) {
+    return _$resolveExternalConflictAsyncAction.run(
+      () => super.resolveExternalConflict(tabId, keepMine: keepMine),
     );
   }
 
@@ -428,6 +486,8 @@ editorFullscreen: ${editorFullscreen},
 loadFailed: ${loadFailed},
 revealRequests: ${revealRequests},
 dirtyTabs: ${dirtyTabs},
+externalConflicts: ${externalConflicts},
+externalVersions: ${externalVersions},
 activeTab: ${activeTab},
 activeSection: ${activeSection}
     ''';

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:mobx/mobx.dart';
 
+import 'package:plotcraft_core/features/projects/data/project_library.dart';
 import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 import 'package:plotcraft_core/features/projects/domain/project_metadata_input.dart';
 import 'package:plotcraft_core/features/project_workspace/data/book_repository.dart';
@@ -105,6 +108,66 @@ abstract class _ProjectWorkspaceStore with Store {
     } finally {
       isLoading = false;
     }
+  }
+
+  /// Re-reads the project folder after something else (another program, the
+  /// MCP server) changed it, and updates only what differs. Returns false
+  /// when it did nothing because the store is busy or the project is gone.
+  @action
+  Future<bool> refreshFromDisk() async {
+    final current = project;
+    if (current == null ||
+        isSaving ||
+        isBookUpdating ||
+        isElementSaving ||
+        isImporting ||
+        isUpdating ||
+        isRemovingImage) {
+      return false;
+    }
+    final manifest = await const ProjectLibrary().read(current.directoryPath!);
+    if (manifest == null || manifest.id != current.id) return false;
+    final data = await _repository.load(manifest);
+    if (isSaving || isBookUpdating || isElementSaving) return false;
+    if (jsonEncode(manifest.toJson()) != jsonEncode(current.toJson())) {
+      project = manifest;
+      _onProjectUpdated(manifest);
+    }
+    if (!_sameBook(book, data.book)) book = data.book;
+    String elementsKey(Iterable<NarrativeElement> items) =>
+        jsonEncode([for (final item in items) item.toJson()]);
+    if (elementsKey(elements) != elementsKey(data.elements)) {
+      elements = ObservableList.of(data.elements);
+    }
+    String typesKey(Iterable<ElementType> items) =>
+        jsonEncode([for (final item in items) item.toJson()]);
+    if (typesKey(customElementTypes) != typesKey(data.types)) {
+      customElementTypes = ObservableList.of(data.types);
+    }
+    String galleryKey(Iterable<GalleryItem> items) =>
+        items.map((item) => '${item.id}|${item.file}|${item.exists}').join(',');
+    if (galleryKey(galleryItems) != galleryKey(data.galleryItems)) {
+      galleryImages = ObservableList.of(data.galleryImages);
+      galleryItems = ObservableList.of(data.galleryItems);
+    }
+    return true;
+  }
+
+  static bool _sameBook(BookContent a, BookContent b) {
+    if (a.chaptersEnabled != b.chaptersEnabled ||
+        a.chapters.length != b.chapters.length) {
+      return false;
+    }
+    for (var i = 0; i < a.chapters.length; i++) {
+      final left = a.chapters[i];
+      final right = b.chapters[i];
+      if (left.id != right.id ||
+          left.title != right.title ||
+          a.deltaFor(left.id) != b.deltaFor(right.id)) {
+        return false;
+      }
+    }
+    return a.singleDelta == b.singleDelta;
   }
 
   @action

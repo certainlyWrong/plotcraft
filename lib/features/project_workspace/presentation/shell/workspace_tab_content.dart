@@ -9,6 +9,7 @@ import '../../domain/workspace_tab.dart';
 import '../../stores/workspace_controller.dart';
 import '../elements/element_editor.dart';
 import '../manuscript/book_editor.dart';
+import '../widgets/external_change_banner.dart';
 import '../widgets/gallery_page.dart';
 import '../widgets/project_metadata_editor.dart';
 import '../widgets/project_overview.dart';
@@ -68,7 +69,7 @@ class WorkspaceTabContent extends StatelessWidget {
           importing: store.isImporting,
           removingImage: store.isRemovingImage,
           onImport: () => actions.importImages(context),
-          onRefresh: controller.load,
+          onRefresh: controller.reloadFromDisk,
           onSelect: (index) => actions.showImageViewer(context, images, index),
           onRemove: (path) => actions.removeGalleryImage(context, path),
         );
@@ -76,39 +77,51 @@ class WorkspaceTabContent extends StatelessWidget {
       case WorkspaceTabKind.chapter:
         final chapterId = tab.refId;
         final buffer = controller.bufferFor(chapterId);
-        return BookEditor(
-          key: ObjectKey(buffer),
-          controller: buffer.controller,
-          dirty: controller.isDirty(tab.id),
-          saving: store.isSaving,
-          fullscreen: controller.editorFullscreen,
-          elements: store.elements.toList(),
-          types: store.elementTypes,
-          galleryItems: store.galleryItems.toList(),
-          chapterOrder: [for (final chapter in store.book.chapters) chapter.id],
-          chapterId: chapterId,
-          attachmentPath: store.attachmentPath,
-          reveal: controller.revealRequests[tab.id],
-          onRevealed: () => controller.clearReveal(tab.id),
-          fonts: controller.fonts.catalog,
-          onManageFonts: () => actions.manageFonts(context),
-          onIgnoreTerm: (element, term) =>
-              actions.ignoreMentionTerm(context, element, term),
-          onSave: () => actions.saveManuscript(context, chapterId),
-          onToggleFullscreen: () => actions.toggleFullscreen(context),
-          onOpenElement: actions.openElement,
+        return ExternalChangeFrame(
+          controller: controller,
+          tabId: tab.id,
+          child: BookEditor(
+            key: ObjectKey(buffer),
+            controller: buffer.controller,
+            dirty: controller.isDirty(tab.id),
+            saving: store.isSaving,
+            fullscreen: controller.editorFullscreen,
+            elements: store.elements.toList(),
+            types: store.elementTypes,
+            galleryItems: store.galleryItems.toList(),
+            chapterOrder: [
+              for (final chapter in store.book.chapters) chapter.id,
+            ],
+            chapterId: chapterId,
+            attachmentPath: store.attachmentPath,
+            reveal: controller.revealRequests[tab.id],
+            onRevealed: () => controller.clearReveal(tab.id),
+            fonts: controller.fonts.catalog,
+            onManageFonts: () => actions.manageFonts(context),
+            onIgnoreTerm: (element, term) =>
+                actions.ignoreMentionTerm(context, element, term),
+            onSave: () => actions.saveManuscript(context, chapterId),
+            onToggleFullscreen: () => actions.toggleFullscreen(context),
+            onOpenElement: actions.openElement,
+          ),
         );
       case WorkspaceTabKind.element:
-        return ElementEditor(
-          key: ValueKey(tab.id),
-          tab: tab,
-          store: store,
+        return ExternalChangeFrame(
           controller: controller,
-          book: store.book,
-          onRemove: (element) => actions.removeElement(context, element),
-          onOpenReference: (chapterId, range) =>
-              actions.openReference(chapterId, range),
-          onOpenElement: actions.openElement,
+          tabId: tab.id,
+          child: ElementEditor(
+            key: ValueKey(
+              '${tab.id}:${controller.externalVersions[tab.id] ?? 0}',
+            ),
+            tab: tab,
+            store: store,
+            controller: controller,
+            book: store.book,
+            onRemove: (element) => actions.removeElement(context, element),
+            onOpenReference: (chapterId, range) =>
+                actions.openReference(chapterId, range),
+            onOpenElement: actions.openElement,
+          ),
         );
     }
   }

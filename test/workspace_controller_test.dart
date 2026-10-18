@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dart_quill_delta/dart_quill_delta.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/delta_edit.dart';
+import 'package:plotcraft_core/features/project_workspace/services/story_workspace.dart';
 import 'package:plotcraft_core/features/project_workspace/data/project_workspace_repository.dart';
 import 'package:plotcraft/features/project_workspace/domain/workspace_tab.dart';
 import 'package:plotcraft/features/project_workspace/stores/project_workspace_store.dart';
@@ -175,6 +179,139 @@ void main() {
       expect(store.book.chapters.map((c) => c.id), [second]);
     },
   );
+
+  group('mudanças feitas fora do app', () {
+    Future<void> writeOutside(String id, String text) async {
+      final outside = await StoryWorkspace.open(store.project!);
+      await outside.writeChapter(id, Delta()..insert('$text\n'));
+    }
+
+    test('capítulo sem edições é atualizado sem marcar como sujo', () async {
+      final id = firstChapter();
+      controller.openManuscript(id);
+      final buffer = controller.bufferFor(id);
+      await writeOutside(id, 'Texto vindo da IA.');
+      expect(await controller.reloadFromDisk(), isTrue);
+      expect(textOf(buffer), 'Texto vindo da IA.');
+      expect(controller.isDirty('chapter:$id'), isFalse);
+      expect(controller.externalConflicts, isEmpty);
+      expect(store.book.textFor(id).trim(), 'Texto vindo da IA.');
+    });
+
+    test(
+      'a própria gravação do app não é tratada como mudança externa',
+      () async {
+        final id = firstChapter();
+        controller.openManuscript(id);
+        final buffer = controller.bufferFor(id);
+        setText(buffer, 'Digitado aqui.');
+        await controller.saveBuffer(id);
+        expect(await controller.reloadFromDisk(), isTrue);
+        expect(textOf(buffer), 'Digitado aqui.');
+        expect(controller.externalConflicts, isEmpty);
+      },
+    );
+
+    test(
+      'com edições não salvas vira conflito e o autosave não sobrescreve',
+      () async {
+        final id = firstChapter();
+        controller.openManuscript(id);
+        final buffer = controller.bufferFor(id);
+        setText(buffer, 'Minha edição.');
+        await pumpEvents();
+        await writeOutside(id, 'Edição de fora.');
+        await controller.reloadFromDisk();
+        expect(controller.externalConflicts, contains('chapter:$id'));
+        expect(textOf(buffer), 'Minha edição.');
+        expect(await controller.saveBuffer(id), isFalse);
+        expect(
+          (await StoryWorkspace.open(store.project!))
+              .readChapter(id)
+              .then((c) => DeltaEdit.text(c.delta)),
+          completion('Edição de fora.\n'),
+        );
+
+        await controller.resolveExternalConflict(
+          'chapter:$id',
+          keepMine: false,
+        );
+        expect(textOf(buffer), 'Edição de fora.');
+        expect(controller.externalConflicts, isEmpty);
+        expect(controller.isDirty('chapter:$id'), isFalse);
+      },
+    );
+
+    test('manter a minha versão grava por cima', () async {
+      final id = firstChapter();
+      controller.openManuscript(id);
+      final buffer = controller.bufferFor(id);
+      setText(buffer, 'Fica a minha.');
+      await pumpEvents();
+      await writeOutside(id, 'Perde a de fora.');
+      await controller.reloadFromDisk();
+      await controller.resolveExternalConflict('chapter:$id', keepMine: true);
+      final onDisk = await (await StoryWorkspace.open(store.project!))
+          .readChapter(id);
+      expect(DeltaEdit.text(onDisk.delta), 'Fica a minha.\n');
+      expect(controller.externalConflicts, isEmpty);
+    });
+
+    test('capítulo criado e removido por fora aparece e fecha a aba', () async {
+      final outside = await StoryWorkspace.open(store.project!);
+      final second = await outside.addChapter('Segundo');
+      await controller.reloadFromDisk();
+      expect(store.book.chapters.map((c) => c.id), contains(second));
+
+      controller.openManuscript(second);
+      await outside.removeChapter(second);
+      await controller.reloadFromDisk();
+      expect(controller.tabs.any((t) => t.id == 'chapter:$second'), isFalse);
+    });
+
+    test(
+      'elemento alterado por fora recarrega a aba ou aponta conflito',
+      () async {
+        final outside = await StoryWorkspace.open(store.project!);
+        final saved = await outside.saveElement(
+          NarrativeElement(
+            id: 'maria',
+            typeId: 'character',
+            title: 'Maria',
+            summary: '',
+            sections: const [],
+            phases: const [],
+            createdAt: DateTime.utc(2026),
+            updatedAt: DateTime.utc(2026),
+          ),
+        );
+        await controller.reloadFromDisk();
+        expect(store.elements.map((e) => e.id), ['maria']);
+
+        controller.openTab(WorkspaceTab.element('maria'));
+        await outside.saveElement(saved.element.copyWith(summary: 'Mudou.'));
+        await controller.reloadFromDisk();
+        expect(controller.externalVersions['element:maria'], 1);
+
+        controller.setDirty('element:maria', true);
+        await outside.saveElement(
+          saved.element.copyWith(summary: 'Mudou de novo.'),
+        );
+        await controller.reloadFromDisk();
+        expect(controller.externalConflicts, contains('element:maria'));
+        await controller.resolveExternalConflict(
+          'element:maria',
+          keepMine: false,
+        );
+        expect(controller.isDirty('element:maria'), isFalse);
+        expect(controller.externalVersions['element:maria'], 2);
+
+        await outside.removeElement('maria');
+        await controller.reloadFromDisk();
+        expect(controller.tabs.any((t) => t.id == 'element:maria'), isFalse);
+      },
+    );
+  });
 
   test('painéis respeitam os limites de tamanho e a seleção alterna', () {
     controller.resizeSidePanel(1000);

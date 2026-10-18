@@ -208,7 +208,10 @@
     "retry": "Try again",
     "close_tab": "Close tab",
     "close_others": "Close other tabs",
-    "chapters_label": "Chapters"
+    "chapters_label": "Chapters",
+    "external_changed": "This file was changed outside Plotcraft and you have unsaved edits. Which version stays?",
+    "external_load": "Load the new one",
+    "external_keep": "Keep mine"
   },
   "sidebar": {
     "projects": "Projects",

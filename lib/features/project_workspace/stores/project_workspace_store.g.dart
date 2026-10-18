@@ -278,6 +278,16 @@ mixin _$ProjectWorkspaceStore on _ProjectWorkspaceStore, Store {
     );
   }
 
+  late final _$refreshFromDiskAsyncAction = AsyncAction(
+    '_ProjectWorkspaceStore.refreshFromDisk',
+    context: context,
+  );
+
+  @override
+  Future<bool> refreshFromDisk() {
+    return _$refreshFromDiskAsyncAction.run(() => super.refreshFromDisk());
+  }
+
   late final _$saveBookDocumentAsyncAction = AsyncAction(
     '_ProjectWorkspaceStore.saveBookDocument',
     context: context,

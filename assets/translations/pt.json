@@ -208,7 +208,10 @@
     "retry": "Tentar novamente",
     "close_tab": "Fechar aba",
     "close_others": "Fechar outras abas",
-    "chapters_label": "Capítulos"
+    "chapters_label": "Capítulos",
+    "external_changed": "Este arquivo foi alterado fora do Plotcraft e você tem alterações não salvas. Qual versão fica?",
+    "external_load": "Carregar a nova",
+    "external_keep": "Manter a minha"
   },
   "sidebar": {
     "projects": "Projetos",
