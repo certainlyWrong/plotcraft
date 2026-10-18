@@ -41,6 +41,14 @@ class Call {
   }
 }
 
+/// A result with extra content next to the JSON (for example an image).
+class WithContent {
+  const WithContent(this.data, this.content);
+
+  final Map<String, Object?> data;
+  final List<Content> content;
+}
+
 typedef ToolHandler = Future<Object?> Function(Call call);
 
 /// A tool: its definition for the client and the code that runs it.
@@ -109,6 +117,15 @@ class ToolSpec {
   }
 
   CallToolResult _success(Object? result) {
+    if (result is WithContent) {
+      return CallToolResult(
+        content: [
+          TextContent(text: _pretty(result.data)),
+          ...result.content,
+        ],
+        structuredContent: result.data,
+      );
+    }
     final Map<String, Object?> data = switch (result) {
       null => {'ok': true},
       final Map<String, Object?> map => map,
