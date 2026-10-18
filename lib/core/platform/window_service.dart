@@ -25,4 +25,7 @@ class WindowService {
       },
     );
   }
+
+  static Future<void> setFullScreen(bool value) =>
+      windowManager.setFullScreen(value);
 }

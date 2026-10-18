@@ -30,7 +30,8 @@ lib/
   - `domain/` tem o livro, os elementos narrativos e as extensões de Markdown.
   - `data/` tem um repositório por assunto, todos sobre `ProjectFiles` (manifesto e escritas atômicas): `BookRepository`, `NarrativeRepository`, `GalleryRepository` e `ProjectMetadataRepository`. `ProjectWorkspaceRepository` os agrupa e carrega tudo de uma vez.
   - `stores/` tem `ProjectWorkspaceStore`: projeto aberto, manuscrito, galeria, metadados e estados das operações.
-  - `presentation/` tem visão geral, escrita, galeria, elementos e inspetor.
+  - `stores/` tem também `WorkspaceController` (MobX): abas abertas, painel lateral, inspetor, tamanhos dos painéis, buffers de texto dos capítulos e salvamento automático. Ele não abre diálogos; quem pergunta ao usuário é `WorkspaceActions`.
+  - `presentation/` está dividida em `shell/` (barra de atividades, painel lateral, área de abas e `WorkspaceShell`, que une tudo com divisores arrastáveis), `manuscript/` (editor, barra de ferramentas, prévia e lista de capítulos), `elements/` (lista, editor de elemento e diálogo de título e texto) e `widgets/` (visão geral, galeria, metadados e inspetor). `workspace_actions.dart` reúne as operações iniciadas pela pessoa (fechar aba, capítulos, galeria, metadados, tela cheia).
 - **`features/preferences/`**: `ThemeStore` (catálogo de temas, fonte e persistência) e a página de preferências.
 - **`core/ui/`**: os componentes recebem dados e callbacks; cores, foco, bordas e estados vêm do tema ativo. `ProjectImage` mostra imagens da pasta do projeto.
 - A interface usa ícones Feather do pacote `icons_flutter`; a tipografia padrão é Times New Roman, com famílias empacotadas selecionáveis.
@@ -54,4 +55,4 @@ Para adicionar um tema, crie um JSON em `assets/themes/` conforme o contrato des
 
 ## Limites atuais
 
-A área inicial de desktop permite criar, localizar, ordenar, abrir e excluir projetos, além de configurar idioma, tema, fonte e pasta base em páginas próprias. O projeto aberto oferece visão geral, edição dos metadados e da capa, galeria visual, editor Markdown para manuscrito único ou capítulos e gerenciamento de elementos narrativos. O índice do livro e os elementos são persistidos em arquivos próprios dentro da pasta do projeto; o workspace coordena essas regras pela `ProjectWorkspaceStore`.
+A área inicial de desktop permite criar, localizar, ordenar, abrir e excluir projetos, além de configurar idioma, tema, fonte e pasta base em páginas próprias. O projeto aberto é um espaço de trabalho em painéis: barra de atividades, painel lateral com capítulos ou elementos, área de abas (visão geral, configurações do projeto, galeria, capítulos e elementos abertos ao mesmo tempo) e inspetor, todos redimensionáveis, com larguras salvas localmente. O editor ainda é Markdown para manuscrito único ou capítulos. O índice do livro e os elementos são persistidos em arquivos próprios dentro da pasta do projeto; o workspace coordena essas regras pela `ProjectWorkspaceStore`.

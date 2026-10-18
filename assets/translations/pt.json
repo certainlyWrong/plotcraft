@@ -205,7 +205,9 @@
     "gallery_empty_title": "Sua galeria está vazia",
     "gallery_empty_help": "Use Adicionar imagens ou coloque arquivos diretamente nesta pasta:",
     "load_error": "Não foi possível abrir este projeto. Confira se a pasta está disponível.",
-    "retry": "Tentar novamente"
+    "retry": "Tentar novamente",
+    "close_tab": "Fechar aba",
+    "close_others": "Fechar outras abas"
   },
   "sidebar": {
     "projects": "Projetos",

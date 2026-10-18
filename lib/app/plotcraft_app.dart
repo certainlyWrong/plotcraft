@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../core/storage/local_storage.dart';
 import '../features/projects/presentation/project_home_screen.dart';
 import '../features/project_creation/stores/project_creation_store.dart';
 import '../features/projects/stores/project_store.dart';
@@ -13,11 +14,13 @@ class PlotcraftApp extends StatelessWidget {
     required this.projects,
     required this.creation,
     required this.themes,
+    required this.storage,
   });
 
   final ProjectStore projects;
   final ProjectCreationStore creation;
   final ThemeStore themes;
+  final LocalStorage storage;
 
   @override
   Widget build(BuildContext context) => Observer(
@@ -34,6 +37,7 @@ class PlotcraftApp extends StatelessWidget {
         projects: projects,
         creation: creation,
         themes: themes,
+        storage: storage,
       ),
     ),
   );

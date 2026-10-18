@@ -63,6 +63,11 @@ class LocalStorage {
   Future<void> saveFolderBookmarks(Map<String, String> bookmarks) =>
       _preferences.setString(_folderBookmarksKey, jsonEncode(bookmarks));
 
+  double? loadDouble(String key) => _preferences.getDouble('plotcraft.$key');
+
+  Future<void> saveDouble(String key, double value) =>
+      _preferences.setDouble('plotcraft.$key', value);
+
   String loadTheme() => _preferences.getString(_themeKey) ?? 'violet';
   Future<void> saveTheme(String value) =>
       _preferences.setString(_themeKey, value);

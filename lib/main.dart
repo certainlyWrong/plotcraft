@@ -48,6 +48,7 @@ Future<void> main() async {
         projects: projects,
         creation: creation,
         themes: themes,
+        storage: storage,
       ),
     ),
   );

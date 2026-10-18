@@ -205,7 +205,9 @@
     "gallery_empty_title": "Your gallery is empty",
     "gallery_empty_help": "Use Add images or place files directly in this folder:",
     "load_error": "Could not open this project. Check that its folder is available.",
-    "retry": "Try again"
+    "retry": "Try again",
+    "close_tab": "Close tab",
+    "close_others": "Close other tabs"
   },
   "sidebar": {
     "projects": "Projects",

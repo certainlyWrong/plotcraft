@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
+import '../../../core/storage/local_storage.dart';
 import '../domain/story_project.dart';
 import '../../project_creation/presentation/project_creation_screen.dart';
 import '../../project_creation/stores/project_creation_store.dart';
@@ -30,11 +31,13 @@ class ProjectHomeScreen extends StatefulWidget {
     required this.projects,
     required this.creation,
     required this.themes,
+    required this.storage,
   });
 
   final ProjectStore projects;
   final ProjectCreationStore creation;
   final ThemeStore themes;
+  final LocalStorage storage;
 
   @override
   State<ProjectHomeScreen> createState() => _ProjectHomeScreenState();
@@ -85,6 +88,7 @@ class _ProjectHomeScreenState extends State<ProjectHomeScreen> {
         project: _openedProject!,
         store: _workspace!,
         onBack: _closeProject,
+        storage: widget.storage,
       );
     }
     return Observer(

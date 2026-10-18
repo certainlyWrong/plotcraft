@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../projects/domain/story_project.dart';
+import '../../domain/workspace_tab.dart';
 import '../../../../core/ui/plotcraft_button.dart';
+import '../../../../core/ui/plotcraft_icon_button.dart';
 import 'project_cover_art.dart';
 import 'project_tags.dart';
-import 'workspace_sidebar.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';
 
 class WorkspaceInspector extends StatelessWidget {
@@ -18,7 +19,6 @@ class WorkspaceInspector extends StatelessWidget {
     required this.imageCount,
     required this.onEditProject,
     required this.onClose,
-    this.overlay = false,
   });
 
   final StoryProject project;
@@ -27,33 +27,19 @@ class WorkspaceInspector extends StatelessWidget {
   final int imageCount;
   final VoidCallback onEditProject;
   final VoidCallback onClose;
-  final bool overlay;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     return Container(
-      width: 304,
-      decoration: BoxDecoration(
-        color: scheme.surface,
-        border: Border(left: BorderSide(color: scheme.outlineVariant)),
-        boxShadow: overlay
-            ? [
-                BoxShadow(
-                  color: scheme.shadow.withValues(alpha: .16),
-                  blurRadius: 28,
-                  offset: const Offset(-8, 0),
-                ),
-              ]
-            : null,
-      ),
+      color: scheme.surface,
       child: Column(
         children: [
           SizedBox(
-            height: 66,
+            height: 38,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 12, 0),
+              padding: const EdgeInsets.fromLTRB(16, 0, 4, 0),
               child: Row(
                 children: [
                   Expanded(
@@ -64,10 +50,10 @@ class WorkspaceInspector extends StatelessWidget {
                       ),
                     ),
                   ),
-                  IconButton(
+                  PlotcraftIconButton(
+                    icon: Feather.x,
                     tooltip: 'workspace.close_inspector'.tr(),
                     onPressed: onClose,
-                    icon: const Icon(Feather.x, size: 18),
                   ),
                 ],
               ),
@@ -224,7 +210,7 @@ class WorkspaceInspector extends StatelessWidget {
     final local = date.toLocal();
     final day = local.day.toString().padLeft(2, '0');
     final month = local.month.toString().padLeft(2, '0');
-    return context.locale.languageCode == 'pt'
+    return Localizations.localeOf(context).languageCode == 'pt'
         ? '$day/$month/${local.year}'
         : '$month/$day/${local.year}';
   }
