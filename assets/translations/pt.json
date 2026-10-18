@@ -375,5 +375,14 @@
     "icon_picker_search": "Buscar ícones",
     "icon_picker_empty": "Nenhum ícone encontrado",
     "color_picker_hex": "#RRGGBB"
+  },
+  "editor": {
+    "font": "Fonte",
+    "size": "Tamanho",
+    "matches": "{count} encontrados",
+    "replace_all": "Substituir tudo",
+    "close_find": "Fechar busca",
+    "placeholder": "Comece a escrever…",
+    "add_to_dictionary": "Adicionar ao dicionário"
   }
 }

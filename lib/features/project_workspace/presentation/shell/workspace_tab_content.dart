@@ -74,13 +74,10 @@ class WorkspaceTabContent extends StatelessWidget {
         final buffer = controller.bufferFor(chapterId);
         return BookEditor(
           key: ObjectKey(buffer),
-          projectFolder: project.directoryPath ?? '',
           controller: buffer.controller,
-          elements: store.elements.toList(),
           dirty: controller.isDirty(tab.id),
           saving: store.isSaving,
           fullscreen: controller.editorFullscreen,
-          onChanged: () => controller.onBufferChanged(chapterId),
           onSave: () => actions.saveManuscript(context, chapterId),
           onToggleFullscreen: () => actions.toggleFullscreen(context),
           onOpenElement: actions.openElement,

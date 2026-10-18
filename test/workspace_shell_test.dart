@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart'
+    show FlutterQuillLocalizations;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
 import 'package:plotcraft/core/theme/theme_definition.dart';
@@ -58,6 +60,9 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: builtInThemes.first.toThemeData(fontFamily: 'Lora'),
+        localizationsDelegates:
+            FlutterQuillLocalizations.localizationsDelegates,
+        supportedLocales: FlutterQuillLocalizations.supportedLocales,
         home: WorkspaceShell(
           project: project,
           controller: controller,
@@ -95,12 +100,13 @@ void main() {
       expect(find.byType(BookEditor), findsOneWidget);
       expect(tabTitles(tester), ['workspace.overview', 'workspace.manuscript']);
 
-      await tester.enterText(
-        find.descendant(
-          of: find.byType(BookEditor),
-          matching: find.byType(TextField),
-        ),
+      // Typing goes through the Quill controller; the buffer notices it.
+      final buffer = controller.bufferFor(null);
+      buffer.controller.replaceText(
+        0,
+        buffer.controller.document.length - 1,
         'Texto editado.',
+        const TextSelection.collapsed(offset: 14),
       );
       await tester.pump();
       expect(controller.isDirty('manuscript'), isTrue);

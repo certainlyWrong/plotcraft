@@ -1,30 +1,41 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../core/storage/local_storage.dart';
 import '../../projects/domain/story_project.dart';
-import '../domain/rich/delta_to_markdown.dart';
-import '../domain/rich/markdown_to_delta.dart';
 import '../domain/workspace_tab.dart';
 import 'project_workspace_store.dart';
 
 part 'workspace_controller.g.dart';
 
-/// Text of one manuscript document (the single manuscript or one chapter).
+/// One open manuscript document: its Quill controller and the Delta that was
+/// last saved, so the buffer knows when it has unsaved changes.
 class DocumentBuffer {
-  DocumentBuffer(String text)
-    : controller = TextEditingController(text: text),
-      savedText = text;
+  DocumentBuffer(Delta saved, {required VoidCallback onChanged})
+    : savedDelta = saved,
+      controller = QuillController(
+        document: Document.fromDelta(saved),
+        selection: const TextSelection.collapsed(offset: 0),
+      ) {
+    _changes = controller.document.changes.listen((_) => onChanged());
+  }
 
-  final TextEditingController controller;
-  String savedText;
+  final QuillController controller;
+  Delta savedDelta;
   Timer? autosave;
+  late final StreamSubscription<DocChange> _changes;
+
+  Delta get currentDelta => controller.document.toDelta();
+
+  bool get isModified => currentDelta != savedDelta;
 
   void dispose() {
     autosave?.cancel();
+    unawaited(_changes.cancel());
     controller.dispose();
   }
 }
@@ -275,24 +286,12 @@ abstract class _WorkspaceController with Store {
       ? WorkspaceTab.singleManuscript
       : WorkspaceTab.chapter(chapterId);
 
-  // The editor still works on Markdown text; the book is stored as Deltas, so
-  // text is converted both ways until the rich editor replaces it.
-  String _markdownOf(String? chapterId) {
-    final files = {for (final item in store.galleryItems) item.id: item.file};
-    return DeltaToMarkdown(
-      galleryFile: files.isEmpty ? null : (id) => files[id],
-    ).convert(store.book.deltaFor(chapterId));
-  }
-
-  Delta _deltaOf(String markdown) {
-    final ids = {for (final item in store.galleryItems) item.file: item.id};
-    return MarkdownToDelta(galleryId: ids.isEmpty ? null : (file) => ids[file])
-        .convert(markdown);
-  }
-
   DocumentBuffer bufferFor(String? chapterId) => _buffers.putIfAbsent(
     chapterId ?? 'single',
-    () => DocumentBuffer(_markdownOf(chapterId)),
+    () => DocumentBuffer(
+      store.book.deltaFor(chapterId),
+      onChanged: () => onBufferChanged(chapterId),
+    ),
   );
 
   @action
@@ -305,7 +304,7 @@ abstract class _WorkspaceController with Store {
   void onBufferChanged(String? chapterId) {
     final buffer = bufferFor(chapterId);
     final tabId = manuscriptTab(chapterId).id;
-    setDirty(tabId, buffer.controller.text != buffer.savedText);
+    setDirty(tabId, buffer.isModified);
     buffer.autosave?.cancel();
     buffer.autosave = Timer(_autosaveDelay, () {
       if (isDirty(tabId) && !store.isSaving) {
@@ -319,13 +318,19 @@ abstract class _WorkspaceController with Store {
     final chapterId = key == 'single' ? null : key;
     final buffer = _buffers[key];
     final tabId = manuscriptTab(chapterId).id;
-    if (buffer == null || !isDirty(tabId)) return true;
+    if (buffer == null) return true;
+    // The Delta is the truth; the dirty flag is updated by a stream event that
+    // can lag behind an edit made a moment ago.
+    if (!buffer.isModified) {
+      runInAction(() => setDirty(tabId, false));
+      return true;
+    }
     if (store.isSaving) return false;
     buffer.autosave?.cancel();
-    final text = buffer.controller.text;
-    await store.saveBookDocument(chapterId, _deltaOf(text));
-    buffer.savedText = text;
-    final current = buffer.controller.text == text;
+    final delta = buffer.currentDelta;
+    await store.saveBookDocument(chapterId, delta);
+    buffer.savedDelta = delta;
+    final current = !buffer.isModified;
     runInAction(() => setDirty(tabId, !current));
     if (!current) onBufferChanged(chapterId);
     return current;

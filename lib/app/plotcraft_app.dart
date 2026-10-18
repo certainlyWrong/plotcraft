@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_quill/flutter_quill.dart'
+    show FlutterQuillLocalizations;
 
 import '../core/storage/local_storage.dart';
 import '../features/projects/presentation/project_home_screen.dart';
@@ -32,7 +34,10 @@ class PlotcraftApp extends StatelessWidget {
       theme: themes.selectedTheme.toThemeData(fontFamily: themes.fontFamily),
       locale: context.locale,
       supportedLocales: context.supportedLocales,
-      localizationsDelegates: context.localizationDelegates,
+      localizationsDelegates: [
+        ...context.localizationDelegates,
+        FlutterQuillLocalizations.delegate,
+      ],
       home: ProjectHomeScreen(
         projects: projects,
         creation: creation,

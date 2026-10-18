@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
 import 'package:plotcraft/features/project_workspace/data/project_workspace_repository.dart';
@@ -8,6 +9,24 @@ import 'package:plotcraft/features/project_workspace/domain/workspace_tab.dart';
 import 'package:plotcraft/features/project_workspace/stores/project_workspace_store.dart';
 import 'package:plotcraft/features/project_workspace/stores/workspace_controller.dart';
 import 'package:plotcraft/features/projects/domain/story_project.dart';
+
+/// Text of a buffer without the trailing newline Quill always keeps.
+String textOf(DocumentBuffer buffer) =>
+    buffer.controller.document.toPlainText().trim();
+
+/// Replaces the whole text of a buffer, like the person typing over it.
+void setText(DocumentBuffer buffer, String text) {
+  final controller = buffer.controller;
+  controller.replaceText(
+    0,
+    controller.document.length - 1,
+    text,
+    TextSelection.collapsed(offset: text.length),
+  );
+}
+
+/// Lets the document's change stream deliver its events.
+Future<void> pumpEvents() => Future<void>.delayed(Duration.zero);
 
 void main() {
   late Directory folder;
@@ -68,9 +87,11 @@ void main() {
   test('editar marca a aba como suja e salvar grava o arquivo', () async {
     controller.openManuscript(null);
     final buffer = controller.bufferFor(null);
-    expect(buffer.controller.text.trim(), 'Texto inicial.');
-    buffer.controller.text = 'Texto novo.';
-    controller.onBufferChanged(null);
+    expect(textOf(buffer), 'Texto inicial.');
+    expect(controller.isDirty('manuscript'), isFalse);
+    // Typing in the editor marks the tab dirty without any extra call.
+    setText(buffer, 'Texto novo.');
+    await pumpEvents();
     expect(controller.isDirty('manuscript'), isTrue);
 
     expect(await controller.saveBuffer('single'), isTrue);
@@ -94,8 +115,7 @@ void main() {
     'canClose salva o manuscrito e respeita a trava de outras abas',
     () async {
       controller.openManuscript(null);
-      controller.bufferFor(null).controller.text = 'Mudou.';
-      controller.onBufferChanged(null);
+      setText(controller.bufferFor(null), 'Mudou.');
       expect(await controller.canClose('manuscript'), isTrue);
       expect(store.book.singleText.trim(), 'Mudou.');
 
@@ -125,7 +145,7 @@ void main() {
     controller.openManuscript(store.book.chapters.first.id);
     expect(controller.activeTab?.kind, WorkspaceTabKind.chapter);
     expect(
-      controller.bufferFor(store.book.chapters.first.id).controller.text,
+      textOf(controller.bufferFor(store.book.chapters.first.id)),
       contains('Texto inicial.'),
     );
   });
