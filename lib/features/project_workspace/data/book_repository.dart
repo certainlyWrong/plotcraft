@@ -62,11 +62,16 @@ class BookRepository {
     );
   }
 
+  /// Switches between one manuscript and chapters. [firstChapterTitle] names
+  /// the chapter made from the manuscript; the project title is used when it
+  /// is not given. A manuscript that only holds the project's title as a
+  /// heading becomes an empty chapter.
   Future<BookWriteResult> setChapterMode(
     StoryProject project,
     BookContent book,
-    bool enabled,
-  ) async {
+    bool enabled, {
+    String? firstChapterTitle,
+  }) async {
     if (book.chaptersEnabled == enabled) return BookWriteResult(project, book);
     final folder = _files.folder(project);
     await _files.ensureManifest(project);
@@ -84,13 +89,20 @@ class BookRepository {
         );
         await _files.writeJson(archive, book.toIndexJson());
       }
-      final chapter = BookChapter(id: _files.newId(), title: project.title);
-      await _writeDocument(project, folder, chapter.id, book.singleDelta);
+      final chapter = BookChapter(
+        id: _files.newId(),
+        title: firstChapterTitle ?? project.title,
+      );
+      final onlyTitle =
+          RichDocument.plainText(book.singleDelta).trim() ==
+          project.title.trim();
+      final content = onlyTitle ? RichDocument.empty() : book.singleDelta;
+      await _writeDocument(project, folder, chapter.id, content);
       next = BookContent(
         chaptersEnabled: true,
         singleDelta: book.singleDelta,
         chapters: [chapter],
-        chapterDeltas: {chapter.id: book.singleDelta},
+        chapterDeltas: {chapter.id: content},
       );
     } else {
       final combined = mergeChapters(book.chapters, book.deltaFor);

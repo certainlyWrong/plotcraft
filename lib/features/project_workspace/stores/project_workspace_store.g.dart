@@ -272,8 +272,10 @@ mixin _$ProjectWorkspaceStore on _ProjectWorkspaceStore, Store {
   );
 
   @override
-  Future<void> load(StoryProject selected) {
-    return _$loadAsyncAction.run(() => super.load(selected));
+  Future<void> load(StoryProject selected, {String? firstChapterTitle}) {
+    return _$loadAsyncAction.run(
+      () => super.load(selected, firstChapterTitle: firstChapterTitle),
+    );
   }
 
   late final _$saveBookDocumentAsyncAction = AsyncAction(
@@ -294,8 +296,10 @@ mixin _$ProjectWorkspaceStore on _ProjectWorkspaceStore, Store {
   );
 
   @override
-  Future<void> setChapterMode(bool enabled) {
-    return _$setChapterModeAsyncAction.run(() => super.setChapterMode(enabled));
+  Future<void> setChapterMode(bool enabled, {String? firstChapterTitle}) {
+    return _$setChapterModeAsyncAction.run(
+      () => super.setChapterMode(enabled, firstChapterTitle: firstChapterTitle),
+    );
   }
 
   late final _$addChapterAsyncAction = AsyncAction(

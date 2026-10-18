@@ -92,18 +92,19 @@ void main() {
       await tester.pump();
       expect(find.byType(ChapterList), findsOneWidget);
 
+      final id = controller.store.book.chapters.first.id;
       await tester.tap(
         find.descendant(
           of: find.byType(ChapterList),
-          matching: find.text('workspace.manuscript'),
+          matching: find.text('Livro'),
         ),
       );
       await tester.pump();
       expect(find.byType(BookEditor), findsOneWidget);
-      expect(tabTitles(tester), ['workspace.overview', 'workspace.manuscript']);
+      expect(tabTitles(tester), ['workspace.overview', 'Livro']);
 
       // Typing goes through the Quill controller; the buffer notices it.
-      final buffer = controller.bufferFor(null);
+      final buffer = controller.bufferFor(id);
       buffer.controller.replaceText(
         0,
         buffer.controller.document.length - 1,
@@ -111,12 +112,12 @@ void main() {
         const TextSelection.collapsed(offset: 14),
       );
       await tester.pump();
-      expect(controller.isDirty('manuscript'), isTrue);
+      expect(controller.isDirty('chapter:$id'), isTrue);
 
       await tester.runAsync(
         () => actions.closeTab(
           tester.element(find.byType(WorkspaceShell)),
-          'manuscript',
+          'chapter:$id',
         ),
       );
       await tester.pump();
@@ -125,7 +126,7 @@ void main() {
       // Real file IO only completes outside the widget test's fake clock.
       final saved = await tester.runAsync(
         () =>
-            File(p.join(folder.path, 'content', 'book', 'manuscript.md'))
+            File(p.join(folder.path, 'content', 'book', 'chapters', '$id.md'))
                 .readAsString(),
       );
       expect(saved, 'Texto editado.\n');

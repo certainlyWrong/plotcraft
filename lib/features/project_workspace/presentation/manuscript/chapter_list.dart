@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
+import '../../../../core/ui/count_label.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_context_menu.dart';
 import '../../../../core/ui/plotcraft_popup_menu.dart';
@@ -10,28 +11,29 @@ import '../shell/side_panel_widgets.dart';
 
 enum ChapterAction { rename, up, down, remove }
 
-/// Side panel for the manuscript: the single manuscript or the chapter list.
+/// Side panel for the manuscript: the chapters, in reading order. A chapter
+/// can be dragged to a new place or moved with its menu.
 class ChapterList extends StatelessWidget {
   const ChapterList({
     super.key,
     required this.book,
     required this.activeChapterId,
-    required this.singleActive,
     required this.busy,
     required this.onOpen,
-    required this.onOpenSingle,
     required this.onAction,
-    required this.onToggleChapters,
+    required this.onReorder,
+    required this.onAdd,
   });
 
   final BookContent book;
   final String? activeChapterId;
-  final bool singleActive;
   final bool busy;
   final ValueChanged<String> onOpen;
-  final VoidCallback onOpenSingle;
   final void Function(BookChapter chapter, ChapterAction action) onAction;
-  final VoidCallback onToggleChapters;
+
+  /// Reports the chapter's new position, adjusted for the removal.
+  final void Function(int oldIndex, int newIndex) onReorder;
+  final VoidCallback onAdd;
 
   List<PopupMenuEntry<ChapterAction>> _menu(int index) => [
     PopupMenuItem(value: ChapterAction.rename, child: Text('book.rename'.tr())),
@@ -54,51 +56,56 @@ class ChapterList extends StatelessWidget {
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
       Expanded(
-        child: book.chaptersEnabled
-            ? ListView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                itemCount: book.chapters.length,
-                itemBuilder: (context, index) {
-                  final chapter = book.chapters[index];
-                  return PlotcraftContextRegion<ChapterAction>(
-                    itemsBuilder: (_) => _menu(index),
+        child: ReorderableListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          buildDefaultDragHandles: false,
+          itemCount: book.chapters.length,
+          onReorderItem: (oldIndex, newIndex) {
+            if (!busy) onReorder(oldIndex, newIndex);
+          },
+          proxyDecorator: (child, _, _) =>
+              Material(color: Colors.transparent, child: child),
+          itemBuilder: (context, index) {
+            final chapter = book.chapters[index];
+            final words = _words(book.chapterTexts[chapter.id] ?? '');
+            return ReorderableDragStartListener(
+              key: ValueKey(chapter.id),
+              index: index,
+              child: PlotcraftContextRegion<ChapterAction>(
+                itemsBuilder: (_) => _menu(index),
+                onSelected: (action) => onAction(chapter, action),
+                child: PanelListItem(
+                  icon: Feather.file_text,
+                  label: chapter.title,
+                  subtitle: countLabel('workspace.word_count', words),
+                  selected: chapter.id == activeChapterId,
+                  onTap: () => onOpen(chapter.id),
+                  trailing: PlotcraftPopupMenuButton<ChapterAction>(
+                    tooltip: 'book.chapter_actions'.tr(),
+                    icon: const Icon(Feather.more_horizontal, size: 15),
                     onSelected: (action) => onAction(chapter, action),
-                    child: PanelListItem(
-                      icon: Feather.file_text,
-                      label: chapter.title,
-                      selected: chapter.id == activeChapterId,
-                      onTap: () => onOpen(chapter.id),
-                      trailing: PlotcraftPopupMenuButton<ChapterAction>(
-                        tooltip: 'book.chapter_actions'.tr(),
-                        icon: const Icon(Feather.more_horizontal, size: 15),
-                        onSelected: (action) => onAction(chapter, action),
-                        itemBuilder: (_) => _menu(index),
-                      ),
-                    ),
-                  );
-                },
-              )
-            : ListView(
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                children: [
-                  PanelListItem(
-                    icon: Feather.file_text,
-                    label: 'workspace.manuscript'.tr(),
-                    selected: singleActive,
-                    onTap: onOpenSingle,
+                    itemBuilder: (_) => _menu(index),
                   ),
-                ],
+                ),
               ),
+            );
+          },
+        ),
       ),
       Padding(
         padding: const EdgeInsets.all(8),
         child: PlotcraftButton(
-          icon: Feather.book_open,
-          label: 'book.toggle_chapters'.tr(),
+          icon: Feather.plus,
+          label: 'book.add_chapter'.tr(),
           variant: PlotcraftButtonVariant.text,
-          onPressed: busy ? null : onToggleChapters,
+          onPressed: busy ? null : onAdd,
         ),
       ),
     ],
   );
+
+  static int _words(String text) {
+    final trimmed = text.trim();
+    return trimmed.isEmpty ? 0 : trimmed.split(RegExp(r'\s+')).length;
+  }
 }

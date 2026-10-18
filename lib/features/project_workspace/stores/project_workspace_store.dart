@@ -80,12 +80,24 @@ abstract class _ProjectWorkspaceStore with Store {
   int get wordCount => book.wordCount;
 
   @action
-  Future<void> load(StoryProject selected) async {
+  Future<void> load(StoryProject selected, {String? firstChapterTitle}) async {
     isLoading = true;
     try {
       final data = await _repository.load(selected);
       project = selected;
       book = data.book;
+      // A book is always a list of chapters: a manuscript from before that, or
+      // a new project, becomes the first chapter.
+      if (!book.chaptersEnabled) {
+        _applyBookResult(
+          await _repository.book.setChapterMode(
+            selected,
+            book,
+            true,
+            firstChapterTitle: firstChapterTitle,
+          ),
+        );
+      }
       elements = ObservableList.of(data.elements);
       customElementTypes = ObservableList.of(data.types);
       galleryImages = ObservableList.of(data.galleryImages);
@@ -114,13 +126,18 @@ abstract class _ProjectWorkspaceStore with Store {
   }
 
   @action
-  Future<void> setChapterMode(bool enabled) async {
+  Future<void> setChapterMode(bool enabled, {String? firstChapterTitle}) async {
     final current = project;
     if (current == null || isBookUpdating) return;
     isBookUpdating = true;
     try {
       _applyBookResult(
-        await _repository.book.setChapterMode(current, book, enabled),
+        await _repository.book.setChapterMode(
+          current,
+          book,
+          enabled,
+          firstChapterTitle: firstChapterTitle,
+        ),
       );
     } finally {
       isBookUpdating = false;

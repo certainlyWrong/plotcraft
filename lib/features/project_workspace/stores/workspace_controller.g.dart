@@ -212,8 +212,10 @@ mixin _$WorkspaceController on _WorkspaceController, Store {
   );
 
   @override
-  Future<void> load() {
-    return _$loadAsyncAction.run(() => super.load());
+  Future<void> load({String? firstChapterTitle}) {
+    return _$loadAsyncAction.run(
+      () => super.load(firstChapterTitle: firstChapterTitle),
+    );
   }
 
   late final _$_WorkspaceControllerActionController = ActionController(

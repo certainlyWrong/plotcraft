@@ -148,27 +148,25 @@ class WorkspaceShell extends StatelessWidget {
       _ => SidePanel(
         title: 'workspace.manuscript'.tr(),
         actions: [
-          if (store.book.chaptersEnabled)
-            PlotcraftIconButton(
-              icon: Feather.plus,
-              tooltip: 'book.add_chapter'.tr(),
-              onPressed: store.isBookUpdating
-                  ? null
-                  : () => actions.addChapter(context),
-            ),
+          PlotcraftIconButton(
+            icon: Feather.plus,
+            tooltip: 'book.add_chapter'.tr(),
+            onPressed: store.isBookUpdating
+                ? null
+                : () => actions.addChapter(context),
+          ),
         ],
         child: ChapterList(
           book: store.book,
           activeChapterId: activeTab?.kind == WorkspaceTabKind.chapter
               ? activeTab?.refId
               : null,
-          singleActive: activeTab?.kind == WorkspaceTabKind.manuscript,
           busy: store.isBookUpdating,
           onOpen: controller.openManuscript,
-          onOpenSingle: () => controller.openManuscript(null),
           onAction: (chapter, action) =>
               actions.chapterAction(context, chapter, action),
-          onToggleChapters: () => actions.toggleChapters(context),
+          onReorder: (from, to) => actions.reorderChapter(context, from, to),
+          onAdd: () => actions.addChapter(context),
         ),
       ),
     };

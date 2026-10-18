@@ -129,10 +129,13 @@ abstract class _WorkspaceController with Store {
 
   /// Loads the project's files into the store and refreshes open documents.
   @action
-  Future<void> load() async {
+  Future<void> load({String? firstChapterTitle}) async {
     loadFailed = false;
     try {
-      await store.load(store.project ?? _initialProject);
+      await store.load(
+        store.project ?? _initialProject,
+        firstChapterTitle: firstChapterTitle,
+      );
       resetBuffers();
       await fonts.load(store.project ?? _initialProject);
     } catch (_) {

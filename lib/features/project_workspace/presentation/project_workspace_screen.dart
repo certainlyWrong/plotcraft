@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -53,7 +54,7 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
     );
     _actions = WorkspaceActions(_controller);
     windowManager.addListener(this);
-    _controller.load();
+    _controller.load(firstChapterTitle: 'book.first_chapter'.tr());
   }
 
   @override

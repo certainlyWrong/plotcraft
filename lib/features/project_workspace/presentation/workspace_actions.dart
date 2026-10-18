@@ -99,24 +99,6 @@ class WorkspaceActions {
     }
   }
 
-  Future<void> toggleChapters(BuildContext context) async {
-    if (!await _settle(context) || !context.mounted) return;
-    final enabling = !store.book.chaptersEnabled;
-    final confirmed = await showConfirmDialog(
-      context,
-      title: enabling ? 'book.enable_title'.tr() : 'book.disable_title'.tr(),
-      message: enabling
-          ? 'book.enable_message'.tr()
-          : 'book.disable_message'.tr(),
-      confirmLabel: 'book.convert'.tr(),
-    );
-    if (!confirmed || !context.mounted) return;
-    await _bookOperation(context, () async {
-      await store.setChapterMode(enabling);
-      controller.openManuscript(enabling ? store.book.chapters.first.id : null);
-    });
-  }
-
   Future<void> addChapter(BuildContext context) async {
     if (!await _settle(context) || !context.mounted) return;
     final title = await promptChapterTitle(context);
@@ -142,6 +124,16 @@ class WorkspaceActions {
       case ChapterAction.remove:
         await _removeChapter(context, chapter);
     }
+  }
+
+  /// Moves the chapter at [from] to position [to] (after the removal).
+  Future<void> reorderChapter(BuildContext context, int from, int to) async {
+    final chapters = [...store.book.chapters];
+    if (from < 0 || from >= chapters.length || from == to) return;
+    if (!await _settle(context) || !context.mounted) return;
+    final moved = chapters.removeAt(from);
+    chapters.insert(to.clamp(0, chapters.length), moved);
+    await _bookOperation(context, () => store.updateChapters(chapters));
   }
 
   Future<void> _renameChapter(BuildContext context, BookChapter chapter) async {
