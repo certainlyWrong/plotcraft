@@ -63,6 +63,7 @@ NarrativeUpgrade upgradeLegacyKinds(
         fields: element.fields,
         sections: element.sections,
         phases: element.phases,
+        relations: element.relations,
         mentionPolicy: element.mentionPolicy,
         createdAt: element.createdAt,
         updatedAt: element.updatedAt,

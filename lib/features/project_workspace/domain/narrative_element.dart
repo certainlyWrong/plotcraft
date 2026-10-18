@@ -3,6 +3,7 @@ import 'dart:ui';
 import '../../../core/icons/icon_ref.dart';
 import '../../../core/theme/color_hex.dart';
 import 'element_image.dart';
+import 'element_relation.dart';
 
 class NarrativeSection {
   const NarrativeSection({
@@ -100,6 +101,7 @@ class NarrativeElement {
     this.color,
     this.images = const [],
     this.fields = const {},
+    this.relations = const [],
     this.mentionPolicy = const MentionPolicy(),
   });
 
@@ -123,6 +125,9 @@ class NarrativeElement {
   final Map<String, String> fields;
   final List<NarrativeSection> sections;
   final List<NarrativePhase> phases;
+
+  /// Links to other elements, stored on this (source) element only.
+  final List<ElementRelation> relations;
   final MentionPolicy mentionPolicy;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -141,6 +146,7 @@ class NarrativeElement {
     Map<String, String>? fields,
     List<NarrativeSection>? sections,
     List<NarrativePhase>? phases,
+    List<ElementRelation>? relations,
     MentionPolicy? mentionPolicy,
   }) => NarrativeElement(
     id: id,
@@ -155,6 +161,7 @@ class NarrativeElement {
     fields: fields ?? this.fields,
     sections: sections ?? this.sections,
     phases: phases ?? this.phases,
+    relations: relations ?? this.relations,
     mentionPolicy: mentionPolicy ?? this.mentionPolicy,
     createdAt: createdAt,
     updatedAt: DateTime.now(),
@@ -174,6 +181,7 @@ class NarrativeElement {
     'fields': fields,
     'sections': sections.map((section) => section.toJson()).toList(),
     'phases': phases.map((phase) => phase.toJson()).toList(),
+    'relations': relations.map((relation) => relation.toJson()).toList(),
     'mentionPolicy': mentionPolicy.toJson(),
     'createdAt': createdAt.toIso8601String(),
     'updatedAt': updatedAt.toIso8601String(),
@@ -209,6 +217,10 @@ class NarrativeElement {
         phases: (json['phases'] as List<dynamic>? ?? const [])
             .whereType<Map<String, dynamic>>()
             .map(NarrativePhase.fromJson)
+            .toList(),
+        relations: (json['relations'] as List<dynamic>? ?? const [])
+            .map(ElementRelation.fromJson)
+            .whereType<ElementRelation>()
             .toList(),
         mentionPolicy: MentionPolicy.fromJson(json['mentionPolicy']),
         createdAt: DateTime.parse(json['createdAt'] as String),
