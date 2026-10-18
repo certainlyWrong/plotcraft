@@ -160,54 +160,66 @@ class QuillSpellChecker extends ChangeNotifier implements TextOverlaySource {
     BuildContext context,
     QuillRawEditorState state, {
     List<ContextMenuButtonItem> extraItems = const [],
-  }) {
-    final selection = state.textEditingValue.selection;
-    final target = selection.isValid
-        ? misspellingAt(selection.baseOffset)
-        : null;
+  }) => _SpellContextMenu(checker: this, editor: state, extraItems: extraItems);
+
+  /// The misspelled word at the cursor or selection, with its text.
+  ({Misspelling range, String word})? targetAt(TextSelection selection) {
+    if (!selection.isValid) return null;
     final text = _controller?.document.toPlainText() ?? '';
-    final word = target == null || target.end > text.length
-        ? null
-        : text.substring(target.start, target.end);
-    return FutureBuilder<List<String>>(
-      future: word == null
-          ? Future.value(const [])
-          : backend.suggest(word, locale),
-      builder: (context, snapshot) {
-        final suggestions = snapshot.data ?? const <String>[];
-        final items = <ContextMenuButtonItem>[
-          if (target != null)
-            for (final suggestion in suggestions.take(5))
-              ContextMenuButtonItem(
-                label: suggestion,
-                onPressed: () {
-                  state.hideToolbar();
-                  replaceMisspelling(target, suggestion);
-                },
-              ),
-          if (target != null && word != null)
-            ContextMenuButtonItem(
-              label: _learnLabel,
-              onPressed: () {
-                state.hideToolbar();
-                unawaited(learn(word));
-              },
-            ),
-          ...extraItems,
-          ...state.contextMenuButtonItems,
-        ];
-        return AdaptiveTextSelectionToolbar.buttonItems(
-          buttonItems: items,
-          anchors: state.contextMenuAnchors,
-        );
-      },
-    );
+    for (final offset in {selection.start, selection.baseOffset}) {
+      final range = misspellingAt(offset);
+      if (range != null && range.end <= text.length) {
+        return (range: range, word: text.substring(range.start, range.end));
+      }
+    }
+    return null;
+  }
+
+  /// Where [word] is now, looking first at [near]: the underlines may have
+  /// moved or been refreshed since the menu opened. Null when it is gone.
+  Misspelling? locate(String word, int near) {
+    final text = _controller?.document.toPlainText();
+    if (text == null || word.isEmpty) return null;
+    final here = misspellingAt(near);
+    if (here != null &&
+        here.end <= text.length &&
+        text.substring(here.start, here.end) == word) {
+      return here;
+    }
+    Misspelling? best;
+    var from = 0;
+    while (true) {
+      final index = text.indexOf(word, from);
+      if (index < 0) break;
+      from = index + 1;
+      final end = index + word.length;
+      final before = index == 0 ? '' : text[index - 1];
+      final after = end >= text.length ? '' : text[end];
+      if (RegExp(r'[\p{L}\p{N}]', unicode: true).hasMatch(before) ||
+          RegExp(r'[\p{L}\p{N}]', unicode: true).hasMatch(after)) {
+        continue;
+      }
+      if (best == null || (index - near).abs() < (best.start - near).abs()) {
+        best = Misspelling(index, end);
+      }
+    }
+    return best;
+  }
+
+  /// Replaces [word] (found again near [near]) with [replacement]. False
+  /// when the word is no longer in the text.
+  bool applySuggestion(String word, int near, String replacement) {
+    final target = locate(word, near);
+    if (target == null) {
+      debugPrint('Spell check: "$word" is no longer in the text');
+      return false;
+    }
+    replaceMisspelling(target, replacement);
+    return true;
   }
 
   /// Label of the "add to dictionary" item; the interface sets a translation.
-  String _learnLabel = 'Add to dictionary';
-
-  set learnLabel(String value) => _learnLabel = value;
+  String learnLabel = 'Add to dictionary';
 
   /// Replaces the misspelled word with [replacement] as one undoable edit.
   void replaceMisspelling(Misspelling target, String replacement) {
@@ -232,5 +244,85 @@ class QuillSpellChecker extends ChangeNotifier implements TextOverlaySource {
     _disposed = true;
     detach();
     super.dispose();
+  }
+}
+
+/// The spelling part of the editor's context menu. It reads the word and asks
+/// for suggestions once, when the menu opens, so rebuilding the menu does not
+/// restart the request or lose the target.
+class _SpellContextMenu extends StatefulWidget {
+  const _SpellContextMenu({
+    required this.checker,
+    required this.editor,
+    required this.extraItems,
+  });
+
+  final QuillSpellChecker checker;
+  final QuillRawEditorState editor;
+  final List<ContextMenuButtonItem> extraItems;
+
+  @override
+  State<_SpellContextMenu> createState() => _SpellContextMenuState();
+}
+
+class _SpellContextMenuState extends State<_SpellContextMenu> {
+  ({Misspelling range, String word})? _target;
+  Future<List<String>> _suggestions = Future.value(const []);
+
+  @override
+  void initState() {
+    super.initState();
+    final checker = widget.checker;
+    _target = checker.targetAt(widget.editor.textEditingValue.selection);
+    final target = _target;
+    if (target != null) {
+      _suggestions = checker.backend
+          .suggest(target.word, checker.locale)
+          .catchError((_) => const <String>[]);
+    }
+  }
+
+  /// Closes the menu, runs [action] and gives the editor its focus back.
+  void _run(void Function() action) {
+    widget.editor.hideToolbar();
+    action();
+    widget.editor.requestKeyboard();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final target = _target;
+    return FutureBuilder<List<String>>(
+      future: _suggestions,
+      builder: (context, snapshot) {
+        final suggestions = snapshot.data ?? const <String>[];
+        final items = <ContextMenuButtonItem>[
+          if (target != null)
+            for (final suggestion in suggestions.take(5))
+              ContextMenuButtonItem(
+                label: suggestion,
+                onPressed: () => _run(
+                  () => widget.checker.applySuggestion(
+                    target.word,
+                    target.range.start,
+                    suggestion,
+                  ),
+                ),
+              ),
+          if (target != null)
+            ContextMenuButtonItem(
+              label: widget.checker.learnLabel,
+              onPressed: () =>
+                  _run(() => unawaited(widget.checker.learn(target.word))),
+            ),
+          ...widget.extraItems,
+          ...widget.editor.contextMenuButtonItems,
+        ];
+        return AdaptiveTextSelectionToolbar.buttonItems(
+          buttonItems: items,
+          anchors: widget.editor.contextMenuAnchors,
+        );
+      },
+    );
   }
 }
