@@ -3,17 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../core/ui/plotcraft_button.dart';
+import '../../../../core/ui/plotcraft_chip_input.dart';
 import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/plotcraft_dropdown.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
+import '../../../../core/icons/icon_ref.dart';
 import '../../domain/book_content.dart';
+import '../../domain/element_type.dart';
 import '../../domain/element_type_catalog.dart';
 import '../../domain/narrative_element.dart';
 import '../../domain/workspace_tab.dart';
 import '../../stores/project_workspace_store.dart';
 import '../../stores/workspace_controller.dart';
+import 'element_appearance_dialog.dart';
 import 'element_draft.dart';
+import 'element_fields_panel.dart';
 import 'element_items_panel.dart';
 import 'element_references_panel.dart';
 import 'element_type_label.dart';
@@ -203,10 +208,46 @@ class _ElementEditorState extends State<ElementEditor> {
     _markDirty();
   }
 
+  Widget _appearanceButton(ElementType? type) {
+    final icon = _draft.icon ?? type?.icon ?? IconRef.fallback;
+    final color =
+        _draft.color ?? type?.color ?? Theme.of(context).colorScheme.outline;
+    return Tooltip(
+      message: 'elements.appearance'.tr(),
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: () async {
+          final result = await showElementAppearanceDialog(
+            context,
+            current: ElementAppearance(icon: _draft.icon, color: _draft.color),
+            typeIcon: type?.icon ?? IconRef.fallback,
+            typeColor: color,
+          );
+          if (result == null || !mounted) return;
+          setState(() {
+            _draft.icon = result.icon;
+            _draft.color = result.color;
+          });
+          _markDirty();
+        },
+        child: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: .16),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon.data, size: 24, color: color),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final types = widget.store.elementTypes;
+    final type = ElementTypeCatalog.resolve(_draft.typeId, types);
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(28, 20, 28, 32),
       child: Center(
@@ -239,49 +280,88 @@ class _ElementEditorState extends State<ElementEditor> {
                 ],
               ),
               const SizedBox(height: 16),
-              Wrap(
-                spacing: 14,
-                runSpacing: 14,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: 280,
-                    child: PlotcraftTextField(
-                      controller: _draft.title,
-                      onChanged: (_) => _markDirty(),
-                      label: 'elements.name'.tr(),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 220,
-                    child: PlotcraftDropdown<String>(
-                      initialValue: types.any((t) => t.id == _draft.typeId)
-                          ? _draft.typeId
-                          : null,
-                      items: [
-                        for (final type in types)
-                          DropdownMenuItem(
-                            value: type.id,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  type.icon.data,
-                                  size: 16,
-                                  color: type.color,
-                                ),
-                                const SizedBox(width: 8),
-                                Flexible(
-                                  child: Text(
-                                    type.label,
-                                    overflow: TextOverflow.ellipsis,
+                  _appearanceButton(type),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Wrap(
+                      spacing: 14,
+                      runSpacing: 14,
+                      children: [
+                        SizedBox(
+                          width: 280,
+                          child: PlotcraftTextField(
+                            controller: _draft.title,
+                            onChanged: (_) => _markDirty(),
+                            label: 'elements.name'.tr(),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 220,
+                          child: PlotcraftDropdown<String>(
+                            initialValue:
+                                types.any((t) => t.id == _draft.typeId)
+                                ? _draft.typeId
+                                : null,
+                            items: [
+                              for (final type in types)
+                                DropdownMenuItem(
+                                  value: type.id,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        type.icon.data,
+                                        size: 16,
+                                        color: type.color,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Flexible(
+                                        child: Text(
+                                          type.label,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                            ],
+                            onChanged: (id) {
+                              if (id == null) return;
+                              setState(() => _draft.typeId = id);
+                              _markDirty();
+                            },
                           ),
+                        ),
                       ],
-                      onChanged: (id) {
-                        if (id == null) return;
-                        setState(() => _draft.typeId = id);
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 14),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: PlotcraftChipInput(
+                      label: 'elements.aliases'.tr(),
+                      hint: 'elements.aliases_hint'.tr(),
+                      values: _draft.aliases,
+                      onChanged: (values) {
+                        setState(() => _draft.aliases = values);
+                        _markDirty();
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: PlotcraftChipInput(
+                      label: 'elements.tags'.tr(),
+                      hint: 'elements.tags_hint'.tr(),
+                      values: _draft.tags,
+                      onChanged: (values) {
+                        setState(() => _draft.tags = values);
                         _markDirty();
                       },
                     ),
@@ -296,6 +376,22 @@ class _ElementEditorState extends State<ElementEditor> {
                 maxLines: 6,
                 label: 'elements.summary'.tr(),
               ),
+              if (type != null && type.fields.isNotEmpty) ...[
+                const SizedBox(height: 24),
+                ElementFieldsPanel(
+                  key: ValueKey(_draft.typeId),
+                  type: type,
+                  values: _draft.fieldValues,
+                  otherElements: [
+                    for (final other in widget.store.elements)
+                      if (other.id != _elementId) other,
+                  ],
+                  onChanged: (id, value) {
+                    _draft.fieldValues[id] = value;
+                    _markDirty();
+                  },
+                ),
+              ],
               const SizedBox(height: 24),
               ElementItemsPanel(
                 title: 'elements.sections'.tr(),

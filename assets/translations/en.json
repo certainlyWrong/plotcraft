@@ -331,7 +331,16 @@
       "boolean": "Yes / no",
       "element": "Another element",
       "url": "Link"
-    }
+    },
+    "aliases": "Other names",
+    "aliases_hint": "Type a name and press Enter",
+    "tags": "Tags",
+    "tags_hint": "Type a tag and press Enter",
+    "appearance": "Appearance",
+    "reset_appearance": "Use the type's look",
+    "none": "None",
+    "pick_date": "Pick a date",
+    "details": "Details"
   },
   "ui": {
     "icon_picker_title": "Choose an icon",

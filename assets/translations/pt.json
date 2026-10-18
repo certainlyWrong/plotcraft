@@ -331,7 +331,16 @@
       "boolean": "Sim / não",
       "element": "Outro elemento",
       "url": "Link"
-    }
+    },
+    "aliases": "Outros nomes",
+    "aliases_hint": "Digite um nome e tecle Enter",
+    "tags": "Etiquetas",
+    "tags_hint": "Digite uma etiqueta e tecle Enter",
+    "appearance": "Aparência",
+    "reset_appearance": "Usar a aparência do tipo",
+    "none": "Nenhum",
+    "pick_date": "Escolher data",
+    "details": "Detalhes"
   },
   "ui": {
     "icon_picker_title": "Escolher um ícone",

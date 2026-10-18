@@ -21,6 +21,12 @@ class PlotcraftTextField extends StatelessWidget {
     this.textInputAction,
     this.expands = false,
     this.textAlignVertical,
+    this.keyboardType,
+    this.inputFormatters,
+    this.readOnly = false,
+    this.onTap,
+    this.suffixIcon,
+    this.focusNode,
   });
 
   final TextEditingController controller;
@@ -40,6 +46,12 @@ class PlotcraftTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool expands;
   final TextAlignVertical? textAlignVertical;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
+  final bool readOnly;
+  final VoidCallback? onTap;
+  final Widget? suffixIcon;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) => TextFormField(
@@ -49,6 +61,11 @@ class PlotcraftTextField extends StatelessWidget {
     maxLines: expands ? null : maxLines,
     expands: expands,
     textAlignVertical: textAlignVertical,
+    keyboardType: keyboardType,
+    inputFormatters: inputFormatters,
+    readOnly: readOnly,
+    onTap: onTap,
+    focusNode: focusNode,
     textCapitalization: textCapitalization,
     onChanged: onChanged,
     onFieldSubmitted: onSubmitted,
@@ -60,6 +77,7 @@ class PlotcraftTextField extends StatelessWidget {
       labelText: label,
       hintText: hint,
       prefixIcon: prefixIcon,
+      suffixIcon: suffixIcon,
       helperText: helperText,
       isDense: compact,
       contentPadding: compact
