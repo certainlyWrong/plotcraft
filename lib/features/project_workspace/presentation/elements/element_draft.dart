@@ -4,6 +4,7 @@ import '../../../../core/icons/icon_ref.dart';
 import '../../domain/element_image.dart';
 import '../../domain/element_relation.dart';
 import '../../domain/narrative_element.dart';
+import '../element_colors.dart';
 
 /// Everything the element editor can change, held while the form is open. It
 /// is turned into a [NarrativeElement] only when the person saves.
@@ -57,7 +58,7 @@ class ElementDraft {
       summary: summary.text.trim(),
       tags: tags,
       icon: icon,
-      color: color,
+      colorValue: color?.toARGB32(),
       images: images,
       fields: Map.of(fieldValues)..removeWhere((_, value) => value.isEmpty),
       sections: sections,

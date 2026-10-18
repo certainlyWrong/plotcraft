@@ -11,6 +11,7 @@ import 'package:plotcraft/features/project_workspace/domain/element_type.dart';
 import 'package:plotcraft/features/project_workspace/domain/narrative_element.dart';
 import 'package:plotcraft/features/project_workspace/domain/narrative_migration.dart';
 import 'package:plotcraft/features/projects/domain/story_project.dart';
+import 'package:plotcraft/features/project_workspace/presentation/element_colors.dart';
 
 NarrativeElement _element(String id, String typeId) => NarrativeElement(
   id: id,
@@ -49,7 +50,7 @@ void main() {
       summary: 'resumo',
       tags: const ['protagonista'],
       icon: const IconRef('Feather', 'zap'),
-      color: const Color(0xFF112233),
+      colorValue: 0xFF112233,
       images: const [
         ElementImage.gallery('g1'),
         ElementImage.attachment('content/narrative/attachments/e1/a.png'),
@@ -111,7 +112,7 @@ void main() {
       id: 't_magia',
       name: 'Magia',
       icon: IconRef.fallback,
-      color: Color(0xFF000000),
+      colorValue: 0xFF000000,
     );
     final upgrade = upgradeLegacyKinds(
       [_element('a', 't_magia'), _element('b', 'place')],

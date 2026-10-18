@@ -9,6 +9,7 @@ import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../domain/element_type.dart';
 import 'element_type_label.dart';
 import '../../../../core/icons/icon_data.dart';
+import '../element_colors.dart';
 
 /// Returned instead of a type ID when the person asks to create a new type.
 const createElementTypeChoice = '\u0000create-type';

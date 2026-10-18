@@ -11,6 +11,7 @@ import '../../domain/element_type_catalog.dart';
 import '../../domain/narrative_element.dart';
 import '../elements/element_type_label.dart';
 import '../../../../core/icons/icon_data.dart';
+import '../element_colors.dart';
 
 /// Search-and-choose list of story elements, opened by typing `@` or from the
 /// toolbar. Arrow keys move, Enter chooses, Escape closes. Resolves to the

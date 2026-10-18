@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
 import 'package:plotcraft/core/icons/icon_ref.dart';
@@ -9,6 +8,7 @@ import 'package:plotcraft/features/project_workspace/data/project_files.dart';
 import 'package:plotcraft/features/project_workspace/domain/element_type.dart';
 import 'package:plotcraft/features/project_workspace/domain/element_type_catalog.dart';
 import 'package:plotcraft/features/projects/domain/story_project.dart';
+import 'package:plotcraft/features/project_workspace/presentation/element_colors.dart';
 
 void main() {
   test('todo tipo pré-criado tem ícone existente, nome e campos únicos', () {
@@ -29,7 +29,7 @@ void main() {
       id: 't_magia',
       name: 'Magia',
       icon: IconRef('Feather', 'zap'),
-      color: Color(0xFF7B5EA7),
+      colorValue: 0xFF7B5EA7,
     );
     expect(ElementTypeCatalog.resolve('character', [custom])?.builtin, isTrue);
     expect(ElementTypeCatalog.resolve('t_magia', [custom]), custom);
@@ -41,7 +41,7 @@ void main() {
       id: 't1',
       name: 'Magia',
       icon: IconRef('RpgAwesome', 'crystal_ball'),
-      color: Color(0xFF112233),
+      colorValue: 0xFF112233,
       fields: [
         ElementField(
           id: 'nivel',
@@ -102,7 +102,7 @@ void main() {
         id: 't1',
         name: 'Magia',
         icon: IconRef('Feather', 'zap'),
-        color: Color(0xFF7B5EA7),
+        colorValue: 0xFF7B5EA7,
       );
       await repository.save(project, [...ElementTypeCatalog.builtin, custom]);
       final loaded = await repository.load(folder.path);
@@ -114,7 +114,7 @@ void main() {
         id: 't1',
         name: ' ',
         icon: IconRef.fallback,
-        color: Color(0xFF000000),
+        colorValue: 0xFF000000,
       );
       await expectLater(
         repository.save(project, [empty]),

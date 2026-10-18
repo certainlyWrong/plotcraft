@@ -1,7 +1,5 @@
-import 'dart:ui';
-
 import '../../../core/icons/icon_ref.dart';
-import '../../../core/theme/color_hex.dart';
+import '../../../core/theme/argb_hex.dart';
 
 enum ElementFieldKind {
   text,
@@ -64,7 +62,7 @@ class ElementType {
   const ElementType({
     required this.id,
     required this.icon,
-    required this.color,
+    required this.colorValue,
     this.name = '',
     this.nameKey,
     this.fields = const [],
@@ -77,21 +75,23 @@ class ElementType {
   /// Translation key of a built-in type's name.
   final String? nameKey;
   final IconRef icon;
-  final Color color;
+
+  /// ARGB value of the type's color (see the `color` extension in the app).
+  final int colorValue;
   final List<ElementField> fields;
   final bool builtin;
 
   ElementType copyWith({
     String? name,
     IconRef? icon,
-    Color? color,
+    int? colorValue,
     List<ElementField>? fields,
   }) => ElementType(
     id: id,
     name: name ?? this.name,
     nameKey: nameKey,
     icon: icon ?? this.icon,
-    color: color ?? this.color,
+    colorValue: colorValue ?? this.colorValue,
     fields: fields ?? this.fields,
     builtin: builtin,
   );
@@ -100,7 +100,7 @@ class ElementType {
     'id': id,
     'name': name,
     'icon': icon.toJson(),
-    'color': colorToHex(color),
+    'color': argbToHex(colorValue),
     'fields': fields.map((field) => field.toJson()).toList(),
   };
 
@@ -113,7 +113,7 @@ class ElementType {
       id: json['id'] as String,
       name: name,
       icon: IconRef.fromJson(json['icon']) ?? IconRef.fallback,
-      color: parseHexColor(json['color'] as String?) ?? const Color(0xFF6B7280),
+      colorValue: parseHexArgb(json['color'] as String?) ?? 0xFF6B7280,
       fields: (json['fields'] as List<dynamic>? ?? const [])
           .map(ElementField.fromJson)
           .whereType<ElementField>()

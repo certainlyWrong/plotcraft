@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import '../../../core/icons/icon_ref.dart';
 import 'element_type.dart';
 import 'element_type_catalog.dart';
@@ -43,7 +41,7 @@ NarrativeUpgrade upgradeLegacyKinds(
         id: id,
         name: label,
         icon: const IconRef('Feather', 'bookmark'),
-        color: const Color(0xFF6B7280),
+        colorValue: 0xFF6B7280,
       );
       types.add(next);
       changed = true;
@@ -58,7 +56,7 @@ NarrativeUpgrade upgradeLegacyKinds(
         summary: element.summary,
         tags: element.tags,
         icon: element.icon,
-        color: element.color,
+        colorValue: element.colorValue,
         images: element.images,
         fields: element.fields,
         sections: element.sections,

@@ -89,7 +89,7 @@ void main() {
         id: 't_x',
         name: 'Magia',
         icon: IconRef('Feather', 'zap'),
-        color: Color(0xFF112233),
+        colorValue: 0xFF112233,
       );
       ElementTypeEdit? result;
       await open(tester, (r) => result = r, current: current);
@@ -103,7 +103,7 @@ void main() {
         id: 't_x',
         name: 'Magia',
         icon: IconRef('Feather', 'zap'),
-        color: Color(0xFF112233),
+        colorValue: 0xFF112233,
       );
       ElementTypeEdit? result;
       await open(tester, (r) => result = r, current: current, usedBy: 3);
@@ -142,7 +142,7 @@ void main() {
       id: 't_magia',
       name: 'Magia',
       icon: IconRef('Feather', 'zap'),
-      color: Color(0xFF7B5EA7),
+      colorValue: 0xFF7B5EA7,
     );
 
     test('salva, atualiza e remove tipos personalizados', () async {

@@ -11,6 +11,7 @@ import '../../../../core/ui/plotcraft_icon_picker.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
 import '../../domain/element_type.dart';
 import '../../../../core/icons/icon_data.dart';
+import '../element_colors.dart';
 
 /// What the type editor decided.
 sealed class ElementTypeEdit {
@@ -120,7 +121,7 @@ class _ElementTypeEditorState extends State<_ElementTypeEditor> {
           id: widget.current?.id ?? _newId('t'),
           name: _name.text.trim(),
           icon: _icon,
-          color: _color,
+          colorValue: _color.toARGB32(),
           fields: fields,
         ),
       ),

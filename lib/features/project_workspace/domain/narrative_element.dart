@@ -1,7 +1,5 @@
-import 'dart:ui';
-
 import '../../../core/icons/icon_ref.dart';
-import '../../../core/theme/color_hex.dart';
+import '../../../core/theme/argb_hex.dart';
 import 'element_image.dart';
 import 'element_relation.dart';
 import 'narrative_anchor.dart';
@@ -122,7 +120,7 @@ class NarrativeElement {
     this.aliases = const [],
     this.tags = const [],
     this.icon,
-    this.color,
+    this.colorValue,
     this.images = const [],
     this.fields = const {},
     this.relations = const [],
@@ -142,7 +140,7 @@ class NarrativeElement {
 
   /// Overrides of the type's icon and color for this element.
   final IconRef? icon;
-  final Color? color;
+  final int? colorValue;
   final List<ElementImage> images;
 
   /// Values of the type's fields, by field ID.
@@ -163,7 +161,7 @@ class NarrativeElement {
     String? summary,
     List<String>? tags,
     IconRef? icon,
-    Color? color,
+    int? colorValue,
     bool clearIcon = false,
     bool clearColor = false,
     List<ElementImage>? images,
@@ -180,7 +178,7 @@ class NarrativeElement {
     summary: summary ?? this.summary,
     tags: tags ?? this.tags,
     icon: clearIcon ? null : icon ?? this.icon,
-    color: clearColor ? null : color ?? this.color,
+    colorValue: clearColor ? null : colorValue ?? this.colorValue,
     images: images ?? this.images,
     fields: fields ?? this.fields,
     sections: sections ?? this.sections,
@@ -210,7 +208,7 @@ class NarrativeElement {
     'summary': summary,
     'tags': tags,
     if (icon != null) 'icon': icon!.toJson(),
-    if (color != null) 'color': colorToHex(color!),
+    if (colorValue != null) 'color': argbToHex(colorValue!),
     'images': images.map((image) => image.toJson()).toList(),
     'fields': fields,
     'sections': sections.map((section) => section.toJson()).toList(),
@@ -234,7 +232,7 @@ class NarrativeElement {
         summary: json['summary'] as String? ?? '',
         tags: _strings(json['tags']),
         icon: IconRef.fromJson(json['icon']),
-        color: parseHexColor(json['color'] as String?),
+        colorValue: parseHexArgb(json['color'] as String?),
         images: (json['images'] as List<dynamic>? ?? const [])
             .map(ElementImage.fromJson)
             .whereType<ElementImage>()

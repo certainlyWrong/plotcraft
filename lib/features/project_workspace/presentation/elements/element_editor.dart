@@ -34,6 +34,7 @@ import 'element_summary_panel.dart';
 import 'element_type_label.dart';
 import 'title_body_dialog.dart';
 import '../../../../core/icons/icon_data.dart';
+import '../element_colors.dart';
 
 /// Editor of one narrative element, shown in its own tab. A tab whose ID is a
 /// draft creates a new element when saved.

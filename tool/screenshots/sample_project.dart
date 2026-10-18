@@ -182,7 +182,7 @@ Future<StoryProject> buildSampleBook(Directory root) async {
     id: 't_ritual',
     name: 'Ritual',
     icon: IconRef('RpgAwesome', 'crystal_ball'),
-    color: Color(0xFF7B5EA7),
+    colorValue: 0xFF7B5EA7,
     fields: [
       ElementField(id: 'quando', label: 'Quando acontece'),
       ElementField(

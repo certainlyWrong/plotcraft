@@ -11,6 +11,7 @@ import '../../domain/narrative_element.dart';
 import '../shell/side_panel_widgets.dart';
 import 'element_type_label.dart';
 import '../../../../core/icons/icon_data.dart';
+import '../element_colors.dart';
 
 enum ElementAction { remove }
 

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import '../../../core/icons/icon_ref.dart';
 import 'element_type.dart';
 
@@ -28,7 +26,7 @@ abstract final class ElementTypeCatalog {
     id: id,
     nameKey: 'elements.types.$id',
     icon: icon,
-    color: Color(color),
+    colorValue: color,
     fields: fields,
     builtin: true,
   );
