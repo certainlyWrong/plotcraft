@@ -13,6 +13,8 @@ import '../domain/workspace_tab.dart';
 import '../stores/project_workspace_store.dart';
 import '../stores/workspace_controller.dart';
 import 'manuscript/chapter_dialogs.dart';
+import '../domain/element_type.dart';
+import 'elements/element_type_editor.dart';
 import 'elements/element_type_picker.dart';
 import 'manuscript/chapter_list.dart';
 import 'shell/gallery_image_viewer_launcher.dart';
@@ -216,11 +218,67 @@ class WorkspaceActions {
     }
   }
 
-  /// Asks which type of element to create and opens a new draft of it.
+  /// Asks which type of element to create and opens a new draft of it. The
+  /// picker also leads to creating and editing custom types, then reopens.
   Future<void> newElement(BuildContext context) async {
-    final choice = await showElementTypePicker(context, store.elementTypes);
-    if (choice == null || !context.mounted) return;
-    controller.newElementDraft(choice);
+    while (true) {
+      if (!context.mounted) return;
+      final choice = await showElementTypePicker(
+        context,
+        store.elementTypes,
+        allowCreate: true,
+      );
+      if (choice == null || !context.mounted) return;
+      if (choice == createElementTypeChoice) {
+        final typeId = await _editElementType(context);
+        if (typeId != null) {
+          controller.newElementDraft(typeId);
+          return;
+        }
+      } else if (choice.startsWith(editElementTypePrefix)) {
+        final id = choice.substring(editElementTypePrefix.length);
+        await _editElementType(
+          context,
+          current: store.customElementTypes
+              .where((t) => t.id == id)
+              .firstOrNull,
+        );
+      } else {
+        controller.newElementDraft(choice);
+        return;
+      }
+    }
+  }
+
+  /// Runs the type editor and stores its result. Returns the ID of a saved
+  /// type, or null when cancelled, deleted or if saving failed.
+  Future<String?> _editElementType(
+    BuildContext context, {
+    ElementType? current,
+  }) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final usedBy = current == null
+        ? 0
+        : store.elements.where((e) => e.typeId == current.id).length;
+    final result = await showElementTypeEditor(
+      context,
+      current: current,
+      usedBy: usedBy,
+    );
+    try {
+      switch (result) {
+        case ElementTypeSaved(:final type):
+          await store.saveElementType(type);
+          return type.id;
+        case ElementTypeDeleted(:final typeId):
+          await store.removeElementType(typeId);
+        case null:
+          break;
+      }
+    } catch (_) {
+      _snack(messenger, 'elements.save_error');
+    }
+    return null;
   }
 
   /// Opens the manuscript document that references an element.

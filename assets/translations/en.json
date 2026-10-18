@@ -310,7 +310,28 @@
       "where": "Where"
     },
     "choose_type": "What do you want to create?",
-    "new_type": "New type"
+    "new_type": "New type",
+    "create_type": "New element type",
+    "edit_type": "Edit element type",
+    "type_name": "Type name",
+    "type_icon": "Choose icon",
+    "type_color": "Color",
+    "type_fields": "Details",
+    "add_field": "Add detail",
+    "field_label": "Detail name",
+    "field_options": "Options (comma separated)",
+    "delete_type": "Delete type",
+    "type_in_use": "{count} elements use this type",
+    "field_kinds": {
+      "text": "Short text",
+      "longText": "Long text",
+      "number": "Number",
+      "date": "Date",
+      "choice": "Choice",
+      "boolean": "Yes / no",
+      "element": "Another element",
+      "url": "Link"
+    }
   },
   "ui": {
     "icon_picker_title": "Choose an icon",

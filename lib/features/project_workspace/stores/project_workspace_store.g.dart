@@ -340,6 +340,28 @@ mixin _$ProjectWorkspaceStore on _ProjectWorkspaceStore, Store {
     return _$saveElementAsyncAction.run(() => super.saveElement(element));
   }
 
+  late final _$saveElementTypeAsyncAction = AsyncAction(
+    '_ProjectWorkspaceStore.saveElementType',
+    context: context,
+  );
+
+  @override
+  Future<void> saveElementType(ElementType type) {
+    return _$saveElementTypeAsyncAction.run(() => super.saveElementType(type));
+  }
+
+  late final _$removeElementTypeAsyncAction = AsyncAction(
+    '_ProjectWorkspaceStore.removeElementType',
+    context: context,
+  );
+
+  @override
+  Future<void> removeElementType(String id) {
+    return _$removeElementTypeAsyncAction.run(
+      () => super.removeElementType(id),
+    );
+  }
+
   late final _$removeElementAsyncAction = AsyncAction(
     '_ProjectWorkspaceStore.removeElement',
     context: context,

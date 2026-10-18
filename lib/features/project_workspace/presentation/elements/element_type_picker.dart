@@ -5,11 +5,16 @@ import 'package:icons_flutter/icons_flutter.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_dialog.dart';
+import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../domain/element_type.dart';
 import 'element_type_label.dart';
 
 /// Returned instead of a type ID when the person asks to create a new type.
 const createElementTypeChoice = '\u0000create-type';
+
+/// Prefix of the result when the person asks to edit a custom type; the type
+/// ID follows it.
+const editElementTypePrefix = '\u0000edit:';
 
 /// Asks what kind of element to create: a grid of the available types, each
 /// with its icon and color. Resolves to the chosen type ID,
@@ -66,6 +71,9 @@ class ElementTypeGrid extends StatelessWidget {
           color: type.color,
           label: type.label,
           onTap: () => onSelected(type.id),
+          onEdit: type.builtin
+              ? null
+              : () => onSelected('$editElementTypePrefix${type.id}'),
         ),
       if (allowCreate)
         _TypeCard(
@@ -86,6 +94,7 @@ class _TypeCard extends StatelessWidget {
     required this.label,
     required this.onTap,
     this.dashed = false,
+    this.onEdit,
   });
 
   final IconData icon;
@@ -93,6 +102,9 @@ class _TypeCard extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
   final bool dashed;
+
+  /// Shows an edit button on the card (custom types only).
+  final VoidCallback? onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -111,32 +123,50 @@ class _TypeCard extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
           onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 52,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: .16),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(icon, size: 26, color: color),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16,
+                  horizontal: 8,
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  label,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.labelLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: .16),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(icon, size: 26, color: color),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      label,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (onEdit != null)
+                Positioned(
+                  top: 2,
+                  right: 2,
+                  child: PlotcraftIconButton(
+                    icon: Feather.edit_2,
+                    tooltip: 'elements.edit_type'.tr(),
+                    size: 14,
+                    onPressed: onEdit,
                   ),
                 ),
-              ],
-            ),
+            ],
           ),
         ),
       ),

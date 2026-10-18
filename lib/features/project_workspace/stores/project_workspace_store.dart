@@ -190,6 +190,53 @@ abstract class _ProjectWorkspaceStore with Store {
     }
   }
 
+  /// Creates or replaces a custom element type.
+  @action
+  Future<void> saveElementType(ElementType type) async {
+    final current = project;
+    if (current == null || isElementSaving) {
+      throw StateError('Element type save is unavailable');
+    }
+    isElementSaving = true;
+    try {
+      final custom = [...customElementTypes];
+      final index = custom.indexWhere((item) => item.id == type.id);
+      if (index < 0) {
+        custom.add(type);
+      } else {
+        custom[index] = type;
+      }
+      final updated = await _repository.types.save(current, custom);
+      project = updated;
+      customElementTypes = ObservableList.of(custom);
+      _onProjectUpdated(updated);
+    } finally {
+      isElementSaving = false;
+    }
+  }
+
+  /// Deletes a custom type that no element uses.
+  @action
+  Future<void> removeElementType(String id) async {
+    final current = project;
+    if (current == null || isElementSaving) {
+      throw StateError('Element type removal is unavailable');
+    }
+    if (elements.any((element) => element.typeId == id)) {
+      throw StateError('The element type is in use');
+    }
+    isElementSaving = true;
+    try {
+      final custom = customElementTypes.where((item) => item.id != id).toList();
+      final updated = await _repository.types.save(current, custom);
+      project = updated;
+      customElementTypes = ObservableList.of(custom);
+      _onProjectUpdated(updated);
+    } finally {
+      isElementSaving = false;
+    }
+  }
+
   /// Copies an image from the computer for [elementId]; see
   /// [NarrativeRepository.attachImage].
   Future<ElementImage> attachElementImage(String elementId, String path) {
