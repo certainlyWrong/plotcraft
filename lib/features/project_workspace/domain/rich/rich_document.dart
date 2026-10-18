@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/quill_delta.dart';
+import 'package:dart_quill_delta/dart_quill_delta.dart';
 
 /// Names used inside manuscript Deltas, shared by the Markdown codecs, the
 /// editor and the mention index.
@@ -33,17 +32,22 @@ abstract final class RichDocument {
   }
 
   /// The `{insert: {custom: ...}}` value for a custom embed of [type].
-  static Map<String, dynamic> customEmbed(String type, Object data) =>
-      BlockEmbed.custom(
-        CustomBlockEmbed(type, data is String ? data : jsonEncode(data)),
-      ).toJson();
+  ///
+  /// Same shape as the editor's `BlockEmbed.custom(CustomBlockEmbed(type,
+  /// data))`: the embed is a JSON string `{type: data}` under `custom`.
+  static Map<String, dynamic> customEmbed(String type, Object data) => {
+    'custom': jsonEncode({type: data is String ? data : jsonEncode(data)}),
+  };
 
   /// The `{type, data}` of a custom embed value, or null if [value] is not one.
   static ({String type, String data})? readCustomEmbed(Object? value) {
     if (value is! Map || value['custom'] is! String) return null;
     try {
-      final embed = CustomBlockEmbed.fromJsonString(value['custom'] as String);
-      return (type: embed.type, data: embed.data as String);
+      final json = jsonDecode(value['custom'] as String);
+      if (json is! Map || json.length != 1) return null;
+      final entry = json.entries.single;
+      if (entry.key is! String || entry.value is! String) return null;
+      return (type: entry.key as String, data: entry.value as String);
     } catch (_) {
       return null;
     }

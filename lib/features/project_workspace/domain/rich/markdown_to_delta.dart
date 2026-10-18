@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_quill/quill_delta.dart';
+import 'package:dart_quill_delta/dart_quill_delta.dart';
 import 'package:markdown/markdown.dart' as md;
 
 import '../markdown_extensions.dart';
