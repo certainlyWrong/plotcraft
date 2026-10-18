@@ -282,7 +282,33 @@
     "remove_message": "O arquivo do elemento será arquivado. As referências já escritas no manuscrito permanecerão.",
     "remove_error": "Não foi possível remover o elemento.",
     "unsaved_title": "Alterações não salvas no elemento",
-    "unsaved_message": "Salvar as alterações antes de sair deste elemento?"
+    "unsaved_message": "Salvar as alterações antes de sair deste elemento?",
+    "types": {
+      "character": "Personagem",
+      "place": "Lugar",
+      "object": "Objeto",
+      "creature": "Criatura",
+      "organization": "Organização",
+      "event": "Evento",
+      "concept": "Conceito",
+      "note": "Nota"
+    },
+    "fields": {
+      "age": "Idade",
+      "occupation": "Ocupação",
+      "appearance": "Aparência",
+      "personality": "Personalidade",
+      "region": "Região",
+      "climate": "Clima",
+      "origin": "Origem",
+      "owner": "Dono",
+      "habitat": "Habitat",
+      "abilities": "Habilidades",
+      "purpose": "Propósito",
+      "leader": "Líder",
+      "when": "Quando",
+      "where": "Onde"
+    }
   },
   "ui": {
     "icon_picker_title": "Escolher um ícone",

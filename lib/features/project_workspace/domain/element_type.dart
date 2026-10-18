@@ -1,0 +1,123 @@
+import 'dart:ui';
+
+import '../../../core/icons/icon_ref.dart';
+import '../../../core/theme/color_hex.dart';
+
+enum ElementFieldKind {
+  text,
+  longText,
+  number,
+  date,
+  choice,
+  boolean,
+  element,
+  url,
+}
+
+/// One detail of an element type, such as "Age" or "Habitat". Built-in fields
+/// have a [labelKey] (translated by the interface); custom ones a [label].
+class ElementField {
+  const ElementField({
+    required this.id,
+    this.label = '',
+    this.labelKey,
+    this.kind = ElementFieldKind.text,
+    this.options = const [],
+  });
+
+  final String id;
+  final String label;
+  final String? labelKey;
+  final ElementFieldKind kind;
+
+  /// Allowed values when [kind] is [ElementFieldKind.choice].
+  final List<String> options;
+
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'label': label,
+    'kind': kind.name,
+    if (options.isNotEmpty) 'options': options,
+  };
+
+  /// Null when the map has no usable ID.
+  static ElementField? fromJson(Object? json) {
+    if (json is! Map || json['id'] is! String) return null;
+    return ElementField(
+      id: json['id'] as String,
+      label: json['label'] as String? ?? '',
+      kind: ElementFieldKind.values.firstWhere(
+        (kind) => kind.name == json['kind'],
+        orElse: () => ElementFieldKind.text,
+      ),
+      options: (json['options'] as List<dynamic>? ?? const [])
+          .whereType<String>()
+          .toList(),
+    );
+  }
+}
+
+/// A kind of story element (character, place, ...): name, icon, color and the
+/// extra fields its elements offer. Built-in types live in code
+/// ([ElementTypeCatalog]); custom ones are saved in `types.json`.
+class ElementType {
+  const ElementType({
+    required this.id,
+    required this.icon,
+    required this.color,
+    this.name = '',
+    this.nameKey,
+    this.fields = const [],
+    this.builtin = false,
+  });
+
+  final String id;
+  final String name;
+
+  /// Translation key of a built-in type's name.
+  final String? nameKey;
+  final IconRef icon;
+  final Color color;
+  final List<ElementField> fields;
+  final bool builtin;
+
+  ElementType copyWith({
+    String? name,
+    IconRef? icon,
+    Color? color,
+    List<ElementField>? fields,
+  }) => ElementType(
+    id: id,
+    name: name ?? this.name,
+    nameKey: nameKey,
+    icon: icon ?? this.icon,
+    color: color ?? this.color,
+    fields: fields ?? this.fields,
+    builtin: builtin,
+  );
+
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'name': name,
+    'icon': icon.toJson(),
+    'color': colorToHex(color),
+    'fields': fields.map((field) => field.toJson()).toList(),
+  };
+
+  /// Reads a custom type; null when it has no ID or name.
+  static ElementType? fromJson(Object? json) {
+    if (json is! Map || json['id'] is! String) return null;
+    final name = json['name'];
+    if (name is! String || name.trim().isEmpty) return null;
+    return ElementType(
+      id: json['id'] as String,
+      name: name,
+      icon: IconRef.fromJson(json['icon']) ?? IconRef.fallback,
+      color: parseHexColor(json['color'] as String?) ?? const Color(0xFF6B7280),
+      fields: (json['fields'] as List<dynamic>? ?? const [])
+          .map(ElementField.fromJson)
+          .whereType<ElementField>()
+          .toList(),
+    );
+  }
+}

@@ -282,7 +282,33 @@
     "remove_message": "The element file will be archived. Existing manuscript references remain as written.",
     "remove_error": "Could not remove the element.",
     "unsaved_title": "Unsaved element changes",
-    "unsaved_message": "Save the changes before leaving this element?"
+    "unsaved_message": "Save the changes before leaving this element?",
+    "types": {
+      "character": "Character",
+      "place": "Place",
+      "object": "Object",
+      "creature": "Creature",
+      "organization": "Organization",
+      "event": "Event",
+      "concept": "Concept",
+      "note": "Note"
+    },
+    "fields": {
+      "age": "Age",
+      "occupation": "Occupation",
+      "appearance": "Appearance",
+      "personality": "Personality",
+      "region": "Region",
+      "climate": "Climate",
+      "origin": "Origin",
+      "owner": "Owner",
+      "habitat": "Habitat",
+      "abilities": "Abilities",
+      "purpose": "Purpose",
+      "leader": "Leader",
+      "when": "When",
+      "where": "Where"
+    }
   },
   "ui": {
     "icon_picker_title": "Choose an icon",

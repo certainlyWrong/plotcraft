@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 import 'package:plotcraft/core/icons/icon_ref.dart';
+import 'package:plotcraft/core/theme/color_hex.dart';
 import 'package:plotcraft/core/theme/theme_definition.dart';
 import 'package:plotcraft/core/ui/plotcraft_color_picker.dart';
 import 'package:plotcraft/core/ui/plotcraft_icon_picker.dart';
