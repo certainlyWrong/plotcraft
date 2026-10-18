@@ -293,6 +293,29 @@ void main() {
     await mouse.removePointer();
   });
 
+  testWidgets('workspace: elemento em tela larga', (tester) async {
+    await prepare(tester);
+    final controller = await openWorkspace(
+      tester,
+      book,
+      size: const Size(1900, 1300),
+    );
+    controller.selectSection(WorkspaceSection.elements);
+    controller.openTab(WorkspaceTab.element('maria'));
+    await settle(tester, rounds: 8);
+    await shot(tester, '24-elemento-largo');
+  });
+
+  testWidgets('workspace: filtro de tipo aberto', (tester) async {
+    await prepare(tester);
+    final controller = await openWorkspace(tester, book);
+    controller.selectSection(WorkspaceSection.elements);
+    controller.openTab(WorkspaceTab.element('maria'));
+    await settle(tester, rounds: 6);
+    await tapTip(tester, 'Tipo');
+    await shot(tester, '25-filtro-aberto');
+  });
+
   testWidgets('workspace: galeria', (tester) async {
     await prepare(tester);
     final controller = await openWorkspace(tester, book);

@@ -87,7 +87,7 @@
       "identity_hint": "The details that make this project recognizable.",
       "story": "The story",
       "story_hint": "Capture the first idea, even if it changes later.",
-      "cover": "Cover and setup",
+      "cover": "Cover",
       "cover_hint": "Pick a color or add an image for your library."
     },
     "validation": {
