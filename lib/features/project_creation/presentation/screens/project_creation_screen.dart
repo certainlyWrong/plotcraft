@@ -1,20 +1,19 @@
-import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:icons_flutter/icons_flutter.dart';
-import 'package:path/path.dart' as p;
 
-import '../../../../ui/components/plotcraft_button.dart';
-import '../../../../ui/components/plotcraft_text_field.dart';
-import '../../../../models/story_project.dart';
-import '../../domain/project_creation_input.dart';
+import '../../../../core/ui/plotcraft_button.dart';
+import '../../../../core/ui/plotcraft_text_field.dart';
+import '../../../projects/domain/story_project.dart';
+import '../../../projects/domain/project_metadata_input.dart';
 import '../../stores/project_creation_store.dart';
 import '../cover_palettes.dart';
-import '../../../../theme/plotcraft_tokens.dart';
-import '../../../../ui/components/project_image.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/project_image.dart';
+import '../../../projects/domain/cover_image_rules.dart';
 
 class ProjectCreationScreen extends StatefulWidget {
   const ProjectCreationScreen({
@@ -66,17 +65,14 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
     try {
       final image = await openFile(
         acceptedTypeGroups: [
-          const XTypeGroup(
-            label: 'Images',
-            extensions: ['png', 'jpg', 'jpeg', 'webp'],
+          XTypeGroup(
+            label: 'workspace.image_files'.tr(),
+            extensions: CoverImageRules.extensions,
           ),
         ],
       );
       if (image == null || !mounted) return;
-      final extension = p.extension(image.path).toLowerCase();
-      final isValid =
-          {'.png', '.jpg', '.jpeg', '.webp'}.contains(extension) &&
-          await File(image.path).length() <= 10 * 1024 * 1024;
+      final isValid = await CoverImageRules.isValid(image.path);
       if (!mounted) return;
       setState(() {
         _coverPath = isValid ? image.path : null;
@@ -98,13 +94,13 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
       );
       return;
     }
-    final input = ProjectCreationInput(
+    final input = ProjectMetadataInput(
       title: _title.text,
       subtitle: _subtitle.text,
       author: _author.text,
       genre: _genre.text,
       description: _description.text,
-      tags: ProjectCreationInput.parseTags(_tags.text),
+      tags: ProjectMetadataInput.parseTags(_tags.text),
       coverIndex: _coverIndex,
       coverSourcePath: _coverPath,
     );
@@ -120,7 +116,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
   }
 
   String? _titleError(String? value) =>
-      switch (ProjectCreationInput.validateTitle(value ?? '')) {
+      switch (ProjectMetadataInput.validateTitle(value ?? '')) {
         ProjectFieldIssue.required => 'project.validation.title_required'.tr(),
         ProjectFieldIssue.tooShort => 'project.validation.title_short'.tr(),
         ProjectFieldIssue.tooLong => 'project.validation.too_long'.tr(
@@ -134,8 +130,8 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
       : 'project.validation.too_long'.tr(namedArgs: {'max': '$max'});
 
   String? _tagsError(String? value) =>
-      switch (ProjectCreationInput.validateTags(
-        ProjectCreationInput.parseTags(value ?? ''),
+      switch (ProjectMetadataInput.validateTags(
+        ProjectMetadataInput.parseTags(value ?? ''),
       )) {
         ProjectFieldIssue.tooMany => 'project.validation.tags_many'.tr(),
         ProjectFieldIssue.tooLong => 'project.validation.tag_long'.tr(),
@@ -248,7 +244,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
               textCapitalization: TextCapitalization.sentences,
               maxLength: 160,
               validator: (value) => _lengthError(
-                ProjectCreationInput.validateSubtitle(value ?? ''),
+                ProjectMetadataInput.validateSubtitle(value ?? ''),
                 160,
               ),
               textInputAction: TextInputAction.next,
@@ -262,7 +258,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
                   hint: 'project.author_hint'.tr(),
                   maxLength: 120,
                   validator: (value) => _lengthError(
-                    ProjectCreationInput.validateAuthor(value ?? ''),
+                    ProjectMetadataInput.validateAuthor(value ?? ''),
                     120,
                   ),
                   textInputAction: TextInputAction.next,
@@ -273,7 +269,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
                   hint: 'project.genre_hint'.tr(),
                   maxLength: 80,
                   validator: (value) => _lengthError(
-                    ProjectCreationInput.validateGenre(value ?? ''),
+                    ProjectMetadataInput.validateGenre(value ?? ''),
                     80,
                   ),
                   textInputAction: TextInputAction.next,
@@ -311,7 +307,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
               maxLength: 2000,
               textCapitalization: TextCapitalization.sentences,
               validator: (value) => _lengthError(
-                ProjectCreationInput.validateDescription(value ?? ''),
+                ProjectMetadataInput.validateDescription(value ?? ''),
                 2000,
               ),
             ),

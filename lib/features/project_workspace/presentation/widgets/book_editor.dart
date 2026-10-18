@@ -9,12 +9,12 @@ import 'package:icons_flutter/icons_flutter.dart';
 import '../../domain/book_content.dart';
 import '../../domain/markdown_extensions.dart';
 import '../../domain/narrative_element.dart';
-import '../native_spell_check_service.dart';
-import '../../../../ui/components/plotcraft_icon_button.dart';
-import '../../../../ui/components/plotcraft_popup_menu.dart';
-import '../../../../ui/components/plotcraft_segmented.dart';
-import '../../../../ui/components/plotcraft_text_field.dart';
-import '../../../../theme/plotcraft_tokens.dart';
+import '../../../../core/platform/native_spell_check_service.dart';
+import '../../../../core/ui/plotcraft_icon_button.dart';
+import '../../../../core/ui/plotcraft_popup_menu.dart';
+import '../../../../core/ui/plotcraft_segmented.dart';
+import '../../../../core/ui/plotcraft_text_field.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 enum _EditorView { write, split, preview }
 

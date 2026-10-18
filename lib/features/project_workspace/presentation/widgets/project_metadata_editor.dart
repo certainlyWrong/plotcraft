@@ -1,19 +1,18 @@
-import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
-import 'package:path/path.dart' as p;
 
-import '../../../../models/story_project.dart';
-import '../../../../ui/components/plotcraft_button.dart';
-import '../../../../ui/components/plotcraft_text_field.dart';
-import '../../../project_creation/domain/project_creation_input.dart';
+import '../../../projects/domain/story_project.dart';
+import '../../../../core/ui/plotcraft_button.dart';
+import '../../../../core/ui/plotcraft_text_field.dart';
+import '../../../projects/domain/project_metadata_input.dart';
 import '../../../project_creation/presentation/cover_palettes.dart';
 import 'project_cover_art.dart';
-import '../../../../theme/plotcraft_tokens.dart';
-import '../../../../ui/components/project_image.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/project_image.dart';
+import '../../../projects/domain/cover_image_rules.dart';
 
 class ProjectMetadataEditor extends StatefulWidget {
   const ProjectMetadataEditor({
@@ -27,7 +26,7 @@ class ProjectMetadataEditor extends StatefulWidget {
 
   final StoryProject project;
   final bool saving;
-  final Future<void> Function(ProjectCreationInput input, bool removeCover)
+  final Future<void> Function(ProjectMetadataInput input, bool removeCover)
   onSave;
   final VoidCallback onCancel;
   final VoidCallback onChanged;
@@ -75,20 +74,15 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
         acceptedTypeGroups: [
           XTypeGroup(
             label: 'workspace.image_files'.tr(),
-            extensions: const ['png', 'jpg', 'jpeg', 'webp'],
+            extensions: CoverImageRules.extensions,
           ),
         ],
       );
       if (image == null || !mounted) return;
-      final file = File(image.path);
-      final extension = p.extension(file.path).toLowerCase();
-      final valid =
-          {'.png', '.jpg', '.jpeg', '.webp'}.contains(extension) &&
-          await file.exists() &&
-          await file.length() <= 10 * 1024 * 1024;
+      final valid = await CoverImageRules.isValid(image.path);
       if (!mounted) return;
       setState(() {
-        _coverSourcePath = valid ? file.path : null;
+        _coverSourcePath = valid ? image.path : null;
         _removeCover = false;
         _coverError = valid ? null : 'project.validation.cover_invalid'.tr();
       });
@@ -106,13 +100,13 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
     if (!(_formKey.currentState?.validate() ?? false) || _coverError != null) {
       return;
     }
-    final input = ProjectCreationInput(
+    final input = ProjectMetadataInput(
       title: _title.text,
       subtitle: _subtitle.text,
       author: _author.text,
       genre: _genre.text,
       description: _description.text,
-      tags: ProjectCreationInput.parseTags(_tags.text),
+      tags: ProjectMetadataInput.parseTags(_tags.text),
       coverIndex: _coverIndex,
       coverSourcePath: _coverSourcePath,
     );
@@ -120,7 +114,7 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
   }
 
   String? _titleError(String? value) =>
-      switch (ProjectCreationInput.validateTitle(value ?? '')) {
+      switch (ProjectMetadataInput.validateTitle(value ?? '')) {
         ProjectFieldIssue.required => 'project.validation.title_required'.tr(),
         ProjectFieldIssue.tooShort => 'project.validation.title_short'.tr(),
         ProjectFieldIssue.tooLong => 'project.validation.too_long'.tr(
@@ -134,8 +128,8 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
       : 'project.validation.too_long'.tr(namedArgs: {'max': '$max'});
 
   String? _tagsError(String? value) =>
-      switch (ProjectCreationInput.validateTags(
-        ProjectCreationInput.parseTags(value ?? ''),
+      switch (ProjectMetadataInput.validateTags(
+        ProjectMetadataInput.parseTags(value ?? ''),
       )) {
         ProjectFieldIssue.tooMany => 'project.validation.tags_many'.tr(),
         ProjectFieldIssue.tooLong => 'project.validation.tag_long'.tr(),
@@ -266,7 +260,7 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
             label: 'project.subtitle'.tr(),
             maxLength: 160,
             validator: (value) => _lengthError(
-              ProjectCreationInput.validateSubtitle(value ?? ''),
+              ProjectMetadataInput.validateSubtitle(value ?? ''),
               160,
             ),
           ),
@@ -279,7 +273,7 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
                 label: 'project.author'.tr(),
                 maxLength: 120,
                 validator: (value) => _lengthError(
-                  ProjectCreationInput.validateAuthor(value ?? ''),
+                  ProjectMetadataInput.validateAuthor(value ?? ''),
                   120,
                 ),
               );
@@ -289,7 +283,7 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
                 label: 'project.genre'.tr(),
                 maxLength: 80,
                 validator: (value) => _lengthError(
-                  ProjectCreationInput.validateGenre(value ?? ''),
+                  ProjectMetadataInput.validateGenre(value ?? ''),
                   80,
                 ),
               );
@@ -325,7 +319,7 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
             maxLines: 7,
             maxLength: 2000,
             validator: (value) => _lengthError(
-              ProjectCreationInput.validateDescription(value ?? ''),
+              ProjectMetadataInput.validateDescription(value ?? ''),
               2000,
             ),
           ),

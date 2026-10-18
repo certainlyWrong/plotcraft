@@ -1,7 +1,7 @@
 import 'package:mobx/mobx.dart';
 
-import '../../../models/story_project.dart';
-import '../../project_creation/domain/project_creation_input.dart';
+import '../../projects/domain/story_project.dart';
+import '../../projects/domain/project_metadata_input.dart';
 import '../data/project_workspace_repository.dart';
 import '../domain/book_content.dart';
 import '../domain/narrative_element.dart';
@@ -202,7 +202,7 @@ abstract class _ProjectWorkspaceStore with Store {
 
   @action
   Future<void> updateMetadata(
-    ProjectCreationInput input, {
+    ProjectMetadataInput input, {
     required bool removeCover,
   }) async {
     final current = project;

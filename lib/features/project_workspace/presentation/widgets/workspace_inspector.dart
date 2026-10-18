@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../models/story_project.dart';
-import '../../../../ui/components/plotcraft_button.dart';
+import '../../../projects/domain/story_project.dart';
+import '../../../../core/ui/plotcraft_button.dart';
 import 'project_cover_art.dart';
 import 'project_tags.dart';
 import 'workspace_sidebar.dart';
-import '../../../../theme/plotcraft_tokens.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 class WorkspaceInspector extends StatelessWidget {
   const WorkspaceInspector({

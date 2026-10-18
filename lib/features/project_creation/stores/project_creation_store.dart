@@ -1,9 +1,9 @@
 import 'package:mobx/mobx.dart';
 
-import '../../../data/project_repository.dart';
-import '../../../models/story_project.dart';
-import '../data/project_creation_service.dart';
-import '../domain/project_creation_input.dart';
+import '../../projects/data/project_repository.dart';
+import '../../projects/domain/story_project.dart';
+import '../../projects/data/project_creation_service.dart';
+import '../../projects/domain/project_metadata_input.dart';
 
 part 'project_creation_store.g.dart';
 
@@ -20,7 +20,7 @@ abstract class _ProjectCreationStore with Store {
   bool isCreating = false;
 
   @action
-  Future<StoryProject> create(ProjectCreationInput input) async {
+  Future<StoryProject> create(ProjectMetadataInput input) async {
     if (isCreating) throw StateError('Project creation is already in progress');
     isCreating = true;
     try {

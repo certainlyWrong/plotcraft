@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 import 'package:path/path.dart' as p;
 
-import '../../../../models/story_project.dart';
+import '../../domain/story_project.dart';
 import '../../../project_creation/presentation/cover_palettes.dart';
-import '../../../../ui/components/plotcraft_button.dart';
-import '../../../../ui/components/plotcraft_popup_menu.dart';
-import '../../../../theme/plotcraft_tokens.dart';
-import '../../../../ui/components/project_image.dart';
+import '../../../../core/ui/plotcraft_button.dart';
+import '../../../../core/ui/plotcraft_popup_menu.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/project_image.dart';
 
 class ProjectGrid extends StatelessWidget {
   const ProjectGrid({

@@ -6,9 +6,9 @@ import 'package:file_selector/file_selector.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-import '../features/project_creation/data/project_creation_service.dart';
-import '../models/story_project.dart';
-import 'local_storage.dart';
+import 'project_creation_service.dart';
+import '../domain/story_project.dart';
+import '../../../core/storage/local_storage.dart';
 
 /// Owns the on-disk project format. The preference store only indexes folders.
 class ProjectRepository {

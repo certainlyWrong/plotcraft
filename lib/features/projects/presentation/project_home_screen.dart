@@ -5,22 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../models/story_project.dart';
+import '../domain/story_project.dart';
 import '../../project_creation/presentation/screens/project_creation_screen.dart';
 import '../../project_creation/stores/project_creation_store.dart';
 import '../../project_workspace/data/project_workspace_repository.dart';
 import '../../project_workspace/presentation/project_workspace_screen.dart';
 import '../../project_workspace/stores/project_workspace_store.dart';
-import '../../../stores/project_store.dart';
-import '../../../stores/theme_store.dart';
-import '../../../ui/components/plotcraft_button.dart';
-import '../../../ui/components/plotcraft_popup_menu.dart';
+import '../stores/project_store.dart';
+import '../../preferences/stores/theme_store.dart';
+import '../../../core/ui/plotcraft_button.dart';
+import '../../../core/ui/plotcraft_popup_menu.dart';
 import 'widgets/project_empty_state.dart';
 import 'widgets/project_grid.dart';
 import 'widgets/project_sidebar.dart';
 import 'widgets/project_top_bar.dart';
-import 'screens/preferences_screen.dart';
-import '../../../theme/plotcraft_tokens.dart';
+import '../../preferences/presentation/preferences_screen.dart';
+import '../../../core/theme/plotcraft_tokens.dart';
 
 enum _DesktopPage { projects, createProject, preferences }
 

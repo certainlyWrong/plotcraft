@@ -1,7 +1,7 @@
 import 'package:mobx/mobx.dart';
 
 import '../data/project_repository.dart';
-import '../models/story_project.dart';
+import '../domain/story_project.dart';
 
 part 'project_store.g.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:plotcraft/theme/interface_fonts.dart';
-import 'package:plotcraft/theme/theme_definition.dart';
+import 'package:plotcraft/core/theme/interface_fonts.dart';
+import 'package:plotcraft/core/theme/theme_definition.dart';
 
 void main() {
   for (final font in interfaceFonts) {

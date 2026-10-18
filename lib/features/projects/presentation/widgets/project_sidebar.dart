@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../theme/plotcraft_tokens.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 class ProjectSidebar extends StatelessWidget {
   const ProjectSidebar({

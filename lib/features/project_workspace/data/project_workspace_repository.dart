@@ -3,10 +3,11 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
-import '../../../models/story_project.dart';
-import '../../project_creation/domain/project_creation_input.dart';
+import '../../projects/domain/story_project.dart';
+import '../../projects/domain/project_metadata_input.dart';
 import '../domain/book_content.dart';
 import '../domain/narrative_element.dart';
+import '../../projects/domain/cover_image_rules.dart';
 
 class ProjectWorkspaceData {
   const ProjectWorkspaceData({
@@ -332,7 +333,7 @@ class ProjectWorkspaceRepository {
 
   Future<StoryProject> updateMetadata(
     StoryProject project,
-    ProjectCreationInput input, {
+    ProjectMetadataInput input, {
     required bool removeCover,
   }) async {
     input.validate();
@@ -342,10 +343,8 @@ class ProjectWorkspaceRepository {
     try {
       if (input.coverSourcePath != null) {
         final source = File(input.coverSourcePath!);
-        final extension = p.extension(source.path).toLowerCase();
-        if (!{'.png', '.jpg', '.jpeg', '.webp'}.contains(extension) ||
-            !await source.exists() ||
-            await source.length() > 10 * 1024 * 1024) {
+        final extension = CoverImageRules.extensionOf(source.path);
+        if (!await CoverImageRules.isValid(source.path)) {
           throw const FormatException('Invalid cover image');
         }
         final covers = Directory(p.join(folder, 'covers'));

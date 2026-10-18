@@ -5,12 +5,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/plotcraft_app.dart';
 import 'core/platform/window_service.dart';
-import 'data/local_storage.dart';
-import 'data/project_repository.dart';
-import 'features/project_creation/data/project_creation_service.dart';
+import 'core/storage/local_storage.dart';
+import 'features/projects/data/project_repository.dart';
+import 'features/projects/data/project_creation_service.dart';
 import 'features/project_creation/stores/project_creation_store.dart';
-import 'stores/project_store.dart';
-import 'stores/theme_store.dart';
+import 'features/projects/stores/project_store.dart';
+import 'features/preferences/stores/theme_store.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

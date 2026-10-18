@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../models/story_project.dart';
-import '../../../../theme/plotcraft_tokens.dart';
+import '../../../projects/domain/story_project.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 // The workspace keeps a compact navigation rail as its window narrows. Labels
 // remain available as tooltips so the project still feels like a desktop tool.

@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
 
-import '../data/local_storage.dart';
-import '../theme/interface_fonts.dart';
-import '../theme/theme_definition.dart';
+import '../../../core/storage/local_storage.dart';
+import '../../../core/theme/interface_fonts.dart';
+import '../../../core/theme/theme_definition.dart';
 
 part 'theme_store.g.dart';
 

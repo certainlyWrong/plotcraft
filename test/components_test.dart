@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:plotcraft/theme/theme_definition.dart';
-import 'package:plotcraft/ui/components/plotcraft_button.dart';
-import 'package:plotcraft/ui/components/plotcraft_dialog.dart';
-import 'package:plotcraft/ui/components/plotcraft_segmented.dart';
-import 'package:plotcraft/ui/components/plotcraft_text_field.dart';
+import 'package:plotcraft/core/theme/theme_definition.dart';
+import 'package:plotcraft/core/ui/plotcraft_button.dart';
+import 'package:plotcraft/core/ui/plotcraft_dialog.dart';
+import 'package:plotcraft/core/ui/plotcraft_segmented.dart';
+import 'package:plotcraft/core/ui/plotcraft_text_field.dart';
 
 Widget _app(Widget home) => MaterialApp(
   theme: builtInThemes.first.toThemeData(fontFamily: 'Lora'),

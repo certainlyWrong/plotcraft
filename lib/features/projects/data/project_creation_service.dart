@@ -3,22 +3,21 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
-import '../../../models/story_project.dart';
-import '../domain/project_creation_input.dart';
+import '../domain/story_project.dart';
+import '../domain/project_metadata_input.dart';
+import '../domain/cover_image_rules.dart';
 
 /// Builds the initial on-disk structure of a story project.
 class ProjectCreationService {
-  Future<StoryProject> create(ProjectCreationInput input, String root) async {
+  Future<StoryProject> create(ProjectMetadataInput input, String root) async {
     input.validate();
     final coverSource = input.coverSourcePath == null
         ? null
         : File(input.coverSourcePath!);
     String? coverFile;
     if (coverSource != null) {
-      final extension = p.extension(coverSource.path).toLowerCase();
-      if (!{'.png', '.jpg', '.jpeg', '.webp'}.contains(extension) ||
-          !await coverSource.exists() ||
-          await coverSource.length() > 10 * 1024 * 1024) {
+      final extension = CoverImageRules.extensionOf(coverSource.path);
+      if (!await CoverImageRules.isValid(coverSource.path)) {
         throw const FormatException('Invalid cover image');
       }
       coverFile = 'covers/cover$extension';

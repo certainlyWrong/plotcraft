@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/story_project.dart';
+import '../../features/projects/domain/story_project.dart';
 
 class LocalStorage {
   LocalStorage(this._preferences);

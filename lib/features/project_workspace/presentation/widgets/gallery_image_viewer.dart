@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../theme/plotcraft_tokens.dart';
-import '../../../../ui/components/project_image.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/project_image.dart';
 
 class GalleryImageViewer extends StatefulWidget {
   const GalleryImageViewer({

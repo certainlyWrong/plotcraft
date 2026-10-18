@@ -4,8 +4,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../features/projects/presentation/project_home_screen.dart';
 import '../features/project_creation/stores/project_creation_store.dart';
-import '../stores/project_store.dart';
-import '../stores/theme_store.dart';
+import '../features/projects/stores/project_store.dart';
+import '../features/preferences/stores/theme_store.dart';
 
 class PlotcraftApp extends StatelessWidget {
   const PlotcraftApp({

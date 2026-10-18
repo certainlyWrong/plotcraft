@@ -2,10 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../ui/components/plotcraft_button.dart';
-import '../../../../ui/components/plotcraft_dialog.dart';
-import '../../../../ui/components/plotcraft_icon_button.dart';
-import '../../../../ui/components/plotcraft_text_field.dart';
+import '../../../../core/ui/plotcraft_button.dart';
+import '../../../../core/ui/plotcraft_dialog.dart';
+import '../../../../core/ui/plotcraft_icon_button.dart';
+import '../../../../core/ui/plotcraft_text_field.dart';
 import '../../domain/book_content.dart';
 import '../../domain/markdown_extensions.dart';
 import '../../domain/narrative_element.dart';

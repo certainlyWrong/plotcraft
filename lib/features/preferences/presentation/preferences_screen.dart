@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../stores/project_store.dart';
-import '../../../../stores/theme_store.dart';
-import '../../../../theme/interface_fonts.dart';
-import '../../../../theme/theme_definition.dart';
-import '../../../../ui/components/plotcraft_button.dart';
-import '../../../../ui/components/plotcraft_dropdown.dart';
-import '../../../../theme/plotcraft_tokens.dart';
+import '../../projects/stores/project_store.dart';
+import '../stores/theme_store.dart';
+import '../../../core/theme/interface_fonts.dart';
+import '../../../core/theme/theme_definition.dart';
+import '../../../core/ui/plotcraft_button.dart';
+import '../../../core/ui/plotcraft_dropdown.dart';
+import '../../../core/theme/plotcraft_tokens.dart';
 
 class PreferencesScreen extends StatelessWidget {
   const PreferencesScreen({

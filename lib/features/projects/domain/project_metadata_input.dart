@@ -1,7 +1,7 @@
 enum ProjectFieldIssue { required, tooShort, tooLong, tooMany, duplicated }
 
-class ProjectCreationInput {
-  const ProjectCreationInput({
+class ProjectMetadataInput {
+  const ProjectMetadataInput({
     required this.title,
     required this.subtitle,
     required this.author,

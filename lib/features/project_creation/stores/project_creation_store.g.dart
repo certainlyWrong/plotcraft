@@ -33,7 +33,7 @@ mixin _$ProjectCreationStore on _ProjectCreationStore, Store {
   );
 
   @override
-  Future<StoryProject> create(ProjectCreationInput input) {
+  Future<StoryProject> create(ProjectMetadataInput input) {
     return _$createAsyncAction.run(() => super.create(input));
   }
 

@@ -6,7 +6,7 @@ import 'package:plotcraft/features/project_workspace/data/project_workspace_repo
 import 'package:plotcraft/features/project_workspace/domain/book_content.dart';
 import 'package:plotcraft/features/project_workspace/domain/markdown_extensions.dart';
 import 'package:plotcraft/features/project_workspace/domain/narrative_element.dart';
-import 'package:plotcraft/models/story_project.dart';
+import 'package:plotcraft/features/projects/domain/story_project.dart';
 
 void main() {
   late Directory folder;

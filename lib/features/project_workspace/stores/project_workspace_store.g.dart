@@ -323,7 +323,7 @@ mixin _$ProjectWorkspaceStore on _ProjectWorkspaceStore, Store {
 
   @override
   Future<void> updateMetadata(
-    ProjectCreationInput input, {
+    ProjectMetadataInput input, {
     required bool removeCover,
   }) {
     return _$updateMetadataAsyncAction.run(

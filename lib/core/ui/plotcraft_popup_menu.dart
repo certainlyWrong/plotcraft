@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/plotcraft_tokens.dart';
+import '../theme/plotcraft_tokens.dart';
 
 class PlotcraftPopupMenuButton<T> extends StatelessWidget {
   const PlotcraftPopupMenuButton({

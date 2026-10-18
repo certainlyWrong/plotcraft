@@ -8,9 +8,9 @@ import 'package:icons_flutter/icons_flutter.dart';
 import 'package:path/path.dart' as p;
 import 'package:window_manager/window_manager.dart';
 
-import '../../../models/story_project.dart';
-import '../../../ui/components/plotcraft_button.dart';
-import '../../project_creation/domain/project_creation_input.dart';
+import '../../projects/domain/story_project.dart';
+import '../../../core/ui/plotcraft_button.dart';
+import '../../projects/domain/project_metadata_input.dart';
 import '../stores/project_workspace_store.dart';
 import '../domain/book_content.dart';
 import '../domain/narrative_element.dart';
@@ -22,9 +22,9 @@ import 'widgets/gallery_image_viewer.dart';
 import 'widgets/gallery_mosaic.dart';
 import 'widgets/workspace_inspector.dart';
 import 'widgets/workspace_sidebar.dart';
-import '../../../theme/plotcraft_tokens.dart';
-import '../../../ui/components/plotcraft_dialog.dart';
-import '../../../ui/components/plotcraft_text_field.dart';
+import '../../../core/theme/plotcraft_tokens.dart';
+import '../../../core/ui/plotcraft_dialog.dart';
+import '../../../core/ui/plotcraft_text_field.dart';
 
 class ProjectWorkspaceScreen extends StatefulWidget {
   const ProjectWorkspaceScreen({
@@ -432,7 +432,7 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
   }
 
   Future<void> _saveProjectMetadata(
-    ProjectCreationInput input,
+    ProjectMetadataInput input,
     bool removeCover,
   ) async {
     try {
