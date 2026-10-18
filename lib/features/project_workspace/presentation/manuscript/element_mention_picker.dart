@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../core/icons/icon_ref.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
 import '../../domain/element_filter.dart';
@@ -11,6 +10,7 @@ import '../../domain/element_type.dart';
 import '../../domain/element_type_catalog.dart';
 import '../../domain/narrative_element.dart';
 import '../elements/element_type_label.dart';
+import '../../../../core/icons/icon_data.dart';
 
 /// Search-and-choose list of story elements, opened by typing `@` or from the
 /// toolbar. Arrow keys move, Enter chooses, Escape closes. Resolves to the

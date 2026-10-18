@@ -1,4 +1,6 @@
-// Generates lib/core/icons/icon_catalog.g.dart from the icons_flutter package.
+// Generates the icon catalog from the icons_flutter package:
+//   lib/core/icons/icon_names.g.dart    set labels and icon names (pure Dart)
+//   lib/core/icons/icon_catalog.g.dart  name -> IconData (needs Flutter)
 //
 // icons_flutter has no name -> icon registry, so the picker needs a catalog.
 // Every entry references the package's own `const IconData`, which keeps
@@ -40,6 +42,17 @@ void main() {
       : Directory('.dart_tool').absolute.uri.resolveUri(rootUri);
   final lib = root.resolve('lib/src/');
 
+  final names = StringBuffer()
+    ..writeln('// GENERATED CODE - DO NOT MODIFY BY HAND.')
+    ..writeln('// Run: dart tool/gen_icon_catalog.dart')
+    ..writeln()
+    ..writeln(
+      '/// Set key (the icons_flutter class) -> label shown in the icon picker.',
+    )
+    ..writeln('const iconCatalogSets = <String, String>{');
+  final namesBody = StringBuffer()
+    ..writeln('/// Icon names of each set, in the order of the package.')
+    ..writeln('const iconNames = <String, List<String>>{');
   final out = StringBuffer()
     ..writeln('// GENERATED CODE - DO NOT MODIFY BY HAND.')
     ..writeln('// Run: dart tool/gen_icon_catalog.dart')
@@ -47,11 +60,7 @@ void main() {
     ..writeln()
     ..writeln("import 'package:flutter/widgets.dart';")
     ..writeln("import 'package:icons_flutter/icons_flutter.dart';")
-    ..writeln()
-    ..writeln(
-      '/// Set key (the icons_flutter class) -> label shown in the icon picker.',
-    )
-    ..writeln('const iconCatalogSets = <String, String>{');
+    ..writeln();
   final body = StringBuffer()
     ..writeln('const iconCatalog = <String, Map<String, IconData>>{');
   var total = 0;
@@ -68,7 +77,8 @@ void main() {
     final glyphs = _codePoints(
       File.fromUri(root.resolve('fonts/$family.ttf')).readAsBytesSync(),
     );
-    out.writeln("  '$className': '$label',");
+    names.writeln("  '$className': '$label',");
+    namesBody.writeln("  '$className': [");
     body.writeln("  '$className': {");
     for (final match in RegExp(
       r'static const IconData (\w+) = IconData\((0x[0-9a-fA-F]+|\d+),',
@@ -79,17 +89,23 @@ void main() {
         stdout.writeln('Skipping $className.$name: not in the $family font.');
         continue;
       }
+      namesBody.writeln("    '$name',");
       body.writeln("    '$name': $className.$name,");
       total++;
     }
+    namesBody.writeln('  ],');
     body.writeln('  },');
   });
-  out
+  names
     ..writeln('};')
     ..writeln()
+    ..write(namesBody)
+    ..writeln('};');
+  out
     ..writeln('/// $total icons.')
     ..write(body)
     ..writeln('};');
+  File('lib/core/icons/icon_names.g.dart').writeAsStringSync(names.toString());
   File('lib/core/icons/icon_catalog.g.dart').writeAsStringSync(out.toString());
   stdout.writeln(
     'Wrote $total icons from ${_sets.length} sets ($skipped skipped).',

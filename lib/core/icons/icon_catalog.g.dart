@@ -5,17 +5,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-/// Set key (the icons_flutter class) -> label shown in the icon picker.
-const iconCatalogSets = <String, String>{
-  'Feather': 'Feather',
-  'MaterialCommunityIcons': 'Material Design',
-  'MaterialIcons': 'Material',
-  'FontAwesome5Solid': 'Font Awesome',
-  'RpgAwesome': 'RPG',
-  'Ionicons': 'Ionicons',
-  'Entypo': 'Entypo',
-};
-
 /// 7829 icons.
 const iconCatalog = <String, Map<String, IconData>>{
   'Feather': {

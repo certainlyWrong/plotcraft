@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../core/icons/icon_ref.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/project_image.dart';
 import '../../domain/element_type.dart';
 import '../../domain/narrative_element.dart';
 import '../elements/element_type_label.dart';
+import '../../../../core/icons/icon_data.dart';
 
 /// Summary of an element shown while the pointer rests on a mention: its
 /// cover, type, summary, first details and the phase in force in the chapter.

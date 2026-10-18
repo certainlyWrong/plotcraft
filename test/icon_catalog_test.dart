@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:icons_flutter/icons_flutter.dart';
-import 'package:plotcraft/core/icons/icon_ref.dart';
+import 'package:plotcraft/core/icons/icon_data.dart';
 
 void main() {
   test('o catálogo traz os conjuntos esperados e muitos ícones', () {

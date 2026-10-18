@@ -12,6 +12,7 @@ import '../../../../core/ui/plotcraft_popup_menu.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/project_image.dart';
 import '../../domain/project_format.dart';
+import '../../../../core/icons/icon_data.dart';
 
 class ProjectGrid extends StatelessWidget {
   const ProjectGrid({

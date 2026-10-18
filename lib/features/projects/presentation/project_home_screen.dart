@@ -23,6 +23,7 @@ import 'widgets/project_top_bar.dart';
 import '../../preferences/presentation/preferences_screen.dart';
 import '../../../core/theme/plotcraft_tokens.dart';
 import '../domain/project_format.dart';
+import '../../../core/icons/icon_data.dart';
 
 enum _DesktopPage { projects, createProject, preferences }
 

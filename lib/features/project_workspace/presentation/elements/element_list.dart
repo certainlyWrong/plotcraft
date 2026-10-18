@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../core/icons/icon_ref.dart';
 import '../../../../core/ui/plotcraft_context_menu.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
 import '../../domain/element_filter.dart';
@@ -11,6 +10,7 @@ import '../../domain/element_type_catalog.dart';
 import '../../domain/narrative_element.dart';
 import '../shell/side_panel_widgets.dart';
 import 'element_type_label.dart';
+import '../../../../core/icons/icon_data.dart';
 
 enum ElementAction { remove }
 

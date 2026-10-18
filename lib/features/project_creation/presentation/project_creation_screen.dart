@@ -14,6 +14,7 @@ import '../../../core/theme/plotcraft_tokens.dart';
 import '../../../core/ui/project_image.dart';
 import '../../projects/domain/cover_image_rules.dart';
 import '../../projects/domain/project_format.dart';
+import '../../../core/icons/icon_data.dart';
 
 class ProjectCreationScreen extends StatefulWidget {
   const ProjectCreationScreen({

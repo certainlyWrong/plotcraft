@@ -9,7 +9,6 @@ import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/plotcraft_dropdown.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
-import '../../../../core/icons/icon_ref.dart';
 import '../../domain/book_content.dart';
 import '../../domain/element_image.dart';
 import '../../domain/element_relation.dart';
@@ -34,6 +33,7 @@ import 'element_section_card.dart';
 import 'element_summary_panel.dart';
 import 'element_type_label.dart';
 import 'title_body_dialog.dart';
+import '../../../../core/icons/icon_data.dart';
 
 /// Editor of one narrative element, shown in its own tab. A tab whose ID is a
 /// draft creates a new element when saved.

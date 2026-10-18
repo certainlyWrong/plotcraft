@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/icons/icon_ref.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_color_picker.dart';
 import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/plotcraft_icon_picker.dart';
+import '../../../../core/icons/icon_data.dart';
 
 /// The icon and color chosen for one element. Null means "use the type's".
 class ElementAppearance {

@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/icons/icon_ref.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/project_image.dart';
 import '../../domain/element_type.dart';
@@ -9,6 +8,7 @@ import '../../domain/narrative_element.dart';
 import '../../../../core/ui/count_label.dart';
 import '../widgets/project_tags.dart';
 import 'element_type_label.dart';
+import '../../../../core/icons/icon_data.dart';
 
 /// Side summary of the element being edited: cover, type, tags, dates and how
 /// many times it appears in the text. It follows the form as it is edited.

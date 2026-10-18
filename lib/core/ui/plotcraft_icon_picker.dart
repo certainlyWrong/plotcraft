@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../icons/icon_ref.dart';
 import '../icons/suggested_icons.dart';
 import '../theme/plotcraft_tokens.dart';
 import 'plotcraft_button.dart';
 import 'plotcraft_dialog.dart';
 import 'plotcraft_text_field.dart';
+import '../icons/icon_data.dart';
 
 /// Opens the icon picker and resolves to the chosen icon, or null if the
 /// dialog is dismissed.

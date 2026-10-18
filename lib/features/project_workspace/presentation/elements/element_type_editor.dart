@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../core/icons/icon_ref.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_color_picker.dart';
 import '../../../../core/ui/plotcraft_dialog.dart';
@@ -11,6 +10,7 @@ import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../../../core/ui/plotcraft_icon_picker.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
 import '../../domain/element_type.dart';
+import '../../../../core/icons/icon_data.dart';
 
 /// What the type editor decided.
 sealed class ElementTypeEdit {

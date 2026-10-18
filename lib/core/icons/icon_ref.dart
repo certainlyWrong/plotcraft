@@ -1,12 +1,9 @@
-import 'package:flutter/widgets.dart';
-
-import 'icon_catalog.g.dart';
+import 'icon_names.g.dart';
 
 /// Reference to an icon by set and name, as stored in project files. The
 /// catalog (see `tool/gen_icon_catalog.dart`) maps it back to an `IconData`.
 /// Code points are never stored: building an `IconData` from a number would
 /// defeat icon tree-shaking and break when the icon package changes.
-@immutable
 class IconRef {
   const IconRef(this.set, this.name);
 
@@ -16,10 +13,8 @@ class IconRef {
   final String set;
   final String name;
 
-  IconData get data =>
-      iconCatalog[set]?[name] ?? iconCatalog[fallback.set]![fallback.name]!;
-
-  bool get exists => iconCatalog[set]?.containsKey(name) ?? false;
+  /// True when the catalog has an icon with this set and name.
+  bool get exists => IconCatalog.contains(set, name);
 
   Map<String, Object?> toJson() => {'set': set, 'name': name};
 
@@ -49,8 +44,15 @@ abstract final class IconCatalog {
 
   static String labelOf(String set) => iconCatalogSets[set] ?? set;
 
-  static Iterable<String> namesIn(String set) =>
-      iconCatalog[set]?.keys ?? const [];
+  static Iterable<String> namesIn(String set) => iconNames[set] ?? const [];
+
+  static final _lookup = <String, Set<String>>{};
+
+  static bool contains(String set, String name) {
+    final names = iconNames[set];
+    if (names == null) return false;
+    return (_lookup[set] ??= names.toSet()).contains(name);
+  }
 
   /// Icon names of [set] containing every word of [query] (case-insensitive;
   /// underscores and dashes count as spaces). An empty query lists all.
