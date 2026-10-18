@@ -283,5 +283,11 @@
     "remove_error": "Could not remove the element.",
     "unsaved_title": "Unsaved element changes",
     "unsaved_message": "Save the changes before leaving this element?"
+  },
+  "ui": {
+    "icon_picker_title": "Choose an icon",
+    "icon_picker_search": "Search icons",
+    "icon_picker_empty": "No icons found",
+    "color_picker_hex": "#RRGGBB"
   }
 }
