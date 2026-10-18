@@ -350,7 +350,14 @@
     "image_missing": "Imagem não encontrada",
     "pick_gallery_title": "Escolher imagens da galeria",
     "gallery_empty_pick": "A galeria ainda não tem imagens",
-    "attach_error": "Não foi possível adicionar a imagem"
+    "attach_error": "Não foi possível adicionar a imagem",
+    "relations": "Relações",
+    "add_relation": "Adicionar relação",
+    "no_relations": "Nenhuma relação ainda.",
+    "no_other_elements": "Crie outros elementos para relacioná-los.",
+    "relations_incoming": "Relacionados a este elemento",
+    "relation_label": "O que este é para eles (irmã de)",
+    "relation_reciprocal": "O que eles são para este (opcional)"
   },
   "ui": {
     "icon_picker_title": "Escolher um ícone",

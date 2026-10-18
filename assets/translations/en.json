@@ -350,7 +350,14 @@
     "image_missing": "Image not found",
     "pick_gallery_title": "Choose images from the gallery",
     "gallery_empty_pick": "The gallery has no images yet",
-    "attach_error": "Could not add the image"
+    "attach_error": "Could not add the image",
+    "relations": "Relations",
+    "add_relation": "Add relation",
+    "no_relations": "No relations yet.",
+    "no_other_elements": "Create other elements to relate them.",
+    "relations_incoming": "Related to this element",
+    "relation_label": "What this is to them (sister of)",
+    "relation_reciprocal": "What they are to this (optional)"
   },
   "ui": {
     "icon_picker_title": "Choose an icon",

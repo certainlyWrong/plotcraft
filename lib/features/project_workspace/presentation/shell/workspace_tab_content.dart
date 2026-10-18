@@ -94,6 +94,7 @@ class WorkspaceTabContent extends StatelessWidget {
           book: store.book,
           onRemove: (element) => actions.removeElement(context, element),
           onOpenReference: actions.openReference,
+          onOpenElement: actions.openElement,
         );
     }
   }

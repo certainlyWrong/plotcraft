@@ -12,6 +12,7 @@ import '../../../../core/ui/plotcraft_text_field.dart';
 import '../../../../core/icons/icon_ref.dart';
 import '../../domain/book_content.dart';
 import '../../domain/element_image.dart';
+import '../../domain/element_relation.dart';
 import '../../domain/element_type.dart';
 import '../../domain/element_type_catalog.dart';
 import '../../domain/narrative_element.dart';
@@ -25,6 +26,7 @@ import 'element_fields_panel.dart';
 import 'element_items_panel.dart';
 import 'gallery_picker_dialog.dart';
 import 'element_references_panel.dart';
+import 'element_relations_panel.dart';
 import 'element_type_label.dart';
 import 'title_body_dialog.dart';
 
@@ -39,6 +41,7 @@ class ElementEditor extends StatefulWidget {
     required this.book,
     required this.onRemove,
     required this.onOpenReference,
+    required this.onOpenElement,
   });
 
   final WorkspaceTab tab;
@@ -47,6 +50,7 @@ class ElementEditor extends StatefulWidget {
   final BookContent book;
   final ValueChanged<NarrativeElement> onRemove;
   final ValueChanged<String?> onOpenReference;
+  final ValueChanged<String> onOpenElement;
 
   @override
   State<ElementEditor> createState() => _ElementEditorState();
@@ -128,7 +132,12 @@ class _ElementEditorState extends State<ElementEditor> {
       _snack('elements.title_required');
       return false;
     }
-    final element = _draft.build(id: _elementId, base: _element);
+    // Relations to elements that no longer exist are dropped on save.
+    final existing = {for (final e in widget.store.elements) e.id, _elementId};
+    final built = _draft.build(id: _elementId, base: _element);
+    final element = built.copyWith(
+      relations: RelationIndex.prune(built, existing),
+    );
     try {
       await widget.store.saveElement(element);
     } catch (_) {
@@ -468,6 +477,26 @@ class _ElementEditorState extends State<ElementEditor> {
                   });
                   _markDirty();
                 },
+              ),
+              const SizedBox(height: 24),
+              ElementRelationsPanel(
+                relations: _draft.relations,
+                candidates: [
+                  for (final other in widget.store.elements)
+                    if (other.id != _elementId) other,
+                ],
+                incoming: [
+                  for (final view in RelationIndex(
+                    widget.store.elements.toList(),
+                  ).of(_elementId))
+                    if (view.incoming) view,
+                ],
+                newId: _newId,
+                onChanged: (relations) {
+                  setState(() => _draft.relations = relations);
+                  _markDirty();
+                },
+                onOpenElement: widget.onOpenElement,
               ),
               const SizedBox(height: 24),
               ElementItemsPanel(

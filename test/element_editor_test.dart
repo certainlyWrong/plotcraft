@@ -58,6 +58,7 @@ void main() {
             book: store.book,
             onRemove: (_) {},
             onOpenReference: (_) {},
+            onOpenElement: (_) {},
           ),
         ),
       ),
