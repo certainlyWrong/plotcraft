@@ -1,15 +1,24 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
 import '../../projects/domain/story_project.dart';
+import '../domain/gallery_item.dart';
 import 'project_files.dart';
 
 class GalleryImportResult {
-  const GalleryImportResult({required this.project, required this.images});
+  const GalleryImportResult({
+    required this.project,
+    required this.images,
+    required this.items,
+  });
 
   final StoryProject project;
+
+  /// Paths of the images that exist, sorted by name.
   final List<String> images;
+  final List<GalleryItem> items;
 }
 
 /// Reference images under `gallery/`.
@@ -19,17 +28,89 @@ class GalleryRepository {
   final ProjectFiles _files;
 
   /// Image files in `gallery/`, sorted by name.
-  Future<List<String>> list(StoryProject project) async {
-    final gallery = Directory(p.join(_files.folder(project), 'gallery'));
-    final images = <String>[];
-    if (await gallery.exists()) {
-      await for (final entry in gallery.list(followLinks: false)) {
-        if (entry is File && _isImage(entry.path)) images.add(entry.path);
+  Future<List<String>> list(StoryProject project) async => [
+    for (final item in await items(project))
+      if (item.exists) item.path,
+  ];
+
+  /// Gallery images with their stable IDs, from `gallery/index.json`. Files
+  /// that appeared in the folder get an ID; entries whose file disappeared
+  /// are kept (marked missing) so references to them stay valid if the file
+  /// comes back.
+  Future<List<GalleryItem>> items(StoryProject project) async {
+    final folder = _files.folder(project);
+    final directory = Directory(p.join(folder, 'gallery'));
+    final names = <String>{};
+    if (await directory.exists()) {
+      await for (final entry in directory.list(followLinks: false)) {
+        if (entry is File && _isImage(entry.path)) {
+          names.add(p.basename(entry.path));
+        }
       }
     }
-    images.sort((a, b) => p.basename(a).compareTo(p.basename(b)));
-    return images;
+    final entries = await _readIndex(folder);
+    final known = entries.map((entry) => entry.file).toSet();
+    final usedIds = entries.map((entry) => entry.id).toSet();
+    var changed = false;
+    for (final name in names.toList()..sort()) {
+      if (known.contains(name)) continue;
+      var id = 'g_${_files.newId()}';
+      var n = 2;
+      while (!usedIds.add(id)) {
+        id = 'g_${_files.newId()}_${n++}';
+      }
+      entries.add((id: id, file: name));
+      changed = true;
+    }
+    if (changed) await _writeIndex(folder, entries);
+    final items = [
+      for (final entry in entries)
+        GalleryItem(
+          id: entry.id,
+          file: entry.file,
+          path: p.join(directory.path, entry.file),
+          exists: names.contains(entry.file),
+        ),
+    ]..sort((a, b) => a.file.compareTo(b.file));
+    return items;
   }
+
+  File _indexFile(String folder) =>
+      File(p.join(folder, 'gallery', 'index.json'));
+
+  Future<List<({String id, String file})>> _readIndex(String folder) async {
+    final file = _indexFile(folder);
+    if (!await file.exists()) return [];
+    try {
+      final json =
+          jsonDecode(await file.readAsString()) as Map<String, dynamic>;
+      final seenIds = <String>{};
+      final seenFiles = <String>{};
+      return [
+        for (final item in (json['items'] as List<dynamic>? ?? const []))
+          if (item is Map &&
+              item['id'] is String &&
+              item['file'] is String &&
+              seenIds.add(item['id'] as String) &&
+              seenFiles.add(item['file'] as String))
+            (id: item['id'] as String, file: item['file'] as String),
+      ];
+    } on FormatException {
+      return [];
+    } on TypeError {
+      return [];
+    }
+  }
+
+  Future<void> _writeIndex(
+    String folder,
+    List<({String id, String file})> entries,
+  ) => _files.writeJson(_indexFile(folder), {
+    'schemaVersion': 1,
+    'items': [
+      for (final entry in entries) {'id': entry.id, 'file': entry.file},
+    ],
+  });
 
   Future<GalleryImportResult> importImages(
     StoryProject project,
@@ -59,8 +140,15 @@ class GalleryRepository {
         imported.add(await source.copy(destination.path));
       }
       final updated = imported.isEmpty ? project : await _files.touch(project);
-      final images = await list(updated);
-      return GalleryImportResult(project: updated, images: images);
+      final items = await this.items(updated);
+      return GalleryImportResult(
+        project: updated,
+        images: [
+          for (final item in items)
+            if (item.exists) item.path,
+        ],
+        items: items,
+      );
     } catch (_) {
       for (final file in imported) {
         if (await file.exists()) await file.delete();
@@ -89,13 +177,25 @@ class GalleryRepository {
     await image.rename(staged.path);
     try {
       final updated = await _files.touch(project);
-      final images = await list(updated);
+      final folder = _files.folder(project);
+      final remaining = (await _readIndex(folder))
+          .where((entry) => entry.file != p.basename(normalized))
+          .toList();
+      await _writeIndex(folder, remaining);
+      final items = await this.items(updated);
       try {
         await staged.delete();
       } on FileSystemException {
         // The image is already hidden from the gallery.
       }
-      return GalleryImportResult(project: updated, images: images);
+      return GalleryImportResult(
+        project: updated,
+        images: [
+          for (final item in items)
+            if (item.exists) item.path,
+        ],
+        items: items,
+      );
     } catch (_) {
       if (await staged.exists()) await staged.rename(image.path);
       rethrow;

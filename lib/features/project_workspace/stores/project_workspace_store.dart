@@ -7,6 +7,7 @@ import '../data/project_workspace_repository.dart';
 import '../domain/book_content.dart';
 import '../domain/element_type.dart';
 import '../domain/element_type_catalog.dart';
+import '../domain/gallery_item.dart';
 import '../domain/narrative_element.dart';
 
 part 'project_workspace_store.g.dart';
@@ -37,6 +38,10 @@ abstract class _ProjectWorkspaceStore with Store {
 
   @observable
   ObservableList<String> galleryImages = ObservableList<String>();
+
+  /// Gallery images with stable IDs, as used by elements and the text.
+  @observable
+  ObservableList<GalleryItem> galleryItems = ObservableList<GalleryItem>();
 
   @observable
   bool isLoading = false;
@@ -82,6 +87,7 @@ abstract class _ProjectWorkspaceStore with Store {
       elements = ObservableList.of(data.elements);
       customElementTypes = ObservableList.of(data.types);
       galleryImages = ObservableList.of(data.galleryImages);
+      galleryItems = ObservableList.of(data.galleryItems);
     } finally {
       isLoading = false;
     }
@@ -213,6 +219,7 @@ abstract class _ProjectWorkspaceStore with Store {
       final result = await _repository.gallery.importImages(current, paths);
       project = result.project;
       galleryImages = ObservableList.of(result.images);
+      galleryItems = ObservableList.of(result.items);
       _onProjectUpdated(result.project);
     } finally {
       isImporting = false;
@@ -249,6 +256,7 @@ abstract class _ProjectWorkspaceStore with Store {
       final result = await _repository.gallery.removeImage(current, imagePath);
       project = result.project;
       galleryImages = ObservableList.of(result.images);
+      galleryItems = ObservableList.of(result.items);
       _onProjectUpdated(result.project);
     } finally {
       isRemovingImage = false;

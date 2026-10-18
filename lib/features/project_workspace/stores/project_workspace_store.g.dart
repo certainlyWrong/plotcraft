@@ -122,6 +122,24 @@ mixin _$ProjectWorkspaceStore on _ProjectWorkspaceStore, Store {
     });
   }
 
+  late final _$galleryItemsAtom = Atom(
+    name: '_ProjectWorkspaceStore.galleryItems',
+    context: context,
+  );
+
+  @override
+  ObservableList<GalleryItem> get galleryItems {
+    _$galleryItemsAtom.reportRead();
+    return super.galleryItems;
+  }
+
+  @override
+  set galleryItems(ObservableList<GalleryItem> value) {
+    _$galleryItemsAtom.reportWrite(value, super.galleryItems, () {
+      super.galleryItems = value;
+    });
+  }
+
   late final _$isLoadingAtom = Atom(
     name: '_ProjectWorkspaceStore.isLoading',
     context: context,
@@ -375,6 +393,7 @@ book: ${book},
 elements: ${elements},
 customElementTypes: ${customElementTypes},
 galleryImages: ${galleryImages},
+galleryItems: ${galleryItems},
 isLoading: ${isLoading},
 isSaving: ${isSaving},
 isImporting: ${isImporting},
