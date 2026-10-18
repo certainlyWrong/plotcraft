@@ -43,6 +43,8 @@ class BookEditor extends StatefulWidget {
     this.fonts = const EditorFontCatalog(bundled: bundledEditorFontFamilies),
     this.onManageFonts,
     this.onIgnoreTerm,
+    this.reveal,
+    this.onRevealed,
     this.backend = const MethodChannelSpellCheckBackend(),
   });
 
@@ -69,6 +71,10 @@ class BookEditor extends StatefulWidget {
 
   /// Asked to stop detecting [term] as a mention of [element].
   final void Function(NarrativeElement element, String term)? onIgnoreTerm;
+
+  /// A stretch of text to select and bring into view when shown.
+  final TextRange? reveal;
+  final VoidCallback? onRevealed;
 
   /// The system spell checker (a fake in tests).
   final SpellCheckBackend backend;
@@ -98,6 +104,7 @@ class _BookEditorState extends State<BookEditor> {
       locale: const Locale('en'),
     );
     _auto = AutoMentionTracker(elements: widget.elements);
+    _scheduleReveal();
     _changes = widget.controller.document.changes.listen(_onDocumentChange);
   }
 
@@ -120,6 +127,9 @@ class _BookEditorState extends State<BookEditor> {
   void didUpdateWidget(covariant BookEditor oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.elements != widget.elements) _auto.elements = widget.elements;
+    if (widget.reveal != null && widget.reveal != oldWidget.reveal) {
+      _scheduleReveal();
+    }
     if (oldWidget.controller != widget.controller) {
       _spell.attach(widget.controller);
       _auto.attach(widget.controller);
@@ -172,6 +182,25 @@ class _BookEditorState extends State<BookEditor> {
       ],
     ];
     return _spell.buildContextMenu(context, state, extraItems: linkItems);
+  }
+
+  /// Selects the requested stretch once the editor is laid out. Quill scrolls
+  /// to the selection when the editor has focus.
+  void _scheduleReveal() {
+    if (widget.reveal == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final range = widget.reveal;
+      if (!mounted || range == null) return;
+      final length = widget.controller.document.length - 1;
+      final start = range.start.clamp(0, length);
+      final end = range.end.clamp(start, length);
+      widget.controller.updateSelection(
+        TextSelection(baseOffset: start, extentOffset: end),
+        ChangeSource.local,
+      );
+      _focus.requestFocus();
+      widget.onRevealed?.call();
+    });
   }
 
   /// Typing `@` at the start of a word opens the element picker.

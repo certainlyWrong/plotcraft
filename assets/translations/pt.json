@@ -368,7 +368,12 @@
     "search": "Buscar elementos",
     "all_types": "Todos os tipos",
     "all_tags": "Todas as etiquetas",
-    "no_matches": "Nenhum elemento encontrado."
+    "no_matches": "Nenhum elemento encontrado.",
+    "occurrences_summary": "{count} ocorrências, {linked} ligadas",
+    "mentions_section": "Menções no texto",
+    "auto_mentions": "Marcar o nome e os apelidos deste elemento no texto",
+    "ignored_terms": "Nomes não marcados",
+    "ignored_terms_hint": "Termos que você mandou parar de marcar"
   },
   "ui": {
     "icon_picker_title": "Escolher um ícone",

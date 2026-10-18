@@ -59,7 +59,7 @@ void main() {
             controller: controller,
             book: store.book,
             onRemove: (_) {},
-            onOpenReference: (_) {},
+            onOpenReference: (_, _) {},
             onOpenElement: (_) {},
           ),
         ),
@@ -175,4 +175,31 @@ void main() {
     expect(find.text('elements.fields.region'), findsWidgets);
     expect(find.text('elements.fields.age'), findsNothing);
   });
+
+  testWidgets(
+    'desligar a marcação automática é salvo na política do elemento',
+    (tester) async {
+      final tabId = controller.newElementDraft('character');
+      await pumpEditor(
+        tester,
+        controller.tabs.firstWhere((t) => t.id == tabId),
+      );
+      await tester.enterText(find.byType(TextField).first, 'Lia');
+      final toggle = find.widgetWithText(
+        SwitchListTile,
+        'elements.auto_mentions',
+      );
+      await tester.ensureVisible(toggle);
+      await tester.tap(toggle);
+      await tester.pump();
+      await tester.runAsync(() async {
+        await tester.tap(find.text('workspace.save_project').first);
+        for (var i = 0; i < 200 && store.elements.isEmpty; i++) {
+          await Future<void>.delayed(const Duration(milliseconds: 10));
+        }
+      });
+      await tester.pump();
+      expect(store.elements.single.mentionPolicy.auto, isFalse);
+    },
+  );
 }

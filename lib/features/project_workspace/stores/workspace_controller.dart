@@ -109,6 +109,12 @@ abstract class _WorkspaceController with Store {
   @observable
   bool loadFailed = false;
 
+  /// Text to select and show when a manuscript tab is next displayed (for
+  /// example after choosing an occurrence of an element), by tab ID.
+  @observable
+  ObservableMap<String, TextRange> revealRequests =
+      ObservableMap<String, TextRange>();
+
   @observable
   ObservableSet<String> dirtyTabs = ObservableSet<String>();
 
@@ -306,10 +312,15 @@ abstract class _WorkspaceController with Store {
   );
 
   @action
-  void openManuscript(String? chapterId) {
+  void openManuscript(String? chapterId, {TextRange? reveal}) {
     bufferFor(chapterId);
-    openTab(manuscriptTab(chapterId));
+    final tab = manuscriptTab(chapterId);
+    if (reveal != null) revealRequests[tab.id] = reveal;
+    openTab(tab);
   }
+
+  @action
+  void clearReveal(String tabId) => revealRequests.remove(tabId);
 
   @action
   void onBufferChanged(String? chapterId) {

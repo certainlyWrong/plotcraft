@@ -2,30 +2,25 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../domain/book_content.dart';
+import '../../domain/rich/mention_scan.dart';
 
-/// Lists the manuscript documents that link to an element.
+/// Where an element appears in the book. Choosing an occurrence opens that
+/// chapter with the text selected.
 class ElementReferencesPanel extends StatelessWidget {
   const ElementReferencesPanel({
     super.key,
-    required this.elementId,
-    required this.book,
+    required this.occurrences,
     required this.onOpen,
   });
 
-  final String elementId;
-  final BookContent book;
-
-  /// Receives the chapter ID, or null for the single manuscript.
-  final ValueChanged<String?> onOpen;
+  final List<MentionOccurrence> occurrences;
+  final ValueChanged<MentionOccurrence> onOpen;
 
   @override
   Widget build(BuildContext context) {
-    final references = book.referencesTo(
-      elementId,
-      'workspace.manuscript'.tr(),
-    );
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final linked = occurrences.where((o) => o.linked).length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -35,13 +30,38 @@ class ElementReferencesPanel extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
+        if (occurrences.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Text(
+              'elements.occurrences_summary'.tr(
+                namedArgs: {
+                  'count': '${occurrences.length}',
+                  'linked': '$linked',
+                },
+              ),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: scheme.onSurfaceVariant,
+              ),
+            ),
+          ),
         const SizedBox(height: 8),
-        if (references.isEmpty) Text('elements.no_references'.tr()),
-        for (final reference in references)
+        if (occurrences.isEmpty) Text('elements.no_references'.tr()),
+        for (final occurrence in occurrences)
           ListTile(
-            leading: const Icon(Feather.file_text, size: 17),
-            title: Text(reference.title),
-            onTap: () => onOpen(reference.chapterId),
+            dense: true,
+            leading: Icon(
+              occurrence.linked ? Feather.link : Feather.file_text,
+              size: 16,
+              color: occurrence.linked ? scheme.primary : null,
+            ),
+            title: Text(
+              occurrence.snippet,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Text(occurrence.chapterTitle),
+            onTap: () => onOpen(occurrence),
           ),
       ],
     );

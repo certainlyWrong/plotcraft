@@ -283,7 +283,8 @@ class WorkspaceActions {
   }
 
   /// Opens the manuscript document that references an element.
-  void openReference(String? chapterId) => controller.openManuscript(chapterId);
+  void openReference(String? chapterId, [TextRange? range]) =>
+      controller.openManuscript(chapterId, reveal: range);
 
   /// Stops the automatic detection of [term] as a mention of [element].
   Future<void> ignoreMentionTerm(

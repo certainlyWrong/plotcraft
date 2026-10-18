@@ -170,6 +170,24 @@ mixin _$WorkspaceController on _WorkspaceController, Store {
     });
   }
 
+  late final _$revealRequestsAtom = Atom(
+    name: '_WorkspaceController.revealRequests',
+    context: context,
+  );
+
+  @override
+  ObservableMap<String, TextRange> get revealRequests {
+    _$revealRequestsAtom.reportRead();
+    return super.revealRequests;
+  }
+
+  @override
+  set revealRequests(ObservableMap<String, TextRange> value) {
+    _$revealRequestsAtom.reportWrite(value, super.revealRequests, () {
+      super.revealRequests = value;
+    });
+  }
+
   late final _$dirtyTabsAtom = Atom(
     name: '_WorkspaceController.dirtyTabs',
     context: context,
@@ -324,12 +342,24 @@ mixin _$WorkspaceController on _WorkspaceController, Store {
   }
 
   @override
-  void openManuscript(String? chapterId) {
+  void openManuscript(String? chapterId, {TextRange? reveal}) {
     final _$actionInfo = _$_WorkspaceControllerActionController.startAction(
       name: '_WorkspaceController.openManuscript',
     );
     try {
-      return super.openManuscript(chapterId);
+      return super.openManuscript(chapterId, reveal: reveal);
+    } finally {
+      _$_WorkspaceControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clearReveal(String tabId) {
+    final _$actionInfo = _$_WorkspaceControllerActionController.startAction(
+      name: '_WorkspaceController.clearReveal',
+    );
+    try {
+      return super.clearReveal(tabId);
     } finally {
       _$_WorkspaceControllerActionController.endAction(_$actionInfo);
     }
@@ -394,6 +424,7 @@ sidePanelWidth: ${sidePanelWidth},
 inspectorWidth: ${inspectorWidth},
 editorFullscreen: ${editorFullscreen},
 loadFailed: ${loadFailed},
+revealRequests: ${revealRequests},
 dirtyTabs: ${dirtyTabs},
 activeTab: ${activeTab},
 activeSection: ${activeSection}

@@ -157,7 +157,7 @@ void main() {
             controller: controller,
             book: store.book,
             onRemove: (_) {},
-            onOpenReference: (_) {},
+            onOpenReference: (_, _) {},
             onOpenElement: (_) {},
           ),
         ),

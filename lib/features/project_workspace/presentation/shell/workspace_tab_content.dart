@@ -81,6 +81,8 @@ class WorkspaceTabContent extends StatelessWidget {
           elements: store.elements.toList(),
           types: store.elementTypes,
           galleryItems: store.galleryItems.toList(),
+          reveal: controller.revealRequests[tab.id],
+          onRevealed: () => controller.clearReveal(tab.id),
           fonts: controller.fonts.catalog,
           onManageFonts: () => actions.manageFonts(context),
           onIgnoreTerm: (element, term) =>
@@ -97,7 +99,8 @@ class WorkspaceTabContent extends StatelessWidget {
           controller: controller,
           book: store.book,
           onRemove: (element) => actions.removeElement(context, element),
-          onOpenReference: actions.openReference,
+          onOpenReference: (chapterId, range) =>
+              actions.openReference(chapterId, range),
           onOpenElement: actions.openElement,
         );
     }

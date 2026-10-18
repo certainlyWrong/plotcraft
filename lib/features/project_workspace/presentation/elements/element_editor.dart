@@ -27,6 +27,7 @@ import 'element_fields_panel.dart';
 import 'element_items_panel.dart';
 import 'element_phase_dialog.dart';
 import 'gallery_picker_dialog.dart';
+import '../../domain/rich/mention_scan.dart';
 import 'element_references_panel.dart';
 import 'element_relations_panel.dart';
 import 'element_type_label.dart';
@@ -51,7 +52,7 @@ class ElementEditor extends StatefulWidget {
   final WorkspaceController controller;
   final BookContent book;
   final ValueChanged<NarrativeElement> onRemove;
-  final ValueChanged<String?> onOpenReference;
+  final void Function(String? chapterId, TextRange range) onOpenReference;
   final ValueChanged<String> onOpenElement;
 
   @override
@@ -85,6 +86,28 @@ class _ElementEditorState extends State<ElementEditor> {
           ElementTypeCatalog.character,
     );
     widget.controller.setGuard(_tabId, _confirmLeave);
+    _scanOccurrences();
+  }
+
+  /// Where the element appears in the book. Scanning reads every chapter, so
+  /// it runs when the book or the element changes, not on every keystroke.
+  List<MentionOccurrence> _occurrences = const [];
+
+  void _scanOccurrences() {
+    final element = _element;
+    _occurrences = element == null
+        ? const []
+        : scanElementMentions(
+            widget.book,
+            element,
+            'workspace.manuscript'.tr(),
+          );
+  }
+
+  @override
+  void didUpdateWidget(covariant ElementEditor oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.book != widget.book) _scanOccurrences();
   }
 
   @override
@@ -153,6 +176,7 @@ class _ElementEditorState extends State<ElementEditor> {
     } else if (mounted) {
       setState(() {
         _element = element;
+        _scanOccurrences();
         _dirty = false;
       });
     }
@@ -231,6 +255,45 @@ class _ElementEditorState extends State<ElementEditor> {
           .firstOrNull
           ?.title,
   };
+
+  /// Whether the name and aliases are marked in the text, and which terms the
+  /// writer asked to stop marking.
+  Widget _mentionSettings(BuildContext context) {
+    final policy = _draft.mentionPolicy;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'elements.mentions_section'.tr(),
+          style: Theme.of(context).textTheme.titleMedium
+              ?.copyWith(fontWeight: FontWeight.w700),
+        ),
+        SwitchListTile(
+          contentPadding: EdgeInsets.zero,
+          dense: true,
+          title: Text('elements.auto_mentions'.tr()),
+          value: policy.auto,
+          onChanged: (on) {
+            setState(() => _draft.mentionPolicy = policy.copyWith(auto: on));
+            _markDirty();
+          },
+        ),
+        if (policy.auto && policy.ignoredTerms.isNotEmpty)
+          PlotcraftChipInput(
+            label: 'elements.ignored_terms'.tr(),
+            hint: 'elements.ignored_terms_hint'.tr(),
+            values: policy.ignoredTerms,
+            onChanged: (terms) {
+              setState(
+                () =>
+                    _draft.mentionPolicy = policy.copyWith(ignoredTerms: terms),
+              );
+              _markDirty();
+            },
+          ),
+      ],
+    );
+  }
 
   String? _imagePath(ElementImage image) {
     if (!image.isGallery) return widget.store.attachmentPath(image.value);
@@ -543,12 +606,16 @@ class _ElementEditorState extends State<ElementEditor> {
                   _markDirty();
                 },
               ),
+              const SizedBox(height: 24),
+              _mentionSettings(context),
               if (_element != null) ...[
                 const SizedBox(height: 24),
                 ElementReferencesPanel(
-                  elementId: _element!.id,
-                  book: widget.book,
-                  onOpen: widget.onOpenReference,
+                  occurrences: _occurrences,
+                  onOpen: (o) => widget.onOpenReference(
+                    o.chapterId,
+                    TextRange(start: o.start, end: o.end),
+                  ),
                 ),
               ],
             ],

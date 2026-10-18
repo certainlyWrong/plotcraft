@@ -368,7 +368,12 @@
     "search": "Search elements",
     "all_types": "All types",
     "all_tags": "All tags",
-    "no_matches": "No elements match."
+    "no_matches": "No elements match.",
+    "occurrences_summary": "{count} occurrences, {linked} linked",
+    "mentions_section": "Mentions in the text",
+    "auto_mentions": "Mark this element's name and aliases in the text",
+    "ignored_terms": "Names not marked",
+    "ignored_terms_hint": "Terms you told it to stop marking"
   },
   "ui": {
     "icon_picker_title": "Choose an icon",
