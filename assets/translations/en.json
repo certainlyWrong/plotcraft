@@ -364,7 +364,11 @@
     "anchor_manual_hint": "For example: after the war",
     "phase_changes": "What changes in this phase",
     "phase_unchanged": "Unchanged",
-    "phase_image": "Image for this phase"
+    "phase_image": "Image for this phase",
+    "search": "Search elements",
+    "all_types": "All types",
+    "all_tags": "All tags",
+    "no_matches": "No elements match."
   },
   "ui": {
     "icon_picker_title": "Choose an icon",
