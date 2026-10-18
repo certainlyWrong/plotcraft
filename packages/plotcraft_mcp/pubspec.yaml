@@ -1,0 +1,16 @@
+name: plotcraft_mcp
+description: MCP server that lets an AI read and write Plotcraft stories.
+publish_to: none
+version: 0.1.0
+
+environment:
+  sdk: ^3.13.3
+
+dependencies:
+  args: ^2.7.0
+  dart_mcp: ^0.5.2
+  plotcraft_core:
+    path: ../plotcraft_core
+  stream_channel: ^2.1.4
+dev_dependencies:
+  test: ^1.33.0
