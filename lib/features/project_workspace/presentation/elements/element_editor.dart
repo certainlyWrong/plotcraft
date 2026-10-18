@@ -4,14 +4,17 @@ import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_dialog.dart';
+import '../../../../core/ui/plotcraft_dropdown.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
 import '../../domain/book_content.dart';
+import '../../domain/element_type_catalog.dart';
 import '../../domain/markdown_extensions.dart';
 import '../../domain/narrative_element.dart';
 import '../../domain/workspace_tab.dart';
 import '../../stores/project_workspace_store.dart';
 import '../../stores/workspace_controller.dart';
+import 'element_type_label.dart';
 import 'title_body_dialog.dart';
 
 /// Editor of one narrative element, shown in its own tab. A tab whose ID is a
@@ -40,7 +43,7 @@ class ElementEditor extends StatefulWidget {
 
 class _ElementEditorState extends State<ElementEditor> {
   final _title = TextEditingController();
-  final _kind = TextEditingController();
+  String _typeId = ElementTypeCatalog.character;
   final _summary = TextEditingController();
   NarrativeElement? _element;
   List<NarrativeSection> _sections = [];
@@ -58,7 +61,7 @@ class _ElementEditorState extends State<ElementEditor> {
               .where((element) => element.id == widget.tab.refId)
               .firstOrNull;
     _title.text = _element?.title ?? '';
-    _kind.text = _element?.kind ?? 'character';
+    _typeId = _element?.typeId ?? ElementTypeCatalog.character;
     _summary.text = _element?.summary ?? '';
     _sections = [...?_element?.sections];
     _phases = [...?_element?.phases];
@@ -69,7 +72,6 @@ class _ElementEditorState extends State<ElementEditor> {
   void dispose() {
     widget.controller.setGuard(_tabId, null);
     _title.dispose();
-    _kind.dispose();
     _summary.dispose();
     super.dispose();
   }
@@ -110,14 +112,14 @@ class _ElementEditorState extends State<ElementEditor> {
   }
 
   Future<bool> _save() async {
-    if (_title.text.trim().isEmpty || _kind.text.trim().isEmpty) {
+    if (_title.text.trim().isEmpty) {
       _snack('elements.title_required');
       return false;
     }
     final now = DateTime.now();
     final element = NarrativeElement(
       id: _element?.id ?? now.microsecondsSinceEpoch.toRadixString(36),
-      kind: _kind.text.trim(),
+      typeId: _typeId,
       title: _title.text.trim(),
       summary: _summary.text.trim(),
       sections: _sections,
@@ -259,11 +261,38 @@ class _ElementEditorState extends State<ElementEditor> {
                   ),
                   SizedBox(
                     width: 220,
-                    child: PlotcraftTextField(
-                      controller: _kind,
-                      onChanged: (_) => _markDirty(),
-                      label: 'elements.kind'.tr(),
-                      hint: 'elements.kind_hint'.tr(),
+                    child: PlotcraftDropdown<String>(
+                      initialValue:
+                          widget.store.elementTypes.any((t) => t.id == _typeId)
+                          ? _typeId
+                          : null,
+                      items: [
+                        for (final type in widget.store.elementTypes)
+                          DropdownMenuItem(
+                            value: type.id,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  type.icon.data,
+                                  size: 16,
+                                  color: type.color,
+                                ),
+                                const SizedBox(width: 8),
+                                Flexible(
+                                  child: Text(
+                                    type.label,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                      ],
+                      onChanged: (id) {
+                        if (id == null) return;
+                        setState(() => _typeId = id);
+                        _markDirty();
+                      },
                     ),
                   ),
                 ],

@@ -9,6 +9,14 @@ part of 'project_workspace_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$ProjectWorkspaceStore on _ProjectWorkspaceStore, Store {
+  Computed<List<ElementType>>? _$elementTypesComputed;
+
+  @override
+  List<ElementType> get elementTypes =>
+      (_$elementTypesComputed ??= Computed<List<ElementType>>(
+        () => super.elementTypes,
+        name: '_ProjectWorkspaceStore.elementTypes',
+      )).value;
   Computed<String>? _$manuscriptComputed;
 
   @override
@@ -75,6 +83,24 @@ mixin _$ProjectWorkspaceStore on _ProjectWorkspaceStore, Store {
   set elements(ObservableList<NarrativeElement> value) {
     _$elementsAtom.reportWrite(value, super.elements, () {
       super.elements = value;
+    });
+  }
+
+  late final _$customElementTypesAtom = Atom(
+    name: '_ProjectWorkspaceStore.customElementTypes',
+    context: context,
+  );
+
+  @override
+  ObservableList<ElementType> get customElementTypes {
+    _$customElementTypesAtom.reportRead();
+    return super.customElementTypes;
+  }
+
+  @override
+  set customElementTypes(ObservableList<ElementType> value) {
+    _$customElementTypesAtom.reportWrite(value, super.customElementTypes, () {
+      super.customElementTypes = value;
     });
   }
 
@@ -347,6 +373,7 @@ mixin _$ProjectWorkspaceStore on _ProjectWorkspaceStore, Store {
 project: ${project},
 book: ${book},
 elements: ${elements},
+customElementTypes: ${customElementTypes},
 galleryImages: ${galleryImages},
 isLoading: ${isLoading},
 isSaving: ${isSaving},
@@ -355,6 +382,7 @@ isUpdating: ${isUpdating},
 isRemovingImage: ${isRemovingImage},
 isBookUpdating: ${isBookUpdating},
 isElementSaving: ${isElementSaving},
+elementTypes: ${elementTypes},
 manuscript: ${manuscript},
 wordCount: ${wordCount}
     ''';

@@ -42,10 +42,13 @@ class ElementTypesRepository {
     }
   }
 
+  /// Saves the custom types. [touch] is false when the write is only an
+  /// upgrade of the stored data, so the project's `updatedAt` is kept.
   Future<StoryProject> save(
     StoryProject project,
-    List<ElementType> types,
-  ) async {
+    List<ElementType> types, {
+    bool touch = true,
+  }) async {
     final custom = types.where((type) => !type.builtin).toList();
     if (custom.any((type) => type.name.trim().isEmpty) ||
         custom.map((type) => type.id).toSet().length != custom.length) {
@@ -56,6 +59,6 @@ class ElementTypesRepository {
       'schemaVersion': 1,
       'types': custom.map((type) => type.toJson()).toList(),
     });
-    return _files.touch(project);
+    return touch ? _files.touch(project) : project;
   }
 }

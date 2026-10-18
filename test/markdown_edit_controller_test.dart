@@ -70,7 +70,7 @@ void main() {
     final now = DateTime.utc(2026);
     final element = NarrativeElement(
       id: 'lia',
-      kind: 'character',
+      typeId: 'character',
       title: 'Lia',
       summary: '',
       sections: const [],

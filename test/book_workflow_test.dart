@@ -98,7 +98,7 @@ void main() {
     final now = DateTime.utc(2026, 1, 1);
     final element = NarrativeElement(
       id: 'personagem_1',
-      kind: 'character',
+      typeId: 'character',
       title: 'Lia',
       summary: 'Protagonista',
       sections: const [

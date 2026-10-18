@@ -5,6 +5,8 @@ import '../../projects/domain/project_metadata_input.dart';
 import '../data/book_repository.dart';
 import '../data/project_workspace_repository.dart';
 import '../domain/book_content.dart';
+import '../domain/element_type.dart';
+import '../domain/element_type_catalog.dart';
 import '../domain/narrative_element.dart';
 
 part 'project_workspace_store.g.dart';
@@ -27,6 +29,11 @@ abstract class _ProjectWorkspaceStore with Store {
   @observable
   ObservableList<NarrativeElement> elements =
       ObservableList<NarrativeElement>();
+
+  /// Custom element types of the project.
+  @observable
+  ObservableList<ElementType> customElementTypes =
+      ObservableList<ElementType>();
 
   @observable
   ObservableList<String> galleryImages = ObservableList<String>();
@@ -52,6 +59,13 @@ abstract class _ProjectWorkspaceStore with Store {
   @observable
   bool isElementSaving = false;
 
+  /// Built-in types followed by the project's custom ones.
+  @computed
+  List<ElementType> get elementTypes => [
+    ...ElementTypeCatalog.builtin,
+    ...customElementTypes,
+  ];
+
   @computed
   String get manuscript => book.combinedText;
 
@@ -66,6 +80,7 @@ abstract class _ProjectWorkspaceStore with Store {
       project = selected;
       book = data.book;
       elements = ObservableList.of(data.elements);
+      customElementTypes = ObservableList.of(data.types);
       galleryImages = ObservableList.of(data.galleryImages);
     } finally {
       isLoading = false;

@@ -11,6 +11,7 @@ class PanelListItem extends StatelessWidget {
     required this.onTap,
     this.subtitle,
     this.trailing,
+    this.iconColor,
   });
 
   final IconData icon;
@@ -19,6 +20,9 @@ class PanelListItem extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
   final Widget? trailing;
+
+  /// Overrides the icon color (for example the color of an element type).
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +48,11 @@ class PanelListItem extends StatelessWidget {
                 Icon(
                   icon,
                   size: 15,
-                  color: selected
-                      ? scheme.onPrimaryContainer
-                      : scheme.onSurfaceVariant,
+                  color:
+                      iconColor ??
+                      (selected
+                          ? scheme.onPrimaryContainer
+                          : scheme.onSurfaceVariant),
                 ),
                 const SizedBox(width: 9),
                 Expanded(

@@ -127,6 +127,7 @@ class WorkspaceShell extends StatelessWidget {
         ],
         child: ElementList(
           elements: store.elements.toList(),
+          types: store.elementTypes,
           activeElementId: activeTab?.kind == WorkspaceTabKind.element
               ? activeTab?.refId
               : null,
