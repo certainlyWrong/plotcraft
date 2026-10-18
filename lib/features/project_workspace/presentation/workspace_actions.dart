@@ -17,6 +17,7 @@ import '../domain/element_type.dart';
 import 'elements/element_type_editor.dart';
 import 'elements/element_type_picker.dart';
 import 'manuscript/chapter_list.dart';
+import 'manuscript/project_fonts_dialog.dart';
 import 'shell/gallery_image_viewer_launcher.dart';
 
 /// User-initiated workspace operations. Each one gathers what it needs from
@@ -283,6 +284,12 @@ class WorkspaceActions {
 
   /// Opens the manuscript document that references an element.
   void openReference(String? chapterId) => controller.openManuscript(chapterId);
+
+  Future<void> manageFonts(BuildContext context) => showProjectFontsDialog(
+    context,
+    fonts: controller.fonts,
+    project: store.project ?? controller.initialProject,
+  );
 
   // --- Gallery ------------------------------------------------------------
 

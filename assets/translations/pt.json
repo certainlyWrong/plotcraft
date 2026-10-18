@@ -391,6 +391,17 @@
     "insert_divider": "Inserir divisor",
     "image": "imagem",
     "image_missing": "Imagem não encontrada na galeria",
-    "external_image": "Imagem externa"
+    "external_image": "Imagem externa",
+    "fonts": "Fontes",
+    "project_fonts": "Fontes deste projeto",
+    "project_fonts_help": "Os arquivos de fonte adicionados aqui ficam salvos dentro da pasta do projeto e vão junto com ele para outros computadores.",
+    "no_project_fonts": "Nenhuma fonte adicionada ainda.",
+    "add_fonts": "Adicionar arquivos de fonte…",
+    "font_files": "Fontes",
+    "close": "Fechar",
+    "fonts_skipped": "{count} arquivo(s) não foram adicionados: não são fontes ou são grandes demais.",
+    "fonts_error": "Não foi possível adicionar as fontes.",
+    "missing_fonts": "Fontes indisponíveis neste computador: {fonts}. O texto aparece em outra fonte.",
+    "missing_fonts_action": "Adicionar fontes"
   }
 }

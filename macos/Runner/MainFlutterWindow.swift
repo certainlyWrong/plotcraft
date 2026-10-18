@@ -53,6 +53,19 @@ class MainFlutterWindow: NSWindow {
       }
     }
 
+    let fontsChannel = FlutterMethodChannel(
+      name: "plotcraft/fonts",
+      binaryMessenger: flutterViewController.engine.binaryMessenger
+    )
+    fontsChannel.setMethodCallHandler { call, result in
+      guard call.method == "families" else {
+        result(FlutterMethodNotImplemented)
+        return
+      }
+      // Families the person can pick; names starting with a dot are internal.
+      result(NSFontManager.shared.availableFontFamilies.filter { !$0.hasPrefix(".") })
+    }
+
     let spellCheckChannel = FlutterMethodChannel(
       name: "plotcraft/spell_check",
       binaryMessenger: flutterViewController.engine.binaryMessenger

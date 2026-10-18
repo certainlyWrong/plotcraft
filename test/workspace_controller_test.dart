@@ -10,6 +10,8 @@ import 'package:plotcraft/features/project_workspace/stores/project_workspace_st
 import 'package:plotcraft/features/project_workspace/stores/workspace_controller.dart';
 import 'package:plotcraft/features/projects/domain/story_project.dart';
 
+import 'support/fake_fonts.dart';
+
 /// Text of a buffer without the trailing newline Quill always keeps.
 String textOf(DocumentBuffer buffer) =>
     buffer.controller.document.toPlainText().trim();
@@ -54,7 +56,7 @@ void main() {
     await manuscript.parent.create(recursive: true);
     await manuscript.writeAsString('Texto inicial.');
     store = ProjectWorkspaceStore(ProjectWorkspaceRepository(), (_) {});
-    controller = WorkspaceController(store, project, null);
+    controller = WorkspaceController(store, project, null, testFontsStore());
     await controller.load();
   });
 

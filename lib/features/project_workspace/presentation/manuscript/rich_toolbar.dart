@@ -18,7 +18,7 @@ class RichToolbar extends StatelessWidget {
     required this.onToggleFullscreen,
     required this.onSave,
     this.extraActions = const [],
-    this.fonts = bundledEditorFonts,
+    this.fonts = const {},
   });
 
   final QuillController controller;

@@ -81,6 +81,8 @@ class WorkspaceTabContent extends StatelessWidget {
           elements: store.elements.toList(),
           types: store.elementTypes,
           galleryItems: store.galleryItems.toList(),
+          fonts: controller.fonts.catalog,
+          onManageFonts: () => actions.manageFonts(context),
           onSave: () => actions.saveManuscript(context, chapterId),
           onToggleFullscreen: () => actions.toggleFullscreen(context),
           onOpenElement: actions.openElement,

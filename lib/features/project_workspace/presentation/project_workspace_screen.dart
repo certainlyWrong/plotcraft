@@ -3,6 +3,11 @@ import 'package:window_manager/window_manager.dart';
 
 import '../../../core/storage/local_storage.dart';
 import '../../projects/domain/story_project.dart';
+import '../../../core/fonts/project_font_loader.dart';
+import '../../../core/fonts/system_fonts.dart';
+import '../data/project_files.dart';
+import '../data/project_fonts_repository.dart';
+import '../stores/editor_fonts_store.dart';
 import '../stores/project_workspace_store.dart';
 import '../stores/workspace_controller.dart';
 import 'shell/workspace_shell.dart';
@@ -40,6 +45,11 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
       widget.store,
       widget.project,
       widget.storage,
+      EditorFontsStore(
+        const ProjectFontsRepository(ProjectFiles()),
+        const ProjectFontLoader(),
+        const PlatformSystemFontLister(),
+      ),
     );
     _actions = WorkspaceActions(_controller);
     windowManager.addListener(this);

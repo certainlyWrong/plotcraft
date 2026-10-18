@@ -391,6 +391,17 @@
     "insert_divider": "Insert divider",
     "image": "image",
     "image_missing": "Image not found in the gallery",
-    "external_image": "External image"
+    "external_image": "External image",
+    "fonts": "Fonts",
+    "project_fonts": "Fonts of this project",
+    "project_fonts_help": "Font files added here are saved inside the project folder, so they travel with it to other computers.",
+    "no_project_fonts": "No fonts added yet.",
+    "add_fonts": "Add font files…",
+    "font_files": "Fonts",
+    "close": "Close",
+    "fonts_skipped": "{count} file(s) were not added: they are not fonts or are too large.",
+    "fonts_error": "Could not add the fonts.",
+    "missing_fonts": "Fonts not available on this computer: {fonts}. The text is shown in another font.",
+    "missing_fonts_action": "Add fonts"
   }
 }

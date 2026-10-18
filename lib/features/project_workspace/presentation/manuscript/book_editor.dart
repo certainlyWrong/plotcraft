@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
+import '../../../../core/fonts/editor_font_catalog.dart';
 import '../../../../core/spellcheck/quill_spell_checker.dart';
 import '../../../../core/spellcheck/spell_check_backend.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
@@ -19,6 +20,7 @@ import '../../domain/rich/rich_document.dart';
 import '../elements/gallery_picker_dialog.dart';
 import 'element_mention_picker.dart';
 import 'embeds.dart';
+import 'editor_fonts.dart';
 import 'find_bar.dart';
 import 'rich_toolbar.dart';
 
@@ -36,6 +38,8 @@ class BookEditor extends StatefulWidget {
     this.elements = const [],
     this.types = const [],
     this.galleryItems = const [],
+    this.fonts = const EditorFontCatalog(bundled: bundledEditorFontFamilies),
+    this.onManageFonts,
     this.backend = const MethodChannelSpellCheckBackend(),
   });
 
@@ -55,6 +59,10 @@ class BookEditor extends StatefulWidget {
 
   /// Gallery images that can be shown in the text.
   final List<GalleryItem> galleryItems;
+
+  /// Fonts the editor can offer and draw, and the way to manage the project's.
+  final EditorFontCatalog fonts;
+  final VoidCallback? onManageFonts;
 
   /// The system spell checker (a fake in tests).
   final SpellCheckBackend backend;
@@ -241,7 +249,14 @@ class _BookEditorState extends State<BookEditor> {
               onFind: _showFind ? _closeFind : _openFind,
               onToggleFullscreen: widget.onToggleFullscreen,
               onSave: widget.onSave,
+              fonts: widget.fonts.menuItems,
               extraActions: [
+                if (widget.onManageFonts != null)
+                  PlotcraftIconButton(
+                    icon: Feather.type,
+                    tooltip: 'editor.fonts'.tr(),
+                    onPressed: widget.onManageFonts,
+                  ),
                 PlotcraftIconButton(
                   icon: Feather.at_sign,
                   tooltip: 'editor.insert_mention'.tr(),
@@ -276,6 +291,7 @@ class _BookEditorState extends State<BookEditor> {
                   onClose: _closeFind,
                 ),
               ),
+            _missingFontsBanner(context),
             Expanded(child: _editor(context)),
             _statusBar(context),
           ],
@@ -308,14 +324,22 @@ class _BookEditorState extends State<BookEditor> {
           ],
           textSpanBuilder: _spell.spanBuilder,
           contextMenuBuilder: _spell.buildContextMenu,
-          customStyleBuilder: (attribute) =>
-              attribute.key == RichDocument.mentionKey
-              ? TextStyle(
-                  color: scheme.primary,
-                  fontWeight: FontWeight.w600,
-                  backgroundColor: scheme.primary.withValues(alpha: .08),
-                )
-              : const TextStyle(),
+          customStyleBuilder: (attribute) {
+            if (attribute.key == Attribute.font.key) {
+              // Project fonts are registered under project-specific names.
+              return TextStyle(
+                fontFamily: widget.fonts.resolve('${attribute.value}'),
+              );
+            }
+            if (attribute.key == RichDocument.mentionKey) {
+              return TextStyle(
+                color: scheme.primary,
+                fontWeight: FontWeight.w600,
+                backgroundColor: scheme.primary.withValues(alpha: .08),
+              );
+            }
+            return const TextStyle();
+          },
           customRecognizerBuilder: (attribute, leaf) {
             if (attribute.key != RichDocument.mentionKey) return null;
             final value = attribute.value;
@@ -344,6 +368,53 @@ class _BookEditorState extends State<BookEditor> {
       ),
     );
   }
+
+  /// Fonts used by the text that this computer cannot draw.
+  List<String> _missingFonts() {
+    final used = <String>{};
+    for (final op in widget.controller.document.toDelta().toList()) {
+      final font = op.attributes?[Attribute.font.key];
+      if (font is String) used.add(font);
+    }
+    return widget.fonts.missing(used);
+  }
+
+  Widget _missingFontsBanner(BuildContext context) => ListenableBuilder(
+    listenable: widget.controller,
+    builder: (context, _) {
+      final missing = _missingFonts();
+      if (missing.isEmpty) return const SizedBox.shrink();
+      final scheme = Theme.of(context).colorScheme;
+      return Container(
+        color: scheme.tertiaryContainer,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        child: Row(
+          children: [
+            Icon(
+              Feather.alert_triangle,
+              size: 16,
+              color: scheme.onTertiaryContainer,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                'editor.missing_fonts'.tr(
+                  namedArgs: {'fonts': missing.join(', ')},
+                ),
+                style: Theme.of(context).textTheme.labelMedium
+                    ?.copyWith(color: scheme.onTertiaryContainer),
+              ),
+            ),
+            if (widget.onManageFonts != null)
+              TextButton(
+                onPressed: widget.onManageFonts,
+                child: Text('editor.missing_fonts_action'.tr()),
+              ),
+          ],
+        ),
+      );
+    },
+  );
 
   Widget _statusBar(BuildContext context) {
     final theme = Theme.of(context);

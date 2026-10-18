@@ -13,6 +13,8 @@ import 'package:plotcraft/features/project_workspace/stores/project_workspace_st
 import 'package:plotcraft/features/project_workspace/stores/workspace_controller.dart';
 import 'package:plotcraft/features/projects/domain/story_project.dart';
 
+import 'support/fake_fonts.dart';
+
 void main() {
   late Directory folder;
   late StoryProject project;
@@ -34,7 +36,7 @@ void main() {
     await File(p.join(folder.path, 'project.json'))
         .writeAsString('{"id":"ed1"}');
     store = ProjectWorkspaceStore(ProjectWorkspaceRepository(), (_) {});
-    controller = WorkspaceController(store, project, null);
+    controller = WorkspaceController(store, project, null, testFontsStore());
     await store.load(project);
   });
 

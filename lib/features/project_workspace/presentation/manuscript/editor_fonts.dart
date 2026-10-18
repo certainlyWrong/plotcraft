@@ -1,12 +1,17 @@
 /// Fonts offered in the editor's font menu: display name -> font family.
 /// These are the families bundled with the app (see `pubspec.yaml`) plus the
 /// default interface font, so a chapter looks the same on every computer.
-const bundledEditorFonts = <String, String>{
-  'Lora': 'Lora',
-  'Merriweather': 'Merriweather',
-  'DM Sans': 'DM Sans',
-  'Roboto': 'Roboto',
-  'Times New Roman': 'Times New Roman',
+const bundledEditorFontFamilies = [
+  'Lora',
+  'Merriweather',
+  'DM Sans',
+  'Roboto',
+  'Times New Roman',
+];
+
+/// The same fonts as a menu: display name -> font family.
+final bundledEditorFonts = <String, String>{
+  for (final family in bundledEditorFontFamilies) family: family,
 };
 
 /// Sizes offered in the editor's size menu: label -> value stored in the Delta.

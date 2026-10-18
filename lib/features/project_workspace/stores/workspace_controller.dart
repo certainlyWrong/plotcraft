@@ -8,6 +8,7 @@ import 'package:mobx/mobx.dart';
 import '../../../core/storage/local_storage.dart';
 import '../../projects/domain/story_project.dart';
 import '../domain/workspace_tab.dart';
+import 'editor_fonts_store.dart';
 import 'project_workspace_store.dart';
 
 part 'workspace_controller.g.dart';
@@ -53,7 +54,12 @@ class WorkspaceController = _WorkspaceController with _$WorkspaceController;
 /// UI state of an open project: tabs, panels, manuscript buffers and autosave.
 /// Dialogs stay in the presentation layer; this class only decides and stores.
 abstract class _WorkspaceController with Store {
-  _WorkspaceController(this.store, this._initialProject, this._storage) {
+  _WorkspaceController(
+    this.store,
+    this._initialProject,
+    this._storage,
+    this.fonts,
+  ) {
     sidePanelWidth = _storage?.loadDouble(_sidePanelKey) ?? 250;
     inspectorWidth = _storage?.loadDouble(_inspectorKey) ?? 300;
     inspectorVisible = (_storage?.loadDouble(_inspectorVisibleKey) ?? 1) > 0;
@@ -65,7 +71,11 @@ abstract class _WorkspaceController with Store {
   static const _autosaveDelay = Duration(seconds: 2);
 
   final ProjectWorkspaceStore store;
+
+  /// Fonts the editor can use in this project.
+  final EditorFontsStore fonts;
   final StoryProject _initialProject;
+  StoryProject get initialProject => _initialProject;
   final LocalStorage? _storage;
   final _buffers = <String, DocumentBuffer>{};
   final _guards = <String, Future<bool> Function()>{};
@@ -118,6 +128,7 @@ abstract class _WorkspaceController with Store {
     try {
       await store.load(store.project ?? _initialProject);
       resetBuffers();
+      await fonts.load(store.project ?? _initialProject);
     } catch (_) {
       loadFailed = true;
     }

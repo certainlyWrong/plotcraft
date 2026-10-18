@@ -14,6 +14,8 @@ import 'package:plotcraft/features/project_workspace/stores/project_workspace_st
 import 'package:plotcraft/features/project_workspace/stores/workspace_controller.dart';
 import 'package:plotcraft/features/projects/domain/story_project.dart';
 
+import 'support/fake_fonts.dart';
+
 Widget _app(Widget child) => MaterialApp(
   theme: builtInThemes.first.toThemeData(fontFamily: 'Lora'),
   home: Scaffold(body: child),
@@ -131,7 +133,12 @@ void main() {
         directoryPath: folder!.path,
       );
       final store = ProjectWorkspaceStore(ProjectWorkspaceRepository(), (_) {});
-      final controller = WorkspaceController(store, project, null);
+      final controller = WorkspaceController(
+        store,
+        project,
+        null,
+        testFontsStore(),
+      );
       addTearDown(controller.dispose);
       await tester.runAsync(() async {
         await File(p.join(folder.path, 'project.json'))
