@@ -7,7 +7,9 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plotcraft/core/fonts/project_font_loader.dart';
 import 'package:plotcraft/core/fonts/system_fonts.dart';
@@ -241,6 +243,30 @@ void main() {
     await openMaria(tester);
     await tapFinder(tester, find.text('Adicionar').first);
     await shot(tester, '21-secao');
+  });
+
+  testWidgets('popup: menção', (tester) async {
+    await prepare(tester);
+    final controller = await openWorkspace(tester, book);
+    controller.openManuscript(controller.store.book.chapters.first.id);
+    await settle(tester, rounds: 8);
+    final line = find.byWidgetPredicate(
+      (w) => w is RichText && w.text.toPlainText().contains('Maria amarrou'),
+    );
+    final paragraph = tester.renderObject<RenderParagraph>(line.first);
+    final at = paragraph.text.toPlainText().indexOf('Maria');
+    final box = paragraph
+        .getBoxesForSelection(
+          TextSelection(baseOffset: at, extentOffset: at + 5),
+        )
+        .first;
+    final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+    await mouse.addPointer(location: Offset.zero);
+    await mouse.moveTo(paragraph.localToGlobal(box.toRect().center));
+    await tester.pump(const Duration(milliseconds: 600));
+    await settle(tester, rounds: 3);
+    await shot(tester, '22-popup-mencao');
+    await mouse.removePointer();
   });
 
   testWidgets('workspace: galeria', (tester) async {

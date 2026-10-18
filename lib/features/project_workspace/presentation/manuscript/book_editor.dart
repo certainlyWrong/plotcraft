@@ -15,7 +15,10 @@ import '../../../../core/spellcheck/quill_spell_checker.dart';
 import '../../../../core/spellcheck/spell_check_backend.dart';
 import '../../../../core/spellcheck/text_overlays.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
+import '../../domain/active_phase.dart';
+import '../../domain/element_image.dart';
 import '../../domain/element_type.dart';
+import '../../domain/element_type_catalog.dart';
 import '../../domain/gallery_item.dart';
 import '../../domain/narrative_element.dart';
 import '../../domain/rich/mention_edit.dart';
@@ -28,6 +31,8 @@ import 'embeds.dart';
 import 'editor_fonts.dart';
 import 'find_bar.dart';
 import 'rich_toolbar.dart';
+import 'element_hover_card.dart';
+import 'mention_hover_controller.dart';
 
 /// One open manuscript document: toolbar, find bar, rich text and status bar.
 class BookEditor extends StatefulWidget {
@@ -43,6 +48,9 @@ class BookEditor extends StatefulWidget {
     this.elements = const [],
     this.types = const [],
     this.galleryItems = const [],
+    this.chapterOrder = const [],
+    this.chapterId,
+    this.attachmentPath,
     this.fonts = const EditorFontCatalog(bundled: bundledEditorFontFamilies),
     this.onManageFonts,
     this.onIgnoreTerm,
@@ -67,6 +75,14 @@ class BookEditor extends StatefulWidget {
 
   /// Gallery images that can be shown in the text.
   final List<GalleryItem> galleryItems;
+
+  /// Chapter IDs in reading order and the one being edited, to find the phase
+  /// of an element in force here (shown when hovering a mention).
+  final List<String> chapterOrder;
+  final String? chapterId;
+
+  /// File of an image attached to an element, from its project-relative path.
+  final String? Function(String file)? attachmentPath;
 
   /// Fonts the editor can offer and draw, and the way to manage the project's.
   final EditorFontCatalog fonts;
@@ -95,6 +111,7 @@ class _BookEditorState extends State<BookEditor> {
   late final AutoMentionTracker _auto;
   bool _showFind = false;
   bool _spellStarted = false;
+  late final MentionHoverController _hover;
   StreamSubscription<DocChange>? _changes;
 
   QuillFindReplace get _search => QuillFindReplace(widget.controller);
@@ -107,6 +124,11 @@ class _BookEditorState extends State<BookEditor> {
       locale: const Locale('en'),
     );
     _auto = AutoMentionTracker(elements: widget.elements);
+    _hover = MentionHoverController(
+      context: () => context,
+      cardFor: _hoverCard,
+    );
+    _scroll.addListener(_hover.hide);
     _scheduleReveal();
     _changes = widget.controller.document.changes.listen(_onDocumentChange);
   }
@@ -144,6 +166,7 @@ class _BookEditorState extends State<BookEditor> {
   @override
   void dispose() {
     unawaited(_changes?.cancel());
+    _hover.dispose();
     _spell.dispose();
     _auto.dispose();
     _focus.dispose();
@@ -208,6 +231,7 @@ class _BookEditorState extends State<BookEditor> {
 
   /// Typing `@` at the start of a word opens the element picker.
   void _onDocumentChange(DocChange change) {
+    _hover.hide();
     if (change.source != ChangeSource.local) return;
     final ops = change.change.toList();
     var index = 0;
@@ -272,6 +296,43 @@ class _BookEditorState extends State<BookEditor> {
       MentionEdit.insertGalleryImage(widget.controller, id);
     }
     _focus.requestFocus();
+  }
+
+  /// The card for the element a mention points to, or null if it is gone.
+  Widget? _hoverCard(String id) {
+    final element = widget.elements.where((e) => e.id == id).firstOrNull;
+    if (element == null) return null;
+    ElementImage? cover = element.images.firstOrNull;
+    String? coverPath;
+    if (cover != null) {
+      coverPath = cover.isGallery
+          ? _galleryPath(cover.value)
+          : widget.attachmentPath?.call(cover.value);
+    }
+    return ElementHoverCard(
+      element: element,
+      type: ElementTypeCatalog.resolve(element.typeId, widget.types),
+      coverPath: coverPath,
+      phase: activePhaseAt(element, widget.chapterOrder, widget.chapterId),
+    );
+  }
+
+  /// Makes every piece of a mention's text report the pointer entering and
+  /// leaving, so its card can be shown.
+  InlineSpan _withHover(InlineSpan span, String id) {
+    if (span is! TextSpan) return span;
+    return TextSpan(
+      text: span.text,
+      style: span.style,
+      recognizer: span.recognizer,
+      mouseCursor: span.mouseCursor,
+      onEnter: (event) => _hover.enter(id, event.position),
+      onExit: (_) => _hover.leave(),
+      children: [
+        for (final child in span.children ?? const <InlineSpan>[])
+          _withHover(child, id),
+      ],
+    );
   }
 
   String? _galleryPath(String id) {
@@ -400,11 +461,24 @@ class _BookEditorState extends State<BookEditor> {
             const DividerEmbedBuilder(),
             const ExternalImageEmbedBuilder(),
           ],
-          textSpanBuilder: (context, node, offset, text, style, recognizer) =>
-              layeredSpan(context, node, offset, text, style, recognizer, [
-                _auto,
-                _spell,
-              ]),
+          textSpanBuilder: (context, node, offset, text, style, recognizer) {
+            final span = layeredSpan(
+              context,
+              node,
+              offset,
+              text,
+              style,
+              recognizer,
+              [_auto, _spell],
+            );
+            final mention = node is Leaf
+                ? node.style.attributes[RichDocument.mentionKey]?.value
+                : null;
+            if (mention is Map && mention['id'] is String) {
+              return _withHover(span, mention['id'] as String);
+            }
+            return span;
+          },
           contextMenuBuilder: _contextMenu,
           customStyleBuilder: (attribute) {
             if (attribute.key == Attribute.font.key) {

@@ -405,6 +405,7 @@
     "color_picker_hex": "#RRGGBB"
   },
   "editor": {
+    "hover_open_hint": "Cmd+clique para abrir o elemento",
     "font": "Fonte",
     "size": "Tamanho",
     "matches": "{count} encontrados",
