@@ -66,26 +66,6 @@ class WorkspaceInspector extends StatelessWidget {
               padding: const EdgeInsets.all(18),
               children: [
                 SizedBox(height: 146, child: ProjectCoverArt(project: project)),
-                const SizedBox(height: 16),
-                Text(
-                  project.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                if (project.subtitle.isNotEmpty) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    project.subtitle,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: scheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
                 const SizedBox(height: 20),
                 _sectionLabel(context, 'workspace.project_details'.tr()),
                 const SizedBox(height: 11),
@@ -97,8 +77,8 @@ class WorkspaceInspector extends StatelessWidget {
                   ProjectFormats.of(project.primaryFormat).nameKey.tr(),
                 ),
                 if (project.tags.isNotEmpty) ...[
-                  const SizedBox(height: 6),
-                  ProjectTags(tags: project.tags),
+                  const SizedBox(height: 8),
+                  ProjectTags(tags: project.tags, dense: true),
                 ],
                 const SizedBox(height: 18),
                 _sectionLabel(context, 'workspace.dates'.tr()),
@@ -116,10 +96,15 @@ class WorkspaceInspector extends StatelessWidget {
                 const SizedBox(height: 14),
                 _sectionLabel(context, 'workspace.folder'.tr()),
                 const SizedBox(height: 6),
-                SelectableText(
-                  project.directoryPath ?? '',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: scheme.onSurfaceVariant,
+                Tooltip(
+                  message: project.directoryPath ?? '',
+                  child: Text(
+                    project.directoryPath ?? '',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: scheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 18),
@@ -222,7 +207,7 @@ class WorkspaceInspector extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 76,
+            width: 92,
             child: Text(
               label,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(

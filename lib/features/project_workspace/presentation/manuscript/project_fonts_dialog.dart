@@ -71,7 +71,7 @@ class _ProjectFontsDialog extends StatelessWidget {
       maxWidth: 520,
       content: SizedBox(
         width: 520,
-        height: 320,
+        height: 260,
         child: Observer(
           builder: (_) {
             final list = fonts.projectFonts.toList();
@@ -87,7 +87,25 @@ class _ProjectFontsDialog extends StatelessWidget {
                 const SizedBox(height: 10),
                 Expanded(
                   child: list.isEmpty
-                      ? Center(child: Text('editor.no_project_fonts'.tr()))
+                      ? Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Feather.type,
+                                size: 28,
+                                color: theme.colorScheme.outline,
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                'editor.no_project_fonts'.tr(),
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       : ListView.builder(
                           itemCount: list.length,
                           itemBuilder: (context, index) =>

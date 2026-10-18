@@ -125,7 +125,6 @@ class ProjectOverview extends StatelessWidget {
       spacing: 12,
       runSpacing: 12,
       children: [
-        stat(format.icon.data, format.nameKey.tr(), 'workspace.format'.tr()),
         if (format.hasManuscript) ...[
           stat(Feather.type, '$wordCount', 'workspace.words_label'.tr()),
           stat(
@@ -142,49 +141,45 @@ class ProjectOverview extends StatelessWidget {
 
   Widget _hero(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 5,
-          child: SizedBox(
-            height: 240,
-            child: ProjectCoverArt(project: project),
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          flex: 6,
-          child: Card(
-            elevation: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _eyebrow(context, 'workspace.about_story'.tr()),
-                  const SizedBox(height: 10),
-                  Text(
-                    project.description.isEmpty
-                        ? 'workspace.description_empty'.tr()
-                        : project.description,
-                    maxLines: 5,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodyLarge?.copyWith(height: 1.45),
-                  ),
-                  const SizedBox(height: 12),
-                ],
+    return SizedBox(
+      height: 240,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(flex: 5, child: ProjectCoverArt(project: project)),
+          const SizedBox(width: 16),
+          Expanded(
+            flex: 6,
+            child: Card(
+              elevation: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _eyebrow(context, 'workspace.about_story'.tr()),
+                    const SizedBox(height: 10),
+                    Text(
+                      project.description.isEmpty
+                          ? 'workspace.description_empty'.tr()
+                          : project.description,
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodyLarge?.copyWith(height: 1.45),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _manuscriptCard(BuildContext context) {
     final theme = Theme.of(context);
-    final excerpt = manuscript.replaceAll(RegExp(r'\s+'), ' ').trim();
+    final excerpt = _excerpt(manuscript);
     return Card(
       elevation: 0,
       child: Padding(
@@ -232,6 +227,22 @@ class ProjectOverview extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// Body text for the preview card: a leading short line without final
+  /// punctuation is a chapter title, not prose, so it is skipped.
+  static String _excerpt(String text) {
+    final lines = text
+        .split('\n')
+        .map((line) => line.trim())
+        .where((line) => line.isNotEmpty && !line.startsWith('#'))
+        .toList();
+    if (lines.length > 1 &&
+        lines.first.length <= 60 &&
+        !RegExp(r'[.!?…:;,"”]$').hasMatch(lines.first)) {
+      lines.removeAt(0);
+    }
+    return lines.join(' ').replaceAll(RegExp(r'\s+'), ' ').trim();
   }
 
   Widget _galleryCard(BuildContext context) {

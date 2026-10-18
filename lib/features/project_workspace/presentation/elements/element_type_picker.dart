@@ -61,29 +61,40 @@ class ElementTypeGrid extends StatelessWidget {
   final bool allowCreate;
 
   @override
-  Widget build(BuildContext context) => Wrap(
-    spacing: 12,
-    runSpacing: 12,
-    children: [
-      for (final type in types)
-        _TypeCard(
-          icon: type.icon.data,
-          color: type.color,
-          label: type.label,
-          onTap: () => onSelected(type.id),
-          onEdit: type.builtin
-              ? null
-              : () => onSelected('$editElementTypePrefix${type.id}'),
-        ),
-      if (allowCreate)
-        _TypeCard(
-          icon: Feather.plus,
-          color: Theme.of(context).colorScheme.outline,
-          label: 'elements.new_type'.tr(),
-          dashed: true,
-          onTap: () => onSelected(createElementTypeChoice),
-        ),
-    ],
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, constraints) {
+      const gap = 12.0;
+      const columns = 4;
+      final cardWidth = constraints.maxWidth.isFinite
+          ? (constraints.maxWidth - gap * (columns - 1)) / columns
+          : 140.0;
+      return Wrap(
+        spacing: gap,
+        runSpacing: gap,
+        children: [
+          for (final type in types)
+            _TypeCard(
+              width: cardWidth,
+              icon: type.icon.data,
+              color: type.color,
+              label: type.label,
+              onTap: () => onSelected(type.id),
+              onEdit: type.builtin
+                  ? null
+                  : () => onSelected('$editElementTypePrefix${type.id}'),
+            ),
+          if (allowCreate)
+            _TypeCard(
+              icon: Feather.plus,
+              color: Theme.of(context).colorScheme.outline,
+              label: 'elements.new_type'.tr(),
+              dashed: true,
+              width: cardWidth,
+              onTap: () => onSelected(createElementTypeChoice),
+            ),
+        ],
+      );
+    },
   );
 }
 
@@ -93,6 +104,7 @@ class _TypeCard extends StatelessWidget {
     required this.color,
     required this.label,
     required this.onTap,
+    required this.width,
     this.dashed = false,
     this.onEdit,
   });
@@ -102,6 +114,7 @@ class _TypeCard extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
   final bool dashed;
+  final double width;
 
   /// Shows an edit button on the card (custom types only).
   final VoidCallback? onEdit;
@@ -111,7 +124,7 @@ class _TypeCard extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     return SizedBox(
-      width: 140,
+      width: width,
       child: Material(
         color: scheme.surfaceContainerLow,
         shape: RoundedRectangleBorder(

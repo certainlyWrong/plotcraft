@@ -50,20 +50,20 @@ class RichToolbar extends StatelessWidget {
             child: QuillSimpleToolbar(
               controller: controller,
               config: QuillSimpleToolbarConfig(
-                multiRowsDisplay: true,
-                toolbarRunSpacing: 0,
+                multiRowsDisplay: false,
                 toolbarIconAlignment: WrapAlignment.start,
                 showSearchButton: false,
                 showSubscript: false,
                 showSuperscript: false,
-                showInlineCode: true,
-                showCodeBlock: true,
+                showInlineCode: false,
+                showCodeBlock: false,
                 showListCheck: true,
                 color: Colors.transparent,
                 buttonOptions: QuillSimpleToolbarButtonOptions(
                   fontFamily: QuillToolbarFontFamilyButtonOptions(
                     items: fonts,
                     tooltip: 'editor.font'.tr(),
+                    defaultDisplayText: 'editor.font'.tr(),
                     defaultItemColor: scheme.onSurface,
                     renderFontFamilies: true,
                     style: Theme.of(context).textTheme.labelLarge,
@@ -71,6 +71,7 @@ class RichToolbar extends StatelessWidget {
                   fontSize: QuillToolbarFontSizeButtonOptions(
                     items: editorFontSizes,
                     tooltip: 'editor.size'.tr(),
+                    defaultDisplayText: 'editor.size'.tr(),
                     defaultItemColor: scheme.onSurface,
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
