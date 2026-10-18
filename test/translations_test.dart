@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 Set<String> _keys(String lang) {
-  final json =
-      jsonDecode(File('assets/translations/$lang.json').readAsStringSync())
-          as Map<String, dynamic>;
+  final json = jsonDecode(
+    File('assets/translations/$lang.json').readAsStringSync(),
+  ) as Map<String, dynamic>;
   Iterable<String> walk(String prefix, Map<String, dynamic> map) sync* {
     for (final entry in map.entries) {
       final key = prefix.isEmpty ? entry.key : '$prefix.${entry.key}';

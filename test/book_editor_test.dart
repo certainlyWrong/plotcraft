@@ -446,7 +446,7 @@ void main() {
             .first,
       );
       await tester.pump();
-      await tester.tap(find.text('workspace.save_project'));
+      await tester.tap(find.text('ui.save'));
       await tester.pumpAndSettle();
       expect(RichDocument.galleryImageIds(controller.document.toDelta()), {
         'g1',

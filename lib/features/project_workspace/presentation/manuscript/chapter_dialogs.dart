@@ -30,7 +30,7 @@ Future<String?> promptChapterTitle(
           onPressed: () => Navigator.pop(context),
         ),
         PlotcraftButton(
-          label: 'workspace.save_project'.tr(),
+          label: 'ui.save'.tr(),
           onPressed: () {
             if (controller.text.trim().isNotEmpty) {
               Navigator.pop(context, controller.text.trim());

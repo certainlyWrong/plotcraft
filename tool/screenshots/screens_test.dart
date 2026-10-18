@@ -107,6 +107,14 @@ void main() {
     return controller;
   }
 
+  Future<void> tapFinder(WidgetTester tester, Finder finder) async {
+    for (var i = 0; i < 20 && finder.evaluate().isEmpty; i++) {
+      await settle(tester, rounds: 2);
+    }
+    await tester.tap(finder.first);
+    await settle(tester);
+  }
+
   Future<void> tapTip(WidgetTester tester, String tooltip) async {
     for (var i = 0; i < 20 && find.byTooltip(tooltip).evaluate().isEmpty; i++) {
       await settle(tester, rounds: 2);
@@ -157,6 +165,82 @@ void main() {
     await settle(tester, rounds: 6);
     await tapTip(tester, 'Novo elemento');
     await shot(tester, '05-escolha-de-tipo');
+  });
+
+  Future<void> openMaria(WidgetTester tester) async {
+    await prepare(tester);
+    final controller = await openWorkspace(
+      tester,
+      book,
+      size: const Size(1440, 2000),
+    );
+    controller.selectSection(WorkspaceSection.elements);
+    controller.openTab(WorkspaceTab.element('maria'));
+    await settle(tester, rounds: 8);
+  }
+
+  testWidgets('dialog: novo tipo', (tester) async {
+    await prepare(tester);
+    final controller = await openWorkspace(tester, book);
+    controller.selectSection(WorkspaceSection.elements);
+    controller.openTab(WorkspaceTab.element('pista'));
+    await settle(tester, rounds: 6);
+    await tapTip(tester, 'Novo elemento');
+    await tapFinder(tester, find.text('Novo tipo'));
+    await shot(tester, '15-novo-tipo');
+  });
+
+  testWidgets('dialog: escolher icone', (tester) async {
+    await prepare(tester);
+    final controller = await openWorkspace(tester, book);
+    controller.selectSection(WorkspaceSection.elements);
+    controller.openTab(WorkspaceTab.element('pista'));
+    await settle(tester, rounds: 6);
+    await tapTip(tester, 'Novo elemento');
+    await tapFinder(tester, find.text('Novo tipo'));
+    await tapFinder(tester, find.byTooltip('Escolher ícone'));
+    await shot(tester, '16-icones');
+  });
+
+  testWidgets('dialog: fase', (tester) async {
+    await openMaria(tester);
+    await tapFinder(tester, find.text('Adicionar').at(1));
+    await shot(tester, '17-fase');
+  });
+
+  testWidgets('dialog: aparencia', (tester) async {
+    await openMaria(tester);
+    await tapFinder(tester, find.byTooltip('Aparência'));
+    await shot(tester, '18-aparencia');
+  });
+
+  testWidgets('dialog: cor do texto', (tester) async {
+    await prepare(tester);
+    final controller = await openWorkspace(tester, book);
+    controller.openManuscript(controller.store.book.chapters.first.id);
+    await settle(tester, rounds: 8);
+    await tapFinder(
+      tester,
+      find.byWidgetPredicate(
+        (w) =>
+            w is Tooltip &&
+            RegExp('olor|Cor').hasMatch(w.message ?? '') &&
+            !(w.message ?? '').contains('undo'),
+      ),
+    );
+    await shot(tester, '19-cor-do-texto');
+  });
+
+  testWidgets('dialog: imagens da galeria', (tester) async {
+    await openMaria(tester);
+    await tapFinder(tester, find.text('Da galeria'));
+    await shot(tester, '20-galeria-do-elemento');
+  });
+
+  testWidgets('dialog: secao', (tester) async {
+    await openMaria(tester);
+    await tapFinder(tester, find.text('Adicionar').first);
+    await shot(tester, '21-secao');
   });
 
   testWidgets('workspace: galeria', (tester) async {

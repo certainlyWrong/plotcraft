@@ -156,7 +156,7 @@ void main() {
           find.widgetWithText(TextField, 'elements.fields.age'),
           '18',
         );
-        await tester.tap(find.text('workspace.save_project'));
+        await tester.tap(find.text('ui.save'));
         await tester.pumpAndSettle();
 
         expect(result!.id, 'novo');
@@ -172,7 +172,7 @@ void main() {
     ) async {
       NarrativePhase? result;
       await open(tester, (phase) => result = phase);
-      await tester.tap(find.text('workspace.save_project'));
+      await tester.tap(find.text('ui.save'));
       await tester.pumpAndSettle();
       expect(result, isNull);
       expect(find.text('elements.title_required'), findsOneWidget);
@@ -183,7 +183,7 @@ void main() {
       await tester.tap(find.text('elements.anchor_manual').last);
       await tester.pumpAndSettle();
       await tester.enterText(find.byType(TextField).at(2), 'depois da guerra');
-      await tester.tap(find.text('workspace.save_project'));
+      await tester.tap(find.text('ui.save'));
       await tester.pumpAndSettle();
       expect(result!.anchor, const NarrativeAnchor.manual('depois da guerra'));
     });
@@ -204,7 +204,7 @@ void main() {
         ),
         images: const [ElementImage.gallery('g1')],
       );
-      await tester.tap(find.text('workspace.save_project'));
+      await tester.tap(find.text('ui.save'));
       await tester.pumpAndSettle();
       expect(result!.id, 'p9');
       expect(result!.anchor, const NarrativeAnchor.none());

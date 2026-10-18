@@ -175,20 +175,27 @@ class _ElementFieldsPanelState extends State<ElementFieldsPanel> {
           ),
         ),
         const SizedBox(height: 10),
-        Wrap(
-          spacing: 14,
-          runSpacing: 14,
-          children: [
-            for (final field in fields)
-              SizedBox(
-                width:
-                    field.kind == ElementFieldKind.longText ||
-                        field.kind == ElementFieldKind.url
-                    ? 580
-                    : 280,
-                child: _input(field),
-              ),
-          ],
+        LayoutBuilder(
+          builder: (context, constraints) {
+            const gap = 14.0;
+            final half = (constraints.maxWidth - gap) / 2;
+            return Wrap(
+              spacing: gap,
+              runSpacing: gap,
+              children: [
+                for (final field in fields)
+                  SizedBox(
+                    width:
+                        field.kind == ElementFieldKind.longText ||
+                            field.kind == ElementFieldKind.url ||
+                            constraints.maxWidth < 520
+                        ? constraints.maxWidth
+                        : half,
+                    child: _input(field),
+                  ),
+              ],
+            );
+          },
         ),
       ],
     );

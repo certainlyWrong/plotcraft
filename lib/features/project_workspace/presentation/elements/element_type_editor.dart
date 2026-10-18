@@ -206,6 +206,16 @@ class _ElementTypeEditorState extends State<_ElementTypeEditor> {
                   ),
                 ],
               ),
+              if (_rows.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    'ui.no_fields'.tr(),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ),
               for (final row in _rows) _fieldRow(context, row),
             ],
           ),
@@ -235,7 +245,7 @@ class _ElementTypeEditorState extends State<_ElementTypeEditor> {
           variant: PlotcraftButtonVariant.text,
           onPressed: () => Navigator.pop(context),
         ),
-        PlotcraftButton(label: 'workspace.save_project'.tr(), onPressed: _save),
+        PlotcraftButton(label: 'ui.save'.tr(), onPressed: _save),
       ],
     );
   }

@@ -5,6 +5,7 @@ import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import 'editor_fonts.dart';
+import 'text_color_dialog.dart';
 
 /// Formatting toolbar of the rich editor plus the document actions.
 class RichToolbar extends StatelessWidget {
@@ -67,6 +68,14 @@ class RichToolbar extends StatelessWidget {
                     defaultItemColor: scheme.onSurface,
                     renderFontFamilies: true,
                     style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  color: QuillToolbarColorButtonOptions(
+                    customOnPressedCallback: (controller, background) =>
+                        pickTextColor(context, controller, background: false),
+                  ),
+                  backgroundColor: QuillToolbarColorButtonOptions(
+                    customOnPressedCallback: (controller, background) =>
+                        pickTextColor(context, controller, background: true),
                   ),
                   fontSize: QuillToolbarFontSizeButtonOptions(
                     items: editorFontSizes,

@@ -124,9 +124,10 @@ class ThemeDefinition {
           borderRadius: BorderRadius.circular(PlotcraftRadii.surface),
           side: BorderSide(color: subtleBorder),
         ),
-        titleTextStyle: text.titleLarge?.copyWith(
+        titleTextStyle: text.headlineSmall?.copyWith(
           color: foreground,
-          fontWeight: FontWeight.w700,
+          fontSize: 21,
+          fontWeight: FontWeight.w600,
         ),
         contentTextStyle: text.bodyMedium?.copyWith(
           color: mutedForeground,

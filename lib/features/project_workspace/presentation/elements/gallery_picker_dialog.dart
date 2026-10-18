@@ -42,7 +42,7 @@ class _GalleryPickerState extends State<_GalleryPicker> {
       maxWidth: 640,
       content: SizedBox(
         width: 640,
-        height: 380,
+        height: available.length > 10 ? 380 : 260,
         child: available.isEmpty
             ? Center(child: Text('elements.gallery_empty_pick'.tr()))
             : GridView.builder(
@@ -105,13 +105,24 @@ class _GalleryPickerState extends State<_GalleryPicker> {
               ),
       ),
       actions: [
+        if (_selected.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Text(
+              'ui.selected_count'.tr(
+                namedArgs: {'count': '${_selected.length}'},
+              ),
+              style: Theme.of(context).textTheme.bodySmall
+                  ?.copyWith(color: scheme.onSurfaceVariant),
+            ),
+          ),
         PlotcraftButton(
           label: 'preferences.cancel'.tr(),
           variant: PlotcraftButtonVariant.text,
           onPressed: () => Navigator.pop(context),
         ),
         PlotcraftButton(
-          label: 'workspace.save_project'.tr(),
+          label: 'ui.save'.tr(),
           onPressed: () => Navigator.pop(context, _selected.toList()),
         ),
       ],

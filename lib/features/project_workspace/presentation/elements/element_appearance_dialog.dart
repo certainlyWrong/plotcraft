@@ -106,7 +106,7 @@ class _AppearanceDialogState extends State<_AppearanceDialog> {
           onPressed: () => Navigator.pop(context),
         ),
         PlotcraftButton(
-          label: 'workspace.save_project'.tr(),
+          label: 'ui.save'.tr(),
           onPressed: () => Navigator.pop(
             context,
             ElementAppearance(icon: _icon, color: _color),

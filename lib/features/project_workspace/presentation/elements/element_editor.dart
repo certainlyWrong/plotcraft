@@ -141,7 +141,7 @@ class _ElementEditorState extends State<ElementEditor> {
             onPressed: () => Navigator.pop(context, 'discard'),
           ),
           PlotcraftButton(
-            label: 'workspace.save_project'.tr(),
+            label: 'ui.save'.tr(),
             onPressed: () => Navigator.pop(context, 'save'),
           ),
         ],
@@ -201,7 +201,7 @@ class _ElementEditorState extends State<ElementEditor> {
       title: current?.title ?? '',
       body: current?.markdown ?? '',
       width: 740,
-      bodyHeight: 300,
+      bodyHeight: 220,
     );
     if (result == null || !mounted) return;
     final section = NarrativeSection(

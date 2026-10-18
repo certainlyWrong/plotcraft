@@ -379,6 +379,13 @@
     "ignored_terms_hint": "Termos que você mandou parar de marcar"
   },
   "ui": {
+    "save": "Salvar",
+    "apply": "Aplicar",
+    "text_color": "Cor do texto",
+    "highlight_color": "Cor de destaque",
+    "remove_color": "Remover cor",
+    "no_fields": "Nenhum detalhe ainda. Detalhes são campos extras, como idade ou clima.",
+    "selected_count": "{count} selecionadas",
     "icon_picker_title": "Escolher um ícone",
     "icon_picker_search": "Buscar ícones",
     "icon_picker_empty": "Nenhum ícone encontrado",

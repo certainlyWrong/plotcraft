@@ -51,7 +51,7 @@ void main() {
       await tester.tap(find.text('elements.add_field'));
       await tester.pump();
       await tester.enterText(find.widgetWithText(TextField, '').last, 'Nível');
-      await tester.tap(find.text('workspace.save_project'));
+      await tester.tap(find.text('ui.save'));
       await tester.pumpAndSettle();
 
       final saved = (result! as ElementTypeSaved).type;
@@ -65,7 +65,7 @@ void main() {
     testWidgets('não salva sem nome', (tester) async {
       ElementTypeEdit? result;
       await open(tester, (r) => result = r);
-      await tester.tap(find.text('workspace.save_project'));
+      await tester.tap(find.text('ui.save'));
       await tester.pumpAndSettle();
       expect(result, isNull);
       expect(find.text('elements.title_required'), findsOneWidget);
@@ -77,7 +77,7 @@ void main() {
       await tester.enterText(find.byType(TextField).first, 'Magia');
       await tester.tap(find.text('elements.add_field'));
       await tester.pump();
-      await tester.tap(find.text('workspace.save_project'));
+      await tester.tap(find.text('ui.save'));
       await tester.pumpAndSettle();
       expect((result! as ElementTypeSaved).type.fields, isEmpty);
     });

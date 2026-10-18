@@ -107,7 +107,7 @@ void main() {
     expect(tiles, findsNWidgets(2));
     await tester.tap(tiles.last);
     await tester.pump();
-    await tester.tap(find.text('workspace.save_project'));
+    await tester.tap(find.text('ui.save'));
     await tester.pumpAndSettle();
     expect(result, unorderedEquals(['a', 'b']));
   });
@@ -174,7 +174,7 @@ void main() {
             .first,
       );
       await tester.pump();
-      await tester.tap(find.text('workspace.save_project').last);
+      await tester.tap(find.text('ui.save').last);
       await tester.pumpAndSettle();
       expect(find.text('elements.cover'), findsOneWidget);
 

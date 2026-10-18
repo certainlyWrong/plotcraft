@@ -379,6 +379,13 @@
     "ignored_terms_hint": "Terms you told it to stop marking"
   },
   "ui": {
+    "save": "Save",
+    "apply": "Apply",
+    "text_color": "Text color",
+    "highlight_color": "Highlight color",
+    "remove_color": "Remove color",
+    "no_fields": "No details yet. Details are extra fields, like age or climate.",
+    "selected_count": "{count} selected",
     "icon_picker_title": "Choose an icon",
     "icon_picker_search": "Search icons",
     "icon_picker_empty": "No icons found",

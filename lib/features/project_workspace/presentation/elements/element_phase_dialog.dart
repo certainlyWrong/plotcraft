@@ -218,7 +218,7 @@ class _PhaseDialogState extends State<_PhaseDialog> {
                   children: [
                     for (final field in widget.fields)
                       SizedBox(
-                        width: 320,
+                        width: 334,
                         child: PlotcraftTextField(
                           controller: _overrides[field.id]!,
                           compact: true,
@@ -277,7 +277,7 @@ class _PhaseDialogState extends State<_PhaseDialog> {
           variant: PlotcraftButtonVariant.text,
           onPressed: () => Navigator.pop(context),
         ),
-        PlotcraftButton(label: 'workspace.save_project'.tr(), onPressed: _save),
+        PlotcraftButton(label: 'ui.save'.tr(), onPressed: _save),
       ],
     );
   }

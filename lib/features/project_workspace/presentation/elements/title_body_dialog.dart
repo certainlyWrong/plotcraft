@@ -54,7 +54,7 @@ Future<(String, String)?> showTitleBodyDialog(
           onPressed: () => Navigator.pop(context),
         ),
         PlotcraftButton(
-          label: 'workspace.save_project'.tr(),
+          label: 'ui.save'.tr(),
           onPressed: () {
             if (titleController.text.trim().isEmpty) return;
             Navigator.pop(context, (

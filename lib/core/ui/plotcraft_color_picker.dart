@@ -32,9 +32,13 @@ class PlotcraftColorPicker extends StatefulWidget {
     super.key,
     required this.color,
     required this.onChanged,
+    this.extraSwatches = const [],
   });
 
   final Color? color;
+
+  /// Swatches shown before the shared ones.
+  final List<Color> extraSwatches;
   final ValueChanged<Color> onChanged;
 
   @override
@@ -63,13 +67,14 @@ class _PlotcraftColorPickerState extends State<PlotcraftColorPicker> {
 
   @override
   Widget build(BuildContext context) => Column(
+    mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Wrap(
         spacing: 8,
         runSpacing: 8,
         children: [
-          for (final swatch in plotcraftSwatches)
+          for (final swatch in [...widget.extraSwatches, ...plotcraftSwatches])
             _Swatch(
               color: swatch,
               selected: swatch == widget.color,
