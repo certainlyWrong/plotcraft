@@ -13,6 +13,7 @@ import '../../../../models/story_project.dart';
 import '../../domain/project_creation_input.dart';
 import '../../stores/project_creation_store.dart';
 import '../cover_palettes.dart';
+import '../../../../theme/plotcraft_tokens.dart';
 
 class ProjectCreationScreen extends StatefulWidget {
   const ProjectCreationScreen({
@@ -369,7 +370,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.transparent,
-                            Colors.black.withValues(alpha: .55),
+                            context.tokens.imageScrim.withValues(alpha: .55),
                           ],
                         ),
                       ),
@@ -387,7 +388,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.titleLarge?.copyWith(
-                            color: Colors.white,
+                            color: context.tokens.onImage,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -597,7 +598,9 @@ class _CoverChoice extends StatelessWidget {
           width: 3,
         ),
       ),
-      child: selected ? const Icon(Feather.check, color: Colors.white) : null,
+      child: selected
+          ? Icon(Feather.check, color: context.tokens.onSwatch(colors))
+          : null,
     ),
   );
 }

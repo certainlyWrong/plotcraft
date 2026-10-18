@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 
 import '../../../../models/story_project.dart';
 import '../../../project_creation/presentation/cover_palettes.dart';
+import '../../../../theme/plotcraft_tokens.dart';
 
 class ProjectCoverArt extends StatelessWidget {
   const ProjectCoverArt({
@@ -50,7 +51,7 @@ class ProjectCoverArt extends StatelessWidget {
               child: Icon(
                 Feather.book_open,
                 size: 250,
-                color: Colors.white.withValues(alpha: .15),
+                color: context.tokens.onImage.withValues(alpha: .15),
               ),
             ),
           if (showTitle) ...[
@@ -61,7 +62,7 @@ class ProjectCoverArt extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Colors.black.withValues(alpha: .65),
+                    context.tokens.imageScrim.withValues(alpha: .65),
                   ],
                 ),
               ),
@@ -78,7 +79,7 @@ class ProjectCoverArt extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: Colors.white,
+                      color: context.tokens.onImage,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -88,8 +89,9 @@ class ProjectCoverArt extends StatelessWidget {
                       project.subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyMedium
-                          ?.copyWith(color: Colors.white.withValues(alpha: .9)),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: context.tokens.onImage.withValues(alpha: .9),
+                      ),
                     ),
                   ],
                 ],

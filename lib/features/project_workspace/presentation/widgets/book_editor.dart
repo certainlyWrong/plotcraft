@@ -621,6 +621,23 @@ class _BookEditorState extends State<BookEditor> {
                 color: theme.colorScheme.primary,
               ),
               p: theme.textTheme.bodyLarge?.copyWith(height: 1.6),
+              code: theme.textTheme.bodyMedium?.copyWith(
+                fontFamily: 'Menlo',
+                fontFamilyFallback: const ['Consolas', 'monospace'],
+                backgroundColor: theme.colorScheme.surfaceContainerHigh,
+              ),
+              codeblockDecoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHigh,
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: theme.colorScheme.outlineVariant),
+              ),
+              blockquoteDecoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerLow,
+                borderRadius: BorderRadius.circular(4),
+                border: Border(
+                  left: BorderSide(color: theme.colorScheme.primary, width: 3),
+                ),
+              ),
             ),
             onTapLink: (_, href, _) {
               if (href?.startsWith('plotcraft://element/') ?? false) {

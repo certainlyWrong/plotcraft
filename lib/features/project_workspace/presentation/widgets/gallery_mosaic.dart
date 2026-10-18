@@ -4,6 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
+import '../../../../theme/plotcraft_tokens.dart';
+
 class GalleryMosaic extends StatelessWidget {
   const GalleryMosaic({
     super.key,
@@ -125,7 +127,7 @@ class _MosaicTileState extends State<_MosaicTile> {
               opacity: _hovered ? 1 : 0,
               duration: const Duration(milliseconds: 130),
               child: ColoredBox(
-                color: Colors.black.withValues(alpha: .16),
+                color: context.tokens.imageScrim.withValues(alpha: .16),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: Padding(
@@ -135,8 +137,10 @@ class _MosaicTileState extends State<_MosaicTile> {
                       tooltip: 'workspace.remove_image'.tr(),
                       icon: const Icon(Feather.trash_2, size: 17),
                       style: IconButton.styleFrom(
-                        backgroundColor: Colors.black.withValues(alpha: .56),
-                        foregroundColor: Colors.white,
+                        backgroundColor: context.tokens.imageScrim.withValues(
+                          alpha: .56,
+                        ),
+                        foregroundColor: context.tokens.onImage,
                       ),
                     ),
                   ),

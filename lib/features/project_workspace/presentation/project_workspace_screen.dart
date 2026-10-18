@@ -22,6 +22,7 @@ import 'widgets/gallery_image_viewer.dart';
 import 'widgets/gallery_mosaic.dart';
 import 'widgets/workspace_inspector.dart';
 import 'widgets/workspace_sidebar.dart';
+import '../../../theme/plotcraft_tokens.dart';
 
 class ProjectWorkspaceScreen extends StatefulWidget {
   const ProjectWorkspaceScreen({
@@ -877,7 +878,7 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
     showDialog<void>(
       context: context,
       barrierDismissible: true,
-      barrierColor: Colors.black.withValues(alpha: .94),
+      barrierColor: context.tokens.imageScrim.withValues(alpha: .94),
       builder: (_) =>
           GalleryImageViewer(images: images, initialIndex: initialIndex),
     );

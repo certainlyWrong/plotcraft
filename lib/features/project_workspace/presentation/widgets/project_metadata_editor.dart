@@ -12,6 +12,7 @@ import '../../../../ui/components/plotcraft_text_field.dart';
 import '../../../project_creation/domain/project_creation_input.dart';
 import '../../../project_creation/presentation/cover_palettes.dart';
 import 'project_cover_art.dart';
+import '../../../../theme/plotcraft_tokens.dart';
 
 class ProjectMetadataEditor extends StatefulWidget {
   const ProjectMetadataEditor({
@@ -429,7 +430,12 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
                         ),
                       ),
                       child: selected
-                          ? const Icon(Feather.check, color: Colors.white)
+                          ? Icon(
+                              Feather.check,
+                              color: context.tokens.onSwatch(
+                                coverPalettes[index],
+                              ),
+                            )
                           : null,
                     ),
                   ),

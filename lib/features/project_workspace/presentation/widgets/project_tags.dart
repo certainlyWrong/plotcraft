@@ -12,9 +12,7 @@ class ProjectTags extends StatelessWidget {
     return Wrap(
       spacing: 7,
       runSpacing: 7,
-      children: tags
-          .map((tag) => Chip(label: Text(tag)))
-          .toList(),
+      children: tags.map((tag) => Chip(label: Text(tag))).toList(),
     );
   }
 }

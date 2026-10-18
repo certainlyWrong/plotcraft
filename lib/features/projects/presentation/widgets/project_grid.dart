@@ -10,6 +10,7 @@ import '../../../../models/story_project.dart';
 import '../../../project_creation/presentation/cover_palettes.dart';
 import '../../../../ui/components/plotcraft_button.dart';
 import '../../../../ui/components/plotcraft_popup_menu.dart';
+import '../../../../theme/plotcraft_tokens.dart';
 
 class ProjectGrid extends StatelessWidget {
   const ProjectGrid({
@@ -165,7 +166,9 @@ class _ProjectCardState extends State<_ProjectCard> {
                                   child: Icon(
                                     Feather.book_open,
                                     size: 180,
-                                    color: Colors.white.withValues(alpha: .16),
+                                    color: context.tokens.onImage.withValues(
+                                      alpha: .16,
+                                    ),
                                   ),
                                 ),
                               Positioned(
@@ -175,13 +178,15 @@ class _ProjectCardState extends State<_ProjectCard> {
                                   width: 34,
                                   height: 34,
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withValues(alpha: .2),
+                                    color: context.tokens.onImage.withValues(
+                                      alpha: .2,
+                                    ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Feather.book,
                                     size: 18,
-                                    color: Colors.white,
+                                    color: context.tokens.onImage,
                                   ),
                                 ),
                               ),
@@ -190,7 +195,7 @@ class _ProjectCardState extends State<_ProjectCard> {
                                 top: 8,
                                 child: PlotcraftPopupMenuButton<String>(
                                   tooltip: 'project.options'.tr(),
-                                  iconColor: Colors.white,
+                                  iconColor: context.tokens.onImage,
                                   onSelected: (value) {
                                     if (value == 'delete') {
                                       setState(() => _confirmingDelete = true);

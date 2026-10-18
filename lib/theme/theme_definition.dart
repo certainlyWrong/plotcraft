@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import 'plotcraft_tokens.dart';
+
 class ThemeDefinition {
   const ThemeDefinition({
     required this.id,
@@ -60,6 +63,14 @@ class ThemeDefinition {
       surfaceContainerHighest: _blend(raisedPanel, foreground, .04),
       inverseSurface: foreground,
       onInverseSurface: background,
+      secondary: mutedForeground,
+      onSecondary: background,
+      secondaryContainer: _blend(raisedPanel, accent, .18),
+      onSecondaryContainer: foreground,
+      tertiary: _blend(accent, foreground, .35),
+      onTertiary: _contrastColor(_blend(accent, foreground, .35)),
+      scrim: _blend(foreground, const Color(0xFF000000), isDark ? .85 : .6),
+      shadow: _blend(foreground, const Color(0xFF000000), isDark ? .9 : .7),
     );
     // The base theme is built first so every component theme below derives
     // its text style from the same font-aware text theme.
@@ -71,6 +82,7 @@ class ThemeDefinition {
     );
     final text = base.textTheme;
     return base.copyWith(
+      extensions: const [PlotcraftTokens()],
       scaffoldBackgroundColor: background,
       visualDensity: VisualDensity.standard,
       splashFactory: InkSparkle.splashFactory,
@@ -239,6 +251,49 @@ class ThemeDefinition {
         ),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          textStyle: WidgetStatePropertyAll(
+            text.labelLarge?.copyWith(fontWeight: FontWeight.w600),
+          ),
+          foregroundColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.selected)
+                ? scheme.onSecondaryContainer
+                : scheme.onSurfaceVariant,
+          ),
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.selected)
+                ? scheme.secondaryContainer
+                : Colors.transparent,
+          ),
+          side: WidgetStatePropertyAll(BorderSide(color: subtleBorder)),
+        ),
+      ),
+      menuTheme: MenuThemeData(
+        style: MenuStyle(
+          backgroundColor: WidgetStatePropertyAll(scheme.surfaceContainer),
+          surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: BorderSide(color: subtleBorder),
+            ),
+          ),
+        ),
+      ),
+      menuBarTheme: MenuBarThemeData(
+        style: MenuStyle(
+          backgroundColor: WidgetStatePropertyAll(background),
+          surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
+          elevation: const WidgetStatePropertyAll(0),
+        ),
+      ),
+      menuButtonTheme: MenuButtonThemeData(
+        style: ButtonStyle(
+          textStyle: WidgetStatePropertyAll(text.bodyMedium),
+          foregroundColor: WidgetStatePropertyAll(scheme.onSurface),
+        ),
       ),
       listTileTheme: ListTileThemeData(
         textColor: scheme.onSurface,

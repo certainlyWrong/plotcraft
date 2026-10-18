@@ -21,7 +21,11 @@ void main() {
           'input.hint': theme.inputDecorationTheme.hintStyle,
           'input.label': theme.inputDecorationTheme.labelStyle,
           'listTile.title': theme.listTileTheme.titleTextStyle,
-          'button.filled': theme.filledButtonTheme.style?.textStyle?.resolve({}),
+          'button.filled': theme.filledButtonTheme.style?.textStyle?.resolve(
+            {},
+          ),
+          'segmented': theme.segmentedButtonTheme.style?.textStyle?.resolve({}),
+          'menu.item': theme.menuButtonTheme.style?.textStyle?.resolve({}),
           'button.text': theme.textButtonTheme.style?.textStyle?.resolve({}),
         };
         styles.forEach((name, style) {

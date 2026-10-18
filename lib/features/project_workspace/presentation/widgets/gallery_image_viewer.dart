@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
+import '../../../../theme/plotcraft_tokens.dart';
+
 class GalleryImageViewer extends StatefulWidget {
   const GalleryImageViewer({
     super.key,
@@ -65,12 +67,12 @@ class _GalleryImageViewerState extends State<GalleryImageViewer> {
 
   @override
   Widget build(BuildContext context) => Dialog.fullscreen(
-    backgroundColor: const Color(0xFF080808),
+    backgroundColor: context.tokens.viewerBackdrop,
     child: Focus(
       autofocus: true,
       onKeyEvent: _handleKey,
       child: Scaffold(
-        backgroundColor: const Color(0xFF080808),
+        backgroundColor: context.tokens.viewerBackdrop,
         body: SafeArea(
           child: Stack(
             children: [
@@ -172,9 +174,9 @@ class _GalleryImageViewerState extends State<GalleryImageViewer> {
     onPressed: onPressed,
     iconSize: large ? 30 : 20,
     style: IconButton.styleFrom(
-      foregroundColor: Colors.white,
-      backgroundColor: Colors.black.withValues(alpha: .5),
-      hoverColor: Colors.white.withValues(alpha: .14),
+      foregroundColor: context.tokens.onImage,
+      backgroundColor: context.tokens.imageScrim.withValues(alpha: .5),
+      hoverColor: context.tokens.onImage.withValues(alpha: .14),
       minimumSize: large ? const Size(52, 52) : const Size(42, 42),
     ),
     icon: Icon(icon),
