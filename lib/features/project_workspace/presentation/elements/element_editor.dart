@@ -15,6 +15,7 @@ import '../../domain/element_image.dart';
 import '../../domain/element_relation.dart';
 import '../../domain/element_type.dart';
 import '../../domain/element_type_catalog.dart';
+import '../../domain/narrative_anchor.dart';
 import '../../domain/narrative_element.dart';
 import '../../domain/workspace_tab.dart';
 import '../../stores/project_workspace_store.dart';
@@ -24,6 +25,7 @@ import 'element_draft.dart';
 import 'element_images_panel.dart';
 import 'element_fields_panel.dart';
 import 'element_items_panel.dart';
+import 'element_phase_dialog.dart';
 import 'gallery_picker_dialog.dart';
 import 'element_references_panel.dart';
 import 'element_relations_panel.dart';
@@ -195,22 +197,20 @@ class _ElementEditorState extends State<ElementEditor> {
 
   Future<void> _editPhase([int? index]) async {
     final current = index == null ? null : _draft.phases[index];
-    final result = await showTitleBodyDialog(
+    final type = ElementTypeCatalog.resolve(
+      _draft.typeId,
+      widget.store.elementTypes,
+    );
+    final phase = await showElementPhaseDialog(
       context,
-      heading: 'elements.phase'.tr(),
-      titleLabel: 'elements.phase_title'.tr(),
-      bodyLabel: 'elements.phase_description'.tr(),
-      title: current?.title ?? '',
-      body: current?.description ?? '',
-      width: 650,
-      bodyHeight: 210,
+      current: current,
+      newId: _newId(),
+      chapters: widget.book.chaptersEnabled ? widget.book.chapters : const [],
+      fields: type?.fields ?? const [],
+      images: _draft.images,
+      resolvePath: _imagePath,
     );
-    if (result == null || !mounted) return;
-    final phase = NarrativePhase(
-      id: current?.id ?? _newId(),
-      title: result.$1,
-      description: result.$2,
-    );
+    if (phase == null || !mounted) return;
     setState(() {
       if (index == null) {
         _draft.phases.add(phase);
@@ -220,6 +220,17 @@ class _ElementEditorState extends State<ElementEditor> {
     });
     _markDirty();
   }
+
+  /// Where a phase starts, as text for the list ("Chapter 2", a custom label).
+  String? _anchorLabel(NarrativeAnchor anchor) => switch (anchor.kind) {
+    NarrativeAnchorKind.none => null,
+    NarrativeAnchorKind.manual => anchor.value,
+    NarrativeAnchorKind.chapter =>
+      widget.book.chapters
+          .where((chapter) => chapter.id == anchor.value)
+          .firstOrNull
+          ?.title,
+  };
 
   String? _imagePath(ElementImage image) {
     if (!image.isGallery) return widget.store.attachmentPath(image.value);
@@ -519,7 +530,11 @@ class _ElementEditorState extends State<ElementEditor> {
                 emptyText: 'elements.no_phases'.tr(),
                 items: [
                   for (final phase in _draft.phases)
-                    ElementItem(title: phase.title, body: phase.description),
+                    ElementItem(
+                      title: phase.title,
+                      body: phase.description,
+                      badge: _anchorLabel(phase.anchor),
+                    ),
                 ],
                 onAdd: _editPhase,
                 onEdit: _editPhase,

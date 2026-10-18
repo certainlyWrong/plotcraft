@@ -357,7 +357,14 @@
     "no_other_elements": "Create other elements to relate them.",
     "relations_incoming": "Related to this element",
     "relation_label": "What this is to them (sister of)",
-    "relation_reciprocal": "What they are to this (optional)"
+    "relation_reciprocal": "What they are to this (optional)",
+    "phase_starts": "Starts at",
+    "anchor_none": "No specific point",
+    "anchor_manual": "A point I describe…",
+    "anchor_manual_hint": "For example: after the war",
+    "phase_changes": "What changes in this phase",
+    "phase_unchanged": "Unchanged",
+    "phase_image": "Image for this phase"
   },
   "ui": {
     "icon_picker_title": "Choose an icon",

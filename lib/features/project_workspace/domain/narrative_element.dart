@@ -4,6 +4,7 @@ import '../../../core/icons/icon_ref.dart';
 import '../../../core/theme/color_hex.dart';
 import 'element_image.dart';
 import 'element_relation.dart';
+import 'narrative_anchor.dart';
 
 class NarrativeSection {
   const NarrativeSection({
@@ -30,27 +31,50 @@ class NarrativeSection {
       );
 }
 
+/// A moment in the life of an element: how it changes as the story goes on.
+/// It can start at a chapter, override some of the element's details and show
+/// its own image (one of the element's images).
 class NarrativePhase {
   const NarrativePhase({
     required this.id,
     required this.title,
     required this.description,
+    this.anchor = const NarrativeAnchor.none(),
+    this.fieldOverrides = const {},
+    this.image,
   });
 
   final String id;
   final String title;
   final String description;
+  final NarrativeAnchor anchor;
+
+  /// Values of the type's details that differ in this phase, by field ID.
+  final Map<String, String> fieldOverrides;
+  final ElementImage? image;
 
   Map<String, Object?> toJson() => {
     'id': id,
     'title': title,
     'description': description,
+    'anchor': anchor.toJson(),
+    if (fieldOverrides.isNotEmpty) 'fieldOverrides': fieldOverrides,
+    if (image != null) 'image': image!.toJson(),
   };
 
   factory NarrativePhase.fromJson(Map<String, dynamic> json) => NarrativePhase(
     id: json['id'] as String,
     title: json['title'] as String? ?? '',
     description: json['description'] as String? ?? '',
+    anchor: NarrativeAnchor.fromJson(json['anchor']),
+    fieldOverrides: {
+      for (final entry
+          in (json['fieldOverrides'] as Map<String, dynamic>? ?? const {})
+              .entries)
+        if (entry.value is String && (entry.value as String).isNotEmpty)
+          entry.key: entry.value as String,
+    },
+    image: ElementImage.fromJson(json['image']),
   );
 }
 
@@ -169,7 +193,11 @@ class NarrativeElement {
 
   /// Project-relative paths of the files copied for this element.
   Set<String> get attachmentFiles => {
-    for (final image in images)
+    for (final image in [
+      ...images,
+      for (final phase in phases)
+        if (phase.image != null) phase.image!,
+    ])
       if (!image.isGallery) image.value,
   };
 

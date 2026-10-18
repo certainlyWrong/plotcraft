@@ -357,7 +357,14 @@
     "no_other_elements": "Crie outros elementos para relacioná-los.",
     "relations_incoming": "Relacionados a este elemento",
     "relation_label": "O que este é para eles (irmã de)",
-    "relation_reciprocal": "O que eles são para este (opcional)"
+    "relation_reciprocal": "O que eles são para este (opcional)",
+    "phase_starts": "Começa em",
+    "anchor_none": "Nenhum ponto específico",
+    "anchor_manual": "Um ponto que eu descrevo…",
+    "anchor_manual_hint": "Por exemplo: depois da guerra",
+    "phase_changes": "O que muda nesta fase",
+    "phase_unchanged": "Sem mudança",
+    "phase_image": "Imagem desta fase"
   },
   "ui": {
     "icon_picker_title": "Escolher um ícone",
