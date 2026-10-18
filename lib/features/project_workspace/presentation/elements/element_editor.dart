@@ -52,6 +52,11 @@ class _ElementEditorState extends State<ElementEditor> {
 
   String get _tabId => widget.tab.id;
 
+  /// Known before the first save so images can be attached to a new element.
+  late final String _draftId = _newId();
+
+  String get _elementId => _element?.id ?? _draftId;
+
   @override
   void initState() {
     super.initState();
@@ -118,7 +123,7 @@ class _ElementEditorState extends State<ElementEditor> {
     }
     final now = DateTime.now();
     final element = NarrativeElement(
-      id: _element?.id ?? now.microsecondsSinceEpoch.toRadixString(36),
+      id: _elementId,
       typeId: _typeId,
       title: _title.text.trim(),
       summary: _summary.text.trim(),

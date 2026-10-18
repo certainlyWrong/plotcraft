@@ -167,6 +167,12 @@ class NarrativeElement {
     updatedAt: DateTime.now(),
   );
 
+  /// Project-relative paths of the files copied for this element.
+  Set<String> get attachmentFiles => {
+    for (final image in images)
+      if (!image.isGallery) image.value,
+  };
+
   Map<String, Object?> toJson() => {
     'schemaVersion': schemaVersion,
     'id': id,

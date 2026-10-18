@@ -7,6 +7,7 @@ import '../data/project_workspace_repository.dart';
 import '../domain/book_content.dart';
 import '../domain/element_type.dart';
 import '../domain/element_type_catalog.dart';
+import '../domain/element_image.dart';
 import '../domain/gallery_item.dart';
 import '../domain/narrative_element.dart';
 
@@ -187,6 +188,22 @@ abstract class _ProjectWorkspaceStore with Store {
     } finally {
       isElementSaving = false;
     }
+  }
+
+  /// Copies an image from the computer for [elementId]; see
+  /// [NarrativeRepository.attachImage].
+  Future<ElementImage> attachElementImage(String elementId, String path) {
+    final current = project;
+    if (current == null) throw StateError('No project is open');
+    return _repository.narrative.attachImage(current, elementId, path);
+  }
+
+  /// Absolute path of an element attachment; null if the reference is unsafe.
+  String? attachmentPath(String relativePath) {
+    final current = project;
+    return current == null
+        ? null
+        : _repository.narrative.attachmentPath(current, relativePath);
   }
 
   @action
