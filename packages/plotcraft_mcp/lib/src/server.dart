@@ -3,6 +3,8 @@ import 'package:stream_channel/stream_channel.dart';
 
 import 'config.dart';
 import 'context.dart';
+import 'prompts.dart';
+import 'resources.dart';
 import 'tools/all.dart';
 import 'tools/meta_tools.dart';
 
@@ -22,7 +24,8 @@ confirm_name.
 ''';
 
 /// The MCP server: tools, and later resources and prompts, over any channel.
-base class PlotcraftMcpServer extends MCPServer with ToolsSupport {
+base class PlotcraftMcpServer extends MCPServer
+    with ToolsSupport, ResourcesSupport, PromptsSupport {
   PlotcraftMcpServer(StreamChannel<String> channel, ServerConfig config)
     : context = ToolContext(config),
       super.fromStreamChannel(
@@ -36,6 +39,8 @@ base class PlotcraftMcpServer extends MCPServer with ToolsSupport {
     for (final spec in allTools()) {
       registerTool(spec.definition, (request) => spec.run(request, context));
     }
+    registerResources(this, context);
+    registerPrompts(this);
   }
 
   final ToolContext context;
