@@ -23,6 +23,8 @@ import 'widgets/gallery_mosaic.dart';
 import 'widgets/workspace_inspector.dart';
 import 'widgets/workspace_sidebar.dart';
 import '../../../theme/plotcraft_tokens.dart';
+import '../../../ui/components/plotcraft_dialog.dart';
+import '../../../ui/components/plotcraft_text_field.dart';
 
 class ProjectWorkspaceScreen extends StatefulWidget {
   const ProjectWorkspaceScreen({
@@ -213,28 +215,15 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
   Future<void> _toggleChapters() async {
     if (!await _saveBeforeBookChange() || !mounted) return;
     final enabling = !widget.store.book.chaptersEnabled;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          enabling ? 'book.enable_title'.tr() : 'book.disable_title'.tr(),
-        ),
-        content: Text(
-          enabling ? 'book.enable_message'.tr() : 'book.disable_message'.tr(),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text('preferences.cancel'.tr()),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text('book.convert'.tr()),
-          ),
-        ],
-      ),
+    final confirmed = await showConfirmDialog(
+      context,
+      title: enabling ? 'book.enable_title'.tr() : 'book.disable_title'.tr(),
+      message: enabling
+          ? 'book.enable_message'.tr()
+          : 'book.disable_message'.tr(),
+      confirmLabel: 'book.convert'.tr(),
     );
-    if (confirmed != true || !mounted) return;
+    if (!confirmed || !mounted) return;
     try {
       await widget.store.setChapterMode(enabling);
       if (mounted) {
@@ -257,30 +246,29 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
     final controller = TextEditingController(text: current ?? '');
     final title = await showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          current == null ? 'book.add_chapter'.tr() : 'book.rename'.tr(),
-        ),
-        content: TextField(
+      builder: (context) => PlotcraftDialog(
+        title: current == null ? 'book.add_chapter'.tr() : 'book.rename'.tr(),
+        content: PlotcraftTextField(
           controller: controller,
           autofocus: true,
-          decoration: InputDecoration(labelText: 'book.chapter_title'.tr()),
+          label: 'book.chapter_title'.tr(),
           onSubmitted: (value) {
             if (value.trim().isNotEmpty) Navigator.pop(context, value.trim());
           },
         ),
         actions: [
-          TextButton(
+          PlotcraftButton(
+            label: 'preferences.cancel'.tr(),
+            variant: PlotcraftButtonVariant.text,
             onPressed: () => Navigator.pop(context),
-            child: Text('preferences.cancel'.tr()),
           ),
-          FilledButton(
+          PlotcraftButton(
+            label: 'workspace.save_project'.tr(),
             onPressed: () {
               if (controller.text.trim().isNotEmpty) {
                 Navigator.pop(context, controller.text.trim());
               }
             },
-            child: Text('workspace.save_project'.tr()),
           ),
         ],
       ),
@@ -343,24 +331,14 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
 
   Future<void> _removeChapter(BookChapter chapter) async {
     if (!await _saveBeforeBookChange() || !mounted) return;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('book.remove_chapter'.tr()),
-        content: Text('book.remove_message'.tr()),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text('preferences.cancel'.tr()),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text('book.remove_chapter'.tr()),
-          ),
-        ],
-      ),
+    final confirmed = await showConfirmDialog(
+      context,
+      title: 'book.remove_chapter'.tr(),
+      message: 'book.remove_message'.tr(),
+      confirmLabel: 'book.remove_chapter'.tr(),
+      destructive: true,
     );
-    if (confirmed != true || !mounted) return;
+    if (!confirmed || !mounted) return;
     try {
       await widget.store.removeChapter(chapter.id);
       if (mounted && _selectedChapterId == chapter.id) {
@@ -413,24 +391,14 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
     if (!_editingProject) return true;
     if (widget.store.isUpdating) return false;
     if (_metadataDirty) {
-      final discard = await showDialog<bool>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('workspace.discard_title'.tr()),
-          content: Text('workspace.discard_message'.tr()),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text('preferences.cancel'.tr()),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: Text('workspace.discard'.tr()),
-            ),
-          ],
-        ),
+      final discard = await showConfirmDialog(
+        context,
+        title: 'workspace.discard_title'.tr(),
+        message: 'workspace.discard_message'.tr(),
+        confirmLabel: 'workspace.discard'.tr(),
+        destructive: true,
       );
-      if (discard != true) return false;
+      if (!discard) return false;
     }
     if (mounted) {
       setState(() {
@@ -486,28 +454,16 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
 
   Future<void> _removeGalleryImage(String imagePath) async {
     if (widget.store.isRemovingImage || widget.store.isImporting) return;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('workspace.remove_image_title'.tr()),
-        content: Text(
-          'workspace.remove_image_message'.tr(
-            namedArgs: {'name': p.basename(imagePath)},
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text('preferences.cancel'.tr()),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text('workspace.remove_image'.tr()),
-          ),
-        ],
+    final confirmed = await showConfirmDialog(
+      context,
+      title: 'workspace.remove_image_title'.tr(),
+      message: 'workspace.remove_image_message'.tr(
+        namedArgs: {'name': p.basename(imagePath)},
       ),
+      confirmLabel: 'workspace.remove_image'.tr(),
+      destructive: true,
     );
-    if (confirmed != true || !mounted) return;
+    if (!confirmed || !mounted) return;
     try {
       await widget.store.removeImage(imagePath);
     } catch (_) {

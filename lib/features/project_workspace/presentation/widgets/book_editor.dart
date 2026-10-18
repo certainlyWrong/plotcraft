@@ -10,6 +10,10 @@ import '../../domain/book_content.dart';
 import '../../domain/markdown_extensions.dart';
 import '../../domain/narrative_element.dart';
 import '../native_spell_check_service.dart';
+import '../../../../ui/components/plotcraft_icon_button.dart';
+import '../../../../ui/components/plotcraft_popup_menu.dart';
+import '../../../../ui/components/plotcraft_segmented.dart';
+import '../../../../ui/components/plotcraft_text_field.dart';
 
 enum _EditorView { write, split, preview }
 
@@ -272,7 +276,7 @@ class _BookEditorState extends State<BookEditor> {
               ),
               const SizedBox(width: 16),
               if (widget.book.chaptersEnabled)
-                PopupMenuButton<String>(
+                PlotcraftPopupMenuButton<String>(
                   tooltip: 'book.chapters'.tr(),
                   icon: const Icon(Feather.file_text, size: 18),
                   onSelected: (id) => widget.onSelectChapter(id),
@@ -337,7 +341,7 @@ class _BookEditorState extends State<BookEditor> {
                 () => _insert('[', '](https://)'),
               ),
               if (widget.elements.isNotEmpty)
-                PopupMenuButton<NarrativeElement>(
+                PlotcraftPopupMenuButton<NarrativeElement>(
                   tooltip: 'book.insert_element'.tr(),
                   icon: const Icon(Feather.at_sign, size: 18),
                   onSelected: _insertElement,
@@ -356,28 +360,26 @@ class _BookEditorState extends State<BookEditor> {
                 () => setState(() => _showFind = !_showFind),
               ),
               const SizedBox(width: 8),
-              SegmentedButton<_EditorView>(
-                showSelectedIcon: false,
+              PlotcraftSegmented<_EditorView>(
                 segments: [
-                  ButtonSegment(
+                  PlotcraftSegment(
                     value: _EditorView.write,
-                    icon: const Icon(Feather.edit_3, size: 16),
+                    icon: Feather.edit_3,
                     tooltip: 'book.write'.tr(),
                   ),
-                  ButtonSegment(
+                  PlotcraftSegment(
                     value: _EditorView.split,
-                    icon: const Icon(Feather.layout, size: 16),
+                    icon: Feather.layout,
                     tooltip: 'book.split'.tr(),
                   ),
-                  ButtonSegment(
+                  PlotcraftSegment(
                     value: _EditorView.preview,
-                    icon: const Icon(Feather.eye, size: 16),
+                    icon: Feather.eye,
                     tooltip: 'book.preview'.tr(),
                   ),
                 ],
-                selected: {_view},
-                onSelectionChanged: (selected) =>
-                    setState(() => _view = selected.first),
+                selected: _view,
+                onChanged: (view) => setState(() => _view = view),
               ),
               const SizedBox(width: 8),
               _tool(
@@ -406,11 +408,7 @@ class _BookEditorState extends State<BookEditor> {
   }
 
   Widget _tool(IconData icon, String tooltip, VoidCallback? onPressed) =>
-      IconButton(
-        tooltip: tooltip,
-        onPressed: onPressed,
-        icon: Icon(icon, size: 18),
-      );
+      PlotcraftIconButton(icon: icon, tooltip: tooltip, onPressed: onPressed);
 
   Widget _findBar(BuildContext context) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -418,17 +416,19 @@ class _BookEditorState extends State<BookEditor> {
     child: Row(
       children: [
         Expanded(
-          child: TextField(
+          child: PlotcraftTextField(
             controller: _find,
-            decoration: InputDecoration(hintText: 'book.find'.tr()),
+            compact: true,
+            hint: 'book.find'.tr(),
             onSubmitted: (_) => _findNext(),
           ),
         ),
         const SizedBox(width: 8),
         Expanded(
-          child: TextField(
+          child: PlotcraftTextField(
             controller: _replace,
-            decoration: InputDecoration(hintText: 'book.replace'.tr()),
+            compact: true,
+            hint: 'book.replace'.tr(),
             onSubmitted: (_) => _replaceCurrent(),
           ),
         ),
@@ -497,7 +497,7 @@ class _BookEditorState extends State<BookEditor> {
                           onTap: () => widget.onSelectChapter(chapter.id),
                         ),
                       ),
-                      PopupMenuButton<String>(
+                      PlotcraftPopupMenuButton<String>(
                         tooltip: 'book.chapter_actions'.tr(),
                         onSelected: (action) {
                           switch (action) {

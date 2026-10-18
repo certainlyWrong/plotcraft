@@ -2,6 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
+import '../../../../ui/components/plotcraft_button.dart';
+import '../../../../ui/components/plotcraft_dialog.dart';
+import '../../../../ui/components/plotcraft_icon_button.dart';
+import '../../../../ui/components/plotcraft_text_field.dart';
 import '../../domain/book_content.dart';
 import '../../domain/markdown_extensions.dart';
 import '../../domain/narrative_element.dart';
@@ -86,21 +90,23 @@ class NarrativeWorkspaceState extends State<NarrativeWorkspace> {
     if (!_dirty) return true;
     final choice = await showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('elements.unsaved_title'.tr()),
+      builder: (context) => PlotcraftDialog(
+        title: 'elements.unsaved_title'.tr(),
         content: Text('elements.unsaved_message'.tr()),
         actions: [
-          TextButton(
+          PlotcraftButton(
+            label: 'preferences.cancel'.tr(),
+            variant: PlotcraftButtonVariant.text,
             onPressed: () => Navigator.pop(context, 'cancel'),
-            child: Text('preferences.cancel'.tr()),
           ),
-          TextButton(
+          PlotcraftButton(
+            label: 'workspace.discard'.tr(),
+            variant: PlotcraftButtonVariant.destructive,
             onPressed: () => Navigator.pop(context, 'discard'),
-            child: Text('workspace.discard'.tr()),
           ),
-          TextButton(
+          PlotcraftButton(
+            label: 'workspace.save_project'.tr(),
             onPressed: () => Navigator.pop(context, 'save'),
-            child: Text('workspace.save_project'.tr()),
           ),
         ],
       ),
@@ -155,24 +161,14 @@ class NarrativeWorkspaceState extends State<NarrativeWorkspace> {
   Future<void> _remove() async {
     final selected = _selected;
     if (selected == null) return;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('elements.remove_title'.tr()),
-        content: Text('elements.remove_message'.tr()),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text('preferences.cancel'.tr()),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text('elements.remove'.tr()),
-          ),
-        ],
-      ),
+    final confirmed = await showConfirmDialog(
+      context,
+      title: 'elements.remove_title'.tr(),
+      message: 'elements.remove_message'.tr(),
+      confirmLabel: 'elements.remove'.tr(),
+      destructive: true,
     );
-    if (confirmed != true || !mounted) return;
+    if (!confirmed || !mounted) return;
     try {
       await widget.store.removeElement(selected.id);
       if (mounted) _load(widget.store.elements.firstOrNull);
@@ -185,174 +181,127 @@ class NarrativeWorkspaceState extends State<NarrativeWorkspace> {
     }
   }
 
+  String _newId() => DateTime.now().microsecondsSinceEpoch.toRadixString(36);
+
+  void _upsert<T>(List<T> items, T item, String Function(T) idOf) {
+    final index = items.indexWhere((existing) => idOf(existing) == idOf(item));
+    if (index < 0) {
+      items.add(item);
+    } else {
+      items[index] = item;
+    }
+    _dirty = true;
+  }
+
   Future<void> _editSection([NarrativeSection? current]) async {
-    final title = TextEditingController(text: current?.title ?? '');
-    final markdown = TextEditingController(text: current?.markdown ?? '');
-    final result = await showDialog<NarrativeSection>(
-      context: context,
-      builder: (context) => Dialog(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 740),
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'elements.section'.tr(),
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 18),
-                TextField(
-                  controller: title,
-                  decoration: InputDecoration(
-                    labelText: 'elements.section_title'.tr(),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  height: 300,
-                  child: TextField(
-                    controller: markdown,
-                    expands: true,
-                    minLines: null,
-                    maxLines: null,
-                    textAlignVertical: TextAlignVertical.top,
-                    decoration: InputDecoration(
-                      labelText: 'elements.markdown_content'.tr(),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text('preferences.cancel'.tr()),
-                    ),
-                    FilledButton(
-                      onPressed: () {
-                        if (title.text.trim().isEmpty) return;
-                        Navigator.pop(
-                          context,
-                          NarrativeSection(
-                            id:
-                                current?.id ??
-                                DateTime.now().microsecondsSinceEpoch
-                                    .toRadixString(36),
-                            title: title.text.trim(),
-                            markdown: markdown.text,
-                          ),
-                        );
-                      },
-                      child: Text('workspace.save_project'.tr()),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+    final result = await _editTitleBody(
+      heading: 'elements.section'.tr(),
+      titleLabel: 'elements.section_title'.tr(),
+      bodyLabel: 'elements.markdown_content'.tr(),
+      title: current?.title ?? '',
+      body: current?.markdown ?? '',
+      width: 740,
+      bodyHeight: 300,
+    );
+    if (result == null || !mounted) return;
+    setState(
+      () => _upsert(
+        _sections,
+        NarrativeSection(
+          id: current?.id ?? _newId(),
+          title: result.$1,
+          markdown: result.$2,
         ),
+        (item) => item.id,
       ),
     );
-    title.dispose();
-    markdown.dispose();
-    if (result == null || !mounted) return;
-    setState(() {
-      final index = _sections.indexWhere((item) => item.id == result.id);
-      if (index < 0) {
-        _sections.add(result);
-      } else {
-        _sections[index] = result;
-      }
-      _dirty = true;
-    });
   }
 
   Future<void> _editPhase([NarrativePhase? current]) async {
-    final title = TextEditingController(text: current?.title ?? '');
-    final description = TextEditingController(text: current?.description ?? '');
-    final result = await showDialog<NarrativePhase>(
-      context: context,
-      builder: (context) => Dialog(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 650),
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'elements.phase'.tr(),
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 18),
-                TextField(
-                  controller: title,
-                  decoration: InputDecoration(
-                    labelText: 'elements.phase_title'.tr(),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  height: 210,
-                  child: TextField(
-                    controller: description,
-                    expands: true,
-                    minLines: null,
-                    maxLines: null,
-                    textAlignVertical: TextAlignVertical.top,
-                    decoration: InputDecoration(
-                      labelText: 'elements.phase_description'.tr(),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text('preferences.cancel'.tr()),
-                    ),
-                    FilledButton(
-                      onPressed: () {
-                        if (title.text.trim().isEmpty) return;
-                        Navigator.pop(
-                          context,
-                          NarrativePhase(
-                            id:
-                                current?.id ??
-                                DateTime.now().microsecondsSinceEpoch
-                                    .toRadixString(36),
-                            title: title.text.trim(),
-                            description: description.text,
-                          ),
-                        );
-                      },
-                      child: Text('workspace.save_project'.tr()),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+    final result = await _editTitleBody(
+      heading: 'elements.phase'.tr(),
+      titleLabel: 'elements.phase_title'.tr(),
+      bodyLabel: 'elements.phase_description'.tr(),
+      title: current?.title ?? '',
+      body: current?.description ?? '',
+      width: 650,
+      bodyHeight: 210,
+    );
+    if (result == null || !mounted) return;
+    setState(
+      () => _upsert(
+        _phases,
+        NarrativePhase(
+          id: current?.id ?? _newId(),
+          title: result.$1,
+          description: result.$2,
         ),
+        (item) => item.id,
       ),
     );
-    title.dispose();
-    description.dispose();
-    if (result == null || !mounted) return;
-    setState(() {
-      final index = _phases.indexWhere((item) => item.id == result.id);
-      if (index < 0) {
-        _phases.add(result);
-      } else {
-        _phases[index] = result;
-      }
-      _dirty = true;
-    });
+  }
+
+  /// Dialog shared by sections and phases: a required title and a long text.
+  Future<(String, String)?> _editTitleBody({
+    required String heading,
+    required String titleLabel,
+    required String bodyLabel,
+    required String title,
+    required String body,
+    required double width,
+    required double bodyHeight,
+  }) async {
+    final titleController = TextEditingController(text: title);
+    final bodyController = TextEditingController(text: body);
+    final result = await showDialog<(String, String)>(
+      context: context,
+      builder: (context) => PlotcraftDialog(
+        title: heading,
+        maxWidth: width,
+        content: SizedBox(
+          width: width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PlotcraftTextField(
+                controller: titleController,
+                label: titleLabel,
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                height: bodyHeight,
+                child: PlotcraftTextField(
+                  controller: bodyController,
+                  label: bodyLabel,
+                  expands: true,
+                  textAlignVertical: TextAlignVertical.top,
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          PlotcraftButton(
+            label: 'preferences.cancel'.tr(),
+            variant: PlotcraftButtonVariant.text,
+            onPressed: () => Navigator.pop(context),
+          ),
+          PlotcraftButton(
+            label: 'workspace.save_project'.tr(),
+            onPressed: () {
+              if (titleController.text.trim().isEmpty) return;
+              Navigator.pop(context, (
+                titleController.text.trim(),
+                bodyController.text,
+              ));
+            },
+          ),
+        ],
+      ),
+    );
+    titleController.dispose();
+    bodyController.dispose();
+    return result;
   }
 
   @override
@@ -398,10 +347,10 @@ class NarrativeWorkspaceState extends State<NarrativeWorkspace> {
                     ),
                   ),
                 ),
-                IconButton(
+                PlotcraftIconButton(
+                  icon: Feather.plus,
                   tooltip: 'elements.new'.tr(),
                   onPressed: _create,
-                  icon: const Icon(Feather.plus),
                 ),
               ],
             ),
@@ -466,15 +415,15 @@ class NarrativeWorkspaceState extends State<NarrativeWorkspace> {
                     ),
                   ),
                   if (_selected != null)
-                    IconButton(
+                    PlotcraftIconButton(
+                      icon: Feather.trash_2,
                       tooltip: 'elements.remove'.tr(),
                       onPressed: _remove,
-                      icon: const Icon(Feather.trash_2),
                     ),
-                  FilledButton.icon(
+                  PlotcraftButton(
+                    icon: Feather.save,
+                    label: 'workspace.save_project'.tr(),
                     onPressed: widget.store.isElementSaving ? null : _save,
-                    icon: const Icon(Feather.save, size: 16),
-                    label: Text('workspace.save_project'.tr()),
                   ),
                 ],
               ),
@@ -485,34 +434,30 @@ class NarrativeWorkspaceState extends State<NarrativeWorkspace> {
                 children: [
                   SizedBox(
                     width: 280,
-                    child: TextField(
+                    child: PlotcraftTextField(
                       controller: _title,
                       onChanged: (_) => setState(() => _dirty = true),
-                      decoration: InputDecoration(
-                        labelText: 'elements.name'.tr(),
-                      ),
+                      label: 'elements.name'.tr(),
                     ),
                   ),
                   SizedBox(
                     width: 220,
-                    child: TextField(
+                    child: PlotcraftTextField(
                       controller: _kind,
                       onChanged: (_) => setState(() => _dirty = true),
-                      decoration: InputDecoration(
-                        labelText: 'elements.kind'.tr(),
-                        hintText: 'elements.kind_hint'.tr(),
-                      ),
+                      label: 'elements.kind'.tr(),
+                      hint: 'elements.kind_hint'.tr(),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 14),
-              TextField(
+              PlotcraftTextField(
                 controller: _summary,
                 onChanged: (_) => setState(() => _dirty = true),
                 minLines: 3,
                 maxLines: 6,
-                decoration: InputDecoration(labelText: 'elements.summary'.tr()),
+                label: 'elements.summary'.tr(),
               ),
               const SizedBox(height: 28),
               _groupHeading(
@@ -596,10 +541,11 @@ class NarrativeWorkspaceState extends State<NarrativeWorkspace> {
                   ?.copyWith(fontWeight: FontWeight.w700),
             ),
           ),
-          TextButton.icon(
+          PlotcraftButton(
+            icon: Feather.plus,
+            label: 'elements.add'.tr(),
+            variant: PlotcraftButtonVariant.text,
             onPressed: add,
-            icon: const Icon(Feather.plus, size: 16),
-            label: Text('elements.add'.tr()),
           ),
         ],
       );
@@ -617,10 +563,11 @@ class NarrativeWorkspaceState extends State<NarrativeWorkspace> {
           ? null
           : Text(body, maxLines: 2, overflow: TextOverflow.ellipsis),
       onTap: edit,
-      trailing: IconButton(
+      trailing: PlotcraftIconButton(
+        icon: Feather.x,
         tooltip: 'elements.remove'.tr(),
         onPressed: remove,
-        icon: const Icon(Feather.x, size: 17),
+        size: 17,
       ),
     ),
   );

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import '../../../project_creation/presentation/cover_palettes.dart';
 import '../../../../ui/components/plotcraft_button.dart';
 import '../../../../ui/components/plotcraft_popup_menu.dart';
 import '../../../../theme/plotcraft_tokens.dart';
+import '../../../../ui/components/project_image.dart';
 
 class ProjectGrid extends StatelessWidget {
   const ProjectGrid({
@@ -148,16 +148,12 @@ class _ProjectCardState extends State<_ProjectCard> {
                               ),
                               if (project.coverFile != null &&
                                   project.directoryPath != null)
-                                Image.file(
-                                  File(
-                                    p.join(
-                                      project.directoryPath!,
-                                      project.coverFile!,
-                                    ),
+                                ProjectImage(
+                                  p.join(
+                                    project.directoryPath!,
+                                    project.coverFile!,
                                   ),
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (_, _, _) =>
-                                      const SizedBox.shrink(),
+                                  cacheWidth: 600,
                                 )
                               else
                                 Positioned(

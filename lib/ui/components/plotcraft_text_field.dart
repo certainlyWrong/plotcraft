@@ -19,6 +19,8 @@ class PlotcraftTextField extends StatelessWidget {
     this.maxLength,
     this.helperText,
     this.textInputAction,
+    this.expands = false,
+    this.textAlignVertical,
   });
 
   final TextEditingController controller;
@@ -36,13 +38,17 @@ class PlotcraftTextField extends StatelessWidget {
   final int? maxLength;
   final String? helperText;
   final TextInputAction? textInputAction;
+  final bool expands;
+  final TextAlignVertical? textAlignVertical;
 
   @override
   Widget build(BuildContext context) => TextFormField(
     controller: controller,
     autofocus: autofocus,
-    minLines: minLines,
-    maxLines: maxLines,
+    minLines: expands ? null : minLines,
+    maxLines: expands ? null : maxLines,
+    expands: expands,
+    textAlignVertical: textAlignVertical,
     textCapitalization: textCapitalization,
     onChanged: onChanged,
     onFieldSubmitted: onSubmitted,
@@ -59,7 +65,7 @@ class PlotcraftTextField extends StatelessWidget {
       contentPadding: compact
           ? const EdgeInsets.symmetric(horizontal: 12, vertical: 8)
           : null,
-      alignLabelWithHint: (maxLines ?? 1) > 1,
+      alignLabelWithHint: expands || (maxLines ?? 1) > 1,
     ),
   );
 }

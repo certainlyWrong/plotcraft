@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum PlotcraftButtonVariant { primary, secondary, text }
+enum PlotcraftButtonVariant { primary, secondary, text, destructive }
 
 /// Shared button facade. Dimensions, colors, focus and shape are supplied by
 /// the active app theme so every feature uses the same desktop interaction.
@@ -41,6 +41,13 @@ class PlotcraftButton extends StatelessWidget {
       ),
       PlotcraftButtonVariant.text => TextButton(
         onPressed: onPressed,
+        child: child,
+      ),
+      PlotcraftButtonVariant.destructive => TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          foregroundColor: Theme.of(context).colorScheme.error,
+        ),
         child: child,
       ),
     };

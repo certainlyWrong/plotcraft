@@ -13,6 +13,7 @@ import '../../../project_creation/domain/project_creation_input.dart';
 import '../../../project_creation/presentation/cover_palettes.dart';
 import 'project_cover_art.dart';
 import '../../../../theme/plotcraft_tokens.dart';
+import '../../../../ui/components/project_image.dart';
 
 class ProjectMetadataEditor extends StatefulWidget {
   const ProjectMetadataEditor({
@@ -364,10 +365,9 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
               child: _coverSourcePath != null
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(18),
-                      child: Image.file(
-                        File(_coverSourcePath!),
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) => Center(
+                      child: ProjectImage(
+                        _coverSourcePath!,
+                        fallback: Center(
                           child: Icon(
                             Feather.image,
                             color: theme.colorScheme.onSurfaceVariant,

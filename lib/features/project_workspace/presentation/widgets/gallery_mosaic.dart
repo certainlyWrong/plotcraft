@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../theme/plotcraft_tokens.dart';
+import '../../../../ui/components/project_image.dart';
 
 class GalleryMosaic extends StatelessWidget {
   const GalleryMosaic({
@@ -113,11 +112,10 @@ class _MosaicTileState extends State<_MosaicTile> {
           children: [
             Hero(
               tag: 'project-gallery:${widget.path}',
-              child: Image.file(
-                File(widget.path),
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.medium,
-                errorBuilder: (_, _, _) => ColoredBox(
+              child: ProjectImage(
+                widget.path,
+                cacheWidth: 800,
+                fallback: ColoredBox(
                   color: Theme.of(context).colorScheme.surfaceContainer,
                   child: const Center(child: Icon(Feather.image, size: 25)),
                 ),

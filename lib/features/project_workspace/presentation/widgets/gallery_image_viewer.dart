@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../theme/plotcraft_tokens.dart';
+import '../../../../ui/components/project_image.dart';
 
 class GalleryImageViewer extends StatefulWidget {
   const GalleryImageViewer({
@@ -87,8 +86,8 @@ class _GalleryImageViewerState extends State<GalleryImageViewer> {
                     child: Center(
                       child: Hero(
                         tag: 'project-gallery:${widget.images[_index]}',
-                        child: Image.file(
-                          File(widget.images[_index]),
+                        child: ProjectImage(
+                          widget.images[_index],
                           width: constraints.maxWidth,
                           height: constraints.maxHeight,
                           fit: BoxFit.contain,

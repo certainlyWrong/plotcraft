@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 import 'package:path/path.dart' as p;
@@ -7,6 +5,7 @@ import 'package:path/path.dart' as p;
 import '../../../../models/story_project.dart';
 import '../../../project_creation/presentation/cover_palettes.dart';
 import '../../../../theme/plotcraft_tokens.dart';
+import '../../../../ui/components/project_image.dart';
 
 class ProjectCoverArt extends StatelessWidget {
   const ProjectCoverArt({
@@ -23,7 +22,7 @@ class ProjectCoverArt extends StatelessWidget {
     final palette = coverPalettes[project.coverIndex % coverPalettes.length];
     final cover = project.coverFile == null || project.directoryPath == null
         ? null
-        : File(p.join(project.directoryPath!, project.coverFile!));
+        : p.join(project.directoryPath!, project.coverFile!);
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
       child: Stack(
@@ -39,11 +38,7 @@ class ProjectCoverArt extends StatelessWidget {
             ),
           ),
           if (cover != null)
-            Image.file(
-              cover,
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => const SizedBox.shrink(),
-            )
+            ProjectImage(cover, cacheWidth: 900)
           else
             Positioned(
               right: -18,

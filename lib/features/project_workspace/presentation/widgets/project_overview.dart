@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
@@ -7,6 +5,7 @@ import 'package:icons_flutter/icons_flutter.dart';
 import '../../../../models/story_project.dart';
 import '../../../../ui/components/plotcraft_button.dart';
 import 'project_cover_art.dart';
+import '../../../../ui/components/project_image.dart';
 
 class ProjectOverview extends StatelessWidget {
   const ProjectOverview({
@@ -263,11 +262,11 @@ class ProjectOverview extends StatelessWidget {
                           Expanded(
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(11),
-                              child: Image.file(
-                                File(images[index]),
-                                fit: BoxFit.cover,
+                              child: ProjectImage(
+                                images[index],
                                 height: double.infinity,
-                                errorBuilder: (_, _, _) => ColoredBox(
+                                cacheWidth: 600,
+                                fallback: ColoredBox(
                                   color: theme.colorScheme.surfaceContainer,
                                   child: const Center(
                                     child: Icon(Feather.image),

@@ -14,6 +14,7 @@ import '../../domain/project_creation_input.dart';
 import '../../stores/project_creation_store.dart';
 import '../cover_palettes.dart';
 import '../../../../theme/plotcraft_tokens.dart';
+import '../../../../ui/components/project_image.dart';
 
 class ProjectCreationScreen extends StatefulWidget {
   const ProjectCreationScreen({
@@ -357,12 +358,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
                         ),
                       ),
                     ),
-                    if (_coverPath != null)
-                      Image.file(
-                        File(_coverPath!),
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) => const SizedBox.shrink(),
-                      ),
+                    if (_coverPath != null) ProjectImage(_coverPath!),
                     DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
