@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
@@ -10,6 +11,7 @@ import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
 import '../../../../core/icons/icon_ref.dart';
 import '../../domain/book_content.dart';
+import '../../domain/element_image.dart';
 import '../../domain/element_type.dart';
 import '../../domain/element_type_catalog.dart';
 import '../../domain/narrative_element.dart';
@@ -18,8 +20,10 @@ import '../../stores/project_workspace_store.dart';
 import '../../stores/workspace_controller.dart';
 import 'element_appearance_dialog.dart';
 import 'element_draft.dart';
+import 'element_images_panel.dart';
 import 'element_fields_panel.dart';
 import 'element_items_panel.dart';
+import 'gallery_picker_dialog.dart';
 import 'element_references_panel.dart';
 import 'element_type_label.dart';
 import 'title_body_dialog.dart';
@@ -208,6 +212,61 @@ class _ElementEditorState extends State<ElementEditor> {
     _markDirty();
   }
 
+  String? _imagePath(ElementImage image) {
+    if (!image.isGallery) return widget.store.attachmentPath(image.value);
+    final item = widget.store.galleryItems
+        .where((item) => item.id == image.value)
+        .firstOrNull;
+    return item != null && item.exists ? item.path : null;
+  }
+
+  Future<void> _addFromGallery() async {
+    final current = [
+      for (final image in _draft.images)
+        if (image.isGallery) image.value,
+    ];
+    final chosen = await showGalleryPicker(
+      context,
+      items: widget.store.galleryItems.toList(),
+      selected: current,
+    );
+    if (chosen == null || !mounted) return;
+    setState(() {
+      // Keep the order of images already in use and the ones from the
+      // computer; append the newly chosen gallery images.
+      _draft.images = [
+        for (final image in _draft.images)
+          if (!image.isGallery || chosen.contains(image.value)) image,
+        for (final id in chosen)
+          if (!current.contains(id)) ElementImage.gallery(id),
+      ];
+    });
+    _markDirty();
+  }
+
+  Future<void> _addFromComputer() async {
+    try {
+      final files = await openFiles(
+        acceptedTypeGroups: [
+          XTypeGroup(
+            label: 'workspace.image_files'.tr(),
+            extensions: const ['png', 'jpg', 'jpeg', 'webp', 'gif'],
+          ),
+        ],
+      );
+      if (files.isEmpty) return;
+      final added = <ElementImage>[];
+      for (final file in files) {
+        added.add(await widget.store.attachElementImage(_elementId, file.path));
+      }
+      if (!mounted) return;
+      setState(() => _draft.images = [..._draft.images, ...added]);
+      _markDirty();
+    } catch (_) {
+      _snack('elements.attach_error');
+    }
+  }
+
   Widget _appearanceButton(ElementType? type) {
     final icon = _draft.icon ?? type?.icon ?? IconRef.fallback;
     final color =
@@ -392,6 +451,24 @@ class _ElementEditorState extends State<ElementEditor> {
                   },
                 ),
               ],
+              const SizedBox(height: 24),
+              ElementImagesPanel(
+                images: _draft.images,
+                resolvePath: _imagePath,
+                onAddFromGallery: _addFromGallery,
+                onAddFromComputer: _addFromComputer,
+                onRemove: (index) {
+                  setState(() => _draft.images.removeAt(index));
+                  _markDirty();
+                },
+                onMakeCover: (index) {
+                  setState(() {
+                    final image = _draft.images.removeAt(index);
+                    _draft.images.insert(0, image);
+                  });
+                  _markDirty();
+                },
+              ),
               const SizedBox(height: 24),
               ElementItemsPanel(
                 title: 'elements.sections'.tr(),

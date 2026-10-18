@@ -340,7 +340,17 @@
     "reset_appearance": "Use the type's look",
     "none": "None",
     "pick_date": "Pick a date",
-    "details": "Details"
+    "details": "Details",
+    "images": "Images",
+    "add_from_gallery": "From gallery",
+    "add_from_computer": "From computer",
+    "no_images": "No images yet. The first image is the cover.",
+    "cover": "Cover",
+    "set_cover": "Use as cover",
+    "image_missing": "Image not found",
+    "pick_gallery_title": "Choose images from the gallery",
+    "gallery_empty_pick": "The gallery has no images yet",
+    "attach_error": "Could not add the image"
   },
   "ui": {
     "icon_picker_title": "Choose an icon",

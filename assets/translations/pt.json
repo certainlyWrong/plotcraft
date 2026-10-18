@@ -340,7 +340,17 @@
     "reset_appearance": "Usar a aparência do tipo",
     "none": "Nenhum",
     "pick_date": "Escolher data",
-    "details": "Detalhes"
+    "details": "Detalhes",
+    "images": "Imagens",
+    "add_from_gallery": "Da galeria",
+    "add_from_computer": "Do computador",
+    "no_images": "Nenhuma imagem ainda. A primeira imagem é a capa.",
+    "cover": "Capa",
+    "set_cover": "Usar como capa",
+    "image_missing": "Imagem não encontrada",
+    "pick_gallery_title": "Escolher imagens da galeria",
+    "gallery_empty_pick": "A galeria ainda não tem imagens",
+    "attach_error": "Não foi possível adicionar a imagem"
   },
   "ui": {
     "icon_picker_title": "Escolher um ícone",
