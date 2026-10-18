@@ -10,6 +10,7 @@ O idioma desta documentação é português. As regras de idioma descritas nos d
 - [Modelo de projeto](modelo-de-projeto.md)
 - [Experiência e preferências](experiencia-e-preferencias.md)
 - [Arquitetura da aplicação](arquitetura-da-aplicacao.md)
+- [MCP: uma IA que cria e gerencia histórias](mcp.md)
 
 ## Vocabulário
 

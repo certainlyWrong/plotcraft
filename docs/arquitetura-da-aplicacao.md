@@ -47,6 +47,12 @@ Os arquivos `.g.dart` das stores são gerados pelo `mobx_codegen`; edite os arqu
 
 Os componentes de apresentação recebem dados e callbacks. A lógica de domínio permanece nas stores, para que widgets não façam persistência diretamente.
 
+## Pacotes
+
+O que não depende do Flutter fica em `packages/plotcraft_core` (Dart puro): `StoryProject`, os modelos do livro e dos elementos, os conversores Delta↔Markdown, a edição de Delta sem editor (`DeltaEdit`), os repositórios, `ProjectLibrary`, `StoryWorkspace` e o protocolo da ponte com o aplicativo. Os caminhos dentro do pacote repetem os de `lib/` (`features/...`). O aplicativo importa `package:plotcraft_core/...`; o que desenha, guarda preferências ou fala com o sistema (stores MobX, widgets, `ProjectRepository`, `QuillController`) continua em `lib/`. `packages/plotcraft_mcp` é o servidor MCP (ver [MCP](mcp.md)).
+
+Cores dos modelos são números ARGB (`colorValue`) e ícones são `IconRef {set, name}`; o aplicativo os lê como `Color` e `IconData` por extensões (`element_colors.dart`, `icon_data.dart`).
+
 ## Persistência
 
 Cada projeto é uma pasta local com manifesto e materiais. As preferências guardam apenas os caminhos da biblioteca, a localização padrão para novos projetos, o tema e a fonte. O `easy_localization` persiste o idioma. Sem preferências anteriores, o idioma inicial é inglês e o tema é Violet. O formato em disco está descrito em [Modelo de projeto](modelo-de-projeto.md).
