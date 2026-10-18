@@ -38,14 +38,13 @@ class ElementImagesPanel extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(
-              child: Text(
-                'elements.images'.tr(),
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
+            Text(
+              'elements.images'.tr(),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
               ),
             ),
+            const Spacer(),
             Flexible(
               child: Wrap(
                 alignment: WrapAlignment.end,

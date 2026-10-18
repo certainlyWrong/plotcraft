@@ -25,6 +25,7 @@ class ElementItemsPanel extends StatelessWidget {
     required this.onAdd,
     required this.onEdit,
     required this.onRemove,
+    this.timeline = false,
   });
 
   final String title;
@@ -33,6 +34,9 @@ class ElementItemsPanel extends StatelessWidget {
   final VoidCallback onAdd;
   final ValueChanged<int> onEdit;
   final ValueChanged<int> onRemove;
+
+  /// Draws the items along a vertical line, in order (phases of a story).
+  final bool timeline;
 
   @override
   Widget build(BuildContext context) {
@@ -69,39 +73,78 @@ class ElementItemsPanel extends StatelessWidget {
             ),
           ),
         for (var index = 0; index < items.length; index++)
-          Card(
-            child: ListTile(
-              title: Row(
-                children: [
-                  Flexible(child: Text(items[index].title)),
-                  if (items[index].badge != null) ...[
-                    const SizedBox(width: 8),
-                    Text(
-                      items[index].badge!,
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: theme.colorScheme.primary,
+          _frame(
+            context,
+            index,
+            Card(
+              child: ListTile(
+                title: Row(
+                  children: [
+                    Flexible(child: Text(items[index].title)),
+                    if (items[index].badge != null) ...[
+                      const SizedBox(width: 8),
+                      Text(
+                        items[index].badge!,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: theme.colorScheme.primary,
+                        ),
                       ),
-                    ),
+                    ],
                   ],
-                ],
-              ),
-              subtitle: items[index].body.trim().isEmpty
-                  ? null
-                  : Text(
-                      items[index].body,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-              onTap: () => onEdit(index),
-              trailing: PlotcraftIconButton(
-                icon: Feather.x,
-                tooltip: 'elements.remove'.tr(),
-                onPressed: () => onRemove(index),
-                size: 17,
+                ),
+                subtitle: items[index].body.trim().isEmpty
+                    ? null
+                    : Text(
+                        items[index].body,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                onTap: () => onEdit(index),
+                trailing: PlotcraftIconButton(
+                  icon: Feather.x,
+                  tooltip: 'elements.remove'.tr(),
+                  onPressed: () => onRemove(index),
+                  size: 17,
+                ),
               ),
             ),
           ),
       ],
+    );
+  }
+
+  /// Puts the item on the timeline (dot and line on its left) when asked.
+  Widget _frame(BuildContext context, int index, Widget card) {
+    if (!timeline) return card;
+    final scheme = Theme.of(context).colorScheme;
+    final last = index == items.length - 1;
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            width: 22,
+            child: Column(
+              children: [
+                const SizedBox(height: 22),
+                Container(
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: scheme.primary,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                if (!last)
+                  Expanded(
+                    child: Container(width: 2, color: scheme.outlineVariant),
+                  ),
+              ],
+            ),
+          ),
+          Expanded(child: card),
+        ],
+      ),
     );
   }
 }

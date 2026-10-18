@@ -9,6 +9,8 @@ import 'package:plotcraft/core/ui/plotcraft_chip_input.dart';
 import 'package:plotcraft/features/project_workspace/data/project_workspace_repository.dart';
 import 'package:plotcraft/features/project_workspace/domain/workspace_tab.dart';
 import 'package:plotcraft/features/project_workspace/presentation/elements/element_editor.dart';
+import 'package:plotcraft/features/project_workspace/presentation/elements/element_section_card.dart';
+import 'package:plotcraft/features/project_workspace/presentation/elements/element_summary_panel.dart';
 import 'package:plotcraft/features/project_workspace/stores/project_workspace_store.dart';
 import 'package:plotcraft/features/project_workspace/stores/workspace_controller.dart';
 import 'package:plotcraft/features/projects/domain/story_project.dart';
@@ -45,8 +47,12 @@ void main() {
     await folder.delete(recursive: true);
   });
 
-  Future<void> pumpEditor(WidgetTester tester, WorkspaceTab tab) async {
-    tester.view.physicalSize = const Size(1200, 1400);
+  Future<void> pumpEditor(
+    WidgetTester tester,
+    WorkspaceTab tab, {
+    double width = 1200,
+  }) async {
+    tester.view.physicalSize = Size(width, 1400);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
     await tester.pumpWidget(
@@ -103,6 +109,42 @@ void main() {
       await tester.tap(find.byIcon(Icons.clear).first);
       await tester.pump();
       expect(values, ['A Corredora', 'Lia', 'Ana']);
+    },
+  );
+
+  testWidgets(
+    'largura grande: resumo ao lado; estreita: resumo compacto no topo',
+    (tester) async {
+      await pumpEditor(
+        tester,
+        WorkspaceTab.element('${WorkspaceTab.draftPrefix}1'),
+        width: 1300,
+      );
+      final wide = tester.widget<ElementSummaryPanel>(
+        find.byType(ElementSummaryPanel),
+      );
+      expect(wide.compact, isFalse);
+      final summaryLeft = tester
+          .getTopLeft(find.byType(ElementSummaryPanel))
+          .dx;
+      final formLeft = tester
+          .getTopLeft(find.byType(ElementSectionCard).first)
+          .dx;
+      expect(summaryLeft, greaterThan(formLeft));
+
+      await pumpEditor(
+        tester,
+        WorkspaceTab.element('${WorkspaceTab.draftPrefix}2'),
+        width: 760,
+      );
+      final narrow = tester.widget<ElementSummaryPanel>(
+        find.byType(ElementSummaryPanel),
+      );
+      expect(narrow.compact, isTrue);
+      expect(
+        tester.getTopLeft(find.byType(ElementSummaryPanel)).dy,
+        lessThan(tester.getTopLeft(find.byType(ElementSectionCard).first).dy),
+      );
     },
   );
 

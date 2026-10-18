@@ -30,6 +30,8 @@ import 'gallery_picker_dialog.dart';
 import '../../domain/rich/mention_scan.dart';
 import 'element_references_panel.dart';
 import 'element_relations_panel.dart';
+import 'element_section_card.dart';
+import 'element_summary_panel.dart';
 import 'element_type_label.dart';
 import 'title_body_dialog.dart';
 
@@ -350,278 +352,357 @@ class _ElementEditorState extends State<ElementEditor> {
     }
   }
 
-  Widget _appearanceButton(ElementType? type) {
-    final icon = _draft.icon ?? type?.icon ?? IconRef.fallback;
-    final color =
-        _draft.color ?? type?.color ?? Theme.of(context).colorScheme.outline;
-    return Tooltip(
-      message: 'elements.appearance'.tr(),
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: () async {
-          final result = await showElementAppearanceDialog(
-            context,
-            current: ElementAppearance(icon: _draft.icon, color: _draft.color),
-            typeIcon: type?.icon ?? IconRef.fallback,
-            typeColor: color,
-          );
-          if (result == null || !mounted) return;
+  Future<void> _editAppearance(ElementType? type, Color color) async {
+    final result = await showElementAppearanceDialog(
+      context,
+      current: ElementAppearance(icon: _draft.icon, color: _draft.color),
+      typeIcon: type?.icon ?? IconRef.fallback,
+      typeColor: color,
+    );
+    if (result == null || !mounted) return;
+    setState(() {
+      _draft.icon = result.icon;
+      _draft.color = result.color;
+    });
+    _markDirty();
+  }
+
+  /// Name, top bar and actions: always visible above the scrolling form.
+  Widget _topBar(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(28, 18, 28, 12),
+      child: Row(
+        children: [
+          Flexible(
+            child: Text(
+              _element?.title ?? 'elements.new'.tr(),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          if (_dirty) ...[
+            const SizedBox(width: 12),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.tertiaryContainer,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                'elements.unsaved_changes'.tr(),
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onTertiaryContainer,
+                ),
+              ),
+            ),
+          ],
+          const Spacer(),
+          if (_element != null)
+            PlotcraftIconButton(
+              icon: Feather.trash_2,
+              tooltip: 'elements.remove'.tr(),
+              onPressed: () => widget.onRemove(_element!),
+            ),
+          PlotcraftButton(
+            icon: Feather.save,
+            label: 'workspace.save_project'.tr(),
+            onPressed: widget.store.isElementSaving ? null : _save,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _identityCard(BuildContext context, List<ElementType> types) =>
+      ElementSectionCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: PlotcraftTextField(
+                    controller: _draft.title,
+                    onChanged: (_) {
+                      setState(() {});
+                      _markDirty();
+                    },
+                    label: 'elements.name'.tr(),
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  flex: 2,
+                  child: PlotcraftDropdown<String>(
+                    initialValue: types.any((t) => t.id == _draft.typeId)
+                        ? _draft.typeId
+                        : null,
+                    label: 'elements.kind'.tr(),
+                    items: [
+                      for (final type in types)
+                        DropdownMenuItem(
+                          value: type.id,
+                          child: Row(
+                            children: [
+                              Icon(type.icon.data, size: 16, color: type.color),
+                              const SizedBox(width: 8),
+                              Flexible(
+                                child: Text(
+                                  type.label,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                    onChanged: (id) {
+                      if (id == null) return;
+                      setState(() => _draft.typeId = id);
+                      _markDirty();
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: PlotcraftChipInput(
+                    label: 'elements.aliases'.tr(),
+                    hint: 'elements.aliases_hint'.tr(),
+                    values: _draft.aliases,
+                    onChanged: (values) {
+                      setState(() => _draft.aliases = values);
+                      _markDirty();
+                    },
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: PlotcraftChipInput(
+                    label: 'elements.tags'.tr(),
+                    hint: 'elements.tags_hint'.tr(),
+                    values: _draft.tags,
+                    onChanged: (values) {
+                      setState(() => _draft.tags = values);
+                      _markDirty();
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            PlotcraftTextField(
+              controller: _draft.summary,
+              onChanged: (_) => _markDirty(),
+              minLines: 3,
+              maxLines: 6,
+              label: 'elements.summary'.tr(),
+            ),
+          ],
+        ),
+      );
+
+  /// The form sections, one card each.
+  List<Widget> _cards(BuildContext context, ElementType? type) => [
+    _identityCard(context, widget.store.elementTypes),
+    if (type != null && type.fields.isNotEmpty)
+      ElementSectionCard(
+        child: ElementFieldsPanel(
+          key: ValueKey(_draft.typeId),
+          type: type,
+          values: _draft.fieldValues,
+          otherElements: [
+            for (final other in widget.store.elements)
+              if (other.id != _elementId) other,
+          ],
+          onChanged: (id, value) {
+            _draft.fieldValues[id] = value;
+            _markDirty();
+          },
+        ),
+      ),
+    ElementSectionCard(
+      child: ElementImagesPanel(
+        images: _draft.images,
+        resolvePath: _imagePath,
+        onAddFromGallery: _addFromGallery,
+        onAddFromComputer: _addFromComputer,
+        onRemove: (index) {
+          setState(() => _draft.images.removeAt(index));
+          _markDirty();
+        },
+        onMakeCover: (index) {
           setState(() {
-            _draft.icon = result.icon;
-            _draft.color = result.color;
+            final image = _draft.images.removeAt(index);
+            _draft.images.insert(0, image);
           });
           _markDirty();
         },
-        child: Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: .16),
-            shape: BoxShape.circle,
+      ),
+    ),
+    ElementSectionCard(
+      child: ElementRelationsPanel(
+        relations: _draft.relations,
+        candidates: [
+          for (final other in widget.store.elements)
+            if (other.id != _elementId) other,
+        ],
+        incoming: [
+          for (final view in RelationIndex(
+            widget.store.elements.toList(),
+          ).of(_elementId))
+            if (view.incoming) view,
+        ],
+        newId: _newId,
+        onChanged: (relations) {
+          setState(() => _draft.relations = relations);
+          _markDirty();
+        },
+        onOpenElement: widget.onOpenElement,
+      ),
+    ),
+    ElementSectionCard(
+      child: ElementItemsPanel(
+        title: 'elements.sections'.tr(),
+        emptyText: 'elements.no_sections'.tr(),
+        items: [
+          for (final section in _draft.sections)
+            ElementItem(title: section.title, body: section.markdown),
+        ],
+        onAdd: _editSection,
+        onEdit: _editSection,
+        onRemove: (index) {
+          setState(() => _draft.sections.removeAt(index));
+          _markDirty();
+        },
+      ),
+    ),
+    ElementSectionCard(
+      child: ElementItemsPanel(
+        title: 'elements.phases'.tr(),
+        emptyText: 'elements.no_phases'.tr(),
+        timeline: true,
+        items: [
+          for (final phase in _draft.phases)
+            ElementItem(
+              title: phase.title,
+              body: phase.description,
+              badge: _anchorLabel(phase.anchor),
+            ),
+        ],
+        onAdd: _editPhase,
+        onEdit: _editPhase,
+        onRemove: (index) {
+          setState(() => _draft.phases.removeAt(index));
+          _markDirty();
+        },
+      ),
+    ),
+    ElementSectionCard(child: _mentionSettings(context)),
+    if (_element != null)
+      ElementSectionCard(
+        child: ElementReferencesPanel(
+          occurrences: _occurrences,
+          onOpen: (o) => widget.onOpenReference(
+            o.chapterId,
+            TextRange(start: o.start, end: o.end),
           ),
-          child: Icon(icon.data, size: 24, color: color),
         ),
       ),
+  ];
+
+  Widget _summary(
+    BuildContext context,
+    ElementType? type, {
+    bool compact = false,
+  }) {
+    final color =
+        _draft.color ?? type?.color ?? Theme.of(context).colorScheme.primary;
+    final cover = _draft.images.firstOrNull;
+    return ElementSummaryPanel(
+      title: _draft.title.text,
+      type: type,
+      icon: _draft.icon ?? type?.icon ?? IconRef.fallback,
+      color: color,
+      coverPath: cover == null ? null : _imagePath(cover),
+      tags: _draft.tags,
+      aliasCount: _draft.aliases.length,
+      saved: _element,
+      occurrenceCount: _occurrences.length,
+      linkedCount: _occurrences.where((o) => o.linked).length,
+      onEditAppearance: () => _editAppearance(type, color),
+      compact: compact,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final types = widget.store.elementTypes;
-    final type = ElementTypeCatalog.resolve(_draft.typeId, types);
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(28, 20, 28, 32),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 850),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _element?.title ?? 'elements.new'.tr(),
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  if (_element != null)
-                    PlotcraftIconButton(
-                      icon: Feather.trash_2,
-                      tooltip: 'elements.remove'.tr(),
-                      onPressed: () => widget.onRemove(_element!),
-                    ),
-                  PlotcraftButton(
-                    icon: Feather.save,
-                    label: 'workspace.save_project'.tr(),
-                    onPressed: widget.store.isElementSaving ? null : _save,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _appearanceButton(type),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Wrap(
-                      spacing: 14,
-                      runSpacing: 14,
-                      children: [
-                        SizedBox(
-                          width: 280,
-                          child: PlotcraftTextField(
-                            controller: _draft.title,
-                            onChanged: (_) => _markDirty(),
-                            label: 'elements.name'.tr(),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 220,
-                          child: PlotcraftDropdown<String>(
-                            initialValue:
-                                types.any((t) => t.id == _draft.typeId)
-                                ? _draft.typeId
-                                : null,
-                            items: [
-                              for (final type in types)
-                                DropdownMenuItem(
-                                  value: type.id,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        type.icon.data,
-                                        size: 16,
-                                        color: type.color,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Flexible(
-                                        child: Text(
-                                          type.label,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                            ],
-                            onChanged: (id) {
-                              if (id == null) return;
-                              setState(() => _draft.typeId = id);
-                              _markDirty();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: PlotcraftChipInput(
-                      label: 'elements.aliases'.tr(),
-                      hint: 'elements.aliases_hint'.tr(),
-                      values: _draft.aliases,
-                      onChanged: (values) {
-                        setState(() => _draft.aliases = values);
-                        _markDirty();
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: PlotcraftChipInput(
-                      label: 'elements.tags'.tr(),
-                      hint: 'elements.tags_hint'.tr(),
-                      values: _draft.tags,
-                      onChanged: (values) {
-                        setState(() => _draft.tags = values);
-                        _markDirty();
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              PlotcraftTextField(
-                controller: _draft.summary,
-                onChanged: (_) => _markDirty(),
-                minLines: 3,
-                maxLines: 6,
-                label: 'elements.summary'.tr(),
-              ),
-              if (type != null && type.fields.isNotEmpty) ...[
-                const SizedBox(height: 24),
-                ElementFieldsPanel(
-                  key: ValueKey(_draft.typeId),
-                  type: type,
-                  values: _draft.fieldValues,
-                  otherElements: [
-                    for (final other in widget.store.elements)
-                      if (other.id != _elementId) other,
-                  ],
-                  onChanged: (id, value) {
-                    _draft.fieldValues[id] = value;
-                    _markDirty();
-                  },
-                ),
-              ],
-              const SizedBox(height: 24),
-              ElementImagesPanel(
-                images: _draft.images,
-                resolvePath: _imagePath,
-                onAddFromGallery: _addFromGallery,
-                onAddFromComputer: _addFromComputer,
-                onRemove: (index) {
-                  setState(() => _draft.images.removeAt(index));
-                  _markDirty();
-                },
-                onMakeCover: (index) {
-                  setState(() {
-                    final image = _draft.images.removeAt(index);
-                    _draft.images.insert(0, image);
-                  });
-                  _markDirty();
-                },
-              ),
-              const SizedBox(height: 24),
-              ElementRelationsPanel(
-                relations: _draft.relations,
-                candidates: [
-                  for (final other in widget.store.elements)
-                    if (other.id != _elementId) other,
-                ],
-                incoming: [
-                  for (final view in RelationIndex(
-                    widget.store.elements.toList(),
-                  ).of(_elementId))
-                    if (view.incoming) view,
-                ],
-                newId: _newId,
-                onChanged: (relations) {
-                  setState(() => _draft.relations = relations);
-                  _markDirty();
-                },
-                onOpenElement: widget.onOpenElement,
-              ),
-              const SizedBox(height: 24),
-              ElementItemsPanel(
-                title: 'elements.sections'.tr(),
-                emptyText: 'elements.no_sections'.tr(),
-                items: [
-                  for (final section in _draft.sections)
-                    ElementItem(title: section.title, body: section.markdown),
-                ],
-                onAdd: _editSection,
-                onEdit: _editSection,
-                onRemove: (index) {
-                  setState(() => _draft.sections.removeAt(index));
-                  _markDirty();
-                },
-              ),
-              const SizedBox(height: 20),
-              ElementItemsPanel(
-                title: 'elements.phases'.tr(),
-                emptyText: 'elements.no_phases'.tr(),
-                items: [
-                  for (final phase in _draft.phases)
-                    ElementItem(
-                      title: phase.title,
-                      body: phase.description,
-                      badge: _anchorLabel(phase.anchor),
-                    ),
-                ],
-                onAdd: _editPhase,
-                onEdit: _editPhase,
-                onRemove: (index) {
-                  setState(() => _draft.phases.removeAt(index));
-                  _markDirty();
-                },
-              ),
-              const SizedBox(height: 24),
-              _mentionSettings(context),
-              if (_element != null) ...[
-                const SizedBox(height: 24),
-                ElementReferencesPanel(
-                  occurrences: _occurrences,
-                  onOpen: (o) => widget.onOpenReference(
-                    o.chapterId,
-                    TextRange(start: o.start, end: o.end),
-                  ),
-                ),
-              ],
+    final type = ElementTypeCatalog.resolve(
+      _draft.typeId,
+      widget.store.elementTypes,
+    );
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final wide = constraints.maxWidth >= 940;
+        final cards = _cards(context, type);
+        Widget spaced(List<Widget> items) => Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (var i = 0; i < items.length; i++) ...[
+              if (i > 0) const SizedBox(height: 16),
+              items[i],
             ],
-          ),
-        ),
-      ),
+          ],
+        );
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _topBar(context),
+            Expanded(
+              child: wide
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(28, 0, 28, 0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.only(bottom: 32),
+                              child: spaced(cards),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          SizedBox(
+                            width: 280,
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.only(bottom: 32),
+                              child: _summary(context, type),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SingleChildScrollView(
+                      padding: const EdgeInsets.fromLTRB(28, 0, 28, 32),
+                      child: spaced([
+                        _summary(context, type, compact: true),
+                        ...cards,
+                      ]),
+                    ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
