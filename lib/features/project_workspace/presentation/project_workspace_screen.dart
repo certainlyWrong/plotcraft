@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
+import '../../../app/app_commands.dart';
 import '../../../core/storage/local_storage.dart';
 
 import 'package:plotcraft_core/features/projects/domain/story_project.dart';
@@ -30,12 +31,16 @@ class ProjectWorkspaceScreen extends StatefulWidget {
     required this.store,
     required this.onBack,
     this.storage,
+    this.commands,
   });
 
   final StoryProject project;
   final ProjectWorkspaceStore store;
   final VoidCallback onBack;
   final LocalStorage? storage;
+
+  /// Lets other parts of the app reach this workspace (the MCP bridge).
+  final AppCommands? commands;
 
   @override
   State<ProjectWorkspaceScreen> createState() => _ProjectWorkspaceScreenState();
@@ -60,6 +65,7 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
       ),
     );
     _actions = WorkspaceActions(_controller);
+    widget.commands?.workspaceOpened(widget.project.id, _controller);
     windowManager.addListener(this);
     _controller
         .load(firstChapterTitle: 'book.first_chapter'.tr())
@@ -106,6 +112,7 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
 
   @override
   void dispose() {
+    widget.commands?.workspaceClosed(_controller);
     unawaited(_watching?.cancel());
     _watcher?.dispose();
     windowManager.removeListener(this);

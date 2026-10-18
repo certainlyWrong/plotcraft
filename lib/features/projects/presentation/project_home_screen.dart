@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
+import '../../../app/app_commands.dart';
 import '../../../core/storage/local_storage.dart';
 
 import 'package:plotcraft_core/features/projects/domain/story_project.dart';
@@ -40,12 +41,14 @@ class ProjectHomeScreen extends StatefulWidget {
     required this.creation,
     required this.themes,
     required this.storage,
+    required this.commands,
   });
 
   final ProjectStore projects;
   final ProjectCreationStore creation;
   final ThemeStore themes;
   final LocalStorage storage;
+  final AppCommands commands;
 
   @override
   State<ProjectHomeScreen> createState() => _ProjectHomeScreenState();
@@ -58,9 +61,27 @@ class _ProjectHomeScreenState extends State<ProjectHomeScreen> {
   StoryProject? _openedProject;
 
   @override
+  void initState() {
+    super.initState();
+    widget.commands.openProjectRequest.addListener(_onOpenRequest);
+  }
+
+  @override
   void dispose() {
+    widget.commands.openProjectRequest.removeListener(_onOpenRequest);
     _searchController.dispose();
     super.dispose();
+  }
+
+  /// Another part of the app (the MCP bridge) asked for a project to open.
+  void _onOpenRequest() {
+    final id = widget.commands.openProjectRequest.value;
+    if (id == null) return;
+    widget.commands.openProjectRequest.value = null;
+    final project = widget.projects.projects
+        .where((item) => item.id == id)
+        .firstOrNull;
+    if (project != null && _openedProject?.id != id) _openProject(project);
   }
 
   void _showProjects() => setState(() => _page = _DesktopPage.projects);
@@ -93,6 +114,7 @@ class _ProjectHomeScreenState extends State<ProjectHomeScreen> {
     if (_workspace != null && _openedProject != null) {
       return ProjectWorkspaceScreen(
         key: ValueKey(_openedProject!.id),
+        commands: widget.commands,
         project: _openedProject!,
         store: _workspace!,
         onBack: _closeProject,

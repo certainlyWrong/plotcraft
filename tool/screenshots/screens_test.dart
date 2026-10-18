@@ -21,6 +21,7 @@ import 'package:plotcraft/features/project_creation/stores/project_creation_stor
 import 'package:plotcraft_core/features/project_workspace/data/project_files.dart';
 import 'package:plotcraft_core/features/project_workspace/data/project_fonts_repository.dart';
 import 'package:plotcraft_core/features/project_workspace/data/project_workspace_repository.dart';
+import 'package:plotcraft/app/app_commands.dart';
 import 'package:plotcraft/features/project_workspace/domain/workspace_tab.dart';
 import 'package:plotcraft/features/project_workspace/presentation/shell/workspace_shell.dart';
 import 'package:plotcraft/features/project_workspace/presentation/workspace_actions.dart';
@@ -402,6 +403,7 @@ void main() {
         creation: creation,
         themes: themes,
         storage: storage,
+        commands: AppCommands(),
       ),
     );
     await shot(tester, '12-biblioteca');

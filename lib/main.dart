@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'app/app_commands.dart';
 import 'app/plotcraft_app.dart';
+import 'features/app_bridge/app_bridge_service.dart';
 import 'core/platform/window_service.dart';
 import 'core/storage/local_storage.dart';
 import 'features/projects/data/project_repository.dart';
@@ -34,6 +36,16 @@ Future<void> main() async {
   await Future.wait([projects.load(), themes.load()]);
   projects.startWatching();
 
+  final commands = AppCommands();
+  AppBridgeService(
+    projects: projects,
+    themes: themes,
+    commands: commands,
+    languages: [for (final locale in supportedLocales) locale.languageCode],
+    currentLanguage: () => commands.currentLanguage,
+    version: '0.1.0',
+  ).start();
+
   final english = supportedLocales.firstWhere(
     (locale) => locale.languageCode == 'en',
     orElse: () => supportedLocales.first,
@@ -52,6 +64,7 @@ Future<void> main() async {
         creation: creation,
         themes: themes,
         storage: storage,
+        commands: commands,
       ),
     ),
   );
