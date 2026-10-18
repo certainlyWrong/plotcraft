@@ -17,6 +17,7 @@ class RichToolbar extends StatelessWidget {
     required this.onFind,
     required this.onToggleFullscreen,
     required this.onSave,
+    this.extraActions = const [],
     this.fonts = bundledEditorFonts,
   });
 
@@ -27,6 +28,9 @@ class RichToolbar extends StatelessWidget {
   final VoidCallback onFind;
   final VoidCallback onToggleFullscreen;
   final VoidCallback onSave;
+
+  /// Actions placed before find: linking elements, images, dividers.
+  final List<Widget> extraActions;
 
   /// Display name -> family for the font menu.
   final Map<String, String> fonts;
@@ -79,6 +83,7 @@ class RichToolbar extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                ...extraActions,
                 PlotcraftIconButton(
                   icon: Feather.search,
                   tooltip: 'book.find'.tr(),

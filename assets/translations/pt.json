@@ -383,6 +383,14 @@
     "replace_all": "Substituir tudo",
     "close_find": "Fechar busca",
     "placeholder": "Comece a escrever…",
-    "add_to_dictionary": "Adicionar ao dicionário"
+    "add_to_dictionary": "Adicionar ao dicionário",
+    "mention_title": "Ligar a um elemento",
+    "no_elements": "Crie elementos para ligá-los no texto.",
+    "insert_mention": "Ligar a um elemento (@)",
+    "insert_image": "Inserir imagem da galeria",
+    "insert_divider": "Inserir divisor",
+    "image": "imagem",
+    "image_missing": "Imagem não encontrada na galeria",
+    "external_image": "Imagem externa"
   }
 }

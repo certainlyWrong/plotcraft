@@ -1,13 +1,24 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../core/spellcheck/quill_spell_checker.dart';
 import '../../../../core/spellcheck/spell_check_backend.dart';
+import '../../../../core/ui/plotcraft_icon_button.dart';
+import '../../domain/element_type.dart';
+import '../../domain/gallery_item.dart';
+import '../../domain/narrative_element.dart';
+import '../../domain/rich/mention_edit.dart';
 import '../../domain/rich/quill_find_replace.dart';
 import '../../domain/rich/rich_document.dart';
+import '../elements/gallery_picker_dialog.dart';
+import 'element_mention_picker.dart';
+import 'embeds.dart';
 import 'find_bar.dart';
 import 'rich_toolbar.dart';
 
@@ -22,6 +33,9 @@ class BookEditor extends StatefulWidget {
     required this.onSave,
     required this.onToggleFullscreen,
     required this.onOpenElement,
+    this.elements = const [],
+    this.types = const [],
+    this.galleryItems = const [],
     this.backend = const MethodChannelSpellCheckBackend(),
   });
 
@@ -34,6 +48,13 @@ class BookEditor extends StatefulWidget {
 
   /// Opens the element whose mention was Cmd/Ctrl-clicked.
   final ValueChanged<String> onOpenElement;
+
+  /// Elements that can be linked from the text, and their types.
+  final List<NarrativeElement> elements;
+  final List<ElementType> types;
+
+  /// Gallery images that can be shown in the text.
+  final List<GalleryItem> galleryItems;
 
   /// The system spell checker (a fake in tests).
   final SpellCheckBackend backend;
@@ -50,6 +71,7 @@ class _BookEditorState extends State<BookEditor> {
   late final QuillSpellChecker _spell;
   bool _showFind = false;
   bool _spellStarted = false;
+  StreamSubscription<DocChange>? _changes;
 
   QuillFindReplace get _search => QuillFindReplace(widget.controller);
 
@@ -60,6 +82,7 @@ class _BookEditorState extends State<BookEditor> {
       backend: widget.backend,
       locale: const Locale('en'),
     );
+    _changes = widget.controller.document.changes.listen(_onDocumentChange);
   }
 
   @override
@@ -81,17 +104,93 @@ class _BookEditorState extends State<BookEditor> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       _spell.attach(widget.controller);
+      unawaited(_changes?.cancel());
+      _changes = widget.controller.document.changes.listen(_onDocumentChange);
     }
   }
 
   @override
   void dispose() {
+    unawaited(_changes?.cancel());
     _spell.dispose();
     _focus.dispose();
     _scroll.dispose();
     _find.dispose();
     _replace.dispose();
     super.dispose();
+  }
+
+  /// Typing `@` at the start of a word opens the element picker.
+  void _onDocumentChange(DocChange change) {
+    if (change.source != ChangeSource.local) return;
+    final ops = change.change.toList();
+    var index = 0;
+    Object? inserted;
+    if (ops.length == 1 && ops.first.isInsert) {
+      inserted = ops.first.data;
+    } else if (ops.length == 2 && ops.first.isRetain && ops.last.isInsert) {
+      index = ops.first.length ?? 0;
+      inserted = ops.last.data;
+    }
+    if (inserted != '@') return;
+    final text = widget.controller.document.toPlainText();
+    final before = index == 0 || index > text.length ? '\n' : text[index - 1];
+    // "name@site" is an address, not a mention.
+    if (!RegExp(r'[\s(\[{"“]').hasMatch(before)) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) unawaited(_mentionAt(index));
+    });
+  }
+
+  Future<NarrativeElement?> _pickElement() => showElementMentionPicker(
+    context,
+    elements: widget.elements,
+    types: widget.types,
+  );
+
+  /// Replaces the `@` typed at [index] with the chosen element.
+  Future<void> _mentionAt(int index) async {
+    if (widget.elements.isEmpty) return;
+    final element = await _pickElement();
+    if (element == null || !mounted) {
+      _focus.requestFocus();
+      return;
+    }
+    final text = widget.controller.document.toPlainText();
+    if (index < text.length && text[index] == '@') {
+      MentionEdit.insert(widget.controller, index, 1, element);
+    }
+    _focus.requestFocus();
+  }
+
+  /// Toolbar button: link the selected text, or insert the element's name.
+  Future<void> _linkElement() async {
+    final element = await _pickElement();
+    if (element == null || !mounted) return;
+    final controller = widget.controller;
+    if (!MentionEdit.linkSelection(controller, element)) {
+      final at = controller.selection.isValid ? controller.selection.start : 0;
+      MentionEdit.insert(controller, at, 0, element);
+    }
+    _focus.requestFocus();
+  }
+
+  Future<void> _insertImage() async {
+    final ids = await showGalleryPicker(
+      context,
+      items: widget.galleryItems,
+      selected: const [],
+    );
+    if (ids == null || !mounted) return;
+    for (final id in ids) {
+      MentionEdit.insertGalleryImage(widget.controller, id);
+    }
+    _focus.requestFocus();
+  }
+
+  String? _galleryPath(String id) {
+    final item = widget.galleryItems.where((item) => item.id == id).firstOrNull;
+    return item != null && item.exists ? item.path : null;
   }
 
   void _openFind() {
@@ -142,6 +241,26 @@ class _BookEditorState extends State<BookEditor> {
               onFind: _showFind ? _closeFind : _openFind,
               onToggleFullscreen: widget.onToggleFullscreen,
               onSave: widget.onSave,
+              extraActions: [
+                PlotcraftIconButton(
+                  icon: Feather.at_sign,
+                  tooltip: 'editor.insert_mention'.tr(),
+                  onPressed: _linkElement,
+                ),
+                PlotcraftIconButton(
+                  icon: Feather.image,
+                  tooltip: 'editor.insert_image'.tr(),
+                  onPressed: _insertImage,
+                ),
+                PlotcraftIconButton(
+                  icon: Feather.minus,
+                  tooltip: 'editor.insert_divider'.tr(),
+                  onPressed: () {
+                    MentionEdit.insertDivider(widget.controller);
+                    _focus.requestFocus();
+                  },
+                ),
+              ],
             ),
             if (_showFind)
               ListenableBuilder(
@@ -182,6 +301,11 @@ class _BookEditorState extends State<BookEditor> {
             vertical: 24,
           ),
           maxContentWidth: 820,
+          embedBuilders: [
+            GalleryImageEmbedBuilder(pathOf: _galleryPath),
+            const DividerEmbedBuilder(),
+            const ExternalImageEmbedBuilder(),
+          ],
           textSpanBuilder: _spell.spanBuilder,
           contextMenuBuilder: _spell.buildContextMenu,
           customStyleBuilder: (attribute) =>

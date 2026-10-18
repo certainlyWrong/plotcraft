@@ -383,6 +383,14 @@
     "replace_all": "Replace all",
     "close_find": "Close find",
     "placeholder": "Start writing…",
-    "add_to_dictionary": "Add to dictionary"
+    "add_to_dictionary": "Add to dictionary",
+    "mention_title": "Link an element",
+    "no_elements": "Create elements to link them in the text.",
+    "insert_mention": "Link an element (@)",
+    "insert_image": "Insert gallery image",
+    "insert_divider": "Insert divider",
+    "image": "image",
+    "image_missing": "Image not found in the gallery",
+    "external_image": "External image"
   }
 }
