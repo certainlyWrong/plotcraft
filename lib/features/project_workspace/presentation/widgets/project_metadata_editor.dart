@@ -149,9 +149,9 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
     final theme = Theme.of(context);
     return LayoutBuilder(
       builder: (context, viewport) {
-        final padding = viewport.maxWidth < 850 ? 24.0 : 46.0;
+        const padding = 28.0;
         return SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(padding, 32, padding, 56),
+          padding: const EdgeInsets.fromLTRB(padding, 24, padding, 32),
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 1120),
@@ -238,7 +238,7 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
   Widget _fields(BuildContext context) => Card(
     elevation: 0,
     child: Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -348,7 +348,7 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
     return Card(
       elevation: 0,
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -364,7 +364,9 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
               width: double.infinity,
               child: _coverSourcePath != null
                   ? ClipRRect(
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(
+                        PlotcraftRadii.surface,
+                      ),
                       child: ProjectImage(
                         _coverSourcePath!,
                         fallback: Center(
@@ -415,13 +417,15 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
                             });
                             widget.onChanged();
                           },
-                    borderRadius: BorderRadius.circular(9),
+                    borderRadius: BorderRadius.circular(PlotcraftRadii.control),
                     child: Container(
                       width: 55,
                       height: 43,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(colors: coverPalettes[index]),
-                        borderRadius: BorderRadius.circular(9),
+                        borderRadius: BorderRadius.circular(
+                          PlotcraftRadii.control,
+                        ),
                         border: Border.all(
                           color: selected
                               ? theme.colorScheme.primary

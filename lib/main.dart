@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:window_manager/window_manager.dart';
 
 import 'app/plotcraft_app.dart';
+import 'core/platform/window_service.dart';
 import 'data/local_storage.dart';
 import 'data/project_repository.dart';
 import 'features/project_creation/data/project_creation_service.dart';
@@ -14,7 +14,7 @@ import 'stores/theme_store.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
+  await WindowService.configure();
   await EasyLocalization.ensureInitialized();
 
   final supportedLocales = await _loadLocalesFromAssets();

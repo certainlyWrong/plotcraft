@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/plotcraft_tokens.dart';
+
 class PlotcraftDropdown<T> extends StatelessWidget {
   const PlotcraftDropdown({
     super.key,
@@ -18,7 +20,7 @@ class PlotcraftDropdown<T> extends StatelessWidget {
     items: items,
     onChanged: onChanged,
     isExpanded: true,
-    borderRadius: BorderRadius.circular(11),
+    borderRadius: BorderRadius.circular(PlotcraftRadii.control),
     dropdownColor: Theme.of(context).colorScheme.surfaceContainer,
     menuMaxHeight: 360,
   );

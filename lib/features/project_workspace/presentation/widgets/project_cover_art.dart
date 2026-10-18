@@ -24,7 +24,7 @@ class ProjectCoverArt extends StatelessWidget {
         ? null
         : p.join(project.directoryPath!, project.coverFile!);
     return ClipRRect(
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(PlotcraftRadii.surface),
       child: Stack(
         fit: StackFit.expand,
         children: [

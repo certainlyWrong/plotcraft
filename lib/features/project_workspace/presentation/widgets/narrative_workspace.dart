@@ -305,24 +305,11 @@ class NarrativeWorkspaceState extends State<NarrativeWorkspace> {
   }
 
   @override
-  Widget build(BuildContext context) => LayoutBuilder(
-    builder: (context, constraints) {
-      final list = _elementList(context);
-      final detail = _detail(context);
-      return constraints.maxWidth >= 800
-          ? Row(
-              children: [
-                SizedBox(width: 260, child: list),
-                Expanded(child: detail),
-              ],
-            )
-          : Column(
-              children: [
-                SizedBox(height: 180, child: list),
-                Expanded(child: detail),
-              ],
-            );
-    },
+  Widget build(BuildContext context) => Row(
+    children: [
+      SizedBox(width: 260, child: _elementList(context)),
+      Expanded(child: _detail(context)),
+    ],
   );
 
   Widget _elementList(BuildContext context) {

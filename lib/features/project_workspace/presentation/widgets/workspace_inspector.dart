@@ -7,6 +7,7 @@ import '../../../../ui/components/plotcraft_button.dart';
 import 'project_cover_art.dart';
 import 'project_tags.dart';
 import 'workspace_sidebar.dart';
+import '../../../../theme/plotcraft_tokens.dart';
 
 class WorkspaceInspector extends StatelessWidget {
   const WorkspaceInspector({
@@ -183,7 +184,7 @@ class WorkspaceInspector extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: scheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(11),
+        borderRadius: BorderRadius.circular(PlotcraftRadii.control),
       ),
       child: Row(
         children: [

@@ -14,6 +14,7 @@ import '../../../../ui/components/plotcraft_icon_button.dart';
 import '../../../../ui/components/plotcraft_popup_menu.dart';
 import '../../../../ui/components/plotcraft_segmented.dart';
 import '../../../../ui/components/plotcraft_text_field.dart';
+import '../../../../theme/plotcraft_tokens.dart';
 
 enum _EditorView { write, split, preview }
 
@@ -194,11 +195,9 @@ class _BookEditorState extends State<BookEditor> {
           if (_showFind) _findBar(context),
           Expanded(
             child: LayoutBuilder(
-              builder: (context, viewport) {
+              builder: (context, _) {
                 final showChapters =
-                    widget.book.chaptersEnabled &&
-                    !widget.fullscreen &&
-                    viewport.maxWidth >= 650;
+                    widget.book.chaptersEnabled && !widget.fullscreen;
                 return Row(
                   children: [
                     if (showChapters) _chapterRail(context),
@@ -482,7 +481,7 @@ class _BookEditorState extends State<BookEditor> {
                   ),
                   decoration: BoxDecoration(
                     color: selected ? theme.colorScheme.primaryContainer : null,
-                    borderRadius: BorderRadius.circular(9),
+                    borderRadius: BorderRadius.circular(PlotcraftRadii.control),
                   ),
                   child: Row(
                     children: [

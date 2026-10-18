@@ -6,6 +6,7 @@ import '../../../../models/story_project.dart';
 import '../../../../ui/components/plotcraft_button.dart';
 import 'project_cover_art.dart';
 import '../../../../ui/components/project_image.dart';
+import '../../../../theme/plotcraft_tokens.dart';
 
 class ProjectOverview extends StatelessWidget {
   const ProjectOverview({
@@ -32,110 +33,84 @@ class ProjectOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return LayoutBuilder(
-      builder: (context, viewport) {
-        final padding = viewport.maxWidth < 850 ? 24.0 : 46.0;
-        return SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(padding, 32, padding, 56),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1120),
-              child: Column(
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(28, 24, 28, 32),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1120),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'workspace.overview'.tr(),
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'workspace.overview_intro'.tr(),
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 18),
+              _hero(context),
+              const SizedBox(height: 18),
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'workspace.overview'.tr(),
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'workspace.overview_intro'.tr(),
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  _hero(context),
-                  const SizedBox(height: 24),
-                  LayoutBuilder(
-                    builder: (context, content) {
-                      final manuscriptCard = _manuscriptCard(context);
-                      final galleryCard = _galleryCard(context);
-                      if (content.maxWidth < 800) {
-                        return Column(
-                          children: [
-                            manuscriptCard,
-                            const SizedBox(height: 16),
-                            galleryCard,
-                          ],
-                        );
-                      }
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(flex: 4, child: manuscriptCard),
-                          const SizedBox(width: 18),
-                          Expanded(flex: 6, child: galleryCard),
-                        ],
-                      );
-                    },
-                  ),
+                  Expanded(flex: 4, child: _manuscriptCard(context)),
+                  const SizedBox(width: 16),
+                  Expanded(flex: 6, child: _galleryCard(context)),
                 ],
               ),
-            ),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
   Widget _hero(BuildContext context) {
     final theme = Theme.of(context);
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final cover = SizedBox(
-          height: constraints.maxWidth < 760 ? 210 : 282,
-          child: ProjectCoverArt(project: project),
-        );
-        final summary = Card(
-          elevation: 0,
-          child: Padding(
-            padding: const EdgeInsets.all(25),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _eyebrow(context, 'workspace.about_story'.tr()),
-                const SizedBox(height: 12),
-                Text(
-                  project.description.isEmpty
-                      ? 'workspace.description_empty'.tr()
-                      : project.description,
-                  maxLines: 5,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.bodyLarge?.copyWith(height: 1.45),
-                ),
-                const SizedBox(height: 19),
-              ],
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 5,
+          child: SizedBox(
+            height: 240,
+            child: ProjectCoverArt(project: project),
+          ),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          flex: 6,
+          child: Card(
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _eyebrow(context, 'workspace.about_story'.tr()),
+                  const SizedBox(height: 10),
+                  Text(
+                    project.description.isEmpty
+                        ? 'workspace.description_empty'.tr()
+                        : project.description,
+                    maxLines: 5,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodyLarge?.copyWith(height: 1.45),
+                  ),
+                  const SizedBox(height: 12),
+                ],
+              ),
             ),
           ),
-        );
-        if (constraints.maxWidth < 760) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [cover, const SizedBox(height: 14), summary],
-          );
-        }
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(flex: 5, child: cover),
-            const SizedBox(width: 18),
-            Expanded(flex: 6, child: summary),
-          ],
-        );
-      },
+        ),
+      ],
     );
   }
 
@@ -145,7 +120,7 @@ class ProjectOverview extends StatelessWidget {
     return Card(
       elevation: 0,
       child: Padding(
-        padding: const EdgeInsets.all(23),
+        padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -196,7 +171,7 @@ class ProjectOverview extends StatelessWidget {
     return Card(
       elevation: 0,
       child: Padding(
-        padding: const EdgeInsets.all(23),
+        padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -219,7 +194,7 @@ class ProjectOverview extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primary.withValues(alpha: .06),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -246,40 +221,35 @@ class ProjectOverview extends StatelessWidget {
                 ),
               )
             else
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  final previewCount = constraints.maxWidth < 360 ? 2 : 3;
-                  return SizedBox(
-                    height: 142,
-                    child: Row(
-                      children: [
-                        for (
-                          var index = 0;
-                          index < images.length && index < previewCount;
-                          index++
-                        ) ...[
-                          if (index > 0) const SizedBox(width: 9),
-                          Expanded(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(11),
-                              child: ProjectImage(
-                                images[index],
-                                height: double.infinity,
-                                cacheWidth: 600,
-                                fallback: ColoredBox(
-                                  color: theme.colorScheme.surfaceContainer,
-                                  child: const Center(
-                                    child: Icon(Feather.image),
-                                  ),
-                                ),
-                              ),
+              SizedBox(
+                height: 142,
+                child: Row(
+                  children: [
+                    for (
+                      var index = 0;
+                      index < images.length && index < 3;
+                      index++
+                    ) ...[
+                      if (index > 0) const SizedBox(width: 9),
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                            PlotcraftRadii.control,
+                          ),
+                          child: ProjectImage(
+                            images[index],
+                            height: double.infinity,
+                            cacheWidth: 600,
+                            fallback: ColoredBox(
+                              color: theme.colorScheme.surfaceContainer,
+                              child: const Center(child: Icon(Feather.image)),
                             ),
                           ),
-                        ],
-                      ],
-                    ),
-                  );
-                },
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ),
             const SizedBox(height: 20),
             Wrap(
@@ -316,7 +286,7 @@ class ProjectOverview extends StatelessWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: theme.colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(PlotcraftRadii.control),
           ),
           child: Icon(
             icon,

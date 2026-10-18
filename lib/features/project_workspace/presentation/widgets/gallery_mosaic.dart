@@ -26,18 +26,12 @@ class GalleryMosaic extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) {
-      final columns = constraints.maxWidth >= 1100
-          ? 4
-          : constraints.maxWidth >= 680
-          ? 3
-          : constraints.maxWidth >= 420
-          ? 2
-          : 1;
+      final columns = constraints.maxWidth >= 1100 ? 4 : 3;
       final columnImages = List.generate(columns, (_) => <int>[]);
       for (var index = 0; index < images.length; index++) {
         columnImages[index % columns].add(index);
       }
-      final gap = constraints.maxWidth < 680 ? 7.0 : 10.0;
+      const gap = 10.0;
       final columnWidth =
           (constraints.maxWidth - gap * (columns + 1)) / columns;
 

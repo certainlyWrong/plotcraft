@@ -84,7 +84,7 @@ class ThemeDefinition {
     return base.copyWith(
       extensions: const [PlotcraftTokens()],
       scaffoldBackgroundColor: background,
-      visualDensity: VisualDensity.standard,
+      visualDensity: VisualDensity.compact,
       splashFactory: InkSparkle.splashFactory,
       focusColor: accent.withValues(alpha: .12),
       hoverColor: accent.withValues(alpha: .06),
@@ -100,7 +100,7 @@ class ThemeDefinition {
         elevation: 0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
           side: BorderSide(color: subtleBorder),
         ),
       ),
@@ -121,7 +121,7 @@ class ThemeDefinition {
         surfaceTintColor: Colors.transparent,
         elevation: 12,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(PlotcraftRadii.surface),
           side: BorderSide(color: subtleBorder),
         ),
         titleTextStyle: text.titleLarge?.copyWith(
@@ -139,10 +139,10 @@ class ThemeDefinition {
           foregroundColor: scheme.onPrimary,
           disabledBackgroundColor: scheme.onSurface.withValues(alpha: .12),
           disabledForegroundColor: scheme.onSurface.withValues(alpha: .38),
-          minimumSize: const Size(0, 44),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
+          minimumSize: const Size(0, 34),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(11),
+            borderRadius: BorderRadius.circular(PlotcraftRadii.control),
           ),
           textStyle: text.labelLarge?.copyWith(fontWeight: FontWeight.w600),
         ),
@@ -150,11 +150,11 @@ class ThemeDefinition {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: scheme.primary,
-          minimumSize: const Size(0, 44),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
+          minimumSize: const Size(0, 34),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
           side: BorderSide(color: scheme.outlineVariant),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(11),
+            borderRadius: BorderRadius.circular(PlotcraftRadii.control),
           ),
           textStyle: text.labelLarge?.copyWith(fontWeight: FontWeight.w600),
         ),
@@ -162,10 +162,10 @@ class ThemeDefinition {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: scheme.primary,
-          minimumSize: const Size(0, 44),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          minimumSize: const Size(0, 34),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(PlotcraftRadii.control),
           ),
           textStyle: text.labelLarge?.copyWith(fontWeight: FontWeight.w600),
         ),
@@ -178,8 +178,8 @@ class ThemeDefinition {
         labelStyle: text.bodyLarge?.copyWith(color: scheme.onSurfaceVariant),
         floatingLabelStyle: text.bodyLarge?.copyWith(color: scheme.primary),
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 14,
+          horizontal: 12,
+          vertical: 10,
         ),
         border: _fieldBorder(subtleBorder),
         enabledBorder: _fieldBorder(subtleBorder),
@@ -190,9 +190,11 @@ class ThemeDefinition {
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
           foregroundColor: WidgetStatePropertyAll(scheme.onSurfaceVariant),
-          minimumSize: const WidgetStatePropertyAll(Size(40, 40)),
+          minimumSize: const WidgetStatePropertyAll(Size(32, 32)),
           shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+            ),
           ),
           overlayColor: WidgetStatePropertyAll(
             scheme.primary.withValues(alpha: .08),
@@ -204,7 +206,7 @@ class ThemeDefinition {
         surfaceTintColor: Colors.transparent,
         elevation: 8,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
           side: BorderSide(color: scheme.outlineVariant),
         ),
         menuPadding: const EdgeInsets.symmetric(vertical: 6),
@@ -226,7 +228,9 @@ class ThemeDefinition {
           color: scheme.onPrimaryContainer,
         ),
         side: BorderSide(color: scheme.outlineVariant),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+        ),
       ),
       tooltipTheme: TooltipThemeData(
         decoration: BoxDecoration(
@@ -250,7 +254,9 @@ class ThemeDefinition {
           color: scheme.onInverseSurface,
         ),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
+        ),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: ButtonStyle(
@@ -308,7 +314,7 @@ class ThemeDefinition {
 
   static OutlineInputBorder _fieldBorder(Color color, {double width = 1}) =>
       OutlineInputBorder(
-        borderRadius: BorderRadius.circular(11),
+        borderRadius: BorderRadius.circular(PlotcraftRadii.control),
         borderSide: BorderSide(color: color, width: width),
       );
 

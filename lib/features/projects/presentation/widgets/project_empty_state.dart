@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../ui/components/plotcraft_button.dart';
+import '../../../../theme/plotcraft_tokens.dart';
 
 class ProjectEmptyState extends StatelessWidget {
   const ProjectEmptyState({
@@ -22,7 +23,7 @@ class ProjectEmptyState extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 65, horizontal: 24),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface.withValues(alpha: .62),
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(PlotcraftRadii.surface),
         border: Border.all(color: theme.colorScheme.outlineVariant),
       ),
       child: Column(

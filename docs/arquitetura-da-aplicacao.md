@@ -23,7 +23,7 @@ As regras de negócio ficam em stores MobX, separadas da interface e do acesso a
 - `lib/features/projects/presentation/project_home_screen.dart` coordena a área de trabalho e conecta as páginas às stores.
 - `lib/features/projects/presentation/screens/` contém a página de preferências. A biblioteca abre a página da feature de criação dentro da janela principal.
 - `lib/features/projects/presentation/widgets/` contém a barra lateral persistente, barra superior da biblioteca, cartões/grade de projetos e estado vazio.
-- `lib/ui/components/` reúne botões, campos de texto, seletores e menus reutilizáveis; cores, foco, bordas e estados visuais vêm do tema ativo. As áreas de biblioteca, criação e preferências compartilham o mesmo shell desktop.
+- `lib/ui/components/` reúne botões, campos de texto, seletores, menus, diálogos (`PlotcraftDialog`, `showConfirmDialog`), botões de ícone, alternador de visões e `ProjectImage` reutilizáveis; cores, foco, bordas e estados visuais vêm do tema ativo. As áreas de biblioteca, criação e preferências compartilham o mesmo shell desktop.
 - A interface usa ícones Feather do pacote `icons_flutter`; a tipografia padrão é Times New Roman, com famílias Google Fonts selecionáveis.
 - `assets/translations/` contém os arquivos JSON carregados pelo `easy_localization`.
 - `assets/themes/` contém temas adicionais em JSON, carregados pelo `ThemeStore`.

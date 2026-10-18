@@ -20,6 +20,7 @@ import 'widgets/project_grid.dart';
 import 'widgets/project_sidebar.dart';
 import 'widgets/project_top_bar.dart';
 import 'screens/preferences_screen.dart';
+import '../../../theme/plotcraft_tokens.dart';
 
 enum _DesktopPage { projects, createProject, preferences }
 
@@ -166,12 +167,7 @@ class _ProjectsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) => SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(
-        constraints.maxWidth < 900 ? 28 : 56,
-        38,
-        constraints.maxWidth < 900 ? 28 : 56,
-        56,
-      ),
+      padding: const EdgeInsets.fromLTRB(32, 28, 32, 32),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1480),
@@ -354,10 +350,18 @@ class _ProjectSectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final compact = constraints.maxWidth < 440;
-        final sortMenu = PlotcraftPopupMenuButton<String>(
+    return Row(
+      children: [
+        Text(
+          'home.projects'.tr(),
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(width: 9),
+        _CountBadge(count: count),
+        const Spacer(),
+        PlotcraftPopupMenuButton<String>(
           initialValue: sortBy,
           onSelected: onSort,
           itemBuilder: (_) => [
@@ -366,41 +370,21 @@ class _ProjectSectionHeader extends StatelessWidget {
           ],
           tooltip: 'home.sort'.tr(),
           child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: compact
-                ? Icon(
-                    Feather.filter,
-                    size: 19,
-                    color: theme.colorScheme.onSurfaceVariant,
-                  )
-                : Row(
-                    children: [
-                      Icon(
-                        Feather.filter,
-                        size: 19,
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                      const SizedBox(width: 7),
-                      Text('home.sort'.tr(), style: theme.textTheme.labelLarge),
-                    ],
-                  ),
-          ),
-        );
-        return Row(
-          children: [
-            Text(
-              'home.projects'.tr(),
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+            padding: const EdgeInsets.all(6),
+            child: Row(
+              children: [
+                Icon(
+                  Feather.filter,
+                  size: 16,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(width: 6),
+                Text('home.sort'.tr(), style: theme.textTheme.labelLarge),
+              ],
             ),
-            const SizedBox(width: 9),
-            _CountBadge(count: count),
-            const Spacer(),
-            sortMenu,
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -417,7 +401,7 @@ class _CountBadge extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
       decoration: BoxDecoration(
         color: theme.colorScheme.primary.withValues(alpha: .1),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(PlotcraftRadii.surface),
       ),
       child: Text(
         '$count',

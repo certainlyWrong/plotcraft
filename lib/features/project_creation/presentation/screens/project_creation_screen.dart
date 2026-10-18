@@ -152,9 +152,9 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
         final isCreating = widget.store.isCreating;
         return LayoutBuilder(
           builder: (context, page) {
-            final padding = page.maxWidth < 900 ? 24.0 : 52.0;
+            const padding = 28.0;
             return SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(padding, 32, padding, 56),
+              padding: const EdgeInsets.fromLTRB(padding, 24, padding, 32),
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 1180),
@@ -220,7 +220,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
     return Card(
       elevation: 0,
       child: Padding(
-        padding: const EdgeInsets.all(28),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -334,7 +334,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
     return Card(
       elevation: 0,
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -347,7 +347,7 @@ class _ProjectCreationScreenState extends State<ProjectCreationScreen> {
             AspectRatio(
               aspectRatio: 1.5,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(13),
+                borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
@@ -530,7 +530,7 @@ class _SectionHeading extends StatelessWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: theme.colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(PlotcraftRadii.control),
           ),
           child: Text(
             number,
@@ -580,13 +580,13 @@ class _CoverChoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) => InkWell(
     onTap: onTap,
-    borderRadius: BorderRadius.circular(9),
+    borderRadius: BorderRadius.circular(PlotcraftRadii.control),
     child: Container(
       width: 62,
       height: 46,
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: colors),
-        borderRadius: BorderRadius.circular(9),
+        borderRadius: BorderRadius.circular(PlotcraftRadii.control),
         border: Border.all(
           color: selected
               ? Theme.of(context).colorScheme.primary

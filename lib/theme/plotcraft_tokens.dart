@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+/// Corner radii for a dense desktop look: small for controls, larger only for
+/// surfaces such as cards and dialogs.
+abstract final class PlotcraftRadii {
+  static const control = 6.0;
+  static const panel = 8.0;
+  static const surface = 10.0;
+}
+
 /// Colors for content drawn over images (covers, gallery, viewer). They do not
 /// follow the app palette because the image underneath is what sets the
 /// contrast, so they live in one place instead of being spread as literals.

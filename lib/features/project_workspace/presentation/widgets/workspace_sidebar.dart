@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../models/story_project.dart';
+import '../../../../theme/plotcraft_tokens.dart';
 
 // The workspace keeps a compact navigation rail as its window narrows. Labels
 // remain available as tooltips so the project still feels like a desktop tool.
@@ -70,7 +71,7 @@ class WorkspaceSidebar extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 11),
               decoration: BoxDecoration(
                 color: scheme.surfaceContainerLow,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(PlotcraftRadii.control),
               ),
               child: Text(
                 project.title,
@@ -124,7 +125,7 @@ class WorkspaceSidebar extends StatelessWidget {
       message: compact ? 'workspace.back_to_library'.tr() : '',
       child: InkWell(
         onTap: onBack,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(PlotcraftRadii.control),
         child: SizedBox(
           height: 42,
           child: Row(
@@ -169,13 +170,13 @@ class WorkspaceSidebar extends StatelessWidget {
       message: compact ? label : '',
       child: InkWell(
         onTap: () => onSelect(section),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(PlotcraftRadii.control),
         child: Container(
           height: 42,
           padding: EdgeInsets.symmetric(horizontal: compact ? 0 : 11),
           decoration: BoxDecoration(
             color: active ? scheme.primaryContainer : Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(PlotcraftRadii.control),
           ),
           child: Row(
             mainAxisAlignment: compact
@@ -224,7 +225,7 @@ class _BrandMark extends StatelessWidget {
     height: 34,
     decoration: BoxDecoration(
       color: color,
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(PlotcraftRadii.control),
     ),
     alignment: Alignment.center,
     child: Icon(

@@ -9,6 +9,7 @@ import '../../../../theme/interface_fonts.dart';
 import '../../../../theme/theme_definition.dart';
 import '../../../../ui/components/plotcraft_button.dart';
 import '../../../../ui/components/plotcraft_dropdown.dart';
+import '../../../../theme/plotcraft_tokens.dart';
 
 class PreferencesScreen extends StatelessWidget {
   const PreferencesScreen({
@@ -45,12 +46,7 @@ class PreferencesScreen extends StatelessWidget {
     final theme = Theme.of(context);
     return LayoutBuilder(
       builder: (context, pageConstraints) => SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(
-          pageConstraints.maxWidth < 900 ? 28 : 56,
-          38,
-          pageConstraints.maxWidth < 900 ? 28 : 56,
-          56,
-        ),
+        padding: const EdgeInsets.fromLTRB(32, 28, 32, 32),
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 1040),
@@ -226,7 +222,7 @@ class _SettingsPanel extends StatelessWidget {
   Widget build(BuildContext context) => Card(
     elevation: 0,
     child: Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -264,12 +260,12 @@ class _ThemeChoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) => InkWell(
     onTap: onTap,
-    borderRadius: BorderRadius.circular(12),
+    borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
     child: Container(
       width: 176,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
         border: Border.all(
           color: selected
               ? Theme.of(context).colorScheme.primary

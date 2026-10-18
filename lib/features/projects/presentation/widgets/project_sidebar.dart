@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
+import '../../../../theme/plotcraft_tokens.dart';
+
 class ProjectSidebar extends StatelessWidget {
   const ProjectSidebar({
     super.key,
@@ -104,7 +106,7 @@ class _BrandMark extends StatelessWidget {
     height: 35,
     decoration: BoxDecoration(
       color: color,
-      borderRadius: BorderRadius.circular(11),
+      borderRadius: BorderRadius.circular(PlotcraftRadii.control),
     ),
     child: Icon(
       Feather.book_open,
@@ -151,7 +153,7 @@ class _NavigationItem extends StatelessWidget {
         width: double.infinity,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(11),
+          borderRadius: BorderRadius.circular(PlotcraftRadii.control),
           child: Container(
             padding: EdgeInsets.symmetric(
               horizontal: compact ? 0 : 12,
@@ -161,7 +163,7 @@ class _NavigationItem extends StatelessWidget {
               color: selected
                   ? theme.colorScheme.primaryContainer
                   : Colors.transparent,
-              borderRadius: BorderRadius.circular(11),
+              borderRadius: BorderRadius.circular(PlotcraftRadii.control),
             ),
             child: compact
                 ? Center(child: iconWidget)

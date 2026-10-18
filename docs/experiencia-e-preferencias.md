@@ -4,6 +4,10 @@
 
 Plotcraft é essencialmente desktop. A interface principal deve priorizar navegação confortável entre projetos e um espaço de trabalho adequado a sessões longas de desenvolvimento de histórias. A tecnologia atual é Flutter; requisitos específicos de plataformas e comportamento de janelas ainda precisam ser definidos.
 
+## Janela e densidade
+
+A janela abre com 1280x800 e tem tamanho mínimo de 1000x680 (`lib/core/platform/window_service.dart`). Por isso as telas não têm layouts de largura de celular. A interface usa densidade compacta: botões de 34 px, campos e ícones de 32 px e cantos pequenos (6 px em controles, 8 px em painéis e 10 px em superfícies, definidos em `PlotcraftRadii`). Cores de texto e ícones sobre imagens ficam em `PlotcraftTokens` (`lib/theme/plotcraft_tokens.dart`).
+
 ## Temas
 
 O aplicativo oferece temas visuais selecionáveis e salva a escolha localmente. Violet (padrão), Paper, Midnight, Lavender, Moss, Rose, Ocean e Plum possuem variantes claras e escuras definidas em código. Também é possível incluir temas JSON em `assets/themes/`; o app encontra esses arquivos no manifesto de assets e os adiciona à lista de temas.

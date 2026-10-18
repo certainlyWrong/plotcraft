@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/plotcraft_tokens.dart';
+
 class PlotcraftPopupMenuButton<T> extends StatelessWidget {
   const PlotcraftPopupMenuButton({
     super.key,
@@ -31,7 +33,9 @@ class PlotcraftPopupMenuButton<T> extends StatelessWidget {
     clipBehavior: Clip.antiAlias,
     style: ButtonStyle(
       shape: WidgetStatePropertyAll(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+        ),
       ),
       overlayColor: WidgetStatePropertyAll(
         Theme.of(context).colorScheme.primary.withValues(alpha: .08),
