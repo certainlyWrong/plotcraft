@@ -28,7 +28,7 @@ lib/
   - `presentation/` tem a tela inicial, a barra lateral, o cabeçalho, os cartões e as paletas de capa.
 - **`features/project_creation/`**: `ProjectCreationStore` e a página de criação.
 - **`features/project_workspace/`**
-  - `domain/` tem o livro, os elementos narrativos e as extensões de Markdown.
+  - `domain/` tem o livro (Deltas), os elementos narrativos, a conversão Delta↔Markdown, o índice de menções e a busca de ocorrências.
   - `data/` tem um repositório por assunto, todos sobre `ProjectFiles` (manifesto e escritas atômicas): `BookRepository`, `NarrativeRepository`, `GalleryRepository` e `ProjectMetadataRepository`. `ProjectWorkspaceRepository` os agrupa e carrega tudo de uma vez.
   - `stores/` tem `ProjectWorkspaceStore`: projeto aberto, manuscrito, galeria, metadados e estados das operações.
   - `stores/` tem também `WorkspaceController` (MobX): abas abertas, painel lateral, inspetor, tamanhos dos painéis, buffers de texto dos capítulos e salvamento automático. Ele não abre diálogos; quem pergunta ao usuário é `WorkspaceActions`.
@@ -59,4 +59,4 @@ Para adicionar um tema, crie um JSON em `assets/themes/` conforme o contrato des
 
 ## Limites atuais
 
-A área inicial de desktop permite criar, localizar, ordenar, abrir e excluir projetos, além de configurar idioma, tema, fonte e pasta base em páginas próprias. O projeto aberto é um espaço de trabalho em painéis: barra de atividades, painel lateral com capítulos ou elementos, área de abas (visão geral, configurações do projeto, galeria, capítulos e elementos abertos ao mesmo tempo) e inspetor, todos redimensionáveis, com larguras salvas localmente. O editor ainda é Markdown para manuscrito único ou capítulos. O índice do livro e os elementos são persistidos em arquivos próprios dentro da pasta do projeto; o workspace coordena essas regras pela `ProjectWorkspaceStore`.
+A área inicial de desktop permite criar, localizar, ordenar, abrir e excluir projetos, além de configurar idioma, tema, fonte e pasta base em páginas próprias. O projeto aberto é um espaço de trabalho em painéis: barra de atividades, painel lateral com capítulos ou elementos, área de abas (visão geral, configurações do projeto, galeria, capítulos e elementos abertos ao mesmo tempo) e inspetor, todos redimensionáveis, com larguras salvas localmente. O editor é de texto rico (`flutter_quill`) para o manuscrito único ou capítulos, com corretor ortográfico do sistema, menções a elementos (`@` ou detecção automática dos nomes), imagens da galeria e fontes do projeto. O índice do livro e os elementos são persistidos em arquivos próprios dentro da pasta do projeto; o workspace coordena essas regras pela `ProjectWorkspaceStore`.

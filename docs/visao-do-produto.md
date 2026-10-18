@@ -21,4 +21,4 @@ O projeto é a estrutura central do produto. Ele identifica a história, apresen
 
 ## Estado
 
-Esta é a direção pretendida para o produto. A área desktop de projetos permite criar e abrir histórias. O espaço de trabalho reúne visão geral, manuscrito Markdown, galeria e elementos narrativos. Referências no manuscrito ligam a escrita aos elementos do projeto.
+Esta é a direção pretendida para o produto. A área desktop de projetos permite criar e abrir histórias. O espaço de trabalho reúne visão geral, manuscrito em texto rico, galeria e elementos narrativos. Referências no manuscrito ligam a escrita aos elementos do projeto.

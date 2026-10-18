@@ -21,6 +21,7 @@ Documentos/Plotcraft/
     content/
       book/
         book.json
+        manuscript.delta.json
         manuscript.md
         chapters/
       narrative/
@@ -32,15 +33,23 @@ Documentos/Plotcraft/
 - `project.json` contém os metadados comuns e a versão do esquema.
 - `covers/` guarda a capa importada, quando escolhida. Enquanto não houver arquivo de capa, `coverIndex` identifica uma capa visual gerada pela interface.
 - `gallery/` reúne imagens de referência e materiais visuais da história. `gallery/index.json` dá a cada imagem um ID estável (`g_...`), para que elementos e textos se refiram a ela sem usar caminho. Arquivos colocados na pasta à mão ganham um ID na leitura seguinte; se um arquivo some, a entrada continua no índice e a imagem aparece como ausente até voltar.
-- `content/book/manuscript.md` é o ponto de partida textual criado automaticamente para um projeto novo.
+- Cada documento do livro (o manuscrito único ou um capítulo) tem dois arquivos: `<nome>.delta.json`, a **fonte da verdade** (formato Delta do editor, com fontes, cores, alinhamento, menções e imagens), e `<nome>.md`, uma cópia legível gerada a partir dele. Cor, fonte e alinhamento não têm forma em Markdown e ficam só no Delta. Alterar o `.md` por fora não muda o livro.
 - `content/book/book.json` define se o livro usa manuscrito único ou capítulos e, nesse caso, guarda a ordem e os títulos. Cada capítulo é um arquivo Markdown em `content/book/chapters/<id>.md`.
 - `content/narrative/elements/` guarda um JSON por elemento narrativo (personagem, lugar, objeto...). Todos compartilham a mesma estrutura; o tipo é um ID que aponta para um tipo de elemento.
 - `content/narrative/types.json` guarda os tipos de elemento **personalizados**. Os oito tipos pré-criados (`character`, `place`, `object`, `creature`, `organization`, `event`, `concept` e `note`) ficam no código, com IDs estáveis, e não são gravados.
 - `content/narrative/attachments/<id do elemento>/` guarda as cópias das imagens que a pessoa anexou do computador a um elemento.
 
+## Formato dos documentos do livro
+
+`<nome>.delta.json` guarda `{schemaVersion: 1, ops: [...]}`. Além do formato padrão do editor, usa: o atributo `mention` (`{id, name}`) no texto ligado a um elemento; o embed `gallery-image` (`{id, width?, align?}`), que aponta uma imagem da galeria pelo ID; e o embed `divider`. Projetos que só têm o `.md` (versões anteriores) são convertidos na primeira abertura: o Markdown original é copiado para `content/book/migration-backup/` (sem sobrescrever) e o `.delta.json` é criado; se o `.delta.json` estiver danificado, o capítulo é lido de novo a partir do `.md` e o arquivo danificado fica como está. Ao unir capítulos em um manuscrito único, cada capítulo ganha seu título como cabeçalho, se ainda não tiver.
+
+## Fontes do projeto
+
+A pasta `fonts/` guarda arquivos `.ttf`, `.otf` ou `.ttc` adicionados pela pessoa, que viajam com o projeto. O editor oferece também as fontes empacotadas e as instaladas no computador. Texto que usa uma fonte que o computador não tem mostra um aviso, e a fonte pode ser adicionada ao projeto.
+
 ## Livro e capítulos
 
-O modo inicial é **manuscrito único**. Projetos anteriores, que ainda não possuem `book.json`, continuam nesse modo e leem normalmente `manuscript.md`. Ao ativar capítulos, o texto atual é copiado para o primeiro capítulo. Ao voltar para manuscrito único, os capítulos são reunidos com títulos em `manuscript.md`. A conversão preserva os arquivos de origem. Remover um capítulo o tira do índice ativo e move o arquivo para `content/book/archive/`. O editor permite adicionar, renomear e reordenar capítulos.
+O modo inicial é **manuscrito único**. Projetos anteriores, que ainda não possuem `book.json`, continuam nesse modo e leem normalmente `manuscript.md`. Ao ativar capítulos, o texto atual é copiado para o primeiro capítulo. Ao voltar para manuscrito único, os capítulos são reunidos com títulos em `manuscript.md`. A conversão preserva os arquivos de origem. Remover um capítulo o tira do índice ativo e move os arquivos (`.delta.json` e `.md`) para `content/book/archive/`. O editor permite adicionar, renomear e reordenar capítulos.
 
 O editor grava Markdown em arquivos legíveis fora do Plotcraft. Oferece formatação, busca e substituição, histórico de desfazer e refazer, prévia, visualização dividida, salvamento automático e modo de tela cheia da janela. No macOS, o campo de edição consulta o corretor nativo via `NSSpellChecker`; em Android e iOS usa o serviço do Flutter. O serviço de correção para Windows e Linux ainda depende de uma integração nativa específica.
 
