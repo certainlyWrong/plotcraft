@@ -1,0 +1,9 @@
+{
+  "id": "ink-and-copper",
+  "name": "Ink & Copper",
+  "brightness": "dark",
+  "background": "#202326",
+  "surface": "#292E31",
+  "foreground": "#F0E8DC",
+  "accent": "#D79A69"
+}

@@ -1,0 +1,42 @@
+name: plotcraft
+description: "A writing app that allows you to create and organize your stories, characters, and plots in a simple and intuitive way."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  shared_preferences: ^2.5.3
+  mobx: ^2.5.0
+  flutter_mobx: ^2.3.0
+  easy_localization: ^3.0.8
+  icons_flutter: ^1.0.0
+  google_fonts: ^8.0.2
+
+  cupertino_icons: ^2.0.0
+  path: ^1.9.1
+  path_provider: ^2.1.6
+  file_selector: ^1.1.0
+  flutter_markdown_plus: ^1.0.12
+  window_manager: ^0.5.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+  build_runner: ^2.5.4
+  mobx_codegen: ^2.7.1
+
+flutter:
+
+  uses-material-design: true
+  assets:
+    - assets/translations/
+    - assets/themes/
+    - assets/fonts/
