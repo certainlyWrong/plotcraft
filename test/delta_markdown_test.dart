@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plotcraft/features/project_workspace/domain/rich/delta_to_markdown.dart';
@@ -132,6 +134,25 @@ void main() {
       expect(RichDocument.plainText(back), 'a dentro b\n');
       expect(back.toList()[1].attributes, {'italic': true});
       expect(back.toList()[1].data, 'dentro');
+    });
+
+    test('o capítulo real de "A Corredora" mantém texto e menção', () {
+      final source = File('test/fixtures/chapter_a_corredora.md')
+          .readAsStringSync();
+      final delta = _toDelta.convert(source);
+      final mentions = [
+        for (final op in delta.toList())
+          if (op.attributes?[RichDocument.mentionKey] != null)
+            (op.attributes![RichDocument.mentionKey] as Map)['id'],
+      ];
+      expect(mentions, ['hnbble1fpk']);
+      final words = RegExp(r'\S+');
+      String normalize(String text) =>
+          words.allMatches(text).map((m) => m.group(0)).join(' ');
+      final markdown = _toMarkdown.convert(delta);
+      // Blank lines may differ; every word and the mention marker survive.
+      expect(normalize(markdown), normalize(source));
+      expect(markdown, contains('[[element:hnbble1fpk|AAAAA]]'));
     });
 
     test('markdown vazio vira um documento vazio', () {
