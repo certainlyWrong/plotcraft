@@ -1,9 +1,9 @@
 import 'package:flutter/painting.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/quill_delta.dart';
+import 'package:dart_quill_delta/dart_quill_delta.dart';
 
-import '../narrative_element.dart';
-import 'rich_document.dart';
+import '../../domain/narrative_element.dart';
+import '../../domain/rich/rich_document.dart';
 
 /// Edits that create element mentions in a [QuillController]. A mention is
 /// text carrying the inline `mention` attribute with the element's ID, so it

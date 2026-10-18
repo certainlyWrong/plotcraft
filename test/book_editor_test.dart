@@ -10,7 +10,7 @@ import 'package:plotcraft/core/ui/project_image.dart';
 import 'package:plotcraft/features/project_workspace/domain/element_type_catalog.dart';
 import 'package:plotcraft/features/project_workspace/domain/gallery_item.dart';
 import 'package:plotcraft/features/project_workspace/domain/narrative_element.dart';
-import 'package:plotcraft/features/project_workspace/domain/rich/quill_find_replace.dart';
+import 'package:plotcraft/features/project_workspace/presentation/manuscript/quill_find_replace.dart';
 import 'package:plotcraft/features/project_workspace/domain/rich/rich_document.dart';
 import 'package:plotcraft/features/project_workspace/presentation/manuscript/book_editor.dart';
 
