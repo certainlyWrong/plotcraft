@@ -276,6 +276,7 @@
     "title_required": "Informe um nome e um tipo.",
     "save_error": "Não foi possível salvar o elemento.",
     "remove": "Remover",
+    "remove_element": "Remover elemento",
     "remove_title": "Remover este elemento?",
     "remove_message": "O arquivo do elemento será arquivado. As menções já escritas no texto permanecerão.",
     "remove_error": "Não foi possível remover o elemento.",

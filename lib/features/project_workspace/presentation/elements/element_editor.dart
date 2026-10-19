@@ -7,7 +7,6 @@ import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_chip_input.dart';
 import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/plotcraft_dropdown.dart';
-import '../../../../core/ui/plotcraft_icon_button.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
 
 import 'package:plotcraft_core/features/project_workspace/domain/book_content.dart';
@@ -379,39 +378,42 @@ class _ElementEditorState extends State<ElementEditor> {
       padding: const EdgeInsets.fromLTRB(28, 18, 28, 12),
       child: Row(
         children: [
-          Flexible(
-            child: Text(
-              _element?.title ?? 'elements.new'.tr(),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+          // Takes all the free width so the save button sits at the right edge.
+          Expanded(
+            child: Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    _element?.title ?? 'elements.new'.tr(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                if (_dirty) ...[
+                  const SizedBox(width: 12),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 9,
+                      vertical: 3,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.tertiaryContainer,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      'elements.unsaved_changes'.tr(),
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: theme.colorScheme.onTertiaryContainer,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
-          if (_dirty) ...[
-            const SizedBox(width: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.tertiaryContainer,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                'elements.unsaved_changes'.tr(),
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.onTertiaryContainer,
-                ),
-              ),
-            ),
-          ],
-          const Spacer(),
-          if (_element != null)
-            PlotcraftIconButton(
-              icon: Feather.trash_2,
-              tooltip: 'elements.remove'.tr(),
-              onPressed: () => widget.onRemove(_element!),
-            ),
           PlotcraftButton(
             icon: Feather.save,
             label: 'workspace.save_project'.tr(),
@@ -421,6 +423,17 @@ class _ElementEditorState extends State<ElementEditor> {
       ),
     );
   }
+
+  /// Destructive action kept away from save, at the end of the page.
+  Widget _removeButton() => Align(
+    alignment: Alignment.centerRight,
+    child: PlotcraftButton(
+      icon: Feather.trash_2,
+      label: 'elements.remove_element'.tr(),
+      variant: PlotcraftButtonVariant.destructive,
+      onPressed: () => widget.onRemove(_element!),
+    ),
+  );
 
   Widget _identityCard(BuildContext context, List<ElementType> types) =>
       ElementSectionCard(
@@ -695,7 +708,10 @@ class _ElementEditorState extends State<ElementEditor> {
                               width: 280,
                               child: SingleChildScrollView(
                                 padding: const EdgeInsets.only(bottom: 32),
-                                child: _summary(context, type),
+                                child: spaced([
+                                  _summary(context, type),
+                                  if (_element != null) _removeButton(),
+                                ]),
                               ),
                             ),
                           ],
@@ -706,6 +722,7 @@ class _ElementEditorState extends State<ElementEditor> {
                         child: spaced([
                           _summary(context, type, compact: true),
                           ...cards,
+                          if (_element != null) _removeButton(),
                         ]),
                       ),
               ),
