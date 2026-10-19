@@ -53,6 +53,10 @@ List<ElementField> _fields(List<Map<String, Object?>> raw) {
             for (final option in (item['options'] as List?) ?? const [])
               '$option',
           ],
+          targetTypes: [
+            for (final type in (item['target_types'] as List?) ?? const [])
+              '$type',
+          ],
         );
       }(),
   ];
@@ -69,8 +73,10 @@ Map<String, Schema> get _typeProperties => {
     description:
         'The details every element of this type has: [{"label": "Level", '
         '"kind": "number"}]. kind is one of ${_kinds.join(', ')}; "choice" '
-        'also takes "options": ["a", "b"]. Replaces the list; keep the "id" '
-        'of existing details so their values stay.',
+        'also takes "options": ["a", "b"]; "element" (one) and "elements" '
+        '(several) point to other elements and take "target_types": '
+        '["place"] to limit which types can be chosen. Replaces the list; '
+        'keep the "id" of existing details so their values stay.',
   ),
 };
 

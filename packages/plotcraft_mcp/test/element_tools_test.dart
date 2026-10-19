@@ -367,4 +367,100 @@ void main() {
     expect(stored['auto'], isFalse);
     expect(stored['ignored_terms'], ['maria']);
   });
+
+  test('o tempo na história: define, lê, troca e remove', () async {
+    final created = await create({
+      'id': 'selamento',
+      'type': 'event',
+      'title': 'O Selamento',
+      'time': {'label': 'Ano 1 da Era das Cinzas', 'position': 1},
+    });
+    expect(created['time'], {
+      'label': 'Ano 1 da Era das Cinzas',
+      'position': 1.0,
+    });
+
+    // Only the label: no position yet.
+    var updated =
+        (await h.call('update_element', {
+              'project': project,
+              'element_id': 'selamento',
+              'time': {'label': 'Há trezentos anos'},
+            })).ok['element']!
+            as Map;
+    expect(updated['time'], {'label': 'Há trezentos anos', 'position': null});
+
+    // Not sending `time` leaves it alone.
+    updated =
+        (await h.call('update_element', {
+              'project': project,
+              'element_id': 'selamento',
+              'summary': 'Guerra do fim da era.',
+            })).ok['element']!
+            as Map;
+    expect((updated['time'] as Map)['label'], 'Há trezentos anos');
+
+    // Empty removes it.
+    updated =
+        (await h.call('update_element', {
+              'project': project,
+              'element_id': 'selamento',
+              'time': <String, Object?>{},
+            })).ok['element']!
+            as Map;
+    expect(updated['time'], isNull);
+
+    final bad = await h.call('update_element', {
+      'project': project,
+      'element_id': 'selamento',
+      'time': {'position': 'tarde'},
+    });
+    expect(bad.isError, isTrue);
+  });
+
+  test(
+    'detalhes que apontam para elementos: ids, títulos, tipo e erros',
+    () async {
+      await create({'id': 'pedralta', 'type': 'place', 'title': 'Pedralta'});
+      await create({'id': 'cinzaluz', 'type': 'place', 'title': 'Cinzaluz'});
+      await create({'id': 'dorrin', 'type': 'character', 'title': 'Dorrin'});
+
+      // Titles are stored as ids; several places are allowed on an event.
+      final event = await create({
+        'id': 'viagem',
+        'type': 'event',
+        'title': 'A viagem',
+        'fields': {'where': 'Pedralta, cinzaluz'},
+      });
+      expect((event['fields'] as Map)['where'], 'pedralta,cinzaluz');
+
+      Future<ToolResult> where(String value) => h.call('update_element', {
+        'project': project,
+        'element_id': 'viagem',
+        'fields': {'where': value},
+      });
+      expect((await where('fantasma')).isError, isTrue);
+      expect((await where('dorrin')).isError, isTrue);
+
+      // One element only for "leader".
+      await create({'id': 'ordem', 'type': 'organization', 'title': 'Ordem'});
+      final leader = await h.call('update_element', {
+        'project': project,
+        'element_id': 'ordem',
+        'fields': {'leader': 'dorrin,pedralta'},
+      });
+      expect(leader.isError, isTrue);
+
+      // Other updates do not trip over older text in the detail.
+      final types = await h.call('list_element_types', {'project': project});
+      final eventType = (types.ok['types']! as List).cast<Map>().firstWhere(
+        (t) => t['id'] == 'event',
+      );
+      final whereField = (eventType['fields']! as List).cast<Map>().firstWhere(
+        (f) => f['id'] == 'where',
+      );
+      expect(whereField['kind'], 'elements');
+      expect(whereField['target_types'], ['place']);
+    },
+  );
 }

@@ -66,6 +66,7 @@ Map<String, Object?> typeJson(ElementType type) => {
         'label': fieldLabel(field),
         'kind': field.kind.name,
         if (field.options.isNotEmpty) 'options': field.options,
+        if (field.targetTypes.isNotEmpty) 'target_types': field.targetTypes,
       },
   ],
 };
@@ -139,6 +140,9 @@ Map<String, Object?> elementJson(ElementRecord record) {
     ],
     'relations': [for (final r in element.relations) relationJson(r)],
     'images': [for (final image in element.images) imageJson(image)],
+    'time': element.time == null
+        ? null
+        : {'label': element.time!.label, 'position': element.time!.position},
     'mention_policy': {
       'auto': element.mentionPolicy.auto,
       'ignored_terms': element.mentionPolicy.ignoredTerms,

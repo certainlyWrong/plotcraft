@@ -307,4 +307,138 @@ void main() {
       expect(await read(), contains('---'));
     },
   );
+
+  group('paridade com o editor', () {
+    Future<List<Map>> delta() async {
+      final content =
+          (await h.call('get_chapter', {
+                'project': project,
+                'chapter_id': chapter,
+                'format': 'delta',
+              })).ok['content']!
+              as List;
+      return content.cast<Map>();
+    }
+
+    /// The attributes of each line break, in order.
+    Future<List<Map?>> lines() async => [
+      for (final op in await delta())
+        if (op['insert'] is String)
+          for (final char in (op['insert']! as String).split(''))
+            if (char == '\n') op['attributes'] as Map?,
+    ];
+
+    Future<void> seed() => h.call('write_chapter', {
+      'project': project,
+      'chapter_id': chapter,
+      'markdown': 'Um título\n\nPrimeira linha.\n\nSegunda linha.',
+    });
+
+    Future<ToolResult> edit(List<Map<String, Object?>> operations) => h.call(
+      'edit_chapter',
+      {'project': project, 'chapter_id': chapter, 'operations': operations},
+    );
+
+    test('cabeçalho, lista, citação, recuo e alinhamento por linha', () async {
+      await seed();
+      final done = await edit([
+        {'op': 'format_text', 'find': 'Um título', 'header': 2},
+        {'op': 'format_text', 'find': 'Primeira', 'list': 'bullet'},
+        {
+          'op': 'format_text',
+          'find': 'Segunda',
+          'quote': true,
+          'align': 'center',
+        },
+      ]);
+      expect(done.isError, isFalse);
+      final found = (await lines()).where((a) => a != null).toList();
+      expect(found, [
+        {'header': 2},
+        {'list': 'bullet'},
+        {'blockquote': true, 'align': 'center'},
+      ]);
+      expect(await read(), contains('## Um título'));
+
+      // Removing them: false, and "left" for alignment.
+      await edit([
+        {'op': 'format_text', 'find': 'Um título', 'header': false},
+        {'op': 'format_text', 'find': 'Primeira', 'list': false},
+        {
+          'op': 'format_text',
+          'find': 'Segunda',
+          'quote': false,
+          'align': 'left',
+        },
+      ]);
+      expect((await lines()).where((a) => a != null), isEmpty);
+    });
+
+    test('inline e linha na mesma operação', () async {
+      await seed();
+      await edit([
+        {'op': 'format_text', 'find': 'Primeira', 'bold': true, 'indent': 2},
+      ]);
+      final ops = await delta();
+      expect(ops.any((o) => o['attributes']?['bold'] == true), isTrue);
+      expect((await lines()).any((a) => a?['indent'] == 2), isTrue);
+    });
+
+    test(
+      'limpar formatação tira inline e linha, e valores ruins são recusados',
+      () async {
+        await seed();
+        await edit([
+          {
+            'op': 'format_text',
+            'find': 'Primeira',
+            'bold': true,
+            'header': 1,
+            'color': '#FF0000',
+          },
+        ]);
+        await edit([
+          {'op': 'clear_format', 'find': 'Primeira'},
+        ]);
+        expect(
+          (await delta()).any((o) => o['attributes']?['bold'] == true),
+          isFalse,
+        );
+        expect((await lines()).where((a) => a != null), isEmpty);
+
+        for (final bad in [
+          {'header': 9},
+          {'align': 'diagonal'},
+          {'list': 'x'},
+          {'indent': 99},
+        ]) {
+          final result = await edit([
+            {'op': 'format_text', 'find': 'Primeira', ...bad},
+          ]);
+          expect(result.isError, isTrue, reason: '$bad');
+        }
+        expect(
+          (await edit([
+            {'op': 'format_text', 'find': 'Primeira'},
+          ])).isError,
+          isTrue,
+        );
+      },
+    );
+
+    test('texto inserido já com estilo', () async {
+      await seed();
+      await edit([
+        {
+          'op': 'insert_after_text',
+          'find': 'Primeira linha.',
+          'text': ' Nova!',
+          'italic': true,
+          'color': '#00FF00',
+        },
+      ]);
+      final styled = (await delta()).firstWhere((o) => o['insert'] == ' Nova!');
+      expect(styled['attributes'], {'italic': true, 'color': '#00FF00'});
+    });
+  });
 }

@@ -61,8 +61,13 @@ claude mcp add plotcraft -- /path/to/plotcraft-mcp --root ~/Documents/plotcraft
    read it again and redo the change.
 3. Write chapters in **Markdown**. Link a name to an element with
    `[[element:<id>|Name]]`, show a gallery image with `![](gallery://<id>)`,
-   a divider is `---`. Colors and fonts exist only in the rich format: use
-   `edit_chapter` with `format_text`.
+   a divider is `---`. Colors, fonts and sizes exist only in the rich format:
+   use `edit_chapter` with `format_text`. The same operation sets the line
+   formats of the editor (`header` 1-3, `list`, `quote`, `indent`, `align`) and
+   `clear_format` removes formatting, so everything the editor's toolbar does
+   to text can be done from here. Undo and redo are the editor's: every write
+   is atomic and protected by `base_revision`, so redo a change by reading the
+   chapter again.
 4. Prefer `edit_chapter` (precise edits that keep formatting and links) over
    rewriting a whole chapter.
 

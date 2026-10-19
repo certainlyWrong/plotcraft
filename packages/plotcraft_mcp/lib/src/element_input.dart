@@ -4,6 +4,7 @@ import 'package:plotcraft_core/features/project_workspace/domain/element_image.d
 import 'package:plotcraft_core/features/project_workspace/domain/element_relation.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/narrative_anchor.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/story_time.dart';
 import 'package:plotcraft_core/features/project_workspace/services/story_error.dart';
 
 import 'args.dart';
@@ -154,6 +155,20 @@ abstract final class ElementInput {
     final relations = args.optObjectList('relations');
     final images = args.optObjectList('images');
     final policy = args.optObject('mention_policy');
+    final timeGiven = args.raw.containsKey('time');
+    final time = timeGiven ? args.optObject('time') : null;
+    final position = time?['position'];
+    if (position != null && (position is! num || !position.isFinite)) {
+      throw const StoryError.validation(
+        'time.position must be a finite number.',
+      );
+    }
+    final storyTime = time == null
+        ? null
+        : StoryTime(
+            label: (time['label'] as String?) ?? '',
+            position: (position as num?)?.toDouble(),
+          );
     element = element.copyWith(
       typeId: args.optString('type'),
       title: title?.trim(),
@@ -174,6 +189,9 @@ abstract final class ElementInput {
           ? null
           : ElementInput.relations(relations, newId),
       images: images == null ? null : [for (final i in images) image(i)],
+      // An empty or null `time` takes the element off the timeline.
+      time: storyTime != null && !storyTime.isEmpty ? storyTime : null,
+      clearTime: timeGiven && (storyTime == null || storyTime.isEmpty),
       mentionPolicy: policy == null
           ? null
           : base.mentionPolicy.copyWith(

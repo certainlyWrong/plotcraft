@@ -111,7 +111,9 @@ int _embedOffset(Delta delta, Map<String, Object?> op) {
   return offset;
 }
 
-Map<String, dynamic> _formatAttributes(Map<String, Object?> op) {
+/// Inline formats in an operation: bold, italic, underline, strike, color,
+/// background, font and size. A key set to false or "" removes that format.
+Map<String, dynamic> _inlineAttributes(Map<String, Object?> op) {
   const flags = ['bold', 'italic', 'underline', 'strike'];
   const texts = ['color', 'background', 'font', 'size'];
   final attributes = <String, dynamic>{};
@@ -124,12 +126,53 @@ Map<String, dynamic> _formatAttributes(Map<String, Object?> op) {
       attributes[key] = value is String && value.isNotEmpty ? value : null;
     }
   }
-  if (attributes.isEmpty) {
-    throw const StoryError.validation(
-      'format_text needs at least one of bold, italic, underline, strike, '
-      'color, background, font or size.',
-      hint: 'Use false (or "") to remove a format.',
-    );
+  return attributes;
+}
+
+/// Line formats in an operation: align, indent, header, list and quote. A key
+/// set to false (or an alignment of "left", an indent of 0) removes it.
+Map<String, dynamic> _blockAttributes(Map<String, Object?> op) {
+  final attributes = <String, dynamic>{};
+  if (op.containsKey('align')) {
+    final value = op['align'];
+    const allowed = ['left', 'center', 'right', 'justify'];
+    if (value != false && value != null && !allowed.contains(value)) {
+      throw const StoryError.validation(
+        '"align" is one of left, center, right, justify (or false).',
+      );
+    }
+    attributes['align'] = value == 'left' || value == false ? null : value;
+  }
+  if (op.containsKey('indent')) {
+    final value = op['indent'];
+    if (value != false &&
+        value != null &&
+        (value is! int || value < 0 || value > 8)) {
+      throw const StoryError.validation('"indent" is a number from 0 to 8.');
+    }
+    attributes['indent'] = value is int && value > 0 ? value : null;
+  }
+  if (op.containsKey('header')) {
+    final value = op['header'];
+    if (value != false &&
+        value != null &&
+        (value is! int || value < 1 || value > 3)) {
+      throw const StoryError.validation('"header" is 1, 2 or 3 (or false).');
+    }
+    attributes['header'] = value is int ? value : null;
+  }
+  if (op.containsKey('list')) {
+    final value = op['list'];
+    const allowed = ['bullet', 'ordered', 'checked', 'unchecked'];
+    if (value != false && value != null && !allowed.contains(value)) {
+      throw const StoryError.validation(
+        '"list" is one of bullet, ordered, checked, unchecked (or false).',
+      );
+    }
+    attributes['list'] = value is String ? value : null;
+  }
+  if (op.containsKey('quote')) {
+    attributes['blockquote'] = op['quote'] == true ? true : null;
   }
   return attributes;
 }
@@ -162,12 +205,14 @@ Future<(Delta, Map<String, Object?>)> _apply(
           'Operation needs a non-empty "text".',
         );
       }
+      final style = _inlineAttributes(op);
       var result = delta;
       for (final hit in hits.reversed) {
         result = DeltaEdit.insertText(
           result,
           kind == 'insert_after_text' ? hit.end : hit.start,
           text,
+          attributes: style.isEmpty ? null : style,
         );
       }
       return (result, {'op': kind, 'matches': hits.length});
@@ -179,8 +224,14 @@ Future<(Delta, Map<String, Object?>)> _apply(
           'insert_at_offset needs an integer "offset" and a "text".',
         );
       }
+      final style = _inlineAttributes(op);
       return (
-        DeltaEdit.insertText(delta, offset, text),
+        DeltaEdit.insertText(
+          delta,
+          offset,
+          text,
+          attributes: style.isEmpty ? null : style,
+        ),
         {'op': kind, 'matches': 1},
       );
     case 'delete_text':
@@ -193,18 +244,35 @@ Future<(Delta, Map<String, Object?>)> _apply(
       }
       return (result, {'op': kind, 'matches': hits.length});
     case 'format_text':
-      final attributes = _formatAttributes(op);
+      final inline = _inlineAttributes(op);
+      final block = _blockAttributes(op);
+      if (inline.isEmpty && block.isEmpty) {
+        throw const StoryError.validation(
+          'format_text needs at least one of bold, italic, underline, strike, '
+          'color, background, font, size, align, indent, header, list or quote.',
+          hint: 'Use false (or "") to remove a format.',
+        );
+      }
       final hits = op['find'] != null
           ? _locate(delta, op, 'find')
           : [_range(delta, op)];
       var result = delta;
       for (final hit in hits) {
-        result = DeltaEdit.formatRange(
-          result,
-          hit.start,
-          hit.length,
-          attributes,
-        );
+        if (inline.isNotEmpty) {
+          result = DeltaEdit.formatRange(result, hit.start, hit.length, inline);
+        }
+        if (block.isNotEmpty) {
+          result = DeltaEdit.formatLines(result, hit.start, hit.length, block);
+        }
+      }
+      return (result, {'op': kind, 'matches': hits.length});
+    case 'clear_format':
+      final hits = op['find'] != null
+          ? _locate(delta, op, 'find')
+          : [_range(delta, op)];
+      var result = delta;
+      for (final hit in hits) {
+        result = DeltaEdit.clearFormat(result, hit.start, hit.length);
       }
       return (result, {'op': kind, 'matches': hits.length});
     case 'link_mention':
@@ -422,9 +490,16 @@ List<ToolSpec> manuscriptTools() => [
         'around them. Each operation is an object with "op": '
         'replace_text {find, replace, occurrence (number or "all"), '
         'case_sensitive}; insert_after_text / insert_before_text {find, text}; '
-        'insert_at_offset {offset, text}; delete_text {find | start, end}; '
+        'insert_at_offset {offset, text} (insert ops also take bold, italic, '
+        'underline, strike, color, background, font, size for the new text); '
+        'delete_text {find | start, end}; '
         'format_text {find | start, end, bold, italic, underline, strike, '
-        'color "#RRGGBB", background, font, size; false or "" removes}; '
+        'color "#RRGGBB", background, font, size, and line formats: header '
+        '1-3, list bullet|ordered|checked|unchecked, quote, indent 0-8, align '
+        'left|center|right|justify; false or "" removes; a line format applies '
+        'to every line the text touches}; '
+        'clear_format {find | start, end} (removes inline and line formats '
+        'and web links, keeps element links); '
         'link_mention {find, element_id}; insert_divider {after_text | offset}; '
         'insert_gallery_image {gallery_id, after_text | offset}. If any '
         'operation fails nothing is saved.',

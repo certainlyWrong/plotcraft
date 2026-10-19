@@ -110,8 +110,12 @@ List<ToolSpec> appTools() => [
     title: 'Show something in the app',
     description:
         'Opens a project in the running app and, optionally, a chapter '
-        '(selecting the text range start..end in it) or an element, so the '
-        'author sees what you are talking about. Needs the app running.',
+        '(selecting the text range start..end in it) or an element, or one '
+        'of its screens ("view": overview, settings, gallery, graph for the '
+        'story map, timeline), so the author sees what you are talking '
+        'about. "fullscreen" puts the app window in (true) or out of (false) '
+        'full screen for the text editor, the map and the timeline. Needs '
+        'the app running.',
     kind: ToolKind.read,
     properties: {
       'project': Schema.string(
@@ -123,6 +127,16 @@ List<ToolSpec> appTools() => [
         description: 'With chapter_id: first offset to select.',
       ),
       'end': Schema.int(description: 'With chapter_id: end offset.'),
+      'view': Schema.string(
+        description:
+            'A screen of the project: overview, settings, gallery, graph or '
+            'timeline. Ignored when chapter_id or element_id is given.',
+      ),
+      'fullscreen': Schema.bool(
+        description:
+            'Full screen for the tab that is open (the editor, the map or '
+            'the timeline).',
+      ),
     },
     required: ['project'],
     handler: (call) async {
@@ -135,6 +149,8 @@ List<ToolSpec> appTools() => [
         'element_id': call.args.optString('element_id'),
         'start': call.args.optInt('start'),
         'end': call.args.optInt('end'),
+        'view': call.args.optString('view'),
+        'fullscreen': call.args.optBool('fullscreen'),
       });
     },
   ),

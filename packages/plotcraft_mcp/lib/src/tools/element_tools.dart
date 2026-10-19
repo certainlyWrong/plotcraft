@@ -1,7 +1,10 @@
 import 'package:dart_mcp/server.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/active_phase.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/element_filter.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_reference.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/element_relation.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_type_catalog.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
 import 'package:plotcraft_core/features/project_workspace/services/story_error.dart';
 import 'package:plotcraft_core/features/project_workspace/services/story_workspace.dart';
@@ -81,12 +84,66 @@ Map<String, Schema> _elementProperties() => {
         'Images, the first is the cover: [{"gallery_id": "g_..."}] '
         '(see list_gallery). Replaces the list.',
   ),
+  'time': Schema.object(
+    description:
+        'When it happens in the story: {"label": "Year 312", "position": 312}. '
+        'The label is free text, written the way the story tells it; the '
+        'optional number only orders things on the timeline (larger = later). '
+        'Send {} or null to remove it.',
+  ),
   'mention_policy': Schema.object(
     description:
         '{"auto": true, "ignored_terms": ["..."]}: whether the name and '
         'aliases are highlighted in the text.',
   ),
 };
+
+/// Checks the details that point to other elements ("where" of an event) and
+/// stores them as element ids, even when the caller wrote the titles. Only the
+/// details in [sent] are checked, so older text in others is left alone.
+Future<NarrativeElement> _checkedReferences(
+  StoryWorkspace story,
+  NarrativeElement element,
+  Object? sent,
+) async {
+  if (sent is! Map) return element;
+  final type = ElementTypeCatalog.resolve(element.typeId, await story.types());
+  if (type == null) return element;
+  final others = [
+    for (final record in await story.elements())
+      if (record.element.id != element.id) record.element,
+  ];
+  final fields = {...element.fields};
+  for (final field in type.fields) {
+    if (!field.isReference || !sent.containsKey(field.id)) continue;
+    final raw = fields[field.id] ?? '';
+    if (raw.trim().isEmpty) continue;
+    final ids = <String>[];
+    for (final token in ElementReferences.resolve(raw, others)) {
+      if (!token.isElement) {
+        throw StoryError.validation(
+          'Detail "${field.id}": "${token.text}" is not an element.',
+          hint:
+              'Send element ids (see list_elements); create the element first.',
+        );
+      }
+      final target = others.firstWhere((e) => e.id == token.elementId);
+      if (field.targetTypes.isNotEmpty &&
+          !field.targetTypes.contains(target.typeId)) {
+        throw StoryError.validation(
+          'Detail "${field.id}" takes ${field.targetTypes.join(' or ')} '
+          'elements, but "${target.title}" is a ${target.typeId}.',
+        );
+      }
+      ids.add(target.id);
+    }
+    if (field.kind == ElementFieldKind.element && ids.length > 1) {
+      throw StoryError.validation('Detail "${field.id}" takes one element.');
+    }
+    fields[field.id] = ElementReferences.join(ids);
+  }
+  return element.copyWith(fields: fields);
+}
 
 Future<ElementRecord> _load(Call call) async {
   final story = await call.workspace();
@@ -240,7 +297,11 @@ List<ToolSpec> elementTools() => [
         updatedAt: now,
       );
       final record = await story.saveElement(
-        ElementInput.apply(blank, call.args, story.newId),
+        await _checkedReferences(
+          story,
+          ElementInput.apply(blank, call.args, story.newId),
+          call.args.raw['fields'],
+        ),
       );
       return {'element': elementJson(record)};
     },
@@ -278,7 +339,7 @@ List<ToolSpec> elementTools() => [
         element = element.copyWith(fields: merged);
       }
       final saved = await story.saveElement(
-        element,
+        await _checkedReferences(story, element, fields),
         baseRevision: call.args.optString('base_revision'),
       );
       return {'element': elementJson(saved)};

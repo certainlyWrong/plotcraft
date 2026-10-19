@@ -114,6 +114,8 @@ void main() {
       'element_id': null,
       'start': 3,
       'end': 8,
+      'view': null,
+      'fullscreen': null,
     });
     expect(
       (await h.call('open_in_app', {'project': 'nao existe'})).errorCode,
