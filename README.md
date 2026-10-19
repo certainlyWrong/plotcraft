@@ -15,7 +15,7 @@ Plotcraft é um aplicativo desktop para arquitetar histórias. A proposta vai al
 
 A área de projetos permite criar, buscar, ordenar e excluir projetos, além de escolher entre temas, idiomas e fontes. Cada projeto abre em um espaço de trabalho em painéis, com abas para visão geral, configurações, galeria, capítulos e elementos.
 
-Os elementos narrativos (personagens, lugares, objetos, criaturas, organizações, eventos, conceitos, notas e tipos próprios) têm ícone e cor, apelidos, etiquetas, detalhes definidos pelo tipo, imagens da galeria ou do computador, relações, seções e fases ligadas a capítulos. O manuscrito é editado em texto rico (fontes, cores, alinhamento, listas, imagens da galeria), com corretor ortográfico do sistema no macOS e menções aos elementos. Os dados ficam em arquivos locais na pasta de cada projeto.
+Os elementos narrativos (personagens, lugares, objetos, criaturas, organizações, eventos, conceitos, notas e tipos próprios) têm ícone e cor, apelidos, etiquetas, detalhes definidos pelo tipo, imagens da galeria ou do computador, relações, seções e fases ligadas a capítulos. O texto da história é editado na área **Escrita**, em texto rico (fontes, cores, alinhamento, listas, imagens da galeria), com corretor ortográfico do sistema no macOS e menções aos elementos. Os dados ficam em arquivos locais na pasta de cada projeto.
 
 ## Como executar
 

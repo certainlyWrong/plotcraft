@@ -10,7 +10,7 @@ Por isso, Plotcraft não deve ser pensado somente como um editor de texto. A esc
 
 Ao abrir o aplicativo, a pessoa deve encontrar uma área de projetos para iniciar um projeto novo ou continuar um existente. Ao entrar em um projeto, deve acessar o espaço de trabalho daquela história. Essa separação dá ao projeto um lugar claro antes mesmo de qualquer ferramenta específica de escrita.
 
-O projeto é a estrutura central do produto. Ele identifica a história, apresenta seu contexto e reúne manuscrito, galeria e elementos narrativos. Um projeto de livro pode manter o texto contínuo ou dividi-lo em capítulos.
+O projeto é a estrutura central do produto. Ele identifica a história, apresenta seu contexto e reúne a escrita, a galeria e elementos narrativos. Um projeto de livro pode manter o texto contínuo ou dividi-lo em capítulos.
 
 ## Princípios
 
@@ -21,4 +21,4 @@ O projeto é a estrutura central do produto. Ele identifica a história, apresen
 
 ## Estado
 
-Esta é a direção pretendida para o produto. A área desktop de projetos permite criar e abrir histórias. O espaço de trabalho reúne visão geral, manuscrito em texto rico, galeria e elementos narrativos. Referências no manuscrito ligam a escrita aos elementos do projeto.
+Esta é a direção pretendida para o produto. A área desktop de projetos permite criar e abrir histórias. O espaço de trabalho reúne visão geral, escrita em texto rico, galeria e elementos narrativos. Menções no texto ligam a escrita aos elementos do projeto.
