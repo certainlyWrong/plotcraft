@@ -189,7 +189,6 @@
     "folder": "Project folder",
     "not_set": "Not set yet",
     "unsaved": "Unsaved changes",
-    "save": "Save text",
     "saving": "Saving...",
     "save_error": "Could not save the text. Check access to the project folder.",
     "manuscript_hint": "Write in Markdown. Your work is saved in content/book/manuscript.md.",

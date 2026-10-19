@@ -189,7 +189,6 @@
     "folder": "Pasta do projeto",
     "not_set": "Ainda não definido",
     "unsaved": "Alterações não salvas",
-    "save": "Salvar texto",
     "saving": "Salvando...",
     "save_error": "Não foi possível salvar o texto. Confira o acesso à pasta do projeto.",
     "manuscript_hint": "Escreva em Markdown. O texto é salvo em content/book/manuscript.md.",

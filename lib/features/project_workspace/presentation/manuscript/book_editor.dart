@@ -392,11 +392,9 @@ class _BookEditorState extends State<BookEditor> {
             RichToolbar(
               controller: widget.controller,
               fullscreen: widget.fullscreen,
-              canSave: widget.dirty && !widget.saving,
               findOpen: _showFind,
               onFind: _showFind ? _closeFind : _openFind,
               onToggleFullscreen: widget.onToggleFullscreen,
-              onSave: widget.onSave,
               fonts: widget.fonts.menuItems,
               extraActions: [
                 if (widget.onManageFonts != null)

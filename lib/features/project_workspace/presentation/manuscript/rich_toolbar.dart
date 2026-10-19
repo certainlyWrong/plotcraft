@@ -13,22 +13,18 @@ class RichToolbar extends StatelessWidget {
     super.key,
     required this.controller,
     required this.fullscreen,
-    required this.canSave,
     required this.findOpen,
     required this.onFind,
     required this.onToggleFullscreen,
-    required this.onSave,
     this.extraActions = const [],
     this.fonts = const {},
   });
 
   final QuillController controller;
   final bool fullscreen;
-  final bool canSave;
   final bool findOpen;
   final VoidCallback onFind;
   final VoidCallback onToggleFullscreen;
-  final VoidCallback onSave;
 
   /// Actions placed before find: linking elements, images, dividers.
   final List<Widget> extraActions;
@@ -107,11 +103,6 @@ class RichToolbar extends StatelessWidget {
                       ? 'book.exit_fullscreen'.tr()
                       : 'book.fullscreen'.tr(),
                   onPressed: onToggleFullscreen,
-                ),
-                PlotcraftIconButton(
-                  icon: Feather.save,
-                  tooltip: 'workspace.save'.tr(),
-                  onPressed: canSave ? onSave : null,
                 ),
               ],
             ),
