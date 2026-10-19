@@ -9,9 +9,11 @@ import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/plotcraft_dropdown.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
 
+import 'package:plotcraft_core/core/time_id.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/book_content.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/element_image.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/element_relation.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/element_reference.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/element_type_catalog.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/narrative_anchor.dart';
@@ -32,6 +34,8 @@ import 'package:plotcraft_core/features/project_workspace/domain/rich/mention_sc
 
 import 'element_references_panel.dart';
 import 'element_relations_panel.dart';
+import 'element_referenced_by_panel.dart';
+import 'element_time_panel.dart';
 import 'element_section_card.dart';
 import 'element_summary_panel.dart';
 import 'element_type_label.dart';
@@ -195,7 +199,7 @@ class _ElementEditorState extends State<ElementEditor> {
         .showSnackBar(SnackBar(content: Text(key.tr())));
   }
 
-  String _newId() => DateTime.now().microsecondsSinceEpoch.toRadixString(36);
+  String _newId() => newTimeId();
 
   Future<void> _editSection([int? index]) async {
     final current = index == null ? null : _draft.sections[index];
@@ -531,6 +535,17 @@ class _ElementEditorState extends State<ElementEditor> {
       );
 
   /// The form sections, one card each.
+  /// Details of other elements that point to this one.
+  List<FieldReference> get _referencedBy => _element == null
+      ? const []
+      : [
+          for (final reference in ElementReferences.all(
+            widget.store.elements,
+            widget.store.elementTypes.toList(),
+          ))
+            if (reference.targetId == _elementId) reference,
+        ];
+
   List<Widget> _cards(BuildContext context, ElementType? type) => [
     _identityCard(context, widget.store.elementTypes),
     if (type != null && type.fields.isNotEmpty)
@@ -543,12 +558,23 @@ class _ElementEditorState extends State<ElementEditor> {
             for (final other in widget.store.elements)
               if (other.id != _elementId) other,
           ],
+          types: widget.store.elementTypes.toList(),
+          onOpenElement: widget.onOpenElement,
           onChanged: (id, value) {
             _draft.fieldValues[id] = value;
             _markDirty();
           },
         ),
       ),
+    ElementSectionCard(
+      child: ElementTimePanel(
+        time: _draft.time,
+        onChanged: (time) {
+          _draft.time = time;
+          _markDirty();
+        },
+      ),
+    ),
     ElementSectionCard(
       child: ElementImagesPanel(
         images: _draft.images,
@@ -589,6 +615,15 @@ class _ElementEditorState extends State<ElementEditor> {
         onOpenElement: widget.onOpenElement,
       ),
     ),
+    if (_referencedBy.isNotEmpty)
+      ElementSectionCard(
+        child: ElementReferencedByPanel(
+          references: _referencedBy,
+          elements: widget.store.elements.toList(),
+          types: widget.store.elementTypes.toList(),
+          onOpenElement: widget.onOpenElement,
+        ),
+      ),
     ElementSectionCard(
       child: ElementItemsPanel(
         title: 'elements.sections'.tr(),

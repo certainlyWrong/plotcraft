@@ -9,6 +9,7 @@ import '../../../../core/ui/plotcraft_text_field.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
 
+import 'element_reference_picker.dart';
 import 'element_type_label.dart';
 
 /// Inputs for the details defined by an element's type. Values are strings
@@ -21,6 +22,8 @@ class ElementFieldsPanel extends StatefulWidget {
     required this.values,
     required this.otherElements,
     required this.onChanged,
+    this.types = const [],
+    this.onOpenElement,
   });
 
   final ElementType type;
@@ -29,6 +32,10 @@ class ElementFieldsPanel extends StatefulWidget {
   /// Elements a field of kind "element" can point to.
   final List<NarrativeElement> otherElements;
   final void Function(String fieldId, String value) onChanged;
+
+  /// The project's custom element types, to show the icons of chosen elements.
+  final List<ElementType> types;
+  final ValueChanged<String>? onOpenElement;
 
   @override
   State<ElementFieldsPanel> createState() => _ElementFieldsPanelState();
@@ -142,21 +149,18 @@ class _ElementFieldsPanelState extends State<ElementFieldsPanel> {
           },
         );
       case ElementFieldKind.element:
-        return PlotcraftDropdown<String>(
-          initialValue: widget.otherElements.any((e) => e.id == value)
-              ? value
-              : '',
-          items: [
-            DropdownMenuItem(
-              value: '',
-              child: Text('$label: ${'elements.none'.tr()}'),
-            ),
-            for (final element in widget.otherElements)
-              DropdownMenuItem(value: element.id, child: Text(element.title)),
-          ],
-          onChanged: (id) {
+      case ElementFieldKind.elements:
+        return ElementReferencePicker(
+          label: label,
+          value: value,
+          elements: widget.otherElements,
+          types: widget.types,
+          targetTypes: field.targetTypes,
+          multiple: field.kind == ElementFieldKind.elements,
+          onOpen: widget.onOpenElement,
+          onChanged: (raw) {
             setState(() {});
-            widget.onChanged(field.id, id ?? '');
+            widget.onChanged(field.id, raw);
           },
         );
     }
@@ -190,6 +194,7 @@ class _ElementFieldsPanelState extends State<ElementFieldsPanel> {
                     width:
                         field.kind == ElementFieldKind.longText ||
                             field.kind == ElementFieldKind.url ||
+                            field.isReference ||
                             constraints.maxWidth < 520
                         ? constraints.maxWidth
                         : half,
