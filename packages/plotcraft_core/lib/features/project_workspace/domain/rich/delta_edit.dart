@@ -117,6 +117,79 @@ abstract final class DeltaEdit {
     );
   }
 
+  /// Attributes of a whole line (paragraph), kept on the line's line break.
+  static const blockKeys = {
+    'header',
+    'list',
+    'blockquote',
+    'code-block',
+    'align',
+    'indent',
+  };
+
+  /// Of the line attributes, the ones that describe what kind of line it is:
+  /// a line is a heading, a list item, a quote or a code block, never two.
+  static const _lineKinds = ['header', 'list', 'blockquote', 'code-block'];
+
+  /// Applies line [attributes] (see [blockKeys]; null removes one) to every
+  /// line the range touches. A range of length 0 touches the line it is in.
+  /// Setting one kind of line clears the others, as the editor does.
+  static Delta formatLines(
+    Delta delta,
+    int start,
+    int length,
+    Map<String, dynamic> attributes,
+  ) {
+    _checkRange(delta, start, length);
+    final unknown = attributes.keys.where((k) => !blockKeys.contains(k));
+    if (unknown.isNotEmpty) {
+      throw ArgumentError('Not a line attribute: ${unknown.join(', ')}.');
+    }
+    final applied = {...attributes};
+    final setKind = _lineKinds.where((k) => applied[k] != null).toList();
+    if (setKind.isNotEmpty) {
+      for (final kind in _lineKinds) {
+        if (!setKind.contains(kind)) applied[kind] = null;
+      }
+    }
+    final plain = text(delta);
+    final end = start + length;
+    final change = Delta();
+    var position = 0;
+    var lineStart = 0;
+    var touched = false;
+    for (var i = 0; i <= plain.length; i++) {
+      final atEnd = i == plain.length;
+      if (!atEnd && plain[i] != '\n') continue;
+      // The line spans lineStart..i (the line break itself is at i).
+      final reaches = length == 0
+          ? start >= lineStart && start <= i
+          : start <= i && end > lineStart;
+      if (reaches && !atEnd) {
+        change
+          ..retain(i - position)
+          ..retain(1, applied);
+        position = i + 1;
+        touched = true;
+      }
+      lineStart = i + 1;
+    }
+    return touched ? delta.compose(change) : delta;
+  }
+
+  /// Clears the inline formatting of a range (bold, italic, underline, strike,
+  /// colors, font, size and web links) and the line formatting of the lines it
+  /// touches. Links to elements stay.
+  static Delta clearFormat(Delta delta, int start, int length) {
+    final inline = {
+      for (final key in [..._inline, 'link']) key: null,
+    };
+    final cleared = formatRange(delta, start, length, inline);
+    return formatLines(cleared, start, length, {
+      for (final key in blockKeys) key: null,
+    });
+  }
+
   /// Links the text of a range to an element (the text itself is unchanged).
   static Delta linkMention(
     Delta delta,

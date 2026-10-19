@@ -143,4 +143,97 @@ void main() {
     );
     expect(snippet, '…xxxxxALVOyyyyy…');
   });
+
+  group('formatos de linha', () {
+    Delta book() => _doc([
+      {'insert': 'Titulo'},
+      {'insert': '\n'},
+      {'insert': 'Primeira linha'},
+      {'insert': '\n'},
+      {'insert': 'Segunda linha'},
+      {'insert': '\n'},
+    ]);
+
+    /// The attributes of each line break, in order (Delta merges neighbours).
+    List<Map<String, dynamic>?> lineAttributes(Delta delta) => [
+      for (final op in delta.toList())
+        if (op.data is String)
+          for (final char in (op.data! as String).split(''))
+            if (char == '\n') op.attributes,
+    ];
+
+    test('um cabeçalho vai só na linha tocada', () {
+      // Offset 8 is inside "Primeira linha".
+      final result = DeltaEdit.formatLines(book(), 8, 0, {'header': 2});
+      expect(lineAttributes(result), [
+        null,
+        {'header': 2},
+        null,
+      ]);
+      expect(DeltaEdit.text(result), DeltaEdit.text(book()));
+    });
+
+    test('um intervalo pega todas as linhas que toca', () {
+      // From the end of the first line to the middle of the third.
+      final result = DeltaEdit.formatLines(book(), 3, 22, {'align': 'center'});
+      expect(lineAttributes(result), [
+        {'align': 'center'},
+        {'align': 'center'},
+        {'align': 'center'},
+      ]);
+      // A range that ends where a line begins does not take that line.
+      final edge = DeltaEdit.formatLines(book(), 0, 7, {'indent': 1});
+      expect(lineAttributes(edge), [
+        {'indent': 1},
+        null,
+        null,
+      ]);
+    });
+
+    test('trocar o tipo da linha tira o anterior', () {
+      final listed = DeltaEdit.formatLines(book(), 8, 0, {'list': 'bullet'});
+      final quoted = DeltaEdit.formatLines(listed, 8, 0, {'blockquote': true});
+      expect(lineAttributes(quoted)[1], {'blockquote': true});
+      final heading = DeltaEdit.formatLines(quoted, 8, 0, {'header': 1});
+      expect(lineAttributes(heading)[1], {'header': 1});
+    });
+
+    test('valor nulo remove o atributo e atributo desconhecido é recusado', () {
+      final aligned = DeltaEdit.formatLines(book(), 8, 0, {'align': 'right'});
+      final cleared = DeltaEdit.formatLines(aligned, 8, 0, {'align': null});
+      expect(lineAttributes(cleared), [null, null, null]);
+      expect(
+        () => DeltaEdit.formatLines(book(), 0, 0, {'bold': true}),
+        throwsArgumentError,
+      );
+    });
+
+    test(
+      'limpar formatação tira o inline e o de linha, mas mantém a menção',
+      () {
+        final delta = _doc([
+          {
+            'insert': 'Ana',
+            'attributes': {
+              'bold': true,
+              'color': '#ff0000',
+              'link': 'https://x.y',
+              RichDocument.mentionKey: RichDocument.mention('ana', 'Ana'),
+            },
+          },
+          {'insert': ' e o mar'},
+          {
+            'insert': '\n',
+            'attributes': {'header': 1, 'align': 'center'},
+          },
+        ]);
+        final result = DeltaEdit.clearFormat(delta, 0, 11);
+        final json = result.toJson();
+        expect(json.first['attributes'], {
+          RichDocument.mentionKey: RichDocument.mention('ana', 'Ana'),
+        });
+        expect(lineAttributes(result), [null]);
+      },
+    );
+  });
 }
