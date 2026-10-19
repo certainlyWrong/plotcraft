@@ -165,13 +165,22 @@ class ProjectOverview extends StatelessWidget {
                   children: [
                     _eyebrow(context, 'workspace.about_story'.tr()),
                     const SizedBox(height: 10),
-                    Text(
-                      project.description.isEmpty
-                          ? 'workspace.description_empty'.tr()
-                          : project.description,
-                      maxLines: 5,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyLarge?.copyWith(height: 1.45),
+                    // Long premises scroll inside the card, without a scrollbar.
+                    Expanded(
+                      child: ScrollConfiguration(
+                        behavior: ScrollConfiguration.of(context)
+                            .copyWith(scrollbars: false),
+                        child: SingleChildScrollView(
+                          child: Text(
+                            project.description.isEmpty
+                                ? 'workspace.description_empty'.tr()
+                                : project.description,
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              height: 1.45,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
