@@ -71,3 +71,50 @@ String _snippet(String text, int start, int end, int context) {
   final cut = text.substring(from, to).replaceAll(RegExp(r'\s+'), ' ').trim();
   return '${from > 0 ? '…' : ''}$cut${to < text.length ? '…' : ''}';
 }
+
+/// How many times each element is written in one chapter (or in the single
+/// manuscript, whose [chapterId] is null).
+class ChapterPresence {
+  const ChapterPresence({
+    required this.chapterId,
+    required this.chapterTitle,
+    required this.counts,
+  });
+
+  final String? chapterId;
+  final String chapterTitle;
+
+  /// Element ID -> mentions. Elements that do not appear are left out.
+  final Map<String, int> counts;
+}
+
+/// Where every element appears, a chapter at a time, in reading order. It
+/// follows the same rules as the highlighting in the editor: links always
+/// count, and plain names count unless the element turned detection off.
+List<ChapterPresence> scanBookPresence(
+  BookContent book,
+  List<NarrativeElement> elements,
+  String manuscriptTitle,
+) {
+  final index = MentionIndex(elements);
+  final known = {for (final element in elements) element.id};
+  ChapterPresence inDocument(String? chapterId, String title) {
+    final counts = <String, int>{};
+    for (final hit in index.scan(book.deltaFor(chapterId))) {
+      if (!known.contains(hit.elementId)) continue;
+      counts[hit.elementId] = (counts[hit.elementId] ?? 0) + 1;
+    }
+    return ChapterPresence(
+      chapterId: chapterId,
+      chapterTitle: title,
+      counts: counts,
+    );
+  }
+
+  return book.chaptersEnabled
+      ? [
+          for (final chapter in book.chapters)
+            inDocument(chapter.id, chapter.title),
+        ]
+      : [inDocument(null, manuscriptTitle)];
+}

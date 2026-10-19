@@ -15,7 +15,13 @@ abstract final class ElementTypeCatalog {
   static ElementField _field(
     String id, [
     ElementFieldKind kind = ElementFieldKind.text,
-  ]) => ElementField(id: id, labelKey: 'elements.fields.$id', kind: kind);
+    List<String> targetTypes = const [],
+  ]) => ElementField(
+    id: id,
+    labelKey: 'elements.fields.$id',
+    kind: kind,
+    targetTypes: targetTypes,
+  );
 
   static ElementType _type(
     String id,
@@ -44,19 +50,22 @@ abstract final class ElementTypeCatalog {
     ]),
     _type(object, const IconRef('Feather', 'box'), 0xFFC9A227, [
       _field('origin'),
-      _field('owner'),
+      _field('owner', ElementFieldKind.element, const [
+        character,
+        organization,
+      ]),
     ]),
     _type(creature, const IconRef('RpgAwesome', 'wolf_howl'), 0xFFC0443F, [
-      _field('habitat'),
+      _field('habitat', ElementFieldKind.elements, const [place]),
       _field('abilities', ElementFieldKind.longText),
     ]),
     _type(organization, const IconRef('Feather', 'flag'), 0xFF3B7DBF, [
       _field('purpose'),
-      _field('leader'),
+      _field('leader', ElementFieldKind.element, const [character]),
     ]),
     _type(event, const IconRef('Feather', 'calendar'), 0xFFD9822B, [
-      _field('when'),
-      _field('where'),
+      // When it happens is the element's "time" (the timeline), not a detail.
+      _field('where', ElementFieldKind.elements, const [place]),
     ]),
     _type(concept, const IconRef('Feather', 'compass'), 0xFF2E9AA3),
     _type(note, const IconRef('Feather', 'file_text'), 0xFF6B7280),

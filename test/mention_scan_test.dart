@@ -87,4 +87,47 @@ void main() {
     expect(snippet, endsWith('…'));
     expect(snippet, contains('Lia'));
   });
+
+  group('presença por capítulo', () {
+    test('conta menções ligadas e nomes escritos, por capítulo', () {
+      final book = BookContent(
+        chaptersEnabled: true,
+        singleDelta: RichDocument.empty(),
+        chapters: const [
+          BookChapter(id: 'c1', title: 'Largada'),
+          BookChapter(id: 'c2', title: 'Chegada'),
+        ],
+        chapterDeltas: {'c1': linked, 'c2': Delta()..insert('Nada aqui\n')},
+      );
+      final presence = scanBookPresence(book, [_lia()], 'Manuscrito');
+      expect(presence.map((c) => c.chapterId), ['c1', 'c2']);
+      expect(presence.first.counts, {'lia': 2});
+      expect(presence.last.counts, isEmpty);
+    });
+
+    test('com a detecção desligada só contam as menções ligadas', () {
+      final book = BookContent(
+        chaptersEnabled: true,
+        singleDelta: RichDocument.empty(),
+        chapters: const [BookChapter(id: 'c1', title: 'Largada')],
+        chapterDeltas: {'c1': linked},
+      );
+      final presence = scanBookPresence(book, [
+        _lia(policy: const MentionPolicy(auto: false)),
+      ], 'Manuscrito');
+      expect(presence.single.counts, {'lia': 1});
+    });
+
+    test('manuscrito único tem um item de id nulo', () {
+      final book = BookContent(
+        chaptersEnabled: false,
+        singleDelta: linked,
+        chapters: const [],
+        chapterDeltas: const {},
+      );
+      final presence = scanBookPresence(book, [_lia()], 'Livro');
+      expect(presence.single.chapterId, isNull);
+      expect(presence.single.chapterTitle, 'Livro');
+    });
+  });
 }

@@ -3,6 +3,7 @@ import '../../../core/theme/argb_hex.dart';
 import 'element_image.dart';
 import 'element_relation.dart';
 import 'narrative_anchor.dart';
+import 'story_time.dart';
 
 class NarrativeSection {
   const NarrativeSection({
@@ -140,6 +141,7 @@ class NarrativeElement {
     this.fields = const {},
     this.relations = const [],
     this.mentionPolicy = const MentionPolicy(),
+    this.time,
   });
 
   static const schemaVersion = 2;
@@ -166,6 +168,10 @@ class NarrativeElement {
   /// Links to other elements, stored on this (source) element only.
   final List<ElementRelation> relations;
   final MentionPolicy mentionPolicy;
+
+  /// When this happens in the story's world (an event, a birth...). Null when
+  /// the author has not said.
+  final StoryTime? time;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -185,6 +191,8 @@ class NarrativeElement {
     List<NarrativePhase>? phases,
     List<ElementRelation>? relations,
     MentionPolicy? mentionPolicy,
+    StoryTime? time,
+    bool clearTime = false,
   }) => NarrativeElement(
     id: id,
     typeId: typeId ?? this.typeId,
@@ -200,6 +208,7 @@ class NarrativeElement {
     phases: phases ?? this.phases,
     relations: relations ?? this.relations,
     mentionPolicy: mentionPolicy ?? this.mentionPolicy,
+    time: clearTime ? null : time ?? this.time,
     createdAt: createdAt,
     updatedAt: DateTime.now(),
   );
@@ -230,6 +239,7 @@ class NarrativeElement {
     'phases': phases.map((phase) => phase.toJson()).toList(),
     'relations': relations.map((relation) => relation.toJson()).toList(),
     'mentionPolicy': mentionPolicy.toJson(),
+    if (time != null && !time!.isEmpty) 'time': time!.toJson(),
     'createdAt': createdAt.toIso8601String(),
     'updatedAt': updatedAt.toIso8601String(),
   };
@@ -270,6 +280,7 @@ class NarrativeElement {
             .whereType<ElementRelation>()
             .toList(),
         mentionPolicy: MentionPolicy.fromJson(json['mentionPolicy']),
+        time: StoryTime.fromJson(json['time']),
         createdAt: DateTime.parse(json['createdAt'] as String),
         updatedAt: DateTime.parse(json['updatedAt'] as String),
       );

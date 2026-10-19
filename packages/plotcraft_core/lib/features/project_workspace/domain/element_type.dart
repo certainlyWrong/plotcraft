@@ -8,7 +8,12 @@ enum ElementFieldKind {
   date,
   choice,
   boolean,
+
+  /// One other element, chosen from the project.
   element,
+
+  /// Several other elements (for example the places of an event).
+  elements,
   url,
 }
 
@@ -21,6 +26,7 @@ class ElementField {
     this.labelKey,
     this.kind = ElementFieldKind.text,
     this.options = const [],
+    this.targetTypes = const [],
   });
 
   final String id;
@@ -31,11 +37,19 @@ class ElementField {
   /// Allowed values when [kind] is [ElementFieldKind.choice].
   final List<String> options;
 
+  /// For [ElementFieldKind.element] and [ElementFieldKind.elements]: the
+  /// element types that can be chosen. Empty means any element.
+  final List<String> targetTypes;
+
+  bool get isReference =>
+      kind == ElementFieldKind.element || kind == ElementFieldKind.elements;
+
   Map<String, Object?> toJson() => {
     'id': id,
     'label': label,
     'kind': kind.name,
     if (options.isNotEmpty) 'options': options,
+    if (targetTypes.isNotEmpty) 'targetTypes': targetTypes,
   };
 
   /// Null when the map has no usable ID.
@@ -49,6 +63,9 @@ class ElementField {
         orElse: () => ElementFieldKind.text,
       ),
       options: (json['options'] as List<dynamic>? ?? const [])
+          .whereType<String>()
+          .toList(),
+      targetTypes: (json['targetTypes'] as List<dynamic>? ?? const [])
           .whereType<String>()
           .toList(),
     );
