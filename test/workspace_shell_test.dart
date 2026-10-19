@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     show FlutterQuillLocalizations;
@@ -12,6 +13,7 @@ import 'package:plotcraft/features/project_workspace/presentation/elements/eleme
 import 'package:plotcraft/features/project_workspace/presentation/manuscript/book_editor.dart';
 import 'package:plotcraft/features/project_workspace/presentation/manuscript/chapter_list.dart';
 import 'package:plotcraft/features/project_workspace/presentation/shell/workspace_shell.dart';
+import 'package:plotcraft/features/project_workspace/domain/workspace_tab.dart';
 import 'package:plotcraft/features/project_workspace/presentation/workspace_actions.dart';
 import 'package:plotcraft/features/project_workspace/stores/project_workspace_store.dart';
 import 'package:plotcraft/features/project_workspace/stores/workspace_controller.dart';
@@ -81,6 +83,36 @@ void main() {
       .tabs
       .map((tab) => tab.title)
       .toList();
+
+  testWidgets('arrastar uma aba muda a ordem e mantém a aba ativa', (
+    tester,
+  ) async {
+    await pumpShell(tester);
+    controller
+      ..openTab(WorkspaceTab.gallery)
+      ..openTab(WorkspaceTab.settings);
+    await tester.pump();
+    List<String> ids() => controller.tabs.map((t) => t.id).toList();
+    expect(ids(), ['overview', 'gallery', 'settings']);
+
+    final tabs = find.byType(ReorderableDragStartListener);
+    final from = tester.getCenter(tabs.at(2));
+    final to = tester.getCenter(tabs.at(0)) - const Offset(40, 0);
+    final gesture = await tester.startGesture(
+      from,
+      kind: PointerDeviceKind.mouse,
+    );
+    await tester.pump();
+    for (var step = 1; step <= 10; step++) {
+      await gesture.moveTo(Offset.lerp(from, to, step / 10)!);
+      await tester.pump(const Duration(milliseconds: 30));
+    }
+    await gesture.up();
+    await tester.pumpAndSettle();
+
+    expect(ids(), ['settings', 'overview', 'gallery']);
+    expect(controller.activeTabId, 'settings');
+  });
 
   testWidgets(
     'abre o manuscrito em uma aba, marca como sujo e salva ao fechar',

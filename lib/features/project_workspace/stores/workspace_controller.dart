@@ -189,6 +189,15 @@ abstract class _WorkspaceController with Store {
     if (tabs.any((tab) => tab.id == tabId)) activeTabId = tabId;
   }
 
+  /// Moves the tab at [from] so that it ends up at index [to].
+  @action
+  void moveTab(int from, int to) {
+    if (from < 0 || from >= tabs.length) return;
+    final target = to.clamp(0, tabs.length - 1);
+    if (target == from) return;
+    tabs.insert(target, tabs.removeAt(from));
+  }
+
   /// Opens an unsaved element of [typeId] (character when omitted).
   @action
   String newElementDraft([String? typeId]) {

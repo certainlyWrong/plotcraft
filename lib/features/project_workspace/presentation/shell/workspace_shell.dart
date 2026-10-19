@@ -186,6 +186,7 @@ class WorkspaceShell extends StatelessWidget {
           activeId: controller.activeTabId,
           onSelect: controller.activate,
           onClose: (id) => actions.closeTab(context, id),
+          onReorder: controller.moveTab,
           onTabMenu: (id, position) => _openTabMenu(context, id, position),
           trailing: PlotcraftIconButton(
             icon: Feather.sidebar,

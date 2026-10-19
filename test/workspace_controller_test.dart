@@ -90,6 +90,31 @@ void main() {
     expect(controller.activeTabId, isNull);
   });
 
+  test('mover uma aba muda a ordem sem alterar a aba ativa', () {
+    controller
+      ..openTab(WorkspaceTab.gallery)
+      ..openTab(WorkspaceTab.settings);
+    controller.moveTab(2, 0);
+    expect(controller.tabs.map((t) => t.id), [
+      'settings',
+      'overview',
+      'gallery',
+    ]);
+    expect(controller.activeTabId, 'settings');
+    controller.moveTab(0, 9);
+    expect(controller.tabs.map((t) => t.id), [
+      'overview',
+      'gallery',
+      'settings',
+    ]);
+    controller.moveTab(5, 0);
+    expect(controller.tabs.map((t) => t.id), [
+      'overview',
+      'gallery',
+      'settings',
+    ]);
+  });
+
   String firstChapter() => store.book.chapters.first.id;
 
   test('o manuscrito antigo vira o primeiro capítulo ao abrir o projeto', () {

@@ -306,6 +306,18 @@ mixin _$WorkspaceController on _WorkspaceController, Store {
   }
 
   @override
+  void moveTab(int from, int to) {
+    final _$actionInfo = _$_WorkspaceControllerActionController.startAction(
+      name: '_WorkspaceController.moveTab',
+    );
+    try {
+      return super.moveTab(from, to);
+    } finally {
+      _$_WorkspaceControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String newElementDraft([String? typeId]) {
     final _$actionInfo = _$_WorkspaceControllerActionController.startAction(
       name: '_WorkspaceController.newElementDraft',

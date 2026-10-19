@@ -22,7 +22,8 @@ class PlotcraftTabData {
 }
 
 /// Row of document tabs with an optional trailing area (status, actions).
-/// Middle-click closes a tab, as in most desktop editors.
+/// Middle-click closes a tab, as in most desktop editors, and dragging one
+/// moves it when [onReorder] is given.
 class PlotcraftTabBar extends StatelessWidget {
   const PlotcraftTabBar({
     super.key,
@@ -32,6 +33,7 @@ class PlotcraftTabBar extends StatelessWidget {
     required this.onClose,
     this.trailing,
     this.onTabMenu,
+    this.onReorder,
   });
 
   final List<PlotcraftTabData> tabs;
@@ -42,6 +44,9 @@ class PlotcraftTabBar extends StatelessWidget {
 
   /// Opens a context menu for a tab at the given global position.
   final void Function(String id, Offset position)? onTabMenu;
+
+  /// Moves the tab at index [from] so that it ends up at index [to].
+  final void Function(int from, int to)? onReorder;
 
   @override
   Widget build(BuildContext context) {
@@ -55,20 +60,32 @@ class PlotcraftTabBar extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: ListView(
+            child: ReorderableListView.builder(
               scrollDirection: Axis.horizontal,
-              children: [
-                for (final tab in tabs)
-                  _Tab(
-                    data: tab,
-                    active: tab.id == activeId,
-                    onSelect: () => onSelect(tab.id),
-                    onClose: () => onClose(tab.id),
-                    onMenu: onTabMenu == null
-                        ? null
-                        : (position) => onTabMenu!(tab.id, position),
-                  ),
-              ],
+              buildDefaultDragHandles: false,
+              itemCount: tabs.length,
+              onReorderItem: (from, to) => onReorder?.call(from, to),
+              proxyDecorator: (child, index, animation) =>
+                  Material(type: MaterialType.transparency, child: child),
+              itemBuilder: (context, index) {
+                final tab = tabs[index];
+                final item = _Tab(
+                  key: ValueKey(tab.id),
+                  data: tab,
+                  active: tab.id == activeId,
+                  onSelect: () => onSelect(tab.id),
+                  onClose: () => onClose(tab.id),
+                  onMenu: onTabMenu == null
+                      ? null
+                      : (position) => onTabMenu!(tab.id, position),
+                );
+                if (onReorder == null) return item;
+                return ReorderableDragStartListener(
+                  key: ValueKey(tab.id),
+                  index: index,
+                  child: item,
+                );
+              },
             ),
           ),
           ?trailing,
@@ -80,6 +97,7 @@ class PlotcraftTabBar extends StatelessWidget {
 
 class _Tab extends StatefulWidget {
   const _Tab({
+    super.key,
     required this.data,
     required this.active,
     required this.onSelect,
