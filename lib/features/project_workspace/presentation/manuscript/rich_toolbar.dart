@@ -68,6 +68,7 @@ class RichToolbar extends StatelessWidget {
               config: QuillSimpleToolbarConfig(
                 multiRowsDisplay: false,
                 showListCheck: false,
+                showLink: false,
                 showDirection: false,
                 showSmallButton: false,
                 toolbarIconAlignment: WrapAlignment.start,
