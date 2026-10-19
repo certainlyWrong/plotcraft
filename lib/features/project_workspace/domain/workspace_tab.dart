@@ -14,6 +14,7 @@ enum WorkspaceTabKind {
   gallery,
   graph,
   timeline,
+  reading,
   manuscript,
   chapter,
   element,
@@ -29,6 +30,7 @@ class WorkspaceTab {
   static const gallery = WorkspaceTab(WorkspaceTabKind.gallery);
   static const graph = WorkspaceTab(WorkspaceTabKind.graph);
   static const timeline = WorkspaceTab(WorkspaceTabKind.timeline);
+  static const reading = WorkspaceTab(WorkspaceTabKind.reading);
   static const singleManuscript = WorkspaceTab(WorkspaceTabKind.manuscript);
   static const draftPrefix = 'new-';
 
@@ -42,9 +44,10 @@ class WorkspaceTab {
 
   String get id => refId == null ? kind.name : '${kind.name}:$refId';
 
-  /// Tabs that can fill the whole window: the text editor and the views.
+  /// Tabs that can fill the whole window: the text editor, the reader and the views.
   bool get supportsFullscreen =>
       isManuscript ||
+      kind == WorkspaceTabKind.reading ||
       kind == WorkspaceTabKind.graph ||
       kind == WorkspaceTabKind.timeline;
 
@@ -62,6 +65,7 @@ class WorkspaceTab {
     WorkspaceTabKind.gallery => WorkspaceSection.gallery,
     WorkspaceTabKind.graph => WorkspaceSection.graph,
     WorkspaceTabKind.timeline => WorkspaceSection.timeline,
+    WorkspaceTabKind.reading ||
     WorkspaceTabKind.manuscript ||
     WorkspaceTabKind.chapter => WorkspaceSection.manuscript,
     WorkspaceTabKind.element => WorkspaceSection.elements,

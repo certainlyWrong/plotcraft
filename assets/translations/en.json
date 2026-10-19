@@ -136,6 +136,7 @@
     "folder_error": "Could not use this folder. Choose another location."
   },
   "workspace": {
+    "reading": "Reading mode",
     "project": "STORY PROJECT",
     "eyebrow": "STORY WORKSPACE",
     "overview": "Overview",
@@ -546,5 +547,16 @@
     },
     "all": "All types",
     "filter": "Type"
+  },
+  "reading": {
+    "smaller": "Smaller text",
+    "larger": "Larger text",
+    "edit": "Edit this chapter",
+    "chapters": "Chapters",
+    "chapter_of": "CHAPTER {n} OF {total}",
+    "minutes": "{count} min read",
+    "previous": "Previous",
+    "next": "Next",
+    "the_end": "The end"
   }
 }

@@ -136,6 +136,7 @@
     "folder_error": "Não foi possível usar esta pasta. Escolha outro local."
   },
   "workspace": {
+    "reading": "Modo leitura",
     "project": "PROJETO DE HISTÓRIA",
     "eyebrow": "ESPAÇO DA HISTÓRIA",
     "overview": "Visão geral",
@@ -546,5 +547,16 @@
     },
     "all": "Todos os tipos",
     "filter": "Tipo"
+  },
+  "reading": {
+    "smaller": "Texto menor",
+    "larger": "Texto maior",
+    "edit": "Editar este capítulo",
+    "chapters": "Capítulos",
+    "chapter_of": "CAPÍTULO {n} DE {total}",
+    "minutes": "{count} min de leitura",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "the_end": "Fim"
   }
 }

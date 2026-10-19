@@ -380,4 +380,27 @@ void main() {
     controller.selectSection(WorkspaceSection.gallery);
     expect(controller.activeTabId, 'gallery');
   });
+
+  test('o modo leitura abre uma aba só e guarda o capítulo pedido', () {
+    controller.openReading('c2');
+    controller.openReading();
+    expect(
+      controller.tabs.where((t) => t.kind == WorkspaceTabKind.reading),
+      hasLength(1),
+    );
+    expect(controller.activeTabId, WorkspaceTab.reading.id);
+    expect(controller.readingRequests[WorkspaceTab.reading.id], 'c2');
+    controller.clearReadingRequest();
+    expect(controller.readingRequests, isEmpty);
+    expect(WorkspaceTab.reading.supportsFullscreen, isTrue);
+  });
+
+  test('o leitor vê o texto ainda não salvo do capítulo', () {
+    final buffer = controller.bufferFor(null);
+    setText(buffer, 'Rascunho novo');
+    expect(
+      controller.readingDeltaFor(null).toList().first.data,
+      contains('Rascunho novo'),
+    );
+  });
 }

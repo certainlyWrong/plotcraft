@@ -188,6 +188,24 @@ mixin _$WorkspaceController on _WorkspaceController, Store {
     });
   }
 
+  late final _$readingRequestsAtom = Atom(
+    name: '_WorkspaceController.readingRequests',
+    context: context,
+  );
+
+  @override
+  ObservableMap<String, String> get readingRequests {
+    _$readingRequestsAtom.reportRead();
+    return super.readingRequests;
+  }
+
+  @override
+  set readingRequests(ObservableMap<String, String> value) {
+    _$readingRequestsAtom.reportWrite(value, super.readingRequests, () {
+      super.readingRequests = value;
+    });
+  }
+
   late final _$dirtyTabsAtom = Atom(
     name: '_WorkspaceController.dirtyTabs',
     context: context,
@@ -438,6 +456,30 @@ mixin _$WorkspaceController on _WorkspaceController, Store {
   }
 
   @override
+  void openReading([String? chapterId]) {
+    final _$actionInfo = _$_WorkspaceControllerActionController.startAction(
+      name: '_WorkspaceController.openReading',
+    );
+    try {
+      return super.openReading(chapterId);
+    } finally {
+      _$_WorkspaceControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clearReadingRequest() {
+    final _$actionInfo = _$_WorkspaceControllerActionController.startAction(
+      name: '_WorkspaceController.clearReadingRequest',
+    );
+    try {
+      return super.clearReadingRequest();
+    } finally {
+      _$_WorkspaceControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void onBufferChanged(String? chapterId) {
     final _$actionInfo = _$_WorkspaceControllerActionController.startAction(
       name: '_WorkspaceController.onBufferChanged',
@@ -497,6 +539,7 @@ inspectorWidth: ${inspectorWidth},
 editorFullscreen: ${editorFullscreen},
 loadFailed: ${loadFailed},
 revealRequests: ${revealRequests},
+readingRequests: ${readingRequests},
 dirtyTabs: ${dirtyTabs},
 externalConflicts: ${externalConflicts},
 externalVersions: ${externalVersions},

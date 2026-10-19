@@ -14,6 +14,7 @@ import '../timeline/story_timeline_view.dart';
 import 'package:plotcraft_core/features/projects/domain/project_format.dart';
 
 import '../manuscript/book_editor.dart';
+import '../reading/reading_view.dart';
 import '../widgets/external_change_banner.dart';
 import '../widgets/gallery_page.dart';
 import '../widgets/project_metadata_editor.dart';
@@ -83,6 +84,27 @@ class WorkspaceTabContent extends StatelessWidget {
           fullscreen: controller.editorFullscreen,
           onToggleFullscreen: () => actions.toggleFullscreen(context),
         );
+      case WorkspaceTabKind.reading:
+        return ReadingView(
+          chapters: store.book.chaptersEnabled
+              ? store.book.chapters.toList()
+              : const [],
+          deltaFor: controller.readingDeltaFor,
+          title: project.title,
+          fullscreen: controller.editorFullscreen,
+          onToggleFullscreen: () => actions.toggleFullscreen(context),
+          onOpenElement: actions.openElement,
+          onEdit: controller.openManuscript,
+          elements: store.elements.toList(),
+          types: store.elementTypes,
+          galleryItems: store.galleryItems.toList(),
+          attachmentPath: store.attachmentPath,
+          fonts: controller.fonts.catalog,
+          jumpTo: controller.readingRequests[tab.id],
+          onJumped: controller.clearReadingRequest,
+          initialState: controller.loadViewState('reading'),
+          onStateChanged: (state) => controller.saveViewState('reading', state),
+        );
       case WorkspaceTabKind.settings:
         return _DiscardGuard(
           controller: controller,
@@ -134,6 +156,7 @@ class WorkspaceTabContent extends StatelessWidget {
             onManageFonts: () => actions.manageFonts(context),
             onIgnoreTerm: (element, term) =>
                 actions.ignoreMentionTerm(context, element, term),
+            onRead: () => controller.openReading(chapterId),
             onSave: () => actions.saveManuscript(context, chapterId),
             onToggleFullscreen: () => actions.toggleFullscreen(context),
             onOpenElement: actions.openElement,

@@ -156,6 +156,15 @@ class WorkspaceShell extends StatelessWidget {
         title: 'workspace.manuscript'.tr(),
         actions: [
           PlotcraftIconButton(
+            icon: Feather.book_open,
+            tooltip: 'workspace.reading'.tr(),
+            onPressed: () => controller.openReading(
+              activeTab?.kind == WorkspaceTabKind.chapter
+                  ? activeTab?.refId
+                  : null,
+            ),
+          ),
+          PlotcraftIconButton(
             icon: Feather.plus,
             tooltip: 'book.add_chapter'.tr(),
             onPressed: store.isBookUpdating
@@ -244,6 +253,7 @@ class WorkspaceShell extends StatelessWidget {
         'workspace.timeline'.tr(),
         WorkspaceIcons.timeline,
       ),
+      WorkspaceTabKind.reading => ('workspace.reading'.tr(), Feather.book_open),
       WorkspaceTabKind.manuscript => (
         'workspace.manuscript'.tr(),
         WorkspaceIcons.manuscript,

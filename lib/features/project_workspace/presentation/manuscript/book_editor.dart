@@ -16,10 +16,7 @@ import '../../../../core/spellcheck/spell_check_backend.dart';
 import '../../../../core/spellcheck/text_overlays.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 
-import 'package:plotcraft_core/features/project_workspace/domain/active_phase.dart';
-import 'package:plotcraft_core/features/project_workspace/domain/element_image.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
-import 'package:plotcraft_core/features/project_workspace/domain/element_type_catalog.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/gallery_item.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
 
@@ -35,7 +32,7 @@ import 'embeds.dart';
 import 'editor_fonts.dart';
 import 'find_bar.dart';
 import 'rich_toolbar.dart';
-import 'element_hover_card.dart';
+import 'mention_card.dart';
 import 'mention_hover_controller.dart';
 
 /// One open manuscript document: toolbar, find bar, rich text and status bar.
@@ -58,6 +55,7 @@ class BookEditor extends StatefulWidget {
     this.fonts = const EditorFontCatalog(bundled: bundledEditorFontFamilies),
     this.onManageFonts,
     this.onIgnoreTerm,
+    this.onRead,
     this.reveal,
     this.onRevealed,
     this.backend = const MethodChannelSpellCheckBackend(),
@@ -94,6 +92,9 @@ class BookEditor extends StatefulWidget {
 
   /// Asked to stop detecting [term] as a mention of [element].
   final void Function(NarrativeElement element, String term)? onIgnoreTerm;
+
+  /// Opens the reader at this document.
+  final VoidCallback? onRead;
 
   /// A stretch of text to select and bring into view when shown.
   final TextRange? reveal;
@@ -307,42 +308,16 @@ class _BookEditorState extends State<BookEditor> {
   }
 
   /// The card for the element a mention points to, or null if it is gone.
-  Widget? _hoverCard(String id, {required bool auto}) {
-    final element = widget.elements.where((e) => e.id == id).firstOrNull;
-    if (element == null) return null;
-    ElementImage? cover = element.images.firstOrNull;
-    String? coverPath;
-    if (cover != null) {
-      coverPath = cover.isGallery
-          ? _galleryPath(cover.value)
-          : widget.attachmentPath?.call(cover.value);
-    }
-    return ElementHoverCard(
-      element: element,
-      type: ElementTypeCatalog.resolve(element.typeId, widget.types),
-      coverPath: coverPath,
-      phase: activePhaseAt(element, widget.chapterOrder, widget.chapterId),
-      auto: auto,
-    );
-  }
-
-  /// Makes every piece of a mention's text report the pointer entering and
-  /// leaving, so its card can be shown.
-  InlineSpan _withHover(InlineSpan span, String id) {
-    if (span is! TextSpan) return span;
-    return TextSpan(
-      text: span.text,
-      style: span.style,
-      recognizer: span.recognizer,
-      mouseCursor: span.mouseCursor,
-      onEnter: (event) => _hover.enter(id, event.position),
-      onExit: (_) => _hover.leave(),
-      children: [
-        for (final child in span.children ?? const <InlineSpan>[])
-          _withHover(child, id),
-      ],
-    );
-  }
+  Widget? _hoverCard(String id, {required bool auto}) => mentionCard(
+    id: id,
+    auto: auto,
+    elements: widget.elements,
+    types: widget.types,
+    galleryItems: widget.galleryItems,
+    chapterOrder: widget.chapterOrder,
+    chapterId: widget.chapterId,
+    attachmentPath: widget.attachmentPath,
+  );
 
   String? _galleryPath(String id) {
     final item = widget.galleryItems.where((item) => item.id == id).firstOrNull;
@@ -397,6 +372,12 @@ class _BookEditorState extends State<BookEditor> {
               onToggleFullscreen: widget.onToggleFullscreen,
               fonts: widget.fonts.menuItems,
               extraActions: [
+                if (widget.onRead != null)
+                  PlotcraftIconButton(
+                    icon: Feather.book_open,
+                    tooltip: 'workspace.reading'.tr(),
+                    onPressed: widget.onRead,
+                  ),
                 if (widget.onManageFonts != null)
                   PlotcraftIconButton(
                     icon: Feather.type,
@@ -482,7 +463,7 @@ class _BookEditorState extends State<BookEditor> {
                 ? node.style.attributes[RichDocument.mentionKey]?.value
                 : null;
             if (mention is Map && mention['id'] is String) {
-              return _withHover(span, mention['id'] as String);
+              return withMentionHover(span, mention['id'] as String, _hover);
             }
             return span;
           },

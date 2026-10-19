@@ -139,6 +139,11 @@ abstract class _WorkspaceController with Store {
   ObservableMap<String, TextRange> revealRequests =
       ObservableMap<String, TextRange>();
 
+  /// Chapter the reading tab should jump to when next shown, by tab ID.
+  @observable
+  ObservableMap<String, String> readingRequests =
+      ObservableMap<String, String>();
+
   @observable
   ObservableSet<String> dirtyTabs = ObservableSet<String>();
 
@@ -429,6 +434,25 @@ abstract class _WorkspaceController with Store {
 
   @action
   void clearReveal(String tabId) => revealRequests.remove(tabId);
+
+  /// Opens the reader, at [chapterId] when given (otherwise where the person
+  /// stopped last time).
+  @action
+  void openReading([String? chapterId]) {
+    if (chapterId != null) {
+      readingRequests[WorkspaceTab.reading.id] = chapterId;
+    }
+    openTab(WorkspaceTab.reading);
+  }
+
+  @action
+  void clearReadingRequest() => readingRequests.remove(WorkspaceTab.reading.id);
+
+  /// Current text of a chapter for the reader: unsaved edits included.
+  Delta readingDeltaFor(String? chapterId) {
+    final buffer = _buffers[chapterId ?? 'single'];
+    return buffer?.currentDelta ?? store.book.deltaFor(chapterId);
+  }
 
   @action
   void onBufferChanged(String? chapterId) {
