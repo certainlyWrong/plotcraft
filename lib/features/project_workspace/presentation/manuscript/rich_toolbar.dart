@@ -7,6 +7,25 @@ import '../../../../core/ui/plotcraft_icon_button.dart';
 import 'editor_fonts.dart';
 import 'text_color_dialog.dart';
 
+/// Toggled buttons get a soft tint with a readable icon, instead of the solid
+/// primary fill of the default style.
+QuillIconTheme _iconTheme(ColorScheme scheme) => QuillIconTheme(
+  iconButtonUnselectedData: IconButtonData(
+    color: scheme.onSurfaceVariant,
+    disabledColor: scheme.onSurface.withValues(alpha: 0.38),
+    highlightColor: scheme.onSurface.withValues(alpha: 0.08),
+    hoverColor: scheme.onSurface.withValues(alpha: 0.08),
+  ),
+  iconButtonSelectedData: IconButtonData(
+    color: scheme.onPrimaryContainer,
+    style: IconButton.styleFrom(
+      backgroundColor: scheme.primaryContainer,
+      foregroundColor: scheme.onPrimaryContainer,
+      hoverColor: scheme.onPrimaryContainer.withValues(alpha: 0.08),
+    ),
+  ),
+);
+
 /// Formatting toolbar of the rich editor plus the document actions.
 class RichToolbar extends StatelessWidget {
   const RichToolbar({
@@ -59,6 +78,9 @@ class RichToolbar extends StatelessWidget {
                 showCodeBlock: false,
                 color: Colors.transparent,
                 buttonOptions: QuillSimpleToolbarButtonOptions(
+                  base: QuillToolbarBaseButtonOptions(
+                    iconTheme: _iconTheme(scheme),
+                  ),
                   fontFamily: QuillToolbarFontFamilyButtonOptions(
                     items: fonts,
                     tooltip: 'editor.font'.tr(),
