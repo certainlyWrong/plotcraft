@@ -10,6 +10,7 @@ import '../../../core/ui/plotcraft_dialog.dart';
 import 'package:plotcraft_core/features/projects/domain/project_metadata_input.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/book_content.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/story_time.dart';
 
 import '../domain/workspace_tab.dart';
 import '../stores/project_workspace_store.dart';
@@ -281,6 +282,25 @@ class WorkspaceActions {
   /// Opens the manuscript document that references an element.
   void openReference(String? chapterId, [TextRange? range]) =>
       controller.openManuscript(chapterId, reveal: range);
+
+  /// Moves an element on the story's chronology by giving it a new position
+  /// (keeping the label the author wrote).
+  Future<void> placeOnTimeline(String elementId, double position) async {
+    final element = store.elements
+        .where((element) => element.id == elementId)
+        .firstOrNull;
+    if (element == null) return;
+    final current = element.time;
+    try {
+      await store.saveElement(
+        element.copyWith(
+          time: (current ?? const StoryTime()).copyWith(position: position),
+        ),
+      );
+    } catch (_) {
+      // The card goes back to where it was: the element is unchanged.
+    }
+  }
 
   /// Stops the automatic detection of [term] as a mention of [element].
   Future<void> ignoreMentionTerm(

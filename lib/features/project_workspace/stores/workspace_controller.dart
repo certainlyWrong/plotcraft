@@ -8,6 +8,9 @@ import 'package:mobx/mobx.dart';
 
 import '../../../core/storage/local_storage.dart';
 
+import 'package:plotcraft_core/features/project_workspace/domain/book_content.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
+import 'package:plotcraft_core/features/project_workspace/domain/rich/mention_scan.dart';
 import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 
 import '../domain/workspace_tab.dart';
@@ -176,6 +179,60 @@ abstract class _WorkspaceController with Store {
 
   bool isDirty(String tabId) => dirtyTabs.contains(tabId);
 
+  // --- View state -----------------------------------------------------------
+
+  /// What the map and the timeline looked like when the project was last
+  /// open (zoom, filters, node positions), kept on this computer.
+  Map<String, Object?>? loadViewState(String name) =>
+      _viewStates.putIfAbsent(name, () {
+        final raw = _storage?.loadString(_viewKey(name));
+        if (raw == null) return null;
+        try {
+          final decoded = jsonDecode(raw);
+          return decoded is Map ? Map<String, Object?>.from(decoded) : null;
+        } on FormatException {
+          return null;
+        }
+      });
+
+  void saveViewState(String name, Map<String, Object?> state) {
+    _viewStates[name] = state;
+    unawaited(_storage?.saveString(_viewKey(name), jsonEncode(state)));
+  }
+
+  final _viewStates = <String, Map<String, Object?>?>{};
+
+  String _viewKey(String name) => 'view.${_initialProject.id}.$name';
+
+  // --- Presence -------------------------------------------------------------
+
+  BookContent? _presenceBook;
+  List<NarrativeElement> _presenceElements = const [];
+  List<ChapterPresence> _presence = const [];
+
+  /// Where each element appears in the text, a chapter at a time. Reading the
+  /// whole book is not free, so it is redone only when the book or an element
+  /// changed, not on every rebuild (resizing a panel, for example).
+  List<ChapterPresence> get presence {
+    final book = store.book;
+    final elements = store.elements.toList();
+    final same =
+        identical(book, _presenceBook) &&
+        elements.length == _presenceElements.length &&
+        [for (var i = 0; i < elements.length; i++) i]
+            .every((i) => identical(elements[i], _presenceElements[i]));
+    if (!same) {
+      _presenceBook = book;
+      _presenceElements = elements;
+      _presence = scanBookPresence(
+        book,
+        elements,
+        (store.project ?? _initialProject).title,
+      );
+    }
+    return _presence;
+  }
+
   // --- Tabs ---------------------------------------------------------------
 
   @action
@@ -248,7 +305,9 @@ abstract class _WorkspaceController with Store {
           ? null
           : tabs[index.clamp(0, tabs.length - 1)].id;
     }
-    if (tabs.every((item) => !item.isManuscript)) editorFullscreen = false;
+    if (tabs.every((item) => !item.supportsFullscreen)) {
+      editorFullscreen = false;
+    }
   }
 
   /// Registers how a tab confirms that it can be closed (for example an
@@ -300,6 +359,12 @@ abstract class _WorkspaceController with Store {
         sidePanel = null;
       case WorkspaceSection.gallery:
         openTab(WorkspaceTab.gallery);
+        sidePanel = null;
+      case WorkspaceSection.graph:
+        openTab(WorkspaceTab.graph);
+        sidePanel = null;
+      case WorkspaceSection.timeline:
+        openTab(WorkspaceTab.timeline);
         sidePanel = null;
       case WorkspaceSection.manuscript:
       case WorkspaceSection.elements:

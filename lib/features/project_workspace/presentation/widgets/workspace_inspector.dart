@@ -9,6 +9,7 @@ import 'package:plotcraft_core/features/projects/domain/project_format.dart';
 import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 
 import '../../domain/workspace_tab.dart';
+import '../shell/workspace_icons.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import 'project_cover_art.dart';
@@ -133,22 +134,32 @@ class WorkspaceInspector extends StatelessWidget {
   Widget _sectionSummary(BuildContext context) {
     final (icon, label, value) = switch (section) {
       WorkspaceSection.overview => (
-        Feather.grid,
+        WorkspaceIcons.overview,
         'workspace.overview'.tr(),
         'workspace.inspector_overview'.tr(),
       ),
       WorkspaceSection.manuscript => (
-        Feather.file_text,
+        WorkspaceIcons.manuscript,
         'workspace.manuscript'.tr(),
         countLabel('workspace.word_count', wordCount),
       ),
       WorkspaceSection.elements => (
-        Feather.users,
+        WorkspaceIcons.elements,
         'elements.title'.tr(),
         'elements.inspector_summary'.tr(),
       ),
+      WorkspaceSection.graph => (
+        WorkspaceIcons.graph,
+        'workspace.graph'.tr(),
+        'workspace.graph_intro'.tr(),
+      ),
+      WorkspaceSection.timeline => (
+        WorkspaceIcons.timeline,
+        'workspace.timeline'.tr(),
+        'workspace.timeline_intro'.tr(),
+      ),
       WorkspaceSection.gallery => (
-        Feather.image,
+        WorkspaceIcons.gallery,
         'workspace.gallery'.tr(),
         countLabel('workspace.image_count', imageCount),
       ),

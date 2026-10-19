@@ -19,6 +19,7 @@ import '../manuscript/chapter_list.dart';
 import '../widgets/workspace_inspector.dart';
 import '../workspace_actions.dart';
 import 'activity_bar.dart';
+import 'workspace_icons.dart';
 import 'side_panel.dart';
 import 'workspace_tab_content.dart';
 
@@ -43,11 +44,15 @@ class WorkspaceShell extends StatelessWidget {
   /// The store holds the latest project (for example after editing it).
   StoryProject get _project => controller.store.project ?? project;
 
-  /// Sections of the activity bar for this project's format.
+  /// Sections of the activity bar for this project's format. The map and the
+  /// timeline show up once there is something to connect.
   List<WorkspaceSection> get _sections => [
     for (final section in WorkspaceSection.values)
-      if (section != WorkspaceSection.manuscript ||
-          ProjectFormats.of(_project.primaryFormat).hasManuscript)
+      if ((section != WorkspaceSection.manuscript ||
+              ProjectFormats.of(_project.primaryFormat).hasManuscript) &&
+          ((section != WorkspaceSection.graph &&
+                  section != WorkspaceSection.timeline) ||
+              controller.store.elements.isNotEmpty))
         section,
   ];
 
@@ -58,7 +63,7 @@ class WorkspaceShell extends StatelessWidget {
       final activeTab = controller.activeTab;
       if (controller.editorFullscreen &&
           activeTab != null &&
-          activeTab.isManuscript) {
+          activeTab.supportsFullscreen) {
         return Scaffold(
           body: SafeArea(
             child: WorkspaceTabContent(
@@ -222,15 +227,26 @@ class WorkspaceShell extends StatelessWidget {
   PlotcraftTabData _tabData(WorkspaceTab tab) {
     final store = controller.store;
     final (title, icon) = switch (tab.kind) {
-      WorkspaceTabKind.overview => ('workspace.overview'.tr(), Feather.grid),
+      WorkspaceTabKind.overview => (
+        'workspace.overview'.tr(),
+        WorkspaceIcons.overview,
+      ),
       WorkspaceTabKind.settings => (
         'workspace.edit_project'.tr(),
         Feather.settings,
       ),
-      WorkspaceTabKind.gallery => ('workspace.gallery'.tr(), Feather.image),
+      WorkspaceTabKind.gallery => (
+        'workspace.gallery'.tr(),
+        WorkspaceIcons.gallery,
+      ),
+      WorkspaceTabKind.graph => ('workspace.graph'.tr(), WorkspaceIcons.graph),
+      WorkspaceTabKind.timeline => (
+        'workspace.timeline'.tr(),
+        WorkspaceIcons.timeline,
+      ),
       WorkspaceTabKind.manuscript => (
         'workspace.manuscript'.tr(),
-        Feather.file_text,
+        WorkspaceIcons.manuscript,
       ),
       WorkspaceTabKind.chapter => (
         store.book.chapters
@@ -238,7 +254,7 @@ class WorkspaceShell extends StatelessWidget {
                 .firstOrNull
                 ?.title ??
             'workspace.manuscript'.tr(),
-        Feather.file_text,
+        WorkspaceIcons.manuscript,
       ),
       WorkspaceTabKind.element => (
         store.elements

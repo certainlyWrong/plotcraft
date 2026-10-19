@@ -182,6 +182,27 @@ void main() {
       call('open_in_app', {'project_id': project.id, 'element_id': 'x'}),
       throwsA(isA<BridgeError>()),
     );
+    // Screens of the project.
+    for (final view in ['graph', 'timeline', 'gallery', 'overview']) {
+      final shown = await call('open_in_app', {
+        'project_id': project.id,
+        'view': view,
+      }) as Map;
+      expect(shown['view'], view);
+      expect(controller.activeTabId, view);
+      expect(controller.sidePanel, isNull);
+    }
+    await call('open_in_app', {'project_id': project.id, 'view': 'settings'});
+    expect(controller.activeTabId, 'settings');
+    await expectLater(
+      call('open_in_app', {'project_id': project.id, 'view': 'inexistente'}),
+      throwsA(isA<BridgeError>()),
+    );
+    // Full screen is for the editor, the map and the timeline only.
+    await expectLater(
+      call('open_in_app', {'project_id': project.id, 'fullscreen': true}),
+      throwsA(isA<BridgeError>()),
+    );
     expect(p.isAbsolute(root.path), isTrue);
   });
 

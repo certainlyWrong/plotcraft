@@ -115,6 +115,33 @@ void main() {
     ]);
   });
 
+  test('a seção do mapa abre a aba do mapa sem painel lateral', () {
+    controller.selectSection(WorkspaceSection.elements);
+    expect(controller.sidePanel, WorkspaceSection.elements);
+    controller.selectSection(WorkspaceSection.graph);
+    expect(controller.activeTabId, 'graph');
+    expect(controller.sidePanel, isNull);
+    expect(controller.activeSection, WorkspaceSection.graph);
+  });
+
+  test('tela cheia vale para o mapa e a linha do tempo e acaba com a aba', () {
+    expect(WorkspaceTab.graph.supportsFullscreen, isTrue);
+    expect(WorkspaceTab.timeline.supportsFullscreen, isTrue);
+    expect(WorkspaceTab.gallery.supportsFullscreen, isFalse);
+    controller.selectSection(WorkspaceSection.timeline);
+    controller.toggleFullscreen(true);
+    expect(controller.editorFullscreen, isTrue);
+    controller.closeTabNow('timeline');
+    expect(controller.editorFullscreen, isFalse);
+  });
+
+  test('o estado de exibição do mapa é guardado e lido de volta', () {
+    expect(controller.loadViewState('graph'), isNull);
+    controller.saveViewState('graph', {'scale': 1.5, 'positions': {}});
+    expect(controller.loadViewState('graph')!['scale'], 1.5);
+    expect(controller.loadViewState('timeline'), isNull);
+  });
+
   String firstChapter() => store.book.chapters.first.id;
 
   test('o manuscrito antigo vira o primeiro capítulo ao abrir o projeto', () {

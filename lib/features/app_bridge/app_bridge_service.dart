@@ -8,6 +8,7 @@ import 'package:plotcraft_core/features/app_bridge/app_bridge_server.dart';
 import 'package:plotcraft_core/features/app_bridge/bridge_protocol.dart';
 
 import '../../app/app_commands.dart';
+import '../../core/platform/window_service.dart';
 import '../../core/spellcheck/spell_check_backend.dart';
 import '../../core/theme/interface_fonts.dart';
 import '../preferences/stores/theme_store.dart';
@@ -225,12 +226,47 @@ class AppBridgeService {
         );
       }
       controller.openTab(WorkspaceTab.element(elementId));
+    } else if (params['view'] is String) {
+      final view = params['view'] as String;
+      switch (view) {
+        case 'settings':
+          controller.openTab(WorkspaceTab.settings);
+        case 'overview':
+          controller.selectSection(WorkspaceSection.overview);
+        case 'gallery':
+          controller.selectSection(WorkspaceSection.gallery);
+        case 'graph':
+          controller.selectSection(WorkspaceSection.graph);
+        case 'timeline':
+          controller.selectSection(WorkspaceSection.timeline);
+        default:
+          throw BridgeError(
+            'invalid_params',
+            'There is no screen "$view". Use one of: overview, settings, '
+                'gallery, graph, timeline.',
+          );
+      }
+    }
+    final fullscreen = params['fullscreen'];
+    if (fullscreen is bool) {
+      final active = controller.activeTab;
+      if (fullscreen && (active == null || !active.supportsFullscreen)) {
+        throw const BridgeError(
+          'invalid_params',
+          'Full screen is for the text editor, the map and the timeline: '
+              'open one of them first.',
+        );
+      }
+      await WindowService.setFullScreen(fullscreen);
+      controller.toggleFullscreen(fullscreen);
     }
     return {
       'opened': true,
       'project_id': id,
       'chapter_id': chapterId,
       'element_id': elementId,
+      'view': params['view'],
+      'fullscreen': controller.editorFullscreen,
     };
   }
 

@@ -4,6 +4,7 @@ import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../domain/workspace_tab.dart';
+import 'workspace_icons.dart';
 
 /// Narrow icon rail with the workspace sections and the way back to the
 /// library. Names appear as tooltips.
@@ -18,16 +19,12 @@ class ActivityBar extends StatelessWidget {
 
   static const width = 48.0;
 
-  static const _icons = {
-    WorkspaceSection.overview: Feather.grid,
-    WorkspaceSection.manuscript: Feather.file_text,
-    WorkspaceSection.elements: Feather.users,
-    WorkspaceSection.gallery: Feather.image,
-  };
   static const _labels = {
     WorkspaceSection.overview: 'workspace.overview',
     WorkspaceSection.manuscript: 'workspace.manuscript',
     WorkspaceSection.elements: 'elements.title',
+    WorkspaceSection.graph: 'workspace.graph',
+    WorkspaceSection.timeline: 'workspace.timeline',
     WorkspaceSection.gallery: 'workspace.gallery',
   };
 
@@ -53,7 +50,12 @@ class ActivityBar extends StatelessWidget {
           _BrandMark(color: scheme.primary),
           const SizedBox(height: 12),
           for (final section in sections)
-            _item(context, section, _icons[section]!, _labels[section]!),
+            _item(
+              context,
+              section,
+              WorkspaceIcons.of(section),
+              _labels[section]!,
+            ),
           const Spacer(),
           Tooltip(
             message: 'workspace.back_to_library'.tr(),

@@ -1,10 +1,19 @@
 /// Areas of the workspace reachable from the activity bar.
-enum WorkspaceSection { overview, manuscript, elements, gallery }
+enum WorkspaceSection {
+  overview,
+  manuscript,
+  elements,
+  graph,
+  timeline,
+  gallery,
+}
 
 enum WorkspaceTabKind {
   overview,
   settings,
   gallery,
+  graph,
+  timeline,
   manuscript,
   chapter,
   element,
@@ -18,6 +27,8 @@ class WorkspaceTab {
   static const overview = WorkspaceTab(WorkspaceTabKind.overview);
   static const settings = WorkspaceTab(WorkspaceTabKind.settings);
   static const gallery = WorkspaceTab(WorkspaceTabKind.gallery);
+  static const graph = WorkspaceTab(WorkspaceTabKind.graph);
+  static const timeline = WorkspaceTab(WorkspaceTabKind.timeline);
   static const singleManuscript = WorkspaceTab(WorkspaceTabKind.manuscript);
   static const draftPrefix = 'new-';
 
@@ -31,6 +42,12 @@ class WorkspaceTab {
 
   String get id => refId == null ? kind.name : '${kind.name}:$refId';
 
+  /// Tabs that can fill the whole window: the text editor and the views.
+  bool get supportsFullscreen =>
+      isManuscript ||
+      kind == WorkspaceTabKind.graph ||
+      kind == WorkspaceTabKind.timeline;
+
   bool get isDraftElement =>
       kind == WorkspaceTabKind.element &&
       (refId?.startsWith(draftPrefix) ?? false);
@@ -43,6 +60,8 @@ class WorkspaceTab {
     WorkspaceTabKind.overview ||
     WorkspaceTabKind.settings => WorkspaceSection.overview,
     WorkspaceTabKind.gallery => WorkspaceSection.gallery,
+    WorkspaceTabKind.graph => WorkspaceSection.graph,
+    WorkspaceTabKind.timeline => WorkspaceSection.timeline,
     WorkspaceTabKind.manuscript ||
     WorkspaceTabKind.chapter => WorkspaceSection.manuscript,
     WorkspaceTabKind.element => WorkspaceSection.elements,

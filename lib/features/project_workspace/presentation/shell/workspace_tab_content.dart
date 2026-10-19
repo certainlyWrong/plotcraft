@@ -8,6 +8,11 @@ import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 import '../../domain/workspace_tab.dart';
 import '../../stores/workspace_controller.dart';
 import '../elements/element_editor.dart';
+import '../graph/story_graph_view.dart';
+import '../timeline/story_timeline_view.dart';
+
+import 'package:plotcraft_core/features/projects/domain/project_format.dart';
+
 import '../manuscript/book_editor.dart';
 import '../widgets/external_change_banner.dart';
 import '../widgets/gallery_page.dart';
@@ -48,6 +53,35 @@ class WorkspaceTabContent extends StatelessWidget {
           ),
           onOpenGallery: () => controller.openTab(WorkspaceTab.gallery),
           onImportImages: () => actions.importImages(context),
+        );
+      case WorkspaceTabKind.graph:
+        return StoryGraphView(
+          elements: store.elements.toList(),
+          chapters: store.book.chapters.toList(),
+          types: store.elementTypes.toList(),
+          presence: controller.presence,
+          onOpenElement: actions.openElement,
+          onOpenChapter: controller.openManuscript,
+          initialState: controller.loadViewState('graph'),
+          onStateChanged: (state) => controller.saveViewState('graph', state),
+          fullscreen: controller.editorFullscreen,
+          onToggleFullscreen: () => actions.toggleFullscreen(context),
+        );
+      case WorkspaceTabKind.timeline:
+        return StoryTimelineView(
+          elements: store.elements.toList(),
+          chapters: store.book.chapters.toList(),
+          types: store.elementTypes.toList(),
+          presence: controller.presence,
+          hasChapters: ProjectFormats.of(project.primaryFormat).hasManuscript,
+          onOpenElement: actions.openElement,
+          onOpenChapter: controller.openManuscript,
+          onPlace: actions.placeOnTimeline,
+          initialState: controller.loadViewState('timeline'),
+          onStateChanged: (state) =>
+              controller.saveViewState('timeline', state),
+          fullscreen: controller.editorFullscreen,
+          onToggleFullscreen: () => actions.toggleFullscreen(context),
         );
       case WorkspaceTabKind.settings:
         return _DiscardGuard(
