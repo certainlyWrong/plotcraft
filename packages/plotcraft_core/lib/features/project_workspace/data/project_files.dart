@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
+import '../../../core/time_id.dart';
 import '../../projects/domain/story_project.dart';
 
 /// Low-level access to a project folder: the manifest and atomic writes.
@@ -17,7 +18,7 @@ class ProjectFiles {
     return path;
   }
 
-  String newId() => DateTime.now().microsecondsSinceEpoch.toRadixString(36);
+  String newId() => newTimeId();
 
   Future<void> ensureManifest(StoryProject project) async {
     final file = File(p.join(folder(project), 'project.json'));

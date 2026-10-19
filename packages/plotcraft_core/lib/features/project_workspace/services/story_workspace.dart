@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:dart_quill_delta/dart_quill_delta.dart';
 import 'package:path/path.dart' as p;
 
+import '../../../core/time_id.dart';
 import '../../projects/domain/project_format.dart';
 import '../../projects/domain/project_metadata_input.dart';
 import '../../projects/domain/story_project.dart';
@@ -134,7 +135,7 @@ class StoryWorkspace {
   StoryProject get project => _project;
   String get folder => _project.directoryPath!;
 
-  String newId() => DateTime.now().microsecondsSinceEpoch.toRadixString(36);
+  String newId() => newTimeId();
 
   // --- Project ----------------------------------------------------------
 
