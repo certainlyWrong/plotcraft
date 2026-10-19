@@ -674,36 +674,41 @@ class _ElementEditorState extends State<ElementEditor> {
           children: [
             _topBar(context),
             Expanded(
-              child: wide
-                  ? Padding(
-                      padding: const EdgeInsets.fromLTRB(28, 0, 28, 0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: SingleChildScrollView(
-                              padding: const EdgeInsets.only(bottom: 32),
-                              child: spaced(cards),
+              // Scrolling stays (wheel, trackpad, drag); only the bars go.
+              child: ScrollConfiguration(
+                behavior: ScrollConfiguration.of(context)
+                    .copyWith(scrollbars: false),
+                child: wide
+                    ? Padding(
+                        padding: const EdgeInsets.fromLTRB(28, 0, 28, 0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: SingleChildScrollView(
+                                padding: const EdgeInsets.only(bottom: 32),
+                                child: spaced(cards),
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 20),
-                          SizedBox(
-                            width: 280,
-                            child: SingleChildScrollView(
-                              padding: const EdgeInsets.only(bottom: 32),
-                              child: _summary(context, type),
+                            const SizedBox(width: 20),
+                            SizedBox(
+                              width: 280,
+                              child: SingleChildScrollView(
+                                padding: const EdgeInsets.only(bottom: 32),
+                                child: _summary(context, type),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                      )
+                    : SingleChildScrollView(
+                        padding: const EdgeInsets.fromLTRB(28, 0, 28, 32),
+                        child: spaced([
+                          _summary(context, type, compact: true),
+                          ...cards,
+                        ]),
                       ),
-                    )
-                  : SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(28, 0, 28, 32),
-                      child: spaced([
-                        _summary(context, type, compact: true),
-                        ...cards,
-                      ]),
-                    ),
+              ),
             ),
           ],
         );
