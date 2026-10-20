@@ -20,7 +20,7 @@ class MentionHoverController {
   final Duration delay;
 
   static const _cardWidth = 320.0;
-  static const _cardHeight = 360.0;
+  static const _cardHeight = 470.0;
 
   Timer? _timer;
   OverlayEntry? _entry;

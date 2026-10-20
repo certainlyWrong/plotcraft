@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../core/theme/plotcraft_tokens.dart';
-import '../../../../core/ui/project_image.dart';
+import '../../../../core/ui/proportional_image.dart';
 
 import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
@@ -75,10 +75,12 @@ class ElementHoverCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (coverPath != null)
-              SizedBox(
-                height: 130,
-                width: double.infinity,
-                child: ProjectImage(coverPath!, cacheWidth: 640),
+              // Whole image in its own shape; the height is capped at 240.
+              ProportionalImage(
+                coverPath!,
+                cacheWidth: 640,
+                minAspect: width / 240,
+                maxAspect: 3,
               ),
             Padding(
               padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),

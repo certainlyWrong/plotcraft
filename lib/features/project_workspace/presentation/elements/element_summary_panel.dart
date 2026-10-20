@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/plotcraft_tokens.dart';
-import '../../../../core/ui/project_image.dart';
+import '../../../../core/ui/proportional_image.dart';
 
 import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
@@ -82,11 +82,21 @@ class ElementSummaryPanel extends StatelessWidget {
         ],
       ),
     );
+    // The cover keeps the shape of the image; only the icon placeholder has
+    // a fixed shape.
     final cover = coverPath != null
-        ? ProjectImage(coverPath!, cacheWidth: 700)
-        : ColoredBox(
-            color: color.withValues(alpha: .14),
-            child: Icon(icon.data, size: 56, color: color),
+        ? ProportionalImage(
+            coverPath!,
+            cacheWidth: 700,
+            minAspect: .75,
+            maxAspect: 2.4,
+          )
+        : AspectRatio(
+            aspectRatio: 16 / 10,
+            child: ColoredBox(
+              color: color.withValues(alpha: .14),
+              child: Icon(icon.data, size: 56, color: color),
+            ),
           );
     final details = Padding(
       padding: const EdgeInsets.all(16),
@@ -170,17 +180,17 @@ class ElementSummaryPanel extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(width: 200, child: cover),
+                  SizedBox(
+                    width: 200,
+                    child: Align(alignment: Alignment.topCenter, child: cover),
+                  ),
                   Expanded(child: details),
                 ],
               ),
             )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                AspectRatio(aspectRatio: 16 / 10, child: cover),
-                details,
-              ],
+              children: [cover, details],
             ),
     );
   }
