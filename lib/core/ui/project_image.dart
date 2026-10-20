@@ -12,6 +12,7 @@ class ProjectImage extends StatelessWidget {
     this.width,
     this.height,
     this.cacheWidth,
+    this.alignment = Alignment.center,
     this.filterQuality = FilterQuality.medium,
     this.fallback = const SizedBox.shrink(),
   });
@@ -21,6 +22,9 @@ class ProjectImage extends StatelessWidget {
   final double? width;
   final double? height;
   final int? cacheWidth;
+
+  /// Which part of the image stays visible when [fit] crops it.
+  final Alignment alignment;
   final FilterQuality filterQuality;
 
   /// Shown when the file is missing or cannot be decoded.
@@ -33,6 +37,7 @@ class ProjectImage extends StatelessWidget {
     width: width,
     height: height,
     cacheWidth: cacheWidth,
+    alignment: alignment,
     filterQuality: filterQuality,
     errorBuilder: (_, _, _) => fallback,
   );
