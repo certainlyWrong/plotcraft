@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_flutter/icons_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plotcraft/core/theme/theme_definition.dart';
@@ -92,6 +93,24 @@ void main() {
     await tester.tap(find.text('Ana'));
     await tester.tap(find.text('Chegada'));
     expect(events, ['element:ana', 'chapter:c2']);
+  });
+
+  testWidgets('os controles da barra ficam encostados na borda direita', (
+    tester,
+  ) async {
+    await pump(tester, elements: [_element('ana', 'Ana')]);
+    // A wide window, where the old layout left a gap on the right.
+    tester.view.physicalSize = const Size(1900, 800);
+    await tester.pump();
+    final fullscreen = find.byIcon(Feather.maximize_2);
+    expect(fullscreen, findsOneWidget);
+    final right = tester
+        .getTopRight(
+          find.ancestor(of: fullscreen, matching: find.byType(IconButton)),
+        )
+        .dx;
+    // The window is 1900 wide: only the bar's padding is left, not a gap.
+    expect(right, greaterThan(1900 - 24));
   });
 
   testWidgets('por capítulo sem menções mostra a dica', (tester) async {

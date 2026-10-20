@@ -202,7 +202,11 @@ class _StoryTimelineViewState extends State<StoryTimelineView> {
                     color: scheme.primary,
                   ),
                   const SizedBox(width: 10),
-                  Expanded(
+                  // Not flexible: the controls take all the remaining width and
+                  // sit against the right edge (two flexible children would
+                  // split the free space and leave a gap).
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 260),
                     child: Text(
                       'workspace.timeline'.tr(),
                       maxLines: 1,
@@ -212,7 +216,8 @@ class _StoryTimelineViewState extends State<StoryTimelineView> {
                       ),
                     ),
                   ),
-                  Flexible(
+                  const SizedBox(width: 12),
+                  Expanded(
                     child: Wrap(
                       alignment: WrapAlignment.end,
                       crossAxisAlignment: WrapCrossAlignment.center,
