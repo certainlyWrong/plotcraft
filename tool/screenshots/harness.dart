@@ -144,17 +144,22 @@ Future<void> settle(WidgetTester tester, {int rounds = 6}) async {
   }
 }
 
-/// Saves the current frame as `build/screenshots/NAME.png`.
-Future<String> shot(WidgetTester tester, String name) async {
+/// Saves the current frame as `build/screenshots/NAME.png` (or in [directory]).
+Future<String> shot(
+  WidgetTester tester,
+  String name, {
+  Directory? directory,
+}) async {
+  final target = directory ?? outputDir;
   await settle(tester, rounds: 3);
   final boundary = tester.renderObject<RenderRepaintBoundary>(
     find.byKey(_boundaryKey),
   );
-  final path = '${outputDir.path}/$name.png';
+  final path = '${target.path}/$name.png';
   await tester.runAsync(() async {
     final image = await boundary.toImage(pixelRatio: 1.25);
     final data = await image.toByteData(format: ui.ImageByteFormat.png);
-    outputDir.createSync(recursive: true);
+    target.createSync(recursive: true);
     File(path).writeAsBytesSync(data!.buffer.asUint8List());
   });
   return path;
