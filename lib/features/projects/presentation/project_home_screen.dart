@@ -101,6 +101,25 @@ class _ProjectHomeScreenState extends State<ProjectHomeScreen> {
     });
   }
 
+  bool _installingSample = false;
+
+  /// Copies the bundled example into the library and opens it.
+  Future<void> _openSample() async {
+    if (_installingSample) return;
+    setState(() => _installingSample = true);
+    try {
+      final sample = await widget.projects.installSample();
+      if (mounted) _openProject(sample);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('home.sample_error'.tr())));
+      }
+    } finally {
+      if (mounted) setState(() => _installingSample = false);
+    }
+  }
+
   void _closeProject() {
     setState(() {
       _workspace = null;
@@ -161,6 +180,10 @@ class _ProjectHomeScreenState extends State<ProjectHomeScreen> {
                             store: widget.projects,
                             onCreate: _showCreateProject,
                             onOpen: _openProject,
+                            onSample: widget.projects.canInstallSample
+                                ? _openSample
+                                : null,
+                            installingSample: _installingSample,
                           ),
                           _DesktopPage.createProject => ProjectCreationScreen(
                             onCancel: _showProjects,
@@ -192,11 +215,17 @@ class _ProjectsPage extends StatelessWidget {
     required this.store,
     required this.onCreate,
     required this.onOpen,
+    required this.onSample,
+    required this.installingSample,
   });
   final List<StoryProject> projects;
   final ProjectStore store;
   final VoidCallback onCreate;
   final ValueChanged<StoryProject> onOpen;
+
+  /// Opens the bundled example; null when it is already in the library.
+  final VoidCallback? onSample;
+  final bool installingSample;
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -210,6 +239,8 @@ class _ProjectsPage extends StatelessWidget {
             children: [
               _PageHeading(
                 onCreate: onCreate,
+                onSample: onSample,
+                installingSample: installingSample,
                 hasProjects: store.projects.isNotEmpty,
               ),
               const SizedBox(height: 38),
@@ -226,6 +257,8 @@ class _ProjectsPage extends StatelessWidget {
                 ProjectEmptyState(
                   hasSearch: store.query.isNotEmpty,
                   onCreate: onCreate,
+                  onSample: onSample,
+                  installingSample: installingSample,
                 )
               else
                 ProjectGrid(
@@ -252,9 +285,16 @@ class _ProjectsPage extends StatelessWidget {
 }
 
 class _PageHeading extends StatefulWidget {
-  const _PageHeading({required this.onCreate, required this.hasProjects});
+  const _PageHeading({
+    required this.onCreate,
+    required this.hasProjects,
+    required this.onSample,
+    required this.installingSample,
+  });
 
   final VoidCallback onCreate;
+  final VoidCallback? onSample;
+  final bool installingSample;
   final bool hasProjects;
 
   @override
@@ -335,10 +375,24 @@ class _PageHeadingState extends State<_PageHeading> {
         ),
       ],
     );
-    final createButton = PlotcraftButton(
-      onPressed: widget.onCreate,
-      icon: Feather.plus,
-      label: 'home.new_project'.tr(),
+    final createButton = Wrap(
+      spacing: 10,
+      runSpacing: 10,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        if (widget.onSample != null)
+          PlotcraftButton(
+            onPressed: widget.installingSample ? null : widget.onSample,
+            icon: Feather.compass,
+            label: 'home.open_sample'.tr(),
+            variant: PlotcraftButtonVariant.secondary,
+          ),
+        PlotcraftButton(
+          onPressed: widget.onCreate,
+          icon: Feather.plus,
+          label: 'home.new_project'.tr(),
+        ),
+      ],
     );
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0, end: 1),

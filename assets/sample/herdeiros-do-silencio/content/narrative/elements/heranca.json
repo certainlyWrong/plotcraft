@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 2,
+  "id": "heranca",
+  "typeId": "concept",
+  "title": "A Herança",
+  "aliases": [],
+  "summary": "O processo pelo qual uma Voz passa de um portador a outro.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne2kdsqm7"
+    }
+  ],
+  "fields": {},
+  "sections": [
+    {
+      "id": "hncrrrqo64",
+      "title": "Regras",
+      "markdown": "- Existem **sete Vozes** (Memória, Ferro, Chama, Maré, Raiz, Nome e Silêncio) e cada uma tem **um único portador** por vez. O número nunca muda.\n- Quando o portador morre, a Voz busca um herdeiro: sangue, voto ou proximidade no momento da morte.\n- O herdeiro **precisa aceitar**. A Voz não pode ser tomada à força.\n- **Preço:** o herdeiro entrega algo de si; cada Voz cobra de um jeito. Na maioria, uma memória querida.\n- **Dívida:** o herdeiro assume o que o antecessor deixou por fazer.\n- Uma Voz sem dono por muito tempo faz seu domínio desaparecer do mundo.\n- O portador pode escolher o herdeiro **antes** de morrer, mas só se esse herdeiro estiver presente.\n- **Segredo da Memória:** o portador da Memória pode *guardar em confiança* uma lembrança entregue por outra pessoa, para que o preço não seja perdido, mas depositado. Nunca foi tentado, porque ninguém sabia."
+    }
+  ],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:43.055571",
+  "updatedAt": "2026-10-20T11:44:35.596289"
+}

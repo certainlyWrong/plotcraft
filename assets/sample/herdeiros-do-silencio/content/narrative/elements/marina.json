@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "id": "marina",
+  "typeId": "character",
+  "title": "Marina Salles",
+  "aliases": [],
+  "summary": "Portadora da Voz da Maré, capitã do porto de Porto Sal. Velha amiga de Teodoro e guardiã do esconderijo de Lia.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne23onsni"
+    }
+  ],
+  "fields": {
+    "age": "67",
+    "occupation": "Capitã do porto",
+    "personality": "Bem-humorada e implacável; ri alto para não ouvir o próprio medo."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrrza30l",
+      "targetId": "lia",
+      "label": "esconde",
+      "reciprocalLabel": "escondida por",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:33.643754",
+  "updatedAt": "2026-10-20T11:27:45.916457"
+}

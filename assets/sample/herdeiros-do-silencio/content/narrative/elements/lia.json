@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "id": "lia",
+  "typeId": "character",
+  "title": "Lia, a que recusou",
+  "aliases": [],
+  "summary": "Herdeira legítima do Silêncio, que há trinta anos se recusou a aceitá-lo. A Voz não pode ser tomada à força, e ela vive escondida.",
+  "tags": [
+    "mistério"
+  ],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne1wvhows"
+    }
+  ],
+  "fields": {
+    "age": "52",
+    "occupation": "Desconhecida (vive sob outro nome)",
+    "personality": "Culpada e cansada; acredita que recusar foi a única escolha livre que já fez."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrmsdyhm",
+      "targetId": "a-recusa",
+      "label": "protagonizou",
+      "reciprocalLabel": "protagonizada por",
+      "note": ""
+    },
+    {
+      "id": "hncrn2b5vr",
+      "targetId": "inara",
+      "label": "mãe de",
+      "reciprocalLabel": "filha de",
+      "note": "Segredo. Inara foi criada por outra família e não sabe."
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:28.025410",
+  "updatedAt": "2026-10-20T11:20:54.125753"
+}

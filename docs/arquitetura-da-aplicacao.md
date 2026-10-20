@@ -53,6 +53,10 @@ O que não depende do Flutter fica em `packages/plotcraft_core` (Dart puro): `St
 
 Cores dos modelos são números ARGB (`colorValue`) e ícones são `IconRef {set, name}`; o aplicativo os lê como `Color` e `IconData` por extensões (`element_colors.dart`, `icon_data.dart`).
 
+## Projeto de exemplo
+
+O app leva uma história completa, "Herdeiros do Silêncio", em `assets/sample/herdeiros-do-silencio/` (a pasta de um projeto como as demais, com as imagens da galeria e a capa em JPEG para manter o app leve). Na tela inicial, "Explorar a história de exemplo" aparece enquanto ela não está na biblioteca: `SampleProjectInstaller` copia os arquivos para a pasta de projetos (numa pasta `.partial` que só vira a final ao terminar), a biblioteca é recarregada e o projeto abre. Depois disso ele é um projeto comum, que pode ser editado ou excluído; se for excluído, a ação volta a aparecer. Instalar de novo sem excluir não copia nada. Os arquivos novos do exemplo precisam estar declarados em `pubspec.yaml`, pasta por pasta.
+
 ## Persistência
 
 Cada projeto é uma pasta local com manifesto e materiais. As preferências guardam apenas os caminhos da biblioteca, a localização padrão para novos projetos, o tema e a fonte. O `easy_localization` persiste o idioma. Sem preferências anteriores, o idioma inicial é inglês e o tema é Violet. O formato em disco está descrito em [Modelo de projeto](modelo-de-projeto.md).

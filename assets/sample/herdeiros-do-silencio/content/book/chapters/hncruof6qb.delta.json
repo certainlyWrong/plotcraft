@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "ops": [
+    {
+      "insert": "A "
+    },
+    {
+      "insert": "Escadaria",
+      "attributes": {
+        "mention": {
+          "id": "escadaria",
+          "name": "Escadaria"
+        }
+      }
+    },
+    {
+      "insert": " tinha sete lances de pedra clara, e cada degrau, quando pisado, soava uma nota. Os seis primeiros tinham os tons que a cidade conhecia. O último nunca soara, nem uma vez em trinta anos, e o povo passava por ele de lado, como por uma sepultura.\n"
+    },
+    {
+      "insert": "Lia",
+      "attributes": {
+        "mention": {
+          "id": "lia",
+          "name": "Lia"
+        }
+      }
+    },
+    {
+      "insert": " esperava no topo, de pé, com "
+    },
+    {
+      "insert": "Marta",
+      "attributes": {
+        "mention": {
+          "id": "marta",
+          "name": "Marta"
+        }
+      }
+    },
+    {
+      "insert": " ao seu lado. As duas não falavam. Quando "
+    },
+    {
+      "insert": "Inara",
+      "attributes": {
+        "mention": {
+          "id": "inara",
+          "name": "Inara"
+        }
+      }
+    },
+    {
+      "insert": " chegou, ofegante, Lia a olhou e disse apenas:\n— Eu já decidi. Tenho que fazer enquanto tenho coragem.\n— Ainda não — disse Inara. — Eu preciso te explicar como...\n— Você já explicou.\nA voz de "
+    },
+    {
+      "insert": "Helena",
+      "attributes": {
+        "mention": {
+          "id": "helena",
+          "name": "Helena"
+        }
+      }
+    },
+    {
+      "insert": " veio de baixo, mansa e firme. Subia os degraus com a calma de sempre, o Duque atrás, os capas-cinzentas a distância, mas a calma agora era uma coisa fina.\n— Lia — disse. — Você tem a chance de consertar. "
+    },
+    {
+      "insert": "Aceite o Silêncio.",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": "\nA palavra pesou como chumbo. Inara viu o corpo de Lia ceder, os olhos se turvarem. Helena queria o que sempre quisera: a Voz ocupada, a herança cumprida, ninguém livre para falhar de novo. Mas uma Voz aceita sob comando não é aceita, é arrancada, e Inara sabia, pela cena do hospício, que isso quebraria o Silêncio de vez.\n— Pare — disse ela, e colocou-se entre as duas. — Se ela aceitar assim, a Voz se parte.\n— Então impeça-a de recusar. Não há outro jeito.\n— Há. — Inara olhou Lia. — Mãe.\nA palavra saiu sem ensaio. Lia ergueu a cabeça, e a pressão de Helena escorregou, como a tinta na superfície de um nome escrito a lápis.\n— Eu posso guardar — continuou Inara. — O que você entregar, eu guardo. Não se perde. Está aqui. — Bateu no peito. — Quando você quiser, me pede de volta.\n— E se você morrer?\n— Então terei passado a Voz a alguém que saiba. Eu vou deixar escrito.\nLia sorriu. Beijou a testa da filha, rápido, com a pressa de quem teme mudar de ideia. Depois, deu um passo para o último degrau, o degrau mudo.\n— Eu aceito — disse, em voz alta e clara, sem comando algum. — Lia, filha de ninguém. Aceito o Silêncio.\nO degrau soou. Foi uma nota tão baixa que o corpo a ouvia antes das orelhas, e depois dela veio a ausência de todas as outras. O vento parou. O zumbido das cidades cessou. Pela primeira vez em trinta anos, Cantaterra respirou sem ruído.\nNa mão de Inara, uma coisa nova pesava. Era a memória de uma menina recém-nascida segurada por uma hora, de um cheiro de leite e de medo, de uma promessa. Lia já não a tinha. Olhou a filha, sorriu para ela com educação, como para uma estranha, e Inara sentiu o coração se quebrar. Mas a memória estava em segurança.\n— Calem-na! — gritou Helena. A palavra saiu muda. Ela repetiu, e de novo, e o Silêncio engoliu cada sílaba. A Voz do Nome, que vivia de ser ouvida, não achava onde pousar. Helena levou as mãos à garganta.\nEntão, no vazio, algo falou, baixo, de dentro dela. Um nome que ela havia esquecido, dito por uma mulher que a embalara numa aldeia que já não existia. Helena ouviu e não pôde mais fingir.\nAjoelhou-se. Chorou. A Voz do Nome a deixou como quem solta uma criança que cresceu.\nFoi Marta, a mais próxima, quem a segurou quando ela caiu, e a Voz passou para Marta pelo toque. Marta ouviu uma voz sua, de muito longe, perguntar "
+    },
+    {
+      "insert": "qual é o seu nome?",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": " e descobriu que não se lembrava. Olhou para Inara, assustada, e Inara disse, com firmeza:\n— Marta. A senhora se chama Marta. Eu a chamo de mãe desde que nasci.\nMarta fechou os olhos. Sorriu.\n— Então acho que é suficiente — disse.\n"
+    }
+  ]
+}

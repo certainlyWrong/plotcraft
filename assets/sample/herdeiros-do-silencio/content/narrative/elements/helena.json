@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 2,
+  "id": "helena",
+  "typeId": "character",
+  "title": "Helena Braga",
+  "aliases": [],
+  "summary": "Regente do Coro das Sete e portadora da Voz do Nome. Envenena portadores idosos para escolher pessoalmente os herdeiros, convencida de que a sucessão natural destruirá o mundo.",
+  "tags": [
+    "antagonista"
+  ],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne1wvgrg3"
+    }
+  ],
+  "fields": {
+    "age": "58",
+    "occupation": "Regente do Coro",
+    "personality": "Calma, lógica, convicta de que cada morte que provoca salva mil."
+  },
+  "sections": [
+    {
+      "id": "hncrrrqcuo",
+      "title": "Segredo",
+      "markdown": "Helena não lembra o próprio nome de nascimento: \"Helena Braga\" é o que o Coro lhe deu. Presenciou a Recusa de Lia aos 28 anos e viu o silêncio engolir seu vilarejo natal. Desde então decidiu que **a herança não pode depender da vontade de ninguém**. Seu comando pelo Nome obriga quem não tem nada que o ancore."
+    }
+  ],
+  "phases": [
+    {
+      "id": "hncruwu9ml",
+      "title": "Sem Voz, com nome",
+      "description": "Perde a Voz do Nome no Silêncio e recupera o nome de nascimento. Vive no hospício, lendo cartas dos parentes dos mortos.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncruof6qb"
+      },
+      "fieldOverrides": {
+        "occupation": "Ex-regente, leitora de cartas"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "hncrn2admm",
+      "targetId": "coro",
+      "label": "rege",
+      "reciprocalLabel": "regido por",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:27.999244",
+  "updatedAt": "2026-10-20T11:20:54.082861"
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 2,
+  "id": "cadernos",
+  "typeId": "object",
+  "title": "Os cadernos de Inara",
+  "aliases": [],
+  "summary": "Cadernos em que Inara anota o que perde e o que descobre. Âncora contra a Voz.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne2cieqvv"
+    }
+  ],
+  "fields": {
+    "origin": "Oficina de cartografia de Cantaterra",
+    "owner": "Inara Velloso"
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrrzbihr",
+      "targetId": "voz-memoria",
+      "label": "âncora contra",
+      "reciprocalLabel": "contida por",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:33.758497",
+  "updatedAt": "2026-10-20T11:36:39.612814"
+}

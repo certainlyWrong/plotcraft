@@ -64,7 +64,9 @@
     "empty_description": "Escolha um título, registre a ideia em poucas palavras e dê a ela uma capa.",
     "empty_search_title": "Nenhuma história corresponde à busca",
     "empty_search_description": "Experimente outro título ou uma palavra da descrição.",
-    "first_project": "Criar primeiro projeto"
+    "first_project": "Criar primeiro projeto",
+    "open_sample": "Explorar a história de exemplo",
+    "sample_error": "Não foi possível abrir a história de exemplo."
   },
   "project": {
     "create_title": "Comece uma nova história",

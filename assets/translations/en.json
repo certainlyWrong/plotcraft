@@ -64,7 +64,9 @@
     "empty_description": "Choose a title, capture the idea in a few words, and give it a cover.",
     "empty_search_title": "No stories match your search",
     "empty_search_description": "Try another title or a word from the description.",
-    "first_project": "Create your first project"
+    "first_project": "Create your first project",
+    "open_sample": "Explore the sample story",
+    "sample_error": "Could not open the sample story."
   },
   "project": {
     "create_title": "Start a new story",

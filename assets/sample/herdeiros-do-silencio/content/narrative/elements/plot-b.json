@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 2,
+  "id": "plot-b",
+  "typeId": "note",
+  "title": "Plot B: A Regente e o Ferro",
+  "aliases": [],
+  "summary": "Helena mata portadores para escolher herdeiros; Dalva é a herdeira escondida do Ferro. Resolvido: Helena perde o Nome para Marta, o Coro cai e nasce a Casa da Guarda.",
+  "tags": [
+    "resolvido"
+  ],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne26w9m4x"
+    }
+  ],
+  "fields": {},
+  "sections": [
+    {
+      "id": "hncrn2bpht",
+      "title": "Estrutura",
+      "markdown": "1. Inara descobre que Teodoro não morreu de velhice: foi **envenenado pelo Coro**, mas ele conseguiu escolher a herdeira antes de morrer, estragando o plano de Helena.\n2. Ravi, portador do Ferro, esconde que está morrendo sem herdeiro. Se a Voz do Ferro ficar vacante, as construções de Cantaterra começam a rachar.\n3. Helena quer escolher o herdeiro de Ravi, um de seus batedores (talvez Caio).\n4. Inara tem de decidir: entregar Ravi ao Coro, que é a única estrutura capaz de garantir a sucessão, ou protegê-lo e arriscar a cidade.\n5. **Cruzamento com o Plot A:** a Recusa de Lia mostrou a Helena que a sucessão livre falha; ela quer evitar um segundo Silêncio a qualquer custo.\n6. **Clímax:** o Coro cai ou se reforma; o silêncio entre as Vozes volta a ter dono."
+    }
+  ],
+  "phases": [
+    {
+      "id": "b-ph1",
+      "title": "1. Pista do veneno",
+      "description": "Os papéis de Teodoro listam quatro portadores mortos pelo Coro em dez anos.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncrtd9d41"
+      }
+    },
+    {
+      "id": "b-ph2",
+      "title": "2. A sucessão em risco",
+      "description": "Ravi esconde que morre sem herdeiro; as primeiras rachaduras aparecem. Dalva domina o fogo.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncrtd9t5k"
+      }
+    },
+    {
+      "id": "b-ph3",
+      "title": "3. A regente",
+      "description": "Helena usa a Voz do Nome sobre Inara e passa a vigiá-la por meio de Caio.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncrtda5p9"
+      }
+    },
+    {
+      "id": "b-ph4",
+      "title": "4. O Coro ataca",
+      "description": "Os capas-cinzentas matam Marina; Caio rompe com o Coro e herda a Maré.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncru5zw6t"
+      }
+    },
+    {
+      "id": "b-ph5",
+      "title": "5. A cidade racha",
+      "description": "Cantaterra volta com o bairro baixo esvaziado; Benedita deixa uma porta aberta.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncru60aly"
+      }
+    },
+    {
+      "id": "b-ph6",
+      "title": "6. A sucessão do Ferro",
+      "description": "Ravi nomeia Dalva diante de Helena; a Memória de Inara impede o comando do Nome.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncru60mjk"
+      }
+    },
+    {
+      "id": "b-ph7",
+      "title": "7. A queda de Helena",
+      "description": "O Silêncio abafa a Voz do Nome; Helena a perde e ela passa a Marta.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncruof6qb"
+      }
+    },
+    {
+      "id": "b-ph8",
+      "title": "8. A reforma",
+      "description": "O Coro é dissolvido e nasce a Casa da Guarda.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncruofrwf"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "b-r1",
+      "targetId": "helena",
+      "label": "é conduzido por",
+      "reciprocalLabel": "conduz",
+      "note": ""
+    },
+    {
+      "id": "b-r2",
+      "targetId": "coro",
+      "label": "expõe e derruba",
+      "reciprocalLabel": "é derrubado em",
+      "note": ""
+    },
+    {
+      "id": "b-r3",
+      "targetId": "ravi",
+      "label": "gira em torno da sucessão de",
+      "reciprocalLabel": "tem sua sucessão em",
+      "note": ""
+    },
+    {
+      "id": "b-r4",
+      "targetId": "dalva",
+      "label": "revela",
+      "reciprocalLabel": "é revelada em",
+      "note": ""
+    },
+    {
+      "id": "b-r5",
+      "targetId": "voz-ferro",
+      "label": "disputa",
+      "reciprocalLabel": "é disputada em",
+      "note": ""
+    },
+    {
+      "id": "b-r6",
+      "targetId": "voz-nome",
+      "label": "desfaz o poder de",
+      "reciprocalLabel": "tem o poder desfeito em",
+      "note": ""
+    },
+    {
+      "id": "b-r7",
+      "targetId": "heranca",
+      "label": "reforma",
+      "reciprocalLabel": "é reformada em",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:22:08.954317",
+  "updatedAt": "2026-10-20T11:46:35.771057"
+}

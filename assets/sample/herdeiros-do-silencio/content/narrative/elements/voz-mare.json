@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 2,
+  "id": "voz-mare",
+  "typeId": "t_hncrm3czap",
+  "title": "Voz da Maré",
+  "aliases": [],
+  "summary": "Ciclos e fluxo; tudo o que volta.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne29kl2s8"
+    }
+  ],
+  "fields": {
+    "dom_nio": "Águas, ciclos, retorno",
+    "portador_atual": "caio",
+    "pre_o_da_heran_a": "O herdeiro perde a noção de lugar fixo: nunca mais se sente em casa.",
+    "se_ficar_sem_dono": "As marés se desregulam; estia e cheia deixam de seguir qualquer ritmo."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:53.447970",
+  "updatedAt": "2026-10-20T11:33:41.868360"
+}

@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "ops": [
+    {
+      "insert": "O Coro das Sete foi dissolvido em quarenta dias. Não houve decreto: "
+    },
+    {
+      "insert": "Marta",
+      "attributes": {
+        "mention": {
+          "id": "marta",
+          "name": "Marta"
+        }
+      }
+    },
+    {
+      "insert": ", a nova portadora do Nome, abriu os arquivos da regente diante da praça, página por página, e leu em voz alta cada nome que tinha sido riscado. Quando uma Voz diz os nomes dos mortos, as palavras pesam, e a cidade inteira soube o que o Coro tinha feito. O Duque "
+    },
+    {
+      "insert": "Orlando",
+      "attributes": {
+        "mention": {
+          "id": "orlando",
+          "name": "Orlando"
+        }
+      }
+    },
+    {
+      "insert": " abdicou antes do fim da leitura. A Chama, que já não lhe obedecia, passou por voto de um conselho a uma mulher que sempre acendera os fogos do mercado.\n"
+    },
+    {
+      "insert": "Irmã Benedita",
+      "attributes": {
+        "mention": {
+          "id": "benedita",
+          "name": "Irmã Benedita"
+        }
+      }
+    },
+    {
+      "insert": " abriu o hospício a quem precisasse e nunca mais voltou a mentir.\n"
+    },
+    {
+      "insert": "Dalva",
+      "attributes": {
+        "mention": {
+          "id": "dalva",
+          "name": "Dalva"
+        }
+      }
+    },
+    {
+      "insert": " reconstruiu as pontes. As rachaduras sararam como cicatrizes, em silêncio, em um mês, e a menina descobriu que nenhum ferreiro é mais feliz do que o que conserta.\n"
+    },
+    {
+      "insert": "Caio",
+      "attributes": {
+        "mention": {
+          "id": "caio",
+          "name": "Caio"
+        }
+      }
+    },
+    {
+      "insert": " partiu num barco pequeno, pela maré, sem destino fixo. Disse que pertencer a lugar nenhum tinha uma vantagem: podia visitar qualquer um. Prometeu a "
+    },
+    {
+      "insert": "Inara",
+      "attributes": {
+        "mention": {
+          "id": "inara",
+          "name": "Inara"
+        }
+      }
+    },
+    {
+      "insert": " que voltaria a cada inverno, e voltou.\n"
+    },
+    {
+      "insert": "Helena",
+      "attributes": {
+        "mention": {
+          "id": "helena",
+          "name": "Helena"
+        }
+      }
+    },
+    {
+      "insert": ", que não tinha mais Voz nem nome, viveu seus últimos anos no hospício, ajudando a ler as cartas que os parentes dos mortos mandavam. Dizia sempre o nome de quem escrevia, devagar, como quem aprende a falar de novo.\nA Casa da Guarda nasceu no outono. Era uma sala sem janelas no antigo prédio do Coro, onde os portadores que assumissem uma Voz podiam depositar o preço em vez de perdê-lo. Inara guardava tudo em seus cadernos, em prateleiras, em ordem alfabética. Nunca mais ninguém precisou esquecer o que amava para carregar o mundo.\nNuma tarde de vento, "
+    },
+    {
+      "insert": "Lia",
+      "attributes": {
+        "mention": {
+          "id": "lia",
+          "name": "Lia"
+        }
+      }
+    },
+    {
+      "insert": " foi visitar o arquivo. Entrou educada e discreta, como entram os estranhos.\n— Disseram que a senhora guarda memórias — disse. — Sei que entreguei uma. Gostaria de saber de quê.\nInara estava sentada à mesa, com o lápis no cabelo. Pôs o caderno diante dela. Sobre a capa havia um desenho a carvão: uma bebê, uma mulher, o nome de ambas.\n— Posso devolver agora — disse. — A senhora vai lembrar tudo de uma vez.\nLia ficou imóvel por muito tempo, olhando o desenho.\n— Prefiro que você me conte — disse enfim. — Aos poucos. Quero ouvir de quem viveu depois.\nInara sorriu. Pegou o lápis, e as duas começaram pelo princípio: uma noite de vento, uma viela, uma mulher que não esperou a resposta.\nÀ noite, em casa, Marta lavava a tigela. Cantarolava. Inara parou na porta e ouviu, e pela primeira vez em meses não procurou a letra perdida. Marta não a olhou.\n— Quer que eu ensine? — perguntou.\n— Quero.\nE Marta cantou, devagar, com a voz do Nome que usava só para isso, verso por verso, enquanto Inara repetia. Não era a cantiga antiga: a letra era nova, aprendida agora, com outras palavras e o mesmo balanço. Mas era dela, porque a tinha ganhado de novo.\nLá fora, o vento de Cantaterra afinava as ruas ao entardecer, e a sétima nota, a mais baixa, sustentava todas as outras, como uma pausa que deixa a música respirar.\n"
+    }
+  ]
+}

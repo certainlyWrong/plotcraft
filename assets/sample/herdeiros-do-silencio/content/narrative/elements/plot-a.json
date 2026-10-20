@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 2,
+  "id": "plot-a",
+  "typeId": "note",
+  "title": "Plot A: A Dívida de Teodoro",
+  "aliases": [],
+  "summary": "Inara herda a Memória, cumpre a Dívida de Teodoro (Cap. 1-12) e reúne mãe e filha. Resolvido: Lia aceita o Silêncio e o preço é guardado em confiança.",
+  "tags": [
+    "resolvido"
+  ],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne1tjhbn3"
+    }
+  ],
+  "fields": {},
+  "sections": [
+    {
+      "id": "hncrne80ho",
+      "title": "Estrutura",
+      "markdown": "1. **Incidente:** Teodoro morre nos braços de Inara e a Voz passa para ela. Ela perde a cantiga que a mãe que a criou cantava.\n2. **Chamado:** a Dívida exige encontrar uma mulher chamada Lia e dizer-lhe: \"a resposta é sim\". Inara não sabe a que pergunta.\n3. **Complicação:** cada uso da Voz custa mais uma lembrança; Inara registra tudo em cadernos para não se perder.\n4. **Meio:** Caio, que a ajuda, trabalha para o Coro, e o Coro quer a Voz sob controle.\n5. **Revelação:** Lia é mãe de Inara. Teodoro a escolheu porque a Memória era o único elo capaz de reuni-las.\n6. **Clímax:** a pergunta de Lia, esperada por trinta anos, era se ela poderia ter aceitado o Silêncio sem ser consumida. A resposta é sim, mas só se alguém lembrar por ela. Inara decide o que guardar e o que dar."
+    }
+  ],
+  "phases": [
+    {
+      "id": "a-ph1",
+      "title": "1. Incidente",
+      "description": "Teodoro morre nos braços de Inara; a Memória passa para ela e a primeira lembrança é perdida.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncrm3cwcq"
+      }
+    },
+    {
+      "id": "a-ph2",
+      "title": "2. Chamado",
+      "description": "Os papéis do arquivista mostram o caminho: Lia, no Farol do Intervalo. Segundo preço pago ao usar a Voz.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncrtd9d41"
+      }
+    },
+    {
+      "id": "a-ph3",
+      "title": "3. Complicação",
+      "description": "Cada uso da Voz custa uma lembrança. Caio, do Coro, a acompanha e Inara ainda não decide se confia nele.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncrtdags7"
+      }
+    },
+    {
+      "id": "a-ph4",
+      "title": "4. Pista da verdade",
+      "description": "Marina conta o preço que Lia se recusou a pagar: a memória da filha. Inara faz a conta.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncrtdaqx8"
+      }
+    },
+    {
+      "id": "a-ph5",
+      "title": "5. Revelação",
+      "description": "Inara entrega a mensagem e descobre que Lia é sua mãe; a resposta era que a Memória pode guardar o preço.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncru5zce0"
+      }
+    },
+    {
+      "id": "a-ph6",
+      "title": "6. Clímax",
+      "description": "Lia aceita o Silêncio livremente e Inara guarda a memória dela em confiança.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncruof6qb"
+      }
+    },
+    {
+      "id": "a-ph7",
+      "title": "7. Desfecho",
+      "description": "Mãe e filha recomeçam do princípio; Marta ensina a cantiga nova.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncruofrwf"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "a-r1",
+      "targetId": "inara",
+      "label": "é protagonizado por",
+      "reciprocalLabel": "protagoniza",
+      "note": ""
+    },
+    {
+      "id": "a-r2",
+      "targetId": "teodoro",
+      "label": "nasce da Dívida de",
+      "reciprocalLabel": "deixou como Dívida",
+      "note": ""
+    },
+    {
+      "id": "a-r3",
+      "targetId": "lia",
+      "label": "gira em torno de",
+      "reciprocalLabel": "é o centro de",
+      "note": ""
+    },
+    {
+      "id": "a-r4",
+      "targetId": "caio",
+      "label": "envolve",
+      "reciprocalLabel": "participa de",
+      "note": ""
+    },
+    {
+      "id": "a-r5",
+      "targetId": "voz-memoria",
+      "label": "usa",
+      "reciprocalLabel": "move",
+      "note": ""
+    },
+    {
+      "id": "a-r6",
+      "targetId": "voz-silencio",
+      "label": "resolve",
+      "reciprocalLabel": "é resolvido em",
+      "note": ""
+    },
+    {
+      "id": "a-r7",
+      "targetId": "divida",
+      "label": "cumpre",
+      "reciprocalLabel": "é cumprida em",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:22:08.942410",
+  "updatedAt": "2026-10-20T11:46:35.745416"
+}

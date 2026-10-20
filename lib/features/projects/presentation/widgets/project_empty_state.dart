@@ -10,10 +10,16 @@ class ProjectEmptyState extends StatelessWidget {
     super.key,
     required this.hasSearch,
     required this.onCreate,
+    this.onSample,
+    this.installingSample = false,
   });
 
   final bool hasSearch;
   final VoidCallback onCreate;
+
+  /// Opens the bundled example; null hides the action.
+  final VoidCallback? onSample;
+  final bool installingSample;
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +68,25 @@ class ProjectEmptyState extends StatelessWidget {
           ),
           if (!hasSearch) ...[
             const SizedBox(height: 22),
-            PlotcraftButton(
-              onPressed: onCreate,
-              icon: Feather.plus,
-              label: 'home.first_project'.tr(),
-              variant: PlotcraftButtonVariant.secondary,
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              alignment: WrapAlignment.center,
+              children: [
+                PlotcraftButton(
+                  onPressed: onCreate,
+                  icon: Feather.plus,
+                  label: 'home.first_project'.tr(),
+                  variant: PlotcraftButtonVariant.secondary,
+                ),
+                if (onSample != null)
+                  PlotcraftButton(
+                    onPressed: installingSample ? null : onSample,
+                    icon: Feather.compass,
+                    label: 'home.open_sample'.tr(),
+                    variant: PlotcraftButtonVariant.text,
+                  ),
+              ],
             ),
           ],
         ],

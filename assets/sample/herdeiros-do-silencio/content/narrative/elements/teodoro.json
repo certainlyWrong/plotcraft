@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 2,
+  "id": "teodoro",
+  "typeId": "character",
+  "title": "Teodoro Marne",
+  "aliases": [],
+  "summary": "Portador da Voz da Memória que morre nos braços de Inara. Seu último gesto foi escolhê-la, e ninguém sabe por quê.",
+  "tags": [
+    "antecessor"
+  ],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne23on4i3"
+    }
+  ],
+  "fields": {
+    "age": "61",
+    "occupation": "Arquivista errante",
+    "personality": "Gentil, evasivo, carregava segredos demais para uma só cabeça."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrn2atvr",
+      "targetId": "lia",
+      "label": "sabia onde estava",
+      "reciprocalLabel": "foi protegida por",
+      "note": "A Dívida de Teodoro: levar a Lia uma resposta que ela esperou trinta anos."
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:27.975542",
+  "updatedAt": "2026-10-20T11:27:45.885171"
+}

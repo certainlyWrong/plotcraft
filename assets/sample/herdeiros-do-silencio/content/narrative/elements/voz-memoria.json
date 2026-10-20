@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 2,
+  "id": "voz-memoria",
+  "typeId": "t_hncrm3czap",
+  "title": "Voz da Memória",
+  "aliases": [],
+  "summary": "Sustenta a continuidade: que o que aconteceu continue tendo acontecido.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne29klhvz"
+    }
+  ],
+  "fields": {
+    "dom_nio": "Lembrar, registrar, tornar o passado firme",
+    "portador_atual": "inara",
+    "pre_o_da_heran_a": "O herdeiro entrega uma memória querida e assume a Dívida do antecessor. Cada uso da Voz tira outra lembrança.",
+    "se_ficar_sem_dono": "Eventos recentes começam a se desfazer: pessoas esquecem promessas, contratos e mortes."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:43.012818",
+  "updatedAt": "2026-10-20T11:33:41.887731"
+}

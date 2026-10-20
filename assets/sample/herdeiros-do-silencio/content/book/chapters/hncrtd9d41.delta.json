@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "ops": [
+    {
+      "insert": "Marta",
+      "attributes": {
+        "mention": {
+          "id": "marta",
+          "name": "Marta"
+        }
+      }
+    },
+    {
+      "insert": " estava à janela, bordando o contorno de uma baía, quando a filha entrou em casa à noite com sangue de outra pessoa na manga.\n— Não é meu — disse "
+    },
+    {
+      "insert": "Inara",
+      "attributes": {
+        "mention": {
+          "id": "inara",
+          "name": "Inara"
+        }
+      }
+    },
+    {
+      "insert": ", antes de ouvir a pergunta.\n— Eu não perguntei.\nEra assim que as duas conversavam havia trinta anos. Marta cortou a linha com os dentes, apontou a bacia de água e esperou. Inara lavou as mãos, sentou-se à mesa e abriu o embrulho. Marta, sem comentar, serviu sopa.\nFoi só quando a panela esfriou que Inara ouviu a mãe cantarolar baixinho enquanto lavava a tigela. Reconheceu o ritmo, o balanço de uma cantiga de ninar, e procurou a letra. Havia um espaço onde a letra devia estar, liso como pedra de rio.\n— O que é isso que a senhora canta?\n— Isso o quê?\n— A cantiga. A de me pentear.\nMarta ficou parada com a tigela na mão. Seus olhos, tão práticos, ficaram úmidos por um instante.\n— Você nunca gostou dela — disse, e mentiu tão mal que Inara soube que algo grave tinha acontecido.\nMais tarde, sozinha, Inara abriu o embrulho. Havia cartas cifradas, recibos de pousadas, um mapa rabiscado e um caderno de capa verde. Ela não tinha treino para decifrar códigos, mas tinha a Voz. Pousou a palma sobre a primeira página e quis saber o que o papel guardava.\nO quarto desapareceu. Ela estava numa sala pequena, vendo por cima do ombro de Teodoro enquanto ele escrevia uma lista de nomes. Sete linhas, sete Vozes, sete portadores. Quatro nomes riscados em dez anos, cada um com a mesma anotação à margem: "
+    },
+    {
+      "insert": "Coro, veneno lento, herdeiro escolhido por R. B.",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": "\nQuando a visão a soltou, havia uma lacuna nova na cabeça de Inara. Ela tentou lembrar o primeiro mapa que desenhara aos oito anos, aquele de que tanto se orgulhava, e viu uma folha em branco.\nPegou o lápis e escreveu no próprio caderno, em letras grandes:\n"
+    },
+    {
+      "insert": "Usar a Voz custa uma lembrança. Anotar tudo, sempre.",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": "\nA última linha do caderno verde, na letra apressada de Teodoro, dizia: "
+    },
+    {
+      "insert": "Lia. Farol do Intervalo, Porto Sal. M. S. sabe.",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": "\nNa manhã seguinte, "
+    },
+    {
+      "insert": "Caio",
+      "attributes": {
+        "mention": {
+          "id": "caio",
+          "name": "Caio"
+        }
+      }
+    },
+    {
+      "insert": " esperava diante da oficina de cartografia com dois pães quentes e um sorriso aberto demais.\n— Soube que você teve uma noite difícil — disse ele. — Cantaterra tem ouvidos, Inara. E o Coro tem mais ouvidos ainda. Se você quiser conversar, eu sou o único amigo que você tem nessa cidade.\nEla aceitou o pão e não disse nada sobre os papéis. Aprendera alguma coisa na viela: a verdade, daqui em diante, tinha valor de moeda.\n"
+    }
+  ]
+}

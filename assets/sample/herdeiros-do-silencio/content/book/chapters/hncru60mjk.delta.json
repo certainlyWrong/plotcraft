@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "ops": [
+    {
+      "insert": "O hospício do Coro cheirava a menta e a ferro. "
+    },
+    {
+      "insert": "Ravi",
+      "attributes": {
+        "mention": {
+          "id": "ravi",
+          "name": "Ravi"
+        }
+      }
+    },
+    {
+      "insert": " estava num leito alto, rodeado de homens de capa cinza, e a mão sem sensibilidade já escurecia até o cotovelo. "
+    },
+    {
+      "insert": "Dalva",
+      "attributes": {
+        "mention": {
+          "id": "dalva",
+          "name": "Dalva"
+        }
+      }
+    },
+    {
+      "insert": " estava de pé ao lado, com as pulseiras de ferro de quem foi presa havia pouco.\n"
+    },
+    {
+      "insert": "Helena",
+      "attributes": {
+        "mention": {
+          "id": "helena",
+          "name": "Helena"
+        }
+      }
+    },
+    {
+      "insert": " chegou depois, e seu passo fez calar a sala. Atrás dela vinha "
+    },
+    {
+      "insert": "o Duque Orlando",
+      "attributes": {
+        "mention": {
+          "id": "orlando",
+          "name": "o Duque Orlando"
+        }
+      }
+    },
+    {
+      "insert": ", pálido, de mãos escondidas nas mangas.\n— Ravi Duarte — disse Helena. — O Ferro tem sete dias, talvez menos. Eu trouxe um herdeiro.\nFez um gesto, e um rapaz de olhar vazio avançou. Tinha vinte anos, porte de soldado, um sorriso que lhe tinha sido ensinado.\n— Eu recuso — disse Ravi. Mal se ouvia. — Já escolhi.\n— Você não tem...\n— Dalva.\nA menina ergueu a cabeça. Todos olharam para ela, e ela, que odiava ser olhada, não desviou.\n— Dalva — repetiu Ravi. — Aceita?\n— Aceito — disse a menina, com a voz firme que usava para falar com o fogo.\n— "
+    },
+    {
+      "insert": "Dalva",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": " — disse Helena, e a palavra caiu na sala como uma pedra. — Você não aceita. Diga que não aceita.\nA boca da menina se abriu sozinha. Inara viu o rosto dela se contorcer, sentiu a Voz do Nome puxar, um nó invisível apertando o pescoço de uma criança, e entendeu que Helena não precisava de força quando tinha nomes. A menina era órfã. Não tinha ninguém que dissesse o nome dela com amor.\nInara correu. Tocou o ombro de Dalva e fez o que ninguém fizera antes: pediu à Memória que "
+    },
+    {
+      "insert": "segurasse",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": ". Não o futuro nem o presente, mas o instante anterior, em que uma menina disse "
+    },
+    {
+      "insert": "aceito",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": " diante de testemunhas.\n— O que aconteceu, aconteceu — disse Inara, tremendo. — Ninguém pode desdizer. Nem você.\nA pressão sobre Dalva se rompeu. A menina caiu de joelhos, arfando. Na cama, Ravi sorriu pela última vez, e a Voz do Ferro passou dele para ela como uma onda de calor. O ferreiro suspirou e deixou de existir.\nHouve silêncio, depois confusão. Helena recuou, e seus olhos, antes tão mansos, procuravam Inara com outra expressão.\n— Você é mais perigosa do que Teodoro — disse. — Ele ao menos sabia o que era estar derrotado.\n— Orlando — disse Caio, na porta, atrás deles, e o Duque se virou. — Os soldados lá fora não são do Coro. São da cidade. E a cidade está cansada de rachaduras.\nHelena deu uma ordem, mas os soldados do Duque não se moveram. O Duque olhava as próprias mãos, sem saber o que fazer com elas.\nFoi "
+    },
+    {
+      "insert": "Benedita",
+      "attributes": {
+        "mention": {
+          "id": "benedita",
+          "name": "Benedita"
+        }
+      }
+    },
+    {
+      "insert": ", da porta dos fundos, quem disse, com a voz mais baixa e a mais clara de toda a história:\n— A Escadaria. Lia está lá. É onde acaba.\n"
+    }
+  ]
+}

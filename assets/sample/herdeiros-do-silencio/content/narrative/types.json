@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "types": [
+    {
+      "id": "t_hncrm3czap",
+      "name": "Voz",
+      "icon": {
+        "set": "Feather",
+        "name": "mic"
+      },
+      "color": "#7C5CBF",
+      "fields": [
+        {
+          "id": "dom_nio",
+          "label": "Domínio",
+          "kind": "text"
+        },
+        {
+          "id": "portador_atual",
+          "label": "Portador atual",
+          "kind": "element"
+        },
+        {
+          "id": "pre_o_da_heran_a",
+          "label": "Preço da herança",
+          "kind": "longText"
+        },
+        {
+          "id": "se_ficar_sem_dono",
+          "label": "Se ficar sem dono",
+          "kind": "longText"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 2,
+  "id": "porto-sal",
+  "typeId": "place",
+  "title": "Porto Sal",
+  "aliases": [],
+  "summary": "Cidade portuária de casas brancas e salinas, três dias de viagem de Cantaterra. Aqui as noites são sem sono por causa do Silêncio perdido.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne1wvi4ji"
+    }
+  ],
+  "fields": {
+    "region": "Costa de Maresia",
+    "climate": "Úmido, salgado"
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:33.709190",
+  "updatedAt": "2026-10-20T11:20:54.145912"
+}

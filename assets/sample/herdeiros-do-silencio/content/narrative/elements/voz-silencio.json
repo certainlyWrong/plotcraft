@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 2,
+  "id": "voz-silencio",
+  "typeId": "t_hncrm3czap",
+  "title": "Voz do Silêncio",
+  "aliases": [],
+  "summary": "A Voz que sustenta o intervalo entre as outras. Vacante por trinta anos; aceita por Lia no fim da história.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne2cidqdj"
+    }
+  ],
+  "fields": {
+    "dom_nio": "Pausa, descanso, o espaço entre as coisas",
+    "pre_o_da_heran_a": "A memória de quem ela mais amava (a filha). Depositada em confiança na Memória de Inara, não perdida.",
+    "se_ficar_sem_dono": "O mundo perde o intervalo: tudo soa ao mesmo tempo. Sonos curtos, ruído sem origem, vozes que não se calam.",
+    "portador_atual": "lia"
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:43.044183",
+  "updatedAt": "2026-10-20T11:36:39.565040"
+}

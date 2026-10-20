@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 2,
+  "id": "voz-nome",
+  "typeId": "t_hncrm3czap",
+  "title": "Voz do Nome",
+  "aliases": [],
+  "summary": "Dizer as coisas e as pessoas; quem nomeia, define.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne2cic31a"
+    }
+  ],
+  "fields": {
+    "dom_nio": "Linguagem, identidade, comando",
+    "portador_atual": "marta",
+    "pre_o_da_heran_a": "O herdeiro esquece o próprio nome; ele só existe no que os outros dizem dele.",
+    "se_ficar_sem_dono": "As palavras perdem o peso: promessas não obrigam, nomes não grudam, ninguém se reconhece."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:53.480123",
+  "updatedAt": "2026-10-20T11:36:39.488181"
+}

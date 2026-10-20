@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "ops": [
+    {
+      "insert": "O convite chegou no fim do dia, em papel creme, assinado por uma letra clara e redonda. Dizia apenas: "
+    },
+    {
+      "insert": "Venha tomar chá.",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": "\n"
+    },
+    {
+      "insert": "Helena Braga",
+      "attributes": {
+        "mention": {
+          "id": "helena",
+          "name": "Helena Braga"
+        }
+      }
+    },
+    {
+      "insert": " recebeu Inara em um salão com sete janelas, cada uma voltada para um ponto do horizonte. Era uma mulher de cabelos grisalhos presos num coque simples, de olhar atento e voz tão mansa que obrigava a gente a se inclinar para ouvir. Serviu o chá ela mesma.\n— Lamento muito sobre Teodoro. Eu o conhecia desde que era um rapaz. Meu melhor arquivista, e o mais teimoso.\n— A senhora sabe que ele me deixou a Voz.\n— Sei. E sei também que você não pediu por ela. É disso que eu gostaria de falar. — Helena pousou a xícara. — Sabe quantas pessoas morreram quando o Silêncio ficou sem dono, Inara? Eu vi uma aldeia inteira parar de dormir e depois parar de viver. A herança é frágil. Qualquer capricho de um herdeiro pode derrubar o mundo. Meu trabalho é impedir isso.\n— Por quaisquer meios?\nHelena sorriu, como quem aprova uma pergunta.\n— Diga-me o que Teodoro te contou.\nA frase pesou no ar. Inara sentiu a pressão na língua, uma mão invisível abrindo a boca por dentro. Era a Voz do Nome, e ela entendeu em um segundo por que ninguém recusava um pedido de Helena Braga.\n— Ele pediu... — A boca moveu-se sozinha. — Que eu encontrasse alguém.\n— Quem?\n— Uma mulher chamada...\nInara fechou o punho. A palma ainda tinha tinta, a mesma da noite anterior. Sentiu o papel dentro da manga, o caderno, o lápis, o peso das próprias palavras escritas à mão. Tinha anotado tudo, e tudo o que era seu agora tinha dono. A mão invisível escorregou na superfície como um dedo molhado em vidro.\n— Lia — disse ela, porque aquele nome ela havia decidido dizer. — Não sei mais nada.\nHelena a observou por um longo instante. Algo mudou no rosto dela, uma sombra rápida que Inara não conseguiu ler.\n— Entendo — disse por fim, e foi gentil de novo. — O Coro lhe oferece proteção. Caio Ferraz irá acompanhá-la aonde quer que precise ir.\nInara agradeceu, saiu e só respirou quando chegou à rua. Percebeu então o que a incomodava. Helena havia perguntado "
+    },
+    {
+      "insert": "quem",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": ", mas nunca "
+    },
+    {
+      "insert": "onde",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": ".\nCaio a esperava no portão, encostado numa coluna, com o ar de quem estava ali por acaso.\n— Então — disse. — Para onde vamos?\n"
+    }
+  ]
+}

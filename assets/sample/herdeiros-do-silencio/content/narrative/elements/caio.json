@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 2,
+  "id": "caio",
+  "typeId": "character",
+  "title": "Caio Ferraz",
+  "aliases": [],
+  "summary": "Caçador de herdeiros do Coro. Foi o primeiro amigo de Inara na cidade e sabe mais do que diz.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne20p7rup"
+    }
+  ],
+  "fields": {
+    "age": "24",
+    "occupation": "Batedor do Coro",
+    "personality": "Charmoso, leal ao Coro até o momento em que a lealdade custa algo."
+  },
+  "sections": [],
+  "phases": [
+    {
+      "id": "hncruwtxmh",
+      "title": "Portador da Maré",
+      "description": "Rompe com o Coro ao receber a Voz de Marina. Sem lugar fixo, navega e volta a cada inverno.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncru5zw6t"
+      },
+      "fieldOverrides": {
+        "occupation": "Portador da Maré, navegante"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "hncrmsdmm8",
+      "targetId": "helena",
+      "label": "serve a",
+      "reciprocalLabel": "comanda",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:27.987805",
+  "updatedAt": "2026-10-20T11:24:45.449969"
+}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "id": "ravi",
+  "typeId": "character",
+  "title": "Ravi Duarte",
+  "aliases": [],
+  "summary": "Portador da Voz do Ferro, velho e doente, escondendo que não tem herdeiro para quando morrer.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne20p8urr"
+    }
+  ],
+  "fields": {
+    "age": "73",
+    "occupation": "Ferreiro",
+    "personality": "Rude, orgulhoso, apavorado em silêncio."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrmse83g",
+      "targetId": "voz-ferro",
+      "label": "porta",
+      "reciprocalLabel": "portada por",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:28.016178",
+  "updatedAt": "2026-10-20T11:24:45.500373"
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 2,
+  "id": "coro",
+  "typeId": "organization",
+  "title": "O Coro das Sete",
+  "aliases": [],
+  "summary": "Ordem que registra, protege e (em segredo) manipula a sucessão das Vozes.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne26w9m4x"
+    }
+  ],
+  "fields": {
+    "purpose": "Garantir que nenhuma Voz fique sem dono",
+    "leader": "Helena Braga"
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:28.033434",
+  "updatedAt": "2026-10-20T11:31:00.090241"
+}

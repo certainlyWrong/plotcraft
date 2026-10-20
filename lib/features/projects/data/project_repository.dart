@@ -10,13 +10,19 @@ import 'package:plotcraft_core/features/projects/data/project_library.dart';
 import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 
 import '../../../core/storage/local_storage.dart';
+import 'sample_project_installer.dart';
 
 /// Owns the on-disk project format. The preference store only indexes folders.
 class ProjectRepository {
-  ProjectRepository(this._storage, this._creation);
+  ProjectRepository(
+    this._storage,
+    this._creation, {
+    SampleProjectInstaller? sample,
+  }) : _sample = sample ?? SampleProjectInstaller();
 
   final LocalStorage _storage;
   final ProjectCreationService _creation;
+  final SampleProjectInstaller _sample;
   static const _library = ProjectLibrary();
   static const _folderAccess = MethodChannel('plotcraft/folder_access');
 
@@ -125,6 +131,20 @@ class ProjectRepository {
     });
     if (legacy.isNotEmpty) await _storage.clearLegacyProjects();
     return projects;
+  }
+
+  /// ID of the project bundled as an example.
+  Future<String> sampleId() => _sample.sampleId();
+
+  /// Puts the bundled example into the projects folder (once) and returns
+  /// the library with it, together with the example itself.
+  Future<(List<StoryProject>, StoryProject)> installSample() async {
+    final folder = await _sample.install(await projectsRoot);
+    final projects = await load();
+    final sample = projects.firstWhere(
+      (project) => p.equals(project.directoryPath!, folder),
+    );
+    return (projects, sample);
   }
 
   Future<void> register(StoryProject project) async {

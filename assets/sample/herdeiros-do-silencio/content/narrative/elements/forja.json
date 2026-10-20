@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 2,
+  "id": "forja",
+  "typeId": "place",
+  "title": "A Forja de Ravi",
+  "aliases": [],
+  "summary": "Oficina no bairro baixo de Cantaterra, onde as rachaduras aparecem primeiro.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne23oomo3"
+    }
+  ],
+  "fields": {
+    "region": "Cantaterra, bairro baixo",
+    "climate": "Quente"
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:33.746261",
+  "updatedAt": "2026-10-20T11:27:45.955267"
+}

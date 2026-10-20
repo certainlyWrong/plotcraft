@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 2,
+  "id": "embrulho",
+  "typeId": "object",
+  "title": "O embrulho de Teodoro",
+  "aliases": [],
+  "summary": "Papéis do arquivista: um registro cifrado das mortes de portadores e o endereço do Farol do Intervalo.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne2kdt7of"
+    }
+  ],
+  "fields": {
+    "origin": "Arquivo errante de Teodoro",
+    "owner": "Inara Velloso"
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrrzbsa3",
+      "targetId": "teodoro",
+      "label": "pertenceu a",
+      "reciprocalLabel": "deixou",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:33.771522",
+  "updatedAt": "2026-10-20T11:44:35.618371"
+}

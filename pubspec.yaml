@@ -45,6 +45,13 @@ flutter:
   assets:
     - assets/translations/
     - assets/themes/
+    - assets/sample/herdeiros-do-silencio/
+    - assets/sample/herdeiros-do-silencio/covers/
+    - assets/sample/herdeiros-do-silencio/gallery/
+    - assets/sample/herdeiros-do-silencio/content/book/
+    - assets/sample/herdeiros-do-silencio/content/book/chapters/
+    - assets/sample/herdeiros-do-silencio/content/narrative/
+    - assets/sample/herdeiros-do-silencio/content/narrative/elements/
 
   fonts:
     - family: DM Sans

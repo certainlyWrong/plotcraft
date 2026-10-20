@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "ops": [
+    {
+      "insert": "Herdeiros do Silêncio"
+    },
+    {
+      "insert": "\n",
+      "attributes": {
+        "header": 1
+      }
+    },
+    {
+      "insert": "\n"
+    }
+  ]
+}

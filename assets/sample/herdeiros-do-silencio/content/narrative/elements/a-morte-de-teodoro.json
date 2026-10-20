@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 2,
+  "id": "a-morte-de-teodoro",
+  "typeId": "event",
+  "title": "A morte de Teodoro",
+  "aliases": [],
+  "summary": "Teodoro morre em uma viela de Cantaterra e a Voz da Memória passa para Inara.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne2kdtp0i"
+    }
+  ],
+  "fields": {
+    "when": "Primeiro dia",
+    "where": "Cantaterra"
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrmsew97",
+      "targetId": "voz-memoria",
+      "label": "transferiu",
+      "reciprocalLabel": "transferida em",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "time": {
+    "label": "Dia 1",
+    "position": 0.0
+  },
+  "createdAt": "2026-10-19T07:21:43.086512",
+  "updatedAt": "2026-10-20T11:44:35.640851"
+}

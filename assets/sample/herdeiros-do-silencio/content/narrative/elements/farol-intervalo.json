@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 2,
+  "id": "farol-intervalo",
+  "typeId": "place",
+  "title": "Farol do Intervalo",
+  "aliases": [],
+  "summary": "Farol afastado de Porto Sal onde Lia vive sob o nome de Lívia. Seu som é abafado de propósito por cera nas janelas.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne26w98gv"
+    }
+  ],
+  "fields": {
+    "region": "Costa de Maresia",
+    "climate": "Ventoso"
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrrzayeo",
+      "targetId": "porto-sal",
+      "label": "fica perto de",
+      "reciprocalLabel": "tem como vizinho",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:33.721717",
+  "updatedAt": "2026-10-20T11:31:00.072545"
+}

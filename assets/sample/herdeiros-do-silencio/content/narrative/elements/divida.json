@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 2,
+  "id": "divida",
+  "typeId": "concept",
+  "title": "A Dívida",
+  "aliases": [],
+  "summary": "O que o antecessor deixou por cumprir e o herdeiro passa a dever.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne2kdrxkw"
+    }
+  ],
+  "fields": {},
+  "sections": [],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:43.066215",
+  "updatedAt": "2026-10-20T11:44:35.558735"
+}

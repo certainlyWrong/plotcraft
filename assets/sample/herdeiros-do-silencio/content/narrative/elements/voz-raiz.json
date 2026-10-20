@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 2,
+  "id": "voz-raiz",
+  "typeId": "t_hncrm3czap",
+  "title": "Voz da Raiz",
+  "aliases": [],
+  "summary": "Vida que cresce e se cura.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne2cicx8l"
+    }
+  ],
+  "fields": {
+    "dom_nio": "Crescimento, cura, raízes",
+    "portador_atual": "benedita",
+    "pre_o_da_heran_a": "O herdeiro abre mão de um desejo próprio; só consegue querer o bem alheio.",
+    "se_ficar_sem_dono": "Plantas apodrecem, feridas não fecham, as colheitas falham."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:53.466385",
+  "updatedAt": "2026-10-20T11:36:39.527504"
+}

@@ -70,6 +70,29 @@ abstract class _ProjectStore with Store {
     projectsRoot = await _repository.projectsRoot;
     projects = ObservableList.of(await _repository.load());
     isLoaded = true;
+    try {
+      sampleId = await _repository.sampleId();
+    } catch (_) {
+      sampleId = '';
+    }
+  }
+
+  /// ID of the bundled example, once known.
+  @observable
+  String sampleId = '';
+
+  /// False once the example is in the library (a deleted one can return).
+  @computed
+  bool get canInstallSample =>
+      sampleId.isNotEmpty &&
+      projects.every((project) => project.id != sampleId);
+
+  /// Installs the bundled example and returns it.
+  @action
+  Future<StoryProject> installSample() async {
+    final (all, sample) = await _repository.installSample();
+    projects = ObservableList.of(all);
+    return sample;
   }
 
   @action

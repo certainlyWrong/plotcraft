@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 2,
+  "id": "voz-ferro",
+  "typeId": "t_hncrm3czap",
+  "title": "Voz do Ferro",
+  "aliases": [],
+  "summary": "Dá forma e dureza à matéria; o que é sólido continua sólido.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne29kkmep"
+    }
+  ],
+  "fields": {
+    "dom_nio": "Matéria, resistência, forja",
+    "portador_atual": "dalva",
+    "pre_o_da_heran_a": "O herdeiro perde a sensibilidade de uma das mãos e assume a Dívida.",
+    "se_ficar_sem_dono": "Metais e pedras ficam quebradiços; construções começam a ceder."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:43.030144",
+  "updatedAt": "2026-10-20T11:33:41.846934"
+}

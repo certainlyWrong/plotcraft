@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 2,
+  "id": "escadaria",
+  "typeId": "place",
+  "title": "Escadaria do Intervalo",
+  "aliases": [],
+  "summary": "Escadaria de sete lances no coração de Cantaterra. Cada degrau soa uma Voz; o último, o do Silêncio, nunca soou.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne1wviiiz"
+    }
+  ],
+  "fields": {
+    "region": "Planalto de Ária",
+    "climate": "Seco, ventoso"
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:33.734100",
+  "updatedAt": "2026-10-20T11:20:54.164027"
+}

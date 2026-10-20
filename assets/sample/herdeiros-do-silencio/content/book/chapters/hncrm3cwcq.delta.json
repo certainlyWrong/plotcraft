@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "ops": [
+    {
+      "insert": "O vento de "
+    },
+    {
+      "insert": "Cantaterra",
+      "attributes": {
+        "mention": {
+          "id": "cantaterra",
+          "name": "Cantaterra"
+        }
+      }
+    },
+    {
+      "insert": " afinava as ruas ao entardecer, e "
+    },
+    {
+      "insert": "Inara",
+      "attributes": {
+        "mention": {
+          "id": "inara",
+          "name": "Inara"
+        }
+      }
+    },
+    {
+      "insert": " sempre soube a hora pelo tom: quando a viela dos Tintureiros chegava ao sol bemol, era hora de guardar os compassos e voltar para casa.\nNaquele dia ela se atrasou. Foi por isso que ouviu o homem cair.\nEle estava sentado contra a parede, com um embrulho de papéis no colo, e tentava sorrir como quem pede desculpas por incomodar. Tinha mãos de arquivista, dedos longos e achatados nas pontas. Os lábios estavam azulados.\n— Você anota as coisas — disse ele, olhando o lápis de carvão no cabelo dela. — Bom. Vai precisar.\n— O senhor está passando mal. Vou chamar alguém.\n— Não há tempo. — Ele segurou o pulso dela com uma força que não combinava com o corpo. — Meu nome é "
+    },
+    {
+      "insert": "Teodoro",
+      "attributes": {
+        "mention": {
+          "id": "teodoro",
+          "name": "Teodoro"
+        }
+      }
+    },
+    {
+      "insert": ". Escute: eu não escolhi você por mérito. Você é só a única pessoa que ficou.\nO vento parou. Em Cantaterra, o vento nunca parava.\nInara sentiu algo se abrir dentro dela, como uma porta que ela jamais soubera ter, e do outro lado havia um som: uma nota longa e baixa, que sustentava todas as outras. Um segundo depois, uma lembrança foi arrancada, tão limpa que não doeu. Era a cantiga que a mãe cantava ao pentear seu cabelo. Inara tentou segurar a melodia e só encontrou o lugar onde ela estivera.\n— O que o senhor fez?\n— Passei a Memória adiante. — A voz dele já era quase só ar. — E com ela a Dívida. Encontre uma mulher chamada Lia. Diga a ela que... — Ele franziu a testa, e Inara percebeu que ele também procurava uma lembrança que não estava mais ali. — Diga que a resposta é sim. Ela vai entender.\nA mão dele afrouxou.\nInara ficou muito tempo ajoelhada na viela, com o embrulho de papéis nos braços. Quando por fim se levantou, tirou o lápis do cabelo e escreveu na palma da mão, para não perder:\n"
+    },
+    {
+      "insert": "Lia. A resposta é sim.",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": "\nAo fundo da viela, uma silhueta de capa cinza observava, sem pressa, e depois recuou para a sombra. No peito da capa havia sete fios bordados, e um deles estava solto.\n"
+    }
+  ]
+}

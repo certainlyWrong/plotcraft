@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 2,
+  "id": "cantaterra",
+  "typeId": "place",
+  "title": "Cantaterra",
+  "aliases": [],
+  "summary": "Cidade de pedra clara construída sobre um desfiladeiro, onde o vento afina como corda. Sede do Coro e cenário do início da história.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne23oo82d"
+    }
+  ],
+  "fields": {
+    "region": "Planalto de Ária",
+    "climate": "Seco, ventoso"
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrmsegcn",
+      "targetId": "coro",
+      "label": "sede de",
+      "reciprocalLabel": "sediado em",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:28.041233",
+  "updatedAt": "2026-10-20T11:27:45.936414"
+}

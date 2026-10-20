@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 2,
+  "id": "inara",
+  "typeId": "character",
+  "title": "Inara Velloso",
+  "aliases": [],
+  "summary": "Aprendiz de cartógrafa que herda a Voz da Memória de um estranho e, com ela, uma Dívida que não é sua.",
+  "tags": [
+    "protagonista",
+    "portadora"
+  ],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne1tjhbn3"
+    }
+  ],
+  "fields": {
+    "age": "30",
+    "occupation": "Aprendiz de cartógrafa",
+    "appearance": "Magra, mãos manchadas de tinta, cabelo preso com um lápis de carvão.",
+    "personality": "Meticulosa e teimosa. Anota tudo porque tem medo de esquecer, e agora esquecer é o preço que paga."
+  },
+  "sections": [],
+  "phases": [
+    {
+      "id": "hncruwtljx",
+      "title": "Guardiã da Casa da Guarda",
+      "description": "Depois do fim, Inara cria um arquivo onde os portadores depositam o preço em vez de perdê-lo. Mantém os cadernos e o lápis no cabelo.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncruofrwf"
+      },
+      "fieldOverrides": {
+        "occupation": "Guardiã da Casa da Guarda"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "hncrmsd5yh",
+      "targetId": "teodoro",
+      "label": "herdeira de",
+      "reciprocalLabel": "antecessor de",
+      "note": "Eram estranhos. A Dívida de Teodoro agora é dela."
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:21:27.958343",
+  "updatedAt": "2026-10-20T11:17:32.554681"
+}

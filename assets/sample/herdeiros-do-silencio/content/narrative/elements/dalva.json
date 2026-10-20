@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "id": "dalva",
+  "typeId": "character",
+  "title": "Dalva",
+  "aliases": [],
+  "summary": "Aprendiz de forja de Ravi, órfã e escondida do Coro. É a herdeira que ele nunca contou a ninguém.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne20p8g43"
+    }
+  ],
+  "fields": {
+    "age": "16",
+    "occupation": "Aprendiz de ferreiro",
+    "personality": "Calada, cabeçuda, mais forte do que parece."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrrzady6",
+      "targetId": "ravi",
+      "label": "aprendiz e herdeira de",
+      "reciprocalLabel": "mestre e antecessor de",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:33.662135",
+  "updatedAt": "2026-10-20T11:24:45.481377"
+}

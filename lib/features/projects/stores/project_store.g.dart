@@ -17,6 +17,13 @@ mixin _$ProjectStore on _ProjectStore, Store {
         () => super.visibleProjects,
         name: '_ProjectStore.visibleProjects',
       )).value;
+  Computed<bool>? _$canInstallSampleComputed;
+
+  @override
+  bool get canInstallSample => (_$canInstallSampleComputed ??= Computed<bool>(
+    () => super.canInstallSample,
+    name: '_ProjectStore.canInstallSample',
+  )).value;
   Computed<List<String>>? _$usedFormatsComputed;
 
   @override
@@ -149,6 +156,24 @@ mixin _$ProjectStore on _ProjectStore, Store {
     });
   }
 
+  late final _$sampleIdAtom = Atom(
+    name: '_ProjectStore.sampleId',
+    context: context,
+  );
+
+  @override
+  String get sampleId {
+    _$sampleIdAtom.reportRead();
+    return super.sampleId;
+  }
+
+  @override
+  set sampleId(String value) {
+    _$sampleIdAtom.reportWrite(value, super.sampleId, () {
+      super.sampleId = value;
+    });
+  }
+
   late final _$loadAsyncAction = AsyncAction(
     '_ProjectStore.load',
     context: context,
@@ -157,6 +182,16 @@ mixin _$ProjectStore on _ProjectStore, Store {
   @override
   Future<void> load() {
     return _$loadAsyncAction.run(() => super.load());
+  }
+
+  late final _$installSampleAsyncAction = AsyncAction(
+    '_ProjectStore.installSample',
+    context: context,
+  );
+
+  @override
+  Future<StoryProject> installSample() {
+    return _$installSampleAsyncAction.run(() => super.installSample());
   }
 
   late final _$selectProjectsRootAsyncAction = AsyncAction(
@@ -268,7 +303,9 @@ formatFilter: ${formatFilter},
 isLoaded: ${isLoaded},
 projectsRoot: ${projectsRoot},
 defaultProjectsRoot: ${defaultProjectsRoot},
+sampleId: ${sampleId},
 visibleProjects: ${visibleProjects},
+canInstallSample: ${canInstallSample},
 usedFormats: ${usedFormats}
     ''';
   }

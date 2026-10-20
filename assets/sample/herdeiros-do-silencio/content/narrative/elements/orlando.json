@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "id": "orlando",
+  "typeId": "character",
+  "title": "Duque Orlando Viana",
+  "aliases": [],
+  "summary": "Portador da Voz da Chama e governante de Cantaterra. Peão de Helena, que lhe garante um herdeiro dócil.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne26w6x5s"
+    }
+  ],
+  "fields": {
+    "age": "49",
+    "occupation": "Duque de Cantaterra",
+    "personality": "Vaidoso, hesitante, grato demais a quem o protege."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrrzanwt",
+      "targetId": "cantaterra",
+      "label": "governa",
+      "reciprocalLabel": "governada por",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:33.697259",
+  "updatedAt": "2026-10-20T11:30:59.964681"
+}

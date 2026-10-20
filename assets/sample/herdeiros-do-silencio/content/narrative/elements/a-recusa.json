@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "id": "a-recusa",
+  "typeId": "event",
+  "title": "A Recusa",
+  "aliases": [],
+  "summary": "Há trinta anos, Lia se recusou a herdar o Silêncio. Desde então a Voz está vacante.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne2kdu4o8"
+    }
+  ],
+  "fields": {
+    "when": "30 anos antes da história",
+    "where": "Cantaterra"
+  },
+  "sections": [
+    {
+      "id": "hncrrrqylh",
+      "title": "O que aconteceu",
+      "markdown": "Lia, grávida de oito meses, foi nomeada herdeira do Silêncio. O preço era a memória de quem ela mais amava, e isso significava a filha que ia nascer. Perguntou a Teodoro, então jovem arquivista do Coro, se alguém poderia guardar o que ela entregasse. Ele disse que talvez. Ela não teve coragem de esperar a resposta e recusou. Teodoro levou a menina para uma família de Cantaterra, os Velloso, e apagou os registros."
+    }
+  ],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrmseo8f",
+      "targetId": "voz-silencio",
+      "label": "deixou vacante",
+      "reciprocalLabel": "ficou vacante em",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "time": {
+    "label": "30 anos antes",
+    "position": -30.0
+  },
+  "createdAt": "2026-10-19T07:21:43.076544",
+  "updatedAt": "2026-10-20T11:44:35.661214"
+}

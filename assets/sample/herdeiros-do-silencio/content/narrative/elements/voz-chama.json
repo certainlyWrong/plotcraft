@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 2,
+  "id": "voz-chama",
+  "typeId": "t_hncrm3czap",
+  "title": "Voz da Chama",
+  "aliases": [],
+  "summary": "Calor, impulso e vontade; o que faz as coisas começarem.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne29kk3tf"
+    }
+  ],
+  "fields": {
+    "dom_nio": "Energia, desejo, início",
+    "portador_atual": "orlando",
+    "pre_o_da_heran_a": "O herdeiro perde a capacidade de sentir frio e, aos poucos, de sentir medo.",
+    "se_ficar_sem_dono": "Fogos não acendem; as pessoas perdem a vontade de começar qualquer coisa."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:53.418510",
+  "updatedAt": "2026-10-20T11:33:41.823039"
+}

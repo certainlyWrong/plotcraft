@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 2,
+  "id": "marta",
+  "typeId": "character",
+  "title": "Marta Velloso",
+  "aliases": [],
+  "summary": "Mãe adotiva de Inara, tecelã de mapas bordados. Criou a filha de uma desconhecida sem nunca perguntar por quê.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne20p99ec"
+    }
+  ],
+  "fields": {
+    "age": "55",
+    "occupation": "Bordadeira de mapas",
+    "personality": "Prática, calada, afetuosa em gestos e não em palavras. Cantava para Inara a cantiga que a Voz levou."
+  },
+  "sections": [],
+  "phases": [
+    {
+      "id": "hncruwumj9",
+      "title": "Portadora do Nome",
+      "description": "Herda a Voz do Nome de Helena e perde o próprio nome; só o possui porque a filha o diz. Usa a Voz para ler em público os nomes dos mortos do Coro.",
+      "anchor": {
+        "kind": "chapter",
+        "id": "hncruof6qb"
+      },
+      "fieldOverrides": {
+        "occupation": "Portadora do Nome"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "hncrrz9onb",
+      "targetId": "inara",
+      "label": "mãe adotiva de",
+      "reciprocalLabel": "filha adotiva de",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:33.620946",
+  "updatedAt": "2026-10-20T11:24:45.519320"
+}

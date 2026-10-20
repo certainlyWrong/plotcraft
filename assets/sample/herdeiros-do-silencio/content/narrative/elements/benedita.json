@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "id": "benedita",
+  "typeId": "character",
+  "title": "Irmã Benedita",
+  "aliases": [],
+  "summary": "Portadora da Voz da Raiz, curandeira do hospício do Coro. Sabe dos assassinatos e se cala por medo.",
+  "tags": [],
+  "images": [
+    {
+      "ref": "gallery",
+      "id": "g_hne26w8s58"
+    }
+  ],
+  "fields": {
+    "age": "64",
+    "occupation": "Curandeira",
+    "personality": "Branda, covarde por hábito, capaz de um único ato de coragem."
+  },
+  "sections": [],
+  "phases": [],
+  "relations": [
+    {
+      "id": "hncrrzb8e5",
+      "targetId": "coro",
+      "label": "cura para",
+      "reciprocalLabel": "protege",
+      "note": ""
+    }
+  ],
+  "mentionPolicy": {
+    "auto": true,
+    "ignoredTerms": []
+  },
+  "createdAt": "2026-10-19T07:26:33.684904",
+  "updatedAt": "2026-10-20T11:31:00.051403"
+}

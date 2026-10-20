@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "ops": [
+    {
+      "insert": "As rachaduras apareciam primeiro no bairro baixo. Inara as viu nas paredes da rua dos Funileiros, finas como cabelos, e viu também as famílias que recolhiam panelas e se mudavam para a casa de parentes. Ninguém dizia por quê.\nNo caderno verde, uma linha dizia: "
+    },
+    {
+      "insert": "R. D. sem herdeiro. Tem pouco tempo.",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": "\n"
+    },
+    {
+      "insert": "Ravi Duarte",
+      "attributes": {
+        "mention": {
+          "id": "ravi",
+          "name": "Ravi Duarte"
+        }
+      }
+    },
+    {
+      "insert": " atendeu a porta da "
+    },
+    {
+      "insert": "forja",
+      "attributes": {
+        "mention": {
+          "id": "forja",
+          "name": "forja"
+        }
+      }
+    },
+    {
+      "insert": " sem camisa, com os ombros de uma pedra velha e uma das mãos enrolada em pano. Era evidente que ele não dormia.\n— Se veio encomendar faca, volte quando eu estiver melhor.\n— Vim por causa de Teodoro.\nO martelo parou no ar. Atrás dele, perto da bigorna, uma menina magra e de cara fechada fingiu muito bem que não estava ouvindo.\nRavi a mandou buscar carvão. Quando ela saiu, contou:\n— Teodoro foi o único que me tratou como gente quando virei portador. Ele sabia o que o Ferro cobra. Sabe o que é? — Estendeu a mão enrolada. — Já não sinto nada nela. Meu mestre perdeu as duas. Quando eu morrer, o Ferro vai querer outra mão. E eu... — A voz falhou, mas ele a retomou à força. — Não tenho ninguém para dar.\n— Teodoro me deixou a Memória — disse Inara.\nRavi a olhou como se a visse de verdade pela primeira vez.\n— Então foi "
+    },
+    {
+      "insert": "você",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": ". — Riu, sem alegria. — O velho passou a vida inteira planejando, e a escolhida é uma menina de lápis no cabelo. Escute, "
+    },
+    {
+      "insert": "o Coro",
+      "attributes": {
+        "mention": {
+          "id": "coro",
+          "name": "o Coro"
+        }
+      }
+    },
+    {
+      "insert": " sabe que estou morrendo. Eles sempre sabem. A regente vai me visitar em breve com um herdeiro debaixo do braço, um menino dócil, um que vai fazer tudo o que ela mandar. E eu vou ter que aceitar, porque a alternativa é a cidade cair em cima da cabeça de todo mundo.\n— Há outra alternativa?\nEle não respondeu. A menina voltou com o carvão, e Inara viu o que não vira antes: ao passar pelo fogo, a mão da menina não recuou. A brasa se curvou ao redor dos dedos como água ao redor de um barco.\nRavi percebeu o olhar de Inara e a fuzilou em silêncio. Ele só disse, em voz alta:\n— Vá embora, cartógrafa. Procure a mulher de Teodoro. E não volte aqui antes de ter razão para voltar.\nNa rua, Inara anotou três coisas no caderno: "
+    },
+    {
+      "insert": "o Ferro tem dono moribundo. A menina da forja não é uma menina qualquer. O Coro vai tentar pôr alguém no lugar.",
+      "attributes": {
+        "italic": true
+      }
+    },
+    {
+      "insert": " Depois, sublinhou a terceira duas vezes.\nAtrás dela, no fim da rua, uma capa cinza com um fio solto virou a esquina.\n"
+    }
+  ]
+}
