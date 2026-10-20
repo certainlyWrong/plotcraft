@@ -1155,11 +1155,19 @@ class _GraphPainter extends CustomPainter {
     TextStyle style, {
     double maxWidth = 160,
   }) {
-    final key = '${style.color?.toARGB32()}|${style.fontSize}|$maxWidth|$text';
+    // Text drawn here (names, link labels) uses the theme's font, like the
+    // rest of the interface; icon glyphs bring their own family.
+    final family = style.fontFamily ?? theme.textTheme.bodyMedium?.fontFamily;
+    final styled = style.fontFamily == null
+        ? style.copyWith(fontFamily: family)
+        : style;
+    final key =
+        '${style.color?.toARGB32()}|${style.fontSize}|${style.fontWeight}|'
+        '$family|$maxWidth|$text';
     return _text.putIfAbsent(key, () {
       if (_text.length > 600) _text.clear();
       return TextPainter(
-        text: TextSpan(text: text, style: style),
+        text: TextSpan(text: text, style: styled),
         textDirection: ui.TextDirection.ltr,
         maxLines: 1,
         ellipsis: '…',
