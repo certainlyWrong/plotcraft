@@ -1,3 +1,5 @@
+**English** · [Português](README.pt-BR.md) · [Español](README.es.md)
+
 # Plotcraft MCP server
 
 An [MCP](https://modelcontextprotocol.io) server that lets an AI assistant read
@@ -179,5 +181,5 @@ dart run tool/print_catalog.dart   # the table above
 ```
 
 Project files and what the server does with them are described in
-[`docs/modelo-de-projeto.md`](../../docs/modelo-de-projeto.md) and
+[`docs/project-model.md`](../../docs/project-model.md) and
 [`docs/mcp.md`](../../docs/mcp.md).

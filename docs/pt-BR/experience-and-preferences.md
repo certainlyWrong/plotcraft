@@ -1,3 +1,5 @@
+[English](../experience-and-preferences.md) · **Português** · [Español](../es/experience-and-preferences.md)
+
 # Experiência e preferências
 
 ## Desktop em primeiro lugar
@@ -29,6 +31,6 @@ A fonte padrão é **Times New Roman**. A pessoa pode escolher outra família no
 
 ## Pasta de projetos
 
-O aplicativo usa a pasta `Plotcraft` dentro do diretório de documentos do sistema para novos projetos. Em Preferências, a pessoa pode escolher outra pasta ou restaurar a localização padrão. A escolha é persistida localmente. Os projetos existentes permanecem em seus locais atuais; a biblioteca mantém seus caminhos. Consulte [Modelo de projeto](modelo-de-projeto.md) para a estrutura de cada pasta.
+O aplicativo usa a pasta `Plotcraft` dentro do diretório de documentos do sistema para novos projetos. Em Preferências, a pessoa pode escolher outra pasta ou restaurar a localização padrão. A escolha é persistida localmente. Os projetos existentes permanecem em seus locais atuais; a biblioteca mantém seus caminhos. Consulte [Modelo de projeto](project-model.md) para a estrutura de cada pasta.
 
 No macOS, a escolha usa um painel nativo que também registra a autorização para acessar a pasta em sessões futuras. O painel começa na pasta padrão quando ela existe; caso contrário, abre no diretório existente mais próximo. Cancelar a escolha mantém a preferência atual.

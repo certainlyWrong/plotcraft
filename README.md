@@ -1,107 +1,179 @@
 <div align="center">
 
+**English** · [Português](README.pt-BR.md) · [Español](README.es.md)
+
 # Plotcraft
 
-**Arquitete histórias antes e durante a escrita.**
+**Architect your stories before and while you write.**
 
-Personagens, lugares, relações e capítulos no mesmo lugar, em arquivos locais que são seus.
+Characters, places, relationships and chapters in one place, kept in local files that belong to you.
 
-<img src="docs/screenshots/personagem.png" alt="Plotcraft: a ficha de um personagem ao lado da lista de elementos da história" width="920">
+<img src="docs/screenshots/personagem.png" alt="Plotcraft: a character's sheet next to the list of the story's elements" width="920">
 
 </div>
 
-Plotcraft é um aplicativo desktop para quem escreve histórias de qualquer gênero e formato. Cada história é um projeto organizado, com contexto, metadados e ferramentas para desenvolver seus elementos enquanto o texto cresce: o que você escreve e o que você planeja ficam ligados.
+Plotcraft is a desktop app for people who write stories of any genre and format. Each story is an organized project with context, metadata and tools to develop its elements while the text grows: what you write and what you plan stay connected.
 
-> O aplicativo ainda está em estágio inicial. A documentação descreve a visão e os conceitos pretendidos; nem tudo o que ela cita está pronto.
+> The app is at an early stage. The documentation describes the vision and the intended concepts, and not everything it mentions is finished.
 
-## O que dá para fazer
+## Features
 
 <table>
   <tr>
     <td width="50%">
-      <img src="docs/screenshots/mapa-da-historia.png" alt="Mapa da história: grafo de elementos, relações e capítulos">
-      <b>Mapa da história.</b> Um grafo com elementos, relações, capítulos e onde cada elemento é citado, com filtros por tipo e foco no elemento selecionado.
+      <img src="docs/screenshots/mapa-da-historia.png" alt="Story map: a graph of elements, relations and chapters">
+      <b>Story map.</b> A graph of elements, relations, chapters and where each element is cited, with type filters and focus on the selected element.
     </td>
     <td width="50%">
-      <img src="docs/screenshots/linha-do-tempo.png" alt="Linha do tempo por capítulo: quem aparece onde">
-      <b>Linha do tempo.</b> A história por capítulo (quem aparece onde e onde cada fase começa) e pela cronologia do mundo, com datas livres e posição opcional.
+      <img src="docs/screenshots/linha-do-tempo.png" alt="Timeline by chapter: who appears where">
+      <b>Timeline.</b> The story by chapter (who appears where and where each phase begins) and by the world's chronology, with free-form dates and an optional position.
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <img src="docs/screenshots/modo-leitura.png" alt="Modo leitura: um capítulo por vez, em coluna estreita">
-      <b>Modo leitura.</b> O livro como um leitor o veria: um capítulo por vez, texto ajustável e nomes que abrem o elemento com um clique.
+      <img src="docs/screenshots/modo-leitura.png" alt="Reading mode: one chapter at a time, in a narrow column">
+      <b>Reading mode.</b> The book as a reader would see it: one chapter at a time, adjustable text and names that open their element with a click.
     </td>
     <td width="50%">
-      <img src="docs/screenshots/editor.png" alt="Editor de texto rico com menções a elementos">
-      <b>Escrita.</b> Editor de texto rico com fontes, cores, imagens da galeria, corretor ortográfico do sistema (macOS) e menções aos elementos.
+      <img src="docs/screenshots/editor.png" alt="Rich-text editor with mentions of elements">
+      <b>Writing.</b> A rich-text editor with fonts, colors, gallery images, the system spell checker (macOS) and mentions of your elements.
     </td>
   </tr>
   <tr>
-    <td colspan="2">
-      <img src="docs/screenshots/galeria.png" alt="Galeria de imagens em mosaico, cada uma na sua proporção">
-      <b>Galeria.</b> Referências visuais em mosaico que respeita a proporção real de cada imagem, ligadas a elementos e fases.
+    <td width="50%">
+      <img src="docs/screenshots/galeria.png" alt="Image gallery as a mosaic, each image in its own proportion">
+      <b>Gallery.</b> Visual references in a mosaic that respects each image's real proportion.
+    </td>
+    <td width="50%">
+      <img src="docs/screenshots/tema-claro.png" alt="Reading mode with the light Paper theme">
+      <b>Your look.</b> Eight themes with light and dark variants, your own JSON themes, several interface fonts and fonts that travel with the project.
     </td>
   </tr>
 </table>
 
-Mais do que isso:
+### Projects and library
 
-- **Elementos narrativos** com ícone e cor: personagens, lugares, objetos, criaturas, organizações, eventos, conceitos, notas e tipos próprios com os detalhes que a sua história pede.
-- **Fases e relações:** mostre como um elemento muda ao longo dos capítulos e como ele se liga aos outros.
-- **Qualquer história:** datas livres, formatos diferentes (livro, mangá) e vocabulário sem pressupor um gênero.
-- **Arquivos locais:** cada projeto é uma pasta legível, com Markdown e JSON, que você pode copiar, versionar ou abrir fora do app.
-- **Feito para uma IA ajudar:** um servidor [MCP](docs/mcp.md) deixa o Claude Code, o Claude Desktop e outros clientes criarem e editarem os mesmos projetos.
-- **Temas, idiomas e fontes:** interface em português e inglês, vários temas e fontes do projeto.
+- **A library of stories.** Create, search, sort (most recent or by title), open and delete projects. When the library has more than one kind of story, you can filter by it.
+- **Identity for each story.** Title, subtitle, author, genre, description, keywords and a cover: an image of your own or one of the generated covers.
+- **Overview.** Words, chapters, elements and images of a project at a glance, and the project's details editable in place.
+- **Any kind of story.** Free-form dates, optional structure and vocabulary that does not assume a genre. Books today; manga projects exist as a skeleton with elements and gallery.
+- **Always in sync with the folder.** The library notices projects that another program adds, removes or renames in your projects folder.
 
-## Experimente com a história de exemplo
+### Writing
 
-O Plotcraft leva uma história completa, **Herdeiros do Silêncio**, para você explorar sem começar do zero. Na tela inicial, escolha **Explorar a história de exemplo**: ela é copiada para a sua pasta de projetos e abre como qualquer outro projeto.
+- **A single manuscript or chapters.** A book can keep one continuous text or be divided into chapters. Add, rename, reorder (by dragging) and remove chapters; removed chapters are archived, not erased. Word counts per chapter and for the whole book.
+- **A rich-text editor.** Fonts and sizes, bold, italic, underline, strikethrough, text and highlight colors, headings, lists, quotes, indentation, alignment, dividers and images from your gallery.
+- **Mentions that connect writing and planning.** Type `@` to link a name to an element, or let Plotcraft detect the names and aliases you already wrote; ignore the words that are only coincidences. Hover a name to see the element's card (cover, summary, details and the phase it is in at that chapter), and open it with Cmd/Ctrl + click.
+- **Everyday tools.** Find and replace, undo and redo, autosave, full-screen mode, and a spell checker that uses the system's own (macOS).
+- **Safe with other programs.** If a chapter changes outside the app, for example by an AI or a sync tool, Plotcraft updates it right away, or asks you which version to keep when you have unsaved edits.
+- **Plain files.** Each chapter is saved as an editor document plus a readable Markdown copy.
 
-São sete Vozes que sustentam o universo, cada uma com um único portador, passadas em herança por um preço. São 12 capítulos, 25 elementos ligados entre si, dois plots e 30 imagens, o suficiente para ver o mapa, a linha do tempo e o modo leitura funcionando. Todas as capturas de tela deste README vêm dela.
+### Reading mode
 
-## Documentação
+A chapter at a time in a comfortable column, with a progress bar for the whole book, text sizes from 14 to 30, ← → to change chapter, mentions that open their element, and the position and size remembered per project. It shows what you have not saved yet, and it works in full screen.
 
-- [Visão do produto](docs/visao-do-produto.md) — propósito, público e experiência desejada.
-- [Modelo de projeto](docs/modelo-de-projeto.md) — o que compõe um projeto de história.
-- [Experiência e preferências](docs/experiencia-e-preferencias.md) — foco desktop, temas e idiomas.
-- [Arquitetura da aplicação](docs/arquitetura-da-aplicacao.md) — organização do código, pacotes e projeto de exemplo.
-- [MCP](docs/mcp.md) — como uma IA cria e gerencia histórias pelo Plotcraft (servidor em [`packages/plotcraft_mcp`](packages/plotcraft_mcp/README.md)).
+### Story elements
 
-## Como executar
+- **Eight built-in types:** characters, places, objects, creatures, organizations, events, concepts and notes.
+- **Your own types.** Create types such as *Spell* or *Faction* with their own icon, color and details: short and long text, numbers, dates, choices, yes/no, links, and references to other elements.
+- **For each element:** icon and color, other names (aliases), tags, a summary, the details of its type, images (from the gallery or your computer; the first is the cover) and free-form sections in Markdown for backstory, rules, lore or research.
+- **Phases.** Show how an element changes over the story: a phase can start at a chapter, carry changed details and have its own image. The element shown in a chapter uses the phase in force there.
+- **Relations.** Link elements with labels that read both ways ("mentor of" / "student of"), plus a note.
+- **Story time.** Say when something happens in the story's own words ("Year 312", "three days before"), with an optional number to put it in order.
+- **Where it is used.** See every place an element is cited in the text and whether each mention is linked, and which other elements point to it in their details.
 
-Requisitos: [Flutter](https://docs.flutter.dev/get-started/install) (SDK ^3.13) com o suporte a desktop do seu sistema. O corretor ortográfico do sistema só existe no macOS; no Windows e no Linux o editor funciona sem ele.
+### Story map
+
+An interactive graph of the whole story: elements, relations, chapters, where each element is cited (the line gets thicker with each mention) and where each phase begins. Filter by type, search, zoom, focus on one element and its connections, tune distance, repulsion, node size, names and link types in the display panel, and go full screen. The view you left is remembered.
+
+### Timeline
+
+- **By chapter:** a matrix of who appears in which chapter, with the phases that start there.
+- **By chronology:** the world's events in order or to scale, with free-form dates. Drag a card to change its place, and zoom to open up a crowded stretch.
+- Both appear once the project has elements, with filters, search, zoom, full screen and a remembered view.
+
+### Gallery
+
+Reference images in a mosaic where each one keeps its own proportion. Add images from your computer (or drop files into the project's `gallery` folder and refresh), view them large with next and previous, and use them as an element's cover, in a phase or inside the text. Every image has a stable ID, so links survive when you reorganize.
+
+### Your look and your language
+
+- **Eight themes**, each with light and dark variants: Violet, Paper, Midnight, Lavender, Moss, Rose, Ocean and Plum. Add your own as a JSON file.
+- **Interface in English and Portuguese**, with more languages added by dropping in a translation file. The language of the interface does not limit the language of your story.
+- **Fonts.** Choose the interface font (Times New Roman, DM Sans, Lora, Merriweather, Roboto) and add `.ttf`, `.otf` or `.ttc` fonts to a project so they travel with it and can be used in the text.
+- **Your projects folder.** Keep your stories wherever you want; the library can gather projects from different places.
+
+### Local files, yours to keep
+
+Each project is a folder of readable files (Markdown for the text, JSON for the rest, ordinary image files). Copy it, back it up, put it under version control or open it with other tools. Nothing is locked into a database and nothing is sent anywhere.
+
+### Works with AI
+
+A built-in [MCP](https://modelcontextprotocol.io) server lets Claude Code, Claude Desktop and other clients create and edit the same projects the app opens, with more than 60 tools: projects, chapters, elements, types, phases, relations, the gallery, fonts and even the app's own theme and language. The AI reads before it writes, uses revisions so it never overwrites what you typed, asks for explicit confirmation before deleting anything and can run read-only. With the app open, you watch the changes appear while it works. See [How to use the MCP](#how-to-use-the-mcp).
+
+## Try it with the sample story
+
+Plotcraft ships a complete story, **Herdeiros do Silêncio** (in Portuguese), so you can explore without starting from scratch. On the home screen, choose **Explore the sample story**: it is copied to your projects folder and opens like any other project.
+
+<div align="center">
+  <img src="docs/screenshots/biblioteca.png" alt="The Plotcraft library with the sample story" width="720">
+</div>
+
+Seven Voices hold the universe together, each with a single bearer, passed on by inheritance at a price. The story has 12 chapters, 25 interlinked elements, two plots and 30 images: enough to see the map, the timeline and the reading mode at work. Every screenshot in this README comes from it.
+
+## Download
+
+Ready-to-run builds for each desktop system are on the [Releases page](https://github.com/certainlyWrong/plotcraft/releases):
+
+| System | File | How to run |
+| --- | --- | --- |
+| macOS (Apple Silicon and Intel) | `plotcraft-<version>-macos.dmg` | Open the disk image and drag **Plotcraft** to **Applications**. |
+| Windows (64-bit) | `plotcraft-<version>-windows-x64.zip` | Unzip it and run `plotcraft.exe`. |
+| Linux (64-bit) | `plotcraft-<version>-linux-x64.tar.gz` | Extract it and run `plotcraft/plotcraft`. It needs GTK 3 (`libgtk-3-0`). |
+
+The [MCP server](#how-to-use-the-mcp) is published as well (`plotcraft-mcp-<version>-<system>`), so you do not need Dart to use it. `SHA256SUMS.txt` lists the checksums of every file.
+
+The builds are not code-signed yet, so your system will warn you the first time:
+
+- **macOS:** Control-click the app, choose **Open**, and confirm. If macOS says the app is damaged, run `xattr -dr com.apple.quarantine /Applications/Plotcraft.app` once.
+- **Windows:** in the SmartScreen window, choose **More info → Run anyway**.
+
+**For maintainers:** a release is built and published by [`.github/workflows/release.yml`](.github/workflows/release.yml) when a version tag is pushed (`git tag v1.0.0 && git push origin v1.0.0`). A tag with a dash, such as `v1.0.0-beta.1`, is published as a pre-release. The workflow can also be started by hand from the Actions tab to try the builds without publishing.
+
+## Getting started
+
+Requirements: [Flutter](https://docs.flutter.dev/get-started/install) (SDK ^3.13) with desktop support for your system. The system spell checker only exists on macOS; on Windows and Linux the editor works without it.
 
 ```sh
 flutter pub get
-flutter run -d macos        # ou: -d windows, -d linux
+flutter run -d macos        # or: -d windows, -d linux
 ```
 
-Outros comandos úteis:
+Other useful commands:
 
 ```sh
-flutter test                                   # testes do aplicativo
-(cd packages/plotcraft_core && dart test)      # testes do núcleo (Dart puro)
-(cd packages/plotcraft_mcp && dart test)       # testes do servidor MCP
-flutter build macos --release                  # gera o aplicativo
-dart run build_runner build --delete-conflicting-outputs   # após mudar uma store MobX
-tool/screenshots/run.sh                        # imagens das telas em build/screenshots/
-tool/screenshots/readme.sh                     # imagens do README em docs/screenshots/ (a partir da história de exemplo)
+flutter test                                   # the app's tests
+(cd packages/plotcraft_core && dart test)      # tests of the core (pure Dart)
+(cd packages/plotcraft_mcp && dart test)       # tests of the MCP server
+flutter build macos --release                  # builds the app
+dart run build_runner build --delete-conflicting-outputs   # after changing a MobX store
+tool/screenshots/run.sh                        # screenshots of the screens in build/screenshots/
+tool/screenshots/readme.sh                     # the README screenshots in docs/screenshots/ (from the sample story)
 ```
 
-Os projetos ficam em arquivos na pasta escolhida em **Preferências → Pasta de projetos** (por padrão, `Documentos/Plotcraft`).
+Projects are stored as files in the folder chosen in **Preferences → Projects folder** (by default, `Documents/Plotcraft`).
 
-## Como usar o MCP
+## How to use the MCP
 
-O servidor MCP deixa uma IA (Claude Code, Claude Desktop e outros clientes) criar e editar os mesmos projetos que o aplicativo abre: capítulos, elementos, relações, fases, galeria e fontes. Ele não precisa do aplicativo aberto; com o aplicativo aberto, o resultado aparece na tela enquanto a IA trabalha, e a IA também pode trocar o tema, abrir um capítulo ou usar o corretor.
+The MCP server lets an AI (Claude Code, Claude Desktop and other clients) create and edit the same projects the app opens: chapters, elements, relations, phases, gallery and fonts. It does not need the app to be open; with the app open, the result shows on screen while the AI works, and the AI can also change the theme, open a chapter or use the spell checker.
 
-**1. Gere o executável** (precisa do Dart, que já vem com o Flutter):
+**1. Build the executable** (needs Dart, which comes with Flutter):
 
 ```sh
-tool/build_mcp.sh        # escreve build/plotcraft-mcp
+tool/build_mcp.sh        # writes build/plotcraft-mcp
 ```
 
-**2. Registre-o no seu cliente**, apontando para a mesma pasta de projetos que o aplicativo usa:
+**2. Register it in your client**, pointing at the same projects folder the app uses:
 
 ```sh
 # Claude Code
@@ -114,15 +186,25 @@ Claude Desktop (`claude_desktop_config.json`):
 {
   "mcpServers": {
     "plotcraft": {
-      "command": "/caminho/para/build/plotcraft-mcp",
-      "args": ["--root", "/Users/voce/Documents/Plotcraft"]
+      "command": "/path/to/build/plotcraft-mcp",
+      "args": ["--root", "/Users/you/Documents/Plotcraft"]
     }
   }
 }
 ```
 
-Opções: `--root <pasta>` (ou a variável `PLOTCRAFT_ROOT`), `--project <pasta>` para uma pasta de projeto fora da raiz e `--read-only` para impedir qualquer alteração.
+Options: `--root <folder>` (or the `PLOTCRAFT_ROOT` variable), `--project <folder>` for a project folder outside the root and `--read-only` to prevent any change.
 
-**3. Peça em linguagem natural**, por exemplo: *"Crie um romance de mistério chamado A Estrada de Sal, com três personagens e um primeiro capítulo"*. A IA lê antes de escrever, usa revisões para nunca sobrescrever o que você digitou, e pede confirmação explícita antes de apagar qualquer coisa. Se vocês dois editarem o mesmo capítulo, o aplicativo pergunta qual versão fica.
+**3. Ask in plain language**, for example: *"Create a mystery novel called The Salt Road, with three characters and a first chapter."* The AI reads before it writes, uses revisions to never overwrite what you typed, and asks for explicit confirmation before deleting anything. If both of you edit the same chapter, the app asks which version to keep.
 
-O catálogo completo de ferramentas, os erros e os exemplos estão em [`packages/plotcraft_mcp/README.md`](packages/plotcraft_mcp/README.md); o desenho e a segurança, em [MCP](docs/mcp.md).
+The full tool catalog, the errors and the examples are in [`packages/plotcraft_mcp/README.md`](packages/plotcraft_mcp/README.md); the design and the security model are in [MCP](docs/mcp.md).
+
+## Documentation
+
+- [Product vision](docs/product-vision.md) — purpose, audience and the intended experience.
+- [Project model](docs/project-model.md) — what makes up a story project, and its files.
+- [Experience and preferences](docs/experience-and-preferences.md) — desktop focus, themes and languages.
+- [Application architecture](docs/architecture.md) — how the code is organized, packages and the sample project.
+- [MCP](docs/mcp.md) — how an AI creates and manages stories through Plotcraft (server in [`packages/plotcraft_mcp`](packages/plotcraft_mcp/README.md)).
+
+The documentation is written in English, with translations in [Português](docs/pt-BR/README.md) and [Español](docs/es/README.md).

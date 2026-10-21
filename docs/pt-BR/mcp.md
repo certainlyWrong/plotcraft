@@ -1,6 +1,8 @@
+[English](../mcp.md) · **Português** · [Español](../es/mcp.md)
+
 # MCP: uma IA que cria e gerencia histórias
 
-O Plotcraft tem um servidor [MCP](https://modelcontextprotocol.io) que deixa uma IA (Claude Code, Claude Desktop e outros clientes) trabalhar nos mesmos projetos que você abre no aplicativo. O servidor, suas ferramentas e mensagens são em **inglês**; esta página explica o desenho em português. O guia de uso, com o catálogo completo de ferramentas, está em [`packages/plotcraft_mcp/README.md`](../packages/plotcraft_mcp/README.md).
+O Plotcraft tem um servidor [MCP](https://modelcontextprotocol.io) que deixa uma IA (Claude Code, Claude Desktop e outros clientes) trabalhar nos mesmos projetos que você abre no aplicativo. O servidor, suas ferramentas e mensagens são em **inglês**; esta página explica o desenho. O guia de uso, com o catálogo completo de ferramentas, está em [`packages/plotcraft_mcp/README.md`](../../packages/plotcraft_mcp/README.pt-BR.md).
 
 ## Como as peças se encaixam
 
@@ -12,7 +14,7 @@ packages/
 lib/                o aplicativo Flutter, que usa o plotcraft_core
 ```
 
-- **O servidor lê e grava as pastas dos projetos** (o mesmo formato do aplicativo, descrito em [Modelo de projeto](modelo-de-projeto.md)). Não precisa do aplicativo aberto.
+- **O servidor lê e grava as pastas dos projetos** (o mesmo formato do aplicativo, descrito em [Modelo de projeto](project-model.md)). Não precisa do aplicativo aberto.
 - **`StoryWorkspace`** (em `plotcraft_core`) reúne as operações sobre um projeto sem interface: ler e escrever capítulos, elementos, tipos, galeria e fontes. Serve de base para as ferramentas.
 - **`DeltaEdit`** edita o texto rico (substituir, inserir, formatar, ligar menções, inserir divisor ou imagem) sem um editor, mantendo a formatação ao redor.
 

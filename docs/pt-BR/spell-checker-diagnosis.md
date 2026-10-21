@@ -1,3 +1,5 @@
+[English](../spell-checker-diagnosis.md) · **Português** · [Español](../es/spell-checker-diagnosis.md)
+
 # Diagnóstico do corretor ortográfico
 
 O corretor usa o `NSSpellChecker` do macOS (`macos/Runner/MainFlutterWindow.swift`) através de

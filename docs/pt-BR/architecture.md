@@ -1,3 +1,5 @@
+[English](../architecture.md) · **Português** · [Español](../es/architecture.md)
+
 # Arquitetura da aplicação
 
 ## Organização
@@ -35,7 +37,7 @@ lib/
   - `domain/` também tem os tipos de elemento (`element_type.dart`, `element_type_catalog.dart`), as imagens, relações, âncoras de fase e a migração dos elementos antigos.
   - `presentation/` está dividida em `shell/` (barra de atividades, painel lateral, área de abas e `WorkspaceShell`, que une tudo com divisores arrastáveis), `manuscript/` (editor, barra de ferramentas, prévia e lista de capítulos), `reading/` (modo leitura), `elements/` (lista com busca e filtros, escolha de tipo, editor de tipos, editor de elemento dividido em painéis de imagens, relações, detalhes, seções e fases, e os diálogos de aparência, fase e galeria) e `widgets/` (visão geral, galeria, metadados e inspetor). `workspace_actions.dart` reúne as operações iniciadas pela pessoa (fechar aba, capítulos, galeria, metadados, tela cheia).
 - **`features/preferences/`**: `ThemeStore` (catálogo de temas, fonte e persistência) e a página de preferências.
-- **`core/ui/`**: os componentes recebem dados e callbacks; cores, foco, bordas e estados vêm do tema ativo. `ProjectImage` mostra imagens da pasta do projeto.
+- **`core/ui/`**: os componentes recebem dados e callbacks; cores, foco, bordas e estados vêm do tema ativo. `ProjectImage` mostra imagens da pasta do projeto e `ProportionalImage` as mostra inteiras, na sua própria forma.
 - A interface usa ícones Feather do pacote `icons_flutter`; a tipografia padrão é Times New Roman, com famílias empacotadas selecionáveis.
 - `assets/translations/`, `assets/themes/` e `assets/fonts/` guardam os idiomas, os temas JSON e as fontes (declaradas em `pubspec.yaml`).
 
@@ -59,14 +61,14 @@ O app leva uma história completa, "Herdeiros do Silêncio", em `assets/sample/h
 
 ## Persistência
 
-Cada projeto é uma pasta local com manifesto e materiais. As preferências guardam apenas os caminhos da biblioteca, a localização padrão para novos projetos, o tema e a fonte. O `easy_localization` persiste o idioma. Sem preferências anteriores, o idioma inicial é inglês e o tema é Violet. O formato em disco está descrito em [Modelo de projeto](modelo-de-projeto.md).
+Cada projeto é uma pasta local com manifesto e materiais. As preferências guardam apenas os caminhos da biblioteca, a localização padrão para novos projetos, o tema e a fonte. O `easy_localization` persiste o idioma. Sem preferências anteriores, o idioma inicial é inglês e o tema é Violet. O formato em disco está descrito em [Modelo de projeto](project-model.md).
 
 ## Extensão
 
 Para adicionar uma tradução, crie `assets/translations/<código>.json` seguindo as mesmas chaves do arquivo `en.json`. A lista de idiomas é montada a partir dos arquivos de tradução empacotados.
 
-Para adicionar um tema, crie um JSON em `assets/themes/` conforme o contrato descrito em [Experiência e preferências](experiencia-e-preferencias.md). Temas padrão continuam declarados em código; temas dos assets são carregados junto deles e aparecem na mesma seleção.
+Para adicionar um tema, crie um JSON em `assets/themes/` conforme o contrato descrito em [Experiência e preferências](experience-and-preferences.md). Temas padrão continuam declarados em código; temas dos assets são carregados junto deles e aparecem na mesma seleção.
 
 ## Limites atuais
 
-A área inicial de desktop permite criar, localizar, ordenar, abrir e excluir projetos, além de configurar idioma, tema, fonte e pasta base em páginas próprias. O projeto aberto é um espaço de trabalho em painéis: barra de atividades, painel lateral com capítulos ou elementos, área de abas (visão geral, configurações do projeto, galeria, capítulos e elementos abertos ao mesmo tempo) e inspetor, todos redimensionáveis, com larguras salvas localmente. O editor é de texto rico (`flutter_quill`) para o manuscrito único ou capítulos, com corretor ortográfico do sistema, menções a elementos (`@` ou detecção automática dos nomes), imagens da galeria e fontes do projeto. O índice do livro e os elementos são persistidos em arquivos próprios dentro da pasta do projeto; o workspace coordena essas regras pela `ProjectWorkspaceStore`.
+A área inicial de desktop permite criar, localizar, ordenar, abrir e excluir projetos, além de configurar idioma, tema, fonte e pasta base em páginas próprias. O projeto aberto é um espaço de trabalho em painéis: barra de atividades, painel lateral com capítulos ou elementos, área de abas (visão geral, configurações do projeto, galeria, mapa da história, linha do tempo, modo leitura, e capítulos e elementos abertos ao mesmo tempo) e inspetor, todos redimensionáveis, com larguras salvas localmente. O editor é de texto rico (`flutter_quill`) para o manuscrito único ou capítulos, com corretor ortográfico do sistema, menções a elementos (`@` ou detecção automática dos nomes), imagens da galeria e fontes do projeto. O índice do livro e os elementos são persistidos em arquivos próprios dentro da pasta do projeto; o workspace coordena essas regras pela `ProjectWorkspaceStore`.

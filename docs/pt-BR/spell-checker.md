@@ -1,3 +1,5 @@
+[English](../spell-checker.md) · **Português** · [Español](../es/spell-checker.md)
+
 # Corretor ortográfico no editor rico
 
 Resultado do teste de viabilidade feito antes de adotar o `flutter_quill`: **é viável**, com o corretor do próprio sistema.

@@ -1,3 +1,5 @@
+[English](../project-model.md) · **Português** · [Español](../es/project-model.md)
+
 # Modelo de projeto
 
 ## Princípio
@@ -51,7 +53,9 @@ A pasta `fonts/` guarda arquivos `.ttf`, `.otf` ou `.ttc` adicionados pela pesso
 
 O modo inicial é **manuscrito único**. Projetos anteriores, que ainda não possuem `book.json`, continuam nesse modo e leem normalmente `manuscript.md`. Ao ativar capítulos, o texto atual é copiado para o primeiro capítulo. Ao voltar para manuscrito único, os capítulos são reunidos com títulos em `manuscript.md`. A conversão preserva os arquivos de origem. Remover um capítulo o tira do índice ativo e move os arquivos (`.delta.json` e `.md`) para `content/book/archive/`. O editor permite adicionar, renomear e reordenar capítulos.
 
-O **modo leitura** mostra o livro como um leitor o veria: um capítulo por vez, coluna estreita, tamanho de texto ajustável (14 a 30), barra de progresso do livro todo, setas ← → para trocar de capítulo e menções que abrem o elemento com um clique (e mostram o cartão ao passar o mouse). Ele lê o texto atual dos buffers, inclusive o que ainda não foi salvo, e lembra o capítulo e o tamanho por projeto, neste computador. Abre pelo botão de livro do painel de capítulos ou da barra do editor, e funciona em tela cheia. O editor grava Markdown em arquivos legíveis fora do Plotcraft. Oferece formatação, busca e substituição, histórico de desfazer e refazer, prévia, visualização dividida, salvamento automático e modo de tela cheia da janela. No macOS, o campo de edição consulta o corretor nativo via `NSSpellChecker`; em Android e iOS usa o serviço do Flutter. O serviço de correção para Windows e Linux ainda depende de uma integração nativa específica.
+O **modo leitura** mostra o livro como um leitor o veria: um capítulo por vez, coluna estreita, tamanho de texto ajustável (14 a 30), barra de progresso do livro todo, setas ← → para trocar de capítulo e menções que abrem o elemento com um clique (e mostram o cartão ao passar o mouse). Ele lê o texto atual dos buffers, inclusive o que ainda não foi salvo, e lembra o capítulo e o tamanho por projeto, neste computador. Abre pelo botão de livro do painel de capítulos ou da barra do editor, e funciona em tela cheia.
+
+O editor grava Markdown em arquivos legíveis fora do Plotcraft. Oferece formatação, busca e substituição, histórico de desfazer e refazer, prévia, visualização dividida, salvamento automático e modo de tela cheia da janela. No macOS, o campo de edição consulta o corretor nativo via `NSSpellChecker`; em Android e iOS usa o serviço do Flutter. O serviço de correção para Windows e Linux ainda depende de uma integração nativa específica.
 
 ## Elementos narrativos e referências
 
@@ -94,3 +98,5 @@ Um `primaryFormat` desconhecido (de uma versão mais nova) abre como livro. A bi
 ## Ciclo de vida atual
 
 Criar um projeto escreve a estrutura inicial em disco e abre seu espaço de trabalho. Salvar o manuscrito ou um capítulo atualiza `updatedAt` no manifesto. Pela visão geral, é possível editar título, subtítulo, autoria, gênero, descrição, palavras-chave e capa; a imagem da capa é copiada para `covers/`, e o manifesto é atualizado. As datas e a pasta são dados gerados pelo sistema. A visão geral mostra prévias das imagens da galeria. É possível adicionar imagens pela interface, que copia os arquivos para `gallery/` sem substituir nomes existentes, removê-las com confirmação, ou colocá-las diretamente nessa pasta e atualizar a galeria. Excluir um projeto remove sua pasta e todo o conteúdo, mediante confirmação na biblioteca. Projetos de versões anteriores, antes salvos apenas nas preferências, são migrados para pastas ao carregar a biblioteca.
+
+O aplicativo também leva uma história de exemplo completa, que é copiada para a pasta de projetos sob demanda e passa a ser um projeto comum (veja [Arquitetura da aplicação](architecture.md)).
