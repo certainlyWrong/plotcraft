@@ -1,0 +1,6 @@
+node_modules/
+dist/
+# Copied from the app by `npm run sync`.
+public/screenshots/
+public/fonts/
+*.local
