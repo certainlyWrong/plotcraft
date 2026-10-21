@@ -2,16 +2,10 @@
 import { Moon, Sun } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
 import { REPO_URL, asset } from '../config'
-import { LOCALES, rememberLocale, type LocaleCode } from '../i18n'
 import { theme, toggleTheme } from '../lib/useTheme'
+import LanguageMenu from './LanguageMenu.vue'
 
-const { t, locale } = useI18n()
-
-function onLocale(event: Event) {
-  const code = (event.target as HTMLSelectElement).value as LocaleCode
-  locale.value = code
-  rememberLocale(code)
-}
+const { t } = useI18n()
 </script>
 
 <template>
@@ -29,14 +23,7 @@ function onLocale(event: Event) {
         <a :href="REPO_URL" target="_blank" rel="noopener">{{ t('nav.github') }}</a>
       </nav>
       <div class="tools">
-        <label class="lang">
-          <span class="sr">{{ t('nav.language') }}</span>
-          <select :value="locale" @change="onLocale">
-            <option v-for="item in LOCALES" :key="item.code" :value="item.code">
-              {{ item.label }}
-            </option>
-          </select>
-        </label>
+        <LanguageMenu />
         <button class="icon" type="button" :aria-label="t('nav.theme')" @click="toggleTheme">
           <Sun v-if="theme === 'dark'" :size="18" />
           <Moon v-else :size="18" />
@@ -89,7 +76,7 @@ function onLocale(event: Event) {
   align-items: center;
   gap: 10px;
 }
-select,
+
 .icon {
   height: 38px;
   border-radius: 9px;
@@ -99,9 +86,6 @@ select,
   font: 0.9rem var(--sans);
   cursor: pointer;
 }
-select {
-  padding: 0 10px;
-}
 .icon {
   width: 38px;
   display: grid;
@@ -109,13 +93,6 @@ select {
 }
 .cta {
   padding: 8px 16px;
-}
-.sr {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
 }
 @media (max-width: 860px) {
   .links {
