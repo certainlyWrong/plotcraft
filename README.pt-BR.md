@@ -207,6 +207,7 @@ O catálogo completo de ferramentas, os erros e os exemplos estão em [`packages
 - [Modelo de projeto](docs/pt-BR/project-model.md) — o que compõe um projeto de história e seus arquivos.
 - [Experiência e preferências](docs/pt-BR/experience-and-preferences.md) — foco desktop, temas e idiomas.
 - [Arquitetura da aplicação](docs/pt-BR/architecture.md) — organização do código, pacotes e projeto de exemplo.
+- [Site](website/README.pt-BR.md) — o site em Vue que apresenta o Plotcraft e oferece os downloads.
 - [MCP](docs/pt-BR/mcp.md) — como uma IA cria e gerencia histórias pelo Plotcraft (servidor em [`packages/plotcraft_mcp`](packages/plotcraft_mcp/README.pt-BR.md)).
 
 A documentação de referência está em inglês; estas são as traduções em português. Também há uma versão em [Español](docs/es/README.md).

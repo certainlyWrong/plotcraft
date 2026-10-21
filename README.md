@@ -205,6 +205,7 @@ The full tool catalog, the errors and the examples are in [`packages/plotcraft_m
 - [Project model](docs/project-model.md) — what makes up a story project, and its files.
 - [Experience and preferences](docs/experience-and-preferences.md) — desktop focus, themes and languages.
 - [Application architecture](docs/architecture.md) — how the code is organized, packages and the sample project.
+- [Website](website/README.md) — the Vue site that presents Plotcraft and offers the downloads.
 - [MCP](docs/mcp.md) — how an AI creates and manages stories through Plotcraft (server in [`packages/plotcraft_mcp`](packages/plotcraft_mcp/README.md)).
 
 The documentation is written in English, with translations in [Português](docs/pt-BR/README.md) and [Español](docs/es/README.md).
