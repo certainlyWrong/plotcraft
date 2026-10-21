@@ -1,5 +1,6 @@
-// Renders the screenshots shown in the README from the bundled sample story
-// ("Herdeiros do Silêncio") and saves them in docs/screenshots/.
+// Renders the screenshots shown in the README (English interface) from the
+// bundled sample story ("Herdeiros do Silêncio") and saves them in
+// docs/screenshots/.
 //
 //   tool/screenshots/readme.sh
 //
@@ -7,11 +8,22 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 import 'dart:io';
 
+import 'dart:ui' show Locale;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plotcraft/core/fonts/project_font_loader.dart';
 import 'package:plotcraft/core/fonts/system_fonts.dart';
 import 'package:plotcraft/core/theme/theme_definition.dart';
+import 'package:plotcraft/app/app_commands.dart';
+import 'package:plotcraft/core/storage/local_storage.dart';
+import 'package:plotcraft/features/preferences/stores/theme_store.dart';
+import 'package:plotcraft/features/project_creation/stores/project_creation_store.dart';
+import 'package:plotcraft/features/projects/data/project_repository.dart';
 import 'package:plotcraft/features/projects/data/sample_project_installer.dart';
+import 'package:plotcraft/features/projects/presentation/project_home_screen.dart';
+import 'package:plotcraft/features/projects/stores/project_store.dart';
+import 'package:plotcraft_core/features/projects/data/project_creation_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:plotcraft/features/project_workspace/domain/workspace_tab.dart';
 import 'package:plotcraft/features/project_workspace/presentation/shell/workspace_shell.dart';
 import 'package:plotcraft/features/project_workspace/presentation/workspace_actions.dart';
@@ -79,6 +91,7 @@ void main() {
         onBack: () {},
       ),
       theme: builtInThemes.firstWhere((t) => t.id == theme),
+      locale: const Locale('en'),
       size: _size,
     );
     // The inspector would show a temporary folder path.
@@ -129,5 +142,54 @@ void main() {
     controller.openManuscript(controller.store.book.chapters[6].id);
     await settle(tester, rounds: 12);
     await shot(tester, 'editor', directory: _out);
+  });
+
+  testWidgets('readme: tema claro', (tester) async {
+    final controller = await open(tester, theme: 'paper');
+    controller.openReading(controller.store.book.chapters[3].id);
+    await settle(tester, rounds: 10);
+    await shot(tester, 'tema-claro', directory: _out);
+  });
+
+  testWidgets('readme: biblioteca', (tester) async {
+    final root = await tester.runAsync(
+      () => Directory.systemTemp.createTemp('plotcraft-readme-'),
+    ) as Directory;
+    addTearDown(() => root.deleteSync(recursive: true));
+    late StoryProject project;
+    await tester.runAsync(() async {
+      final folder = await SampleProjectInstaller().install(root.path);
+      project = (await const ProjectLibrary().discover(knownFolders: [folder]))
+          .single;
+    });
+    SharedPreferences.setMockInitialValues({});
+    final storage = LocalStorage(await SharedPreferences.getInstance());
+    final store = ProjectStore(
+      ProjectRepository(storage, ProjectCreationService()),
+    );
+    store.projects.add(project);
+    store.projectsRoot = root.path;
+    store.isLoaded = true;
+    final themes = ThemeStore(storage);
+    await tester.runAsync(themes.load);
+    final creation = ProjectCreationStore(
+      ProjectRepository(storage, ProjectCreationService()),
+      ProjectCreationService(),
+      store.addCreated,
+    );
+    await pumpApp(
+      tester,
+      ProjectHomeScreen(
+        projects: store,
+        creation: creation,
+        themes: themes,
+        storage: storage,
+        commands: AppCommands(),
+      ),
+      theme: builtInThemes.firstWhere((t) => t.id == 'midnight'),
+      locale: const Locale('en'),
+      size: _size,
+    );
+    await shot(tester, 'biblioteca', directory: _out);
   });
 }
