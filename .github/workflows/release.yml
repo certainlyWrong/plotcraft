@@ -1,0 +1,157 @@
+# Builds Plotcraft for macOS, Windows and Linux and publishes the result as a
+# GitHub release.
+#
+#   git tag v1.0.0 && git push origin v1.0.0     # builds and publishes v1.0.0
+#
+# It can also be started by hand from the Actions tab ("Run workflow"): the
+# builds are kept as workflow artifacts and, if "publish" is checked, a draft
+# release is created for review. A tag with a dash (v1.0.0-beta.1) is marked as
+# a pre-release.
+#
+# The apps are not code-signed: macOS shows a Gatekeeper warning on first
+# open and Windows shows SmartScreen. See "Download" in the README.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Create a draft release with the builds
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  FLUTTER_VERSION: '3.47.7'
+
+jobs:
+  build:
+    name: Build for ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: macOS, id: macos, os: macos-latest }
+          - { name: Windows, id: windows, os: windows-latest }
+          - { name: Linux, id: linux, os: ubuntu-latest }
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Work out the version
+        id: version
+        run: |
+          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
+            version="${GITHUB_REF_NAME#v}"
+          else
+            version="$(grep '^version:' pubspec.yaml | sed -E 's/version: *//; s/\+.*//')-dev"
+          fi
+          # The platforms only accept numeric build names (1.2.3).
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "name=${version%%-*}" >> "$GITHUB_OUTPUT"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Install Linux build dependencies
+        if: matrix.id == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+
+      - name: Get packages
+        run: flutter pub get
+
+      - name: Build the app
+        run: >
+          flutter build ${{ matrix.id }} --release
+          --build-name=${{ steps.version.outputs.name }}
+          --build-number=${{ github.run_number }}
+
+      - name: Build the MCP server
+        run: |
+          mkdir -p dist/stage
+          ext=""
+          if [[ "${{ matrix.id }}" == "windows" ]]; then ext=".exe"; fi
+          (cd packages/plotcraft_mcp && dart pub get &&
+            dart compile exe bin/plotcraft_mcp.dart -o "$GITHUB_WORKSPACE/dist/stage/plotcraft-mcp$ext")
+
+      - name: Package for macOS
+        if: matrix.id == 'macos'
+        run: |
+          version="${{ steps.version.outputs.version }}"
+          arch="$(uname -m)"
+          mkdir -p dist/out dist/dmg
+          cp -R build/macos/Build/Products/Release/plotcraft.app dist/dmg/Plotcraft.app
+          ln -s /Applications dist/dmg/Applications
+          hdiutil create -volname "Plotcraft" -srcfolder dist/dmg -ov -format UDZO \
+            "dist/out/plotcraft-$version-macos.dmg"
+          tar -czf "dist/out/plotcraft-mcp-$version-macos-$arch.tar.gz" -C dist/stage plotcraft-mcp
+
+      - name: Package for Windows
+        if: matrix.id == 'windows'
+        shell: pwsh
+        run: |
+          $version = "${{ steps.version.outputs.version }}"
+          New-Item -ItemType Directory -Force dist/out, dist/app | Out-Null
+          Copy-Item build/windows/x64/runner/Release dist/app/Plotcraft -Recurse
+          Compress-Archive -Path dist/app/Plotcraft -DestinationPath "dist/out/plotcraft-$version-windows-x64.zip"
+          Copy-Item dist/stage/plotcraft-mcp.exe "dist/out/plotcraft-mcp-$version-windows-x64.exe"
+
+      - name: Package for Linux
+        if: matrix.id == 'linux'
+        run: |
+          version="${{ steps.version.outputs.version }}"
+          mkdir -p dist/out
+          tar -czf "dist/out/plotcraft-$version-linux-x64.tar.gz" \
+            -C build/linux/x64/release --transform 's/^bundle/plotcraft/' bundle
+          tar -czf "dist/out/plotcraft-mcp-$version-linux-x64.tar.gz" -C dist/stage plotcraft-mcp
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: plotcraft-${{ matrix.id }}
+          path: dist/out/*
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    name: Publish the release
+    needs: build
+    if: github.ref_type == 'tag' || inputs.publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Checksums
+        working-directory: dist
+        run: sha256sum * > SHA256SUMS.txt
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || format('dev-{0}', github.run_number) }}
+          name: Plotcraft ${{ github.ref_type == 'tag' && github.ref_name || format('dev build {0}', github.run_number) }}
+          draft: ${{ github.ref_type != 'tag' }}
+          prerelease: ${{ github.ref_type == 'tag' && contains(github.ref_name, '-') }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: dist/*
