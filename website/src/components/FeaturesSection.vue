@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import OrbitRings from './OrbitRings.vue'
 import {
   Bot,
   BookOpen,
@@ -29,6 +30,7 @@ const items = [
 
 <template>
   <section id="features" class="section">
+    <OrbitRings class="deco rings" :size="560" />
     <div class="container">
       <div class="section-head">
         <h2>{{ t('features.title') }}</h2>
@@ -46,6 +48,10 @@ const items = [
 </template>
 
 <style scoped>
+.rings {
+  right: -220px;
+  top: 20px;
+}
 .grid {
   list-style: none;
   margin: 0;

@@ -118,6 +118,28 @@ footer {
   position: relative;
 }
 
+/* Geometric ornaments live behind a section's content. */
+.hero,
+.section {
+  position: relative;
+  overflow-x: clip;
+}
+.hero > .container,
+.section > .container {
+  position: relative;
+  z-index: 1;
+}
+.deco {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+@media (max-width: 720px) {
+  .deco {
+    opacity: 0.6;
+  }
+}
+
 h1,
 h2,
 h3 {

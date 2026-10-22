@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import OrbitRings from './OrbitRings.vue'
+import ArchBridge from './ArchBridge.vue'
 import { computed, onMounted, ref } from 'vue'
 import { Download } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
@@ -28,6 +30,7 @@ const direct = computed(() => {
 
 <template>
   <section id="top" class="hero">
+    <OrbitRings class="deco hero-rings" :size="980" />
     <div class="container">
       <div class="copy">
         <p class="eyebrow">{{ t('hero.eyebrow') }}</p>
@@ -53,6 +56,7 @@ const direct = computed(() => {
       </div>
       <AppFrame class="shot" :class="{ colored }" src="screenshots/personagem.png" :alt="t('hero.imageAlt')" eager />
     </div>
+    <ArchBridge class="deco hero-bridge" />
   </section>
 </template>
 
@@ -124,6 +128,15 @@ h1 {
   margin-top: 18px;
   font-size: 0.88rem;
   color: var(--muted);
+}
+.hero-rings {
+  left: 50%;
+  top: 340px;
+  translate: -50% -50%;
+}
+.hero-bridge {
+  left: 0;
+  bottom: -1px;
 }
 .shot {
   max-width: 1000px;

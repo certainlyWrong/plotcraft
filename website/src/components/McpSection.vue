@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Constellation from './Constellation.vue'
 import { Check } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
 import { REPO_URL } from '../config'
@@ -9,6 +10,7 @@ const points = ['revisions', 'confirm', 'readOnly'] as const
 
 <template>
   <section id="ai" class="section alt">
+    <Constellation class="deco stars" />
     <div class="container split">
       <div>
         <h2>{{ t('mcp.title') }}</h2>
@@ -42,6 +44,10 @@ claude mcp add plotcraft -- \
 </template>
 
 <style scoped>
+.stars {
+  left: 3%;
+  bottom: 24px;
+}
 .alt {
   background: color-mix(in srgb, var(--surface) 38%, transparent);
   border-block: 1px solid var(--border);
