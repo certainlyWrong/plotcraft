@@ -70,6 +70,19 @@ const items = [
   color: var(--accent);
   margin-bottom: 16px;
 }
+@media (prefers-reduced-motion: no-preference) {
+  /* Shapes that slowly become other shapes, like Gris's trees. */
+  .badge {
+    animation: morph 12s ease-in-out infinite;
+  }
+  .card:nth-child(2n) .badge { animation-delay: -4s; }
+  .card:nth-child(3n) .badge { animation-delay: -8s; }
+}
+@keyframes morph {
+  0%, 100% { border-radius: 10px; }
+  35% { border-radius: 50%; }
+  70% { border-radius: 50% 10px 50% 10px; }
+}
 h3 {
   font-size: 1.2rem;
   margin-bottom: 8px;

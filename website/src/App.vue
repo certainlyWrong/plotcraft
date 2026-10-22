@@ -9,8 +9,12 @@ import SampleSection from './components/SampleSection.vue'
 import ShowcaseSection from './components/ShowcaseSection.vue'
 import SiteFooter from './components/SiteFooter.vue'
 import SiteHeader from './components/SiteHeader.vue'
+import WatercolorWash from './components/WatercolorWash.vue'
+import { useStageScroll } from './lib/useStageScroll'
 
 const { t, locale } = useI18n()
+
+useStageScroll()
 
 // Keep the page's language, title and description in step with the choice.
 watchEffect(() => {
@@ -23,14 +27,15 @@ watchEffect(() => {
 </script>
 
 <template>
+  <WatercolorWash />
   <SiteHeader />
   <main>
-    <HeroSection />
-    <FeaturesSection />
-    <ShowcaseSection />
-    <SampleSection />
-    <McpSection />
-    <DownloadSection />
+    <HeroSection data-stage="0" />
+    <FeaturesSection data-stage="1" />
+    <ShowcaseSection data-stage="2" />
+    <SampleSection data-stage="3" />
+    <McpSection data-stage="3" />
+    <DownloadSection data-stage="4" />
   </main>
   <SiteFooter />
 </template>

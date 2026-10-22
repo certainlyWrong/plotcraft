@@ -43,7 +43,7 @@ claude mcp add plotcraft -- \
 
 <style scoped>
 .alt {
-  background: color-mix(in srgb, var(--surface) 55%, var(--bg));
+  background: color-mix(in srgb, var(--surface) 38%, transparent);
   border-block: 1px solid var(--border);
 }
 .split {
