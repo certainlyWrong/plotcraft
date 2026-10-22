@@ -16,6 +16,7 @@ import '../../../../core/ui/project_image.dart';
 import 'package:plotcraft_core/features/projects/domain/project_format.dart';
 
 import '../../../../core/icons/icon_data.dart';
+import '../../../project_workspace/presentation/export/export_runner.dart';
 
 class ProjectGrid extends StatelessWidget {
   const ProjectGrid({
@@ -207,11 +208,20 @@ class _ProjectCardState extends State<_ProjectCard> {
                                 tooltip: 'project.options'.tr(),
                                 iconColor: context.tokens.onImage,
                                 onSelected: (value) {
-                                  if (value == 'delete') {
+                                  if (value == 'export') {
+                                    exportProjectFile(context, project);
+                                  } else if (value == 'delete') {
                                     setState(() => _confirmingDelete = true);
                                   }
                                 },
                                 itemBuilder: (_) => [
+                                  if (ProjectFormats.of(
+                                    project.primaryFormat,
+                                  ).hasManuscript)
+                                    PopupMenuItem(
+                                      value: 'export',
+                                      child: Text('export.menu'.tr()),
+                                    ),
                                   PopupMenuItem(
                                     value: 'delete',
                                     child: Text('project.delete'.tr()),

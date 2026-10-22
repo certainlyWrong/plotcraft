@@ -560,5 +560,27 @@
     "previous": "Previous",
     "next": "Next",
     "the_end": "The end"
+  },
+  "export": {
+    "title": "Export book",
+    "format_epub": "EPUB",
+    "format_pdf": "PDF",
+    "format_html": "HTML",
+    "hint_epub": "For Kindle (send it with Send to Kindle), Apple Books, Kobo and other e-readers.",
+    "hint_pdf": "A fixed-layout file to print or share, with cover, contents and page numbers.",
+    "hint_html": "One web page with everything inside, to open in any browser.",
+    "language": "Language of the file",
+    "language_en": "English",
+    "language_pt": "Portuguese",
+    "language_es": "Spanish",
+    "include_cover": "Include the cover",
+    "include_toc": "Include the table of contents",
+    "chapters": "Chapters ({count} of {total})",
+    "confirm": "Export",
+    "save": "Save",
+    "working": "Exporting…",
+    "done": "Saved {name}",
+    "error": "Could not export the book.",
+    "menu": "Export book"
   }
 }
