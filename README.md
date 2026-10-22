@@ -72,6 +72,10 @@ Plotcraft is a desktop app for people who write stories of any genre and format.
 
 A chapter at a time in a comfortable column, with a progress bar for the whole book, text sizes from 14 to 30, ← → to change chapter, mentions that open their element, and the position and size remembered per project. It shows what you have not saved yet, and it works in full screen.
 
+### Export your book
+
+Save the book as an **EPUB** (it opens in Apple Books, Kobo and other e-readers, and Kindle accepts it through *Send to Kindle*), a **PDF** with cover, contents and page numbers, or a single **HTML** page. Choose the chapters, the cover, the table of contents and the language of the file. Use *Export book* in the Writing panel or in a project's menu; unsaved edits are included. An AI can do the same with the `export_book` tool.
+
 ### Story elements
 
 - **Eight built-in types:** characters, places, objects, creatures, organizations, events, concepts and notes.

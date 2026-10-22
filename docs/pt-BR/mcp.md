@@ -16,6 +16,7 @@ lib/                o aplicativo Flutter, que usa o plotcraft_core
 
 - **O servidor lê e grava as pastas dos projetos** (o mesmo formato do aplicativo, descrito em [Modelo de projeto](project-model.md)). Não precisa do aplicativo aberto.
 - **`StoryWorkspace`** (em `plotcraft_core`) reúne as operações sobre um projeto sem interface: ler e escrever capítulos, elementos, tipos, galeria e fontes. Serve de base para as ferramentas.
+- **`BookAssembler` e `exportBook`** (em `plotcraft_core`, `features/export`) transformam os Deltas do manuscrito em EPUB, PDF ou HTML. O app e a ferramenta `export_book` os compartilham; a ferramenta grava em `<projeto>/exports/`, salvo indicação em contrário.
 - **`DeltaEdit`** edita o texto rico (substituir, inserir, formatar, ligar menções, inserir divisor ou imagem) sem um editor, mantendo a formatação ao redor.
 
 ## Segurança do conteúdo
