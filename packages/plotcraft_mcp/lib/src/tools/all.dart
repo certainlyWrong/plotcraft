@@ -2,6 +2,7 @@ import '../tool_spec.dart';
 import 'app_tools.dart';
 import 'asset_tools.dart';
 import 'element_tools.dart';
+import 'export_tools.dart';
 import 'library_tools.dart';
 import 'manuscript_tools.dart';
 import 'meta_tools.dart';
@@ -13,6 +14,7 @@ List<ToolSpec> allTools() => [
   ...libraryTools(),
   ...manuscriptTools(),
   ...elementTools(),
+  ...exportTools(),
   ...typeTools(),
   ...assetTools(),
   ...appTools(),
