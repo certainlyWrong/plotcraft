@@ -126,6 +126,7 @@ Códigos: `notFound`, `conflict`, `validation`, `confirmationRequired`,
 | `set_mention_policy` | "auto": whether the element's name and aliases are highlighted in the manuscript; "ignored_terms": names or aliases not to detect (for example a common word that is also a name). | write |
 | `get_element_references` | Lists where the element's name or aliases are written in the manuscript, and whether each one is linked to the element. | read |
 | `get_active_phase` | Says which phase of the element is in force while reading a chapter (the latest one anchored at or before it), or null. | read |
+| `export_book` | Saves the manuscript as an EPUB (for Kindle and other e-readers), a PDF or a single HTML file. | write |
 | `list_element_types` | Lists the types an element can have: the built-in ones (character, place, object, creature, organization, event, concept, note) and the project's own, each with the details (fields) its elements have. | read |
 | `create_element_type` | Creates a custom element type (for example "Spell" or "Faction") with its own icon, color and details. | write |
 | `update_element_type` | Changes a custom type. | write |

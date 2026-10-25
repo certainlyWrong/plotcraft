@@ -14,6 +14,7 @@ class ActivityBar extends StatelessWidget {
     required this.selected,
     required this.onSelect,
     required this.onBack,
+    this.onExport,
     this.sections = WorkspaceSection.values,
   });
 
@@ -31,6 +32,9 @@ class ActivityBar extends StatelessWidget {
   final WorkspaceSection selected;
   final ValueChanged<WorkspaceSection> onSelect;
   final VoidCallback onBack;
+
+  /// Exports the book; null hides the button (projects without manuscript).
+  final VoidCallback? onExport;
 
   /// Sections the project's format offers, in order.
   final List<WorkspaceSection> sections;
@@ -57,6 +61,18 @@ class ActivityBar extends StatelessWidget {
               _labels[section]!,
             ),
           const Spacer(),
+          if (onExport != null)
+            Tooltip(
+              message: 'export.menu'.tr(),
+              child: IconButton(
+                onPressed: onExport,
+                icon: Icon(
+                  Feather.download,
+                  size: 18,
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
+            ),
           Tooltip(
             message: 'workspace.back_to_library'.tr(),
             child: IconButton(

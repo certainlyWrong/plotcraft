@@ -86,6 +86,10 @@ class WorkspaceShell extends StatelessWidget {
                 sections: _sections,
                 onSelect: controller.selectSection,
                 onBack: onBack,
+                onExport:
+                    ProjectFormats.of(_project.primaryFormat).hasManuscript
+                    ? () => actions.exportBook(context)
+                    : null,
               ),
               if (panel != null) ...[
                 SizedBox(

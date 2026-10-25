@@ -15,6 +15,7 @@ import 'package:plotcraft_core/features/project_workspace/domain/story_time.dart
 import '../domain/workspace_tab.dart';
 import '../stores/project_workspace_store.dart';
 import '../stores/workspace_controller.dart';
+import 'export/export_runner.dart';
 import 'manuscript/chapter_dialogs.dart';
 
 import 'package:plotcraft_core/features/project_workspace/domain/element_type.dart';
@@ -322,6 +323,12 @@ class WorkspaceActions {
       _snack(messenger, 'elements.save_error');
     }
   }
+
+  Future<void> exportBook(BuildContext context) => exportProjectFile(
+    context,
+    store.project ?? controller.initialProject,
+    deltaFor: controller.readingDeltaFor,
+  );
 
   Future<void> manageFonts(BuildContext context) => showProjectFontsDialog(
     context,

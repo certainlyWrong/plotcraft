@@ -74,6 +74,10 @@ Plotcraft es una aplicación de escritorio para quienes escriben historias de cu
 
 Un capítulo cada vez en una columna cómoda, con una barra de progreso de todo el libro, tamaños de texto de 14 a 30, ← → para cambiar de capítulo, menciones que abren su elemento y la posición y el tamaño recordados por proyecto. Muestra lo que aún no has guardado y funciona en pantalla completa.
 
+### Exporta tu libro
+
+Guarda el libro como **EPUB** (se abre en Apple Books, Kobo y otros lectores, y Kindle lo acepta con *Send to Kindle*), **PDF** con portada, índice y numeración de páginas, o una sola página **HTML**. Elige los capítulos, la portada, el índice y el idioma del archivo. Usa *Exportar libro* en el panel Escritura o en el menú de un proyecto; las ediciones sin guardar se incluyen. Una IA puede hacer lo mismo con la herramienta `export_book`.
+
 ### Elementos de la historia
 
 - **Ocho tipos predefinidos:** personajes, lugares, objetos, criaturas, organizaciones, eventos, conceptos y notas.
