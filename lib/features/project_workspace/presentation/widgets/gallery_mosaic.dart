@@ -183,7 +183,7 @@ class _MosaicTileState extends State<_MosaicTile> {
     child: GestureDetector(
       onTap: widget.onTap,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -202,14 +202,14 @@ class _MosaicTileState extends State<_MosaicTile> {
             ),
             AnimatedOpacity(
               opacity: _hovered ? 1 : 0,
-              duration: const Duration(milliseconds: 130),
+              duration: PlotcraftMotion.quick,
               child: ColoredBox(
                 color: context.tokens.imageScrim.withValues(alpha: .16),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: Padding(
                     padding: const EdgeInsets.all(7),
-                    child: IconButton.filledTonal(
+                    child: IconButton(
                       onPressed: widget.removing ? null : widget.onRemove,
                       tooltip: 'workspace.remove_image'.tr(),
                       icon: const Icon(Feather.trash_2, size: 17),

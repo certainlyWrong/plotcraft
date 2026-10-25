@@ -14,6 +14,8 @@ import '../../domain/story_matrix.dart';
 import '../element_colors.dart';
 import '../elements/element_type_label.dart';
 import '../shell/workspace_icons.dart';
+import '../../../../core/ui/plotcraft_chip.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 /// Chapters across, elements down. A dot is an element written in a chapter
 /// (bigger when it appears more); a diamond is where one of its phases begins.
@@ -233,19 +235,15 @@ class _ChapterMatrixViewState extends State<ChapterMatrixView> {
             ),
           ),
           for (final id in typeIds)
-            FilterChip(
-              avatar: Icon(
-                (_typeOf(id)?.icon ?? IconRef.fallback).data,
-                size: 15,
-                color: _hiddenTypes.contains(id)
-                    ? scheme.outline
-                    : (_typeOf(id)?.color ?? scheme.primary),
-              ),
-              label: Text(_typeOf(id)?.label ?? id),
+            PlotcraftChip(
+              icon: (_typeOf(id)?.icon ?? IconRef.fallback).data,
+              iconColor: _hiddenTypes.contains(id)
+                  ? scheme.outline
+                  : (_typeOf(id)?.color ?? context.tokens.ink),
+              label: _typeOf(id)?.label ?? id,
               selected: !_hiddenTypes.contains(id),
-              showCheckmark: false,
-              onSelected: (value) => setState(() {
-                if (value) {
+              onTap: () => setState(() {
+                if (_hiddenTypes.contains(id)) {
                   _hiddenTypes.remove(id);
                 } else {
                   _hiddenTypes.add(id);

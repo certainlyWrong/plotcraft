@@ -12,6 +12,7 @@ import 'package:plotcraft_core/features/export/services/book_exporter.dart';
 import 'package:plotcraft_core/features/project_workspace/data/project_workspace_repository.dart';
 import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 
+import '../../../../core/ui/plotcraft_toast.dart';
 import 'export_dialog.dart';
 
 typedef _Job = ({ExportBook book, ExportFormat format, ExportOptions options});
@@ -26,7 +27,8 @@ Future<void> exportProjectFile(
   StoryProject project, {
   Delta? Function(String? chapterId)? deltaFor,
 }) async {
-  final messenger = ScaffoldMessenger.of(context);
+  // Created before the first await: the screen may be gone when we report back.
+  final messenger = PlotcraftToaster.of(context);
   try {
     final book = await ProjectWorkspaceRepository().book.load(project);
     if (!context.mounted) return;
@@ -53,8 +55,9 @@ Future<void> exportProjectFile(
     );
     if (location == null) return;
 
-    messenger.showSnackBar(
-      SnackBar(content: Text('export.working'.tr()), duration: const Duration(seconds: 30)),
+    messenger.show(
+      'export.working'.tr(),
+      duration: const Duration(seconds: 30),
     );
     var options = choice.options;
     if (choice.format == ExportFormat.pdf) {
@@ -82,17 +85,9 @@ Future<void> exportProjectFile(
       path = '$path.${choice.format.extension}';
     }
     await XFile.fromData(bytes, mimeType: choice.format.mimeType).saveTo(path);
-    messenger.hideCurrentSnackBar();
-    messenger.showSnackBar(
-      SnackBar(
-        content: Text(
-          'export.done'.tr(namedArgs: {'name': p.basename(path)}),
-        ),
-      ),
-    );
+    messenger.show('export.done'.tr(namedArgs: {'name': p.basename(path)}));
   } catch (_) {
-    messenger.hideCurrentSnackBar();
-    messenger.showSnackBar(SnackBar(content: Text('export.error'.tr())));
+    messenger.show('export.error'.tr());
   }
 }
 

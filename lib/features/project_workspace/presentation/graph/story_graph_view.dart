@@ -22,6 +22,9 @@ import '../../domain/story_graph.dart';
 import '../element_colors.dart';
 import '../elements/element_type_label.dart';
 import '../shell/workspace_icons.dart';
+import '../../../../core/ui/plotcraft_choice.dart';
+import '../../../../core/ui/plotcraft_chip.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 /// Obsidian-like map of the story: elements (and the chapters where they are
 /// written or where their phases begin) as nodes, relations as links. Drag a
@@ -570,7 +573,7 @@ class _StoryGraphViewState extends State<StoryGraphView>
           onScaleEnd: _onScaleEnd,
           onTapUp: _onTapUp,
           child: CustomPaint(
-            painter: _GraphPainter(this, theme),
+            painter: _GraphPainter(this, theme, context.tokens.ink),
             size: Size.infinite,
           ),
         ),
@@ -620,17 +623,12 @@ class _StoryGraphViewState extends State<StoryGraphView>
           for (final entry in counts.entries)
             _typeChip(context, entry.key, entry.value),
           if (hasChapters)
-            FilterChip(
-              avatar: Icon(
-                WorkspaceIcons.manuscript,
-                size: 15,
-                color: scheme.onSurfaceVariant,
-              ),
-              label: Text('workspace.graph_chapters'.tr()),
+            PlotcraftChip(
+              icon: WorkspaceIcons.manuscript,
+              label: 'workspace.graph_chapters'.tr(),
               selected: _showChapters,
-              showCheckmark: false,
-              onSelected: (value) {
-                _showChapters = value;
+              onTap: () {
+                _showChapters = !_showChapters;
                 _applyFilters();
               },
             ),
@@ -643,17 +641,13 @@ class _StoryGraphViewState extends State<StoryGraphView>
     final type = _typeOf(typeId);
     final color = type?.color ?? Theme.of(context).colorScheme.primary;
     final shown = !_hiddenTypes.contains(typeId);
-    return FilterChip(
-      avatar: Icon(
-        (type?.icon ?? IconRef.fallback).data,
-        size: 15,
-        color: shown ? color : Theme.of(context).colorScheme.outline,
-      ),
-      label: Text('${type?.label ?? typeId} · $count'),
+    return PlotcraftChip(
+      icon: (type?.icon ?? IconRef.fallback).data,
+      iconColor: shown ? color : Theme.of(context).colorScheme.outline,
+      label: '${type?.label ?? typeId} · $count',
       selected: shown,
-      showCheckmark: false,
-      onSelected: (value) {
-        if (value) {
+      onTap: () {
+        if (!shown) {
           _hiddenTypes.remove(typeId);
         } else {
           _hiddenTypes.add(typeId);
@@ -849,46 +843,23 @@ class _StoryGraphViewState extends State<StoryGraphView>
                   style: theme.textTheme.bodySmall,
                 ),
                 const SizedBox(height: 6),
-                SegmentedButton<GraphLabels>(
-                  showSelectedIcon: false,
-                  style: const ButtonStyle(
-                    visualDensity: VisualDensity.compact,
-                    padding: WidgetStatePropertyAll(
-                      EdgeInsets.symmetric(horizontal: 6),
-                    ),
-                  ),
-                  segments: [
-                    ButtonSegment(
+                PlotcraftChoice<GraphLabels>(
+                  options: [
+                    PlotcraftChoiceOption(
                       value: GraphLabels.auto,
-                      label: Text(
-                        'workspace.graph_labels_auto'.tr(),
-                        maxLines: 1,
-                        softWrap: false,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      label: 'workspace.graph_labels_auto'.tr(),
                     ),
-                    ButtonSegment(
+                    PlotcraftChoiceOption(
                       value: GraphLabels.always,
-                      label: Text(
-                        'workspace.graph_labels_always'.tr(),
-                        maxLines: 1,
-                        softWrap: false,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      label: 'workspace.graph_labels_always'.tr(),
                     ),
-                    ButtonSegment(
+                    PlotcraftChoiceOption(
                       value: GraphLabels.never,
-                      label: Text(
-                        'workspace.graph_labels_never'.tr(),
-                        maxLines: 1,
-                        softWrap: false,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      label: 'workspace.graph_labels_never'.tr(),
                     ),
                   ],
-                  selected: {s.labels},
-                  onSelectionChanged: (v) =>
-                      _setSettings(s.copyWith(labels: v.first)),
+                  selected: s.labels,
+                  onChanged: (v) => _setSettings(s.copyWith(labels: v)),
                 ),
                 heading('workspace.graph_show'),
                 toggle(
@@ -924,23 +895,18 @@ class _StoryGraphViewState extends State<StoryGraphView>
                   ),
                 ),
                 const SizedBox(height: 6),
-                SegmentedButton<int>(
-                  showSelectedIcon: false,
-                  style: const ButtonStyle(
-                    visualDensity: VisualDensity.compact,
-                  ),
-                  segments: [
-                    ButtonSegment(
+                PlotcraftChoice<int>(
+                  options: [
+                    PlotcraftChoiceOption(
                       value: 0,
-                      label: Text('workspace.graph_focus_all'.tr()),
+                      label: 'workspace.graph_focus_all'.tr(),
                     ),
-                    const ButtonSegment(value: 1, label: Text('1')),
-                    const ButtonSegment(value: 2, label: Text('2')),
-                    const ButtonSegment(value: 3, label: Text('3')),
+                    const PlotcraftChoiceOption(value: 1, label: '1'),
+                    const PlotcraftChoiceOption(value: 2, label: '2'),
+                    const PlotcraftChoiceOption(value: 3, label: '3'),
                   ],
-                  selected: {s.focusDepth},
-                  onSelectionChanged: (v) =>
-                      _setSettings(s.copyWith(focusDepth: v.first)),
+                  selected: s.focusDepth,
+                  onChanged: (v) => _setSettings(s.copyWith(focusDepth: v)),
                 ),
                 const SizedBox(height: 14),
                 Wrap(
@@ -1143,10 +1109,14 @@ class StoryGraphViewState {
 /// Draws links, then nodes, then labels. Text is laid out once per string and
 /// cached, and drawn at a constant size on screen whatever the zoom.
 class _GraphPainter extends CustomPainter {
-  _GraphPainter(this.state, this.theme) : super(repaint: state._frame);
+  _GraphPainter(this.state, this.theme, this.ink)
+    : super(repaint: state._frame);
 
   final _StoryGraphViewState state;
   final ThemeData theme;
+
+  /// Ink of the current stage: the lines, rings and labels of the map.
+  final Color ink;
 
   static final _text = <String, TextPainter>{};
 
@@ -1221,9 +1191,7 @@ class _GraphPainter extends CustomPainter {
               ? math.min(2.5, 0.35 * (edge.weight - 1))
               : 0);
       final paint = Paint()
-        ..color = active
-            ? scheme.primary
-            : scheme.outline.withValues(alpha: faded ? 0.10 : 0.45)
+        ..color = active ? ink : ink.withValues(alpha: faded ? 0.10 : 0.38)
         ..strokeWidth = base * settings.linkWidth / scale
         ..style = PaintingStyle.stroke;
       if (edge.kind == StoryGraphEdgeKind.phase) {
@@ -1240,26 +1208,48 @@ class _GraphPainter extends CustomPainter {
       final isChapter = node.kind == StoryGraphNodeKind.chapter;
       final element = isChapter ? null : state._elementOf(node);
       final type = isChapter ? null : state._typeOf(node.typeId ?? '');
-      final color = isChapter
-          ? scheme.tertiary
-          : (element?.color ?? type?.color ?? scheme.primary);
+      final color = isChapter ? ink : (element?.color ?? type?.color ?? ink);
       final icon = isChapter
           ? WorkspaceIcons.manuscript
           : ((element?.icon ?? type?.icon) ?? IconRef.fallback).data;
       final fade = dimmed(node.id) ? 0.22 : 1.0;
       final selected = node.id == state._selected;
 
+      // A drop of pigment: a soft halo bleeding past the edge (only on maps of
+      // a reasonable size, since a blur per node is not free), the body, and a
+      // finer ring of ink where the colour pooled.
+      if (graph.nodes.length <= 150) {
+        canvas.drawCircle(
+          center,
+          radius * 1.18,
+          Paint()
+            ..color = color.withValues(alpha: 0.35 * fade)
+            ..maskFilter = MaskFilter.blur(BlurStyle.normal, radius * .3),
+        );
+      }
       canvas.drawCircle(
         center,
         radius,
-        Paint()..color = color.withValues(alpha: 0.92 * fade),
+        Paint()..color = color.withValues(alpha: 0.86 * fade),
+      );
+      canvas.drawCircle(
+        center,
+        radius - .6 / scale,
+        Paint()
+          ..color = Color.lerp(
+            color,
+            Colors.black,
+            .25,
+          )!.withValues(alpha: 0.5 * fade)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.2 / scale,
       );
       if (selected || node.id == focusId) {
         canvas.drawCircle(
           center,
           radius + 4 / scale,
           Paint()
-            ..color = scheme.primary
+            ..color = ink
             ..style = PaintingStyle.stroke
             ..strokeWidth = 2 / scale,
         );
@@ -1333,7 +1323,7 @@ class _GraphPainter extends CustomPainter {
             : fieldLabel;
         final para = _paragraph(
           text,
-          TextStyle(fontSize: 11, color: scheme.onPrimaryContainer),
+          TextStyle(fontSize: 11, color: scheme.onSurface),
           maxWidth: 140,
         );
         final mid = (a + b) / 2;
@@ -1347,8 +1337,12 @@ class _GraphPainter extends CustomPainter {
           height: para.height + 6,
         );
         canvas.drawRRect(
-          RRect.fromRectAndRadius(box, const Radius.circular(6)),
-          Paint()..color = scheme.primaryContainer,
+          RRect.fromRectAndRadius(box, const Radius.circular(8)),
+          Paint()
+            ..color = Color.alphaBlend(
+              ink.withValues(alpha: .22),
+              scheme.surfaceContainer,
+            ),
         );
         para.paint(canvas, Offset(-para.width / 2, -para.height / 2));
         canvas.restore();
