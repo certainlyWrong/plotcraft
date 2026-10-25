@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Moon, Sun } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
-import { REPO_URL, asset } from '../config'
+import { DEMO_URL, REPO_URL, asset } from '../config'
 import { theme, toggleTheme } from '../lib/useTheme'
 import LanguageMenu from './LanguageMenu.vue'
 
@@ -19,6 +19,7 @@ const { t } = useI18n()
         <a href="#features">{{ t('nav.features') }}</a>
         <a href="#tour">{{ t('nav.showcase') }}</a>
         <a href="#sample">{{ t('nav.sample') }}</a>
+        <a :href="DEMO_URL">{{ t('nav.demo') }}</a>
         <a href="#ai">{{ t('nav.mcp') }}</a>
         <a :href="REPO_URL" target="_blank" rel="noopener">{{ t('nav.github') }}</a>
       </nav>

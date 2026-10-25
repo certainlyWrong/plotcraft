@@ -7,6 +7,7 @@ const pt: typeof en = {
       'O Plotcraft é um aplicativo desktop para arquitetar histórias antes e durante a escrita: elementos, relações, mapa da história, linha do tempo e modo leitura, em arquivos locais que são seus.',
   },
   nav: {
+    demo: 'Experimente',
     features: 'Recursos',
     showcase: 'Tour',
     sample: 'História de exemplo',
@@ -17,6 +18,7 @@ const pt: typeof en = {
     theme: 'Trocar tema',
   },
   hero: {
+    tryDemo: 'Experimente no navegador',
     eyebrow: 'Um aplicativo desktop para quem conta histórias',
     title: 'Arquitete suas histórias antes e durante a escrita.',
     subtitle:
