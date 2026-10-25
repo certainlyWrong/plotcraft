@@ -14,6 +14,7 @@ import '../../domain/story_matrix.dart';
 import '../shell/workspace_icons.dart';
 import 'chapter_matrix_view.dart';
 import 'world_timeline_view.dart';
+import '../../../../core/ui/plotcraft_choice.dart';
 
 enum TimelineMode { chapters, world }
 
@@ -225,48 +226,40 @@ class _StoryTimelineViewState extends State<StoryTimelineView> {
                       runSpacing: 4,
                       children: [
                         if (widget.hasChapters)
-                          SegmentedButton<TimelineMode>(
-                            showSelectedIcon: false,
-                            style: const ButtonStyle(
-                              visualDensity: VisualDensity.compact,
-                            ),
-                            segments: [
-                              ButtonSegment(
+                          PlotcraftChoice<TimelineMode>(
+                            options: [
+                              PlotcraftChoiceOption(
                                 value: TimelineMode.chapters,
-                                icon: const Icon(Feather.list, size: 15),
-                                label: Text('workspace.timeline_chapters'.tr()),
+                                icon: Feather.list,
+                                label: 'workspace.timeline_chapters'.tr(),
                               ),
-                              ButtonSegment(
+                              PlotcraftChoiceOption(
                                 value: TimelineMode.world,
-                                icon: const Icon(Feather.clock, size: 15),
-                                label: Text('workspace.timeline_world'.tr()),
+                                icon: Feather.clock,
+                                label: 'workspace.timeline_world'.tr(),
                               ),
                             ],
-                            selected: {mode},
-                            onSelectionChanged: (values) {
-                              setState(() => _mode = values.first);
+                            selected: mode,
+                            onChanged: (value) {
+                              setState(() => _mode = value);
                               _scheduleSave();
                             },
                           ),
                         if (mode == TimelineMode.world) ...[
-                          SegmentedButton<bool>(
-                            showSelectedIcon: false,
-                            style: const ButtonStyle(
-                              visualDensity: VisualDensity.compact,
-                            ),
-                            segments: [
-                              ButtonSegment(
+                          PlotcraftChoice<bool>(
+                            options: [
+                              PlotcraftChoiceOption(
                                 value: false,
-                                label: Text('workspace.timeline_order'.tr()),
+                                label: 'workspace.timeline_order'.tr(),
                               ),
-                              ButtonSegment(
+                              PlotcraftChoiceOption(
                                 value: true,
-                                label: Text('workspace.timeline_scale'.tr()),
+                                label: 'workspace.timeline_scale'.tr(),
                               ),
                             ],
-                            selected: {_proportional},
-                            onSelectionChanged: (values) {
-                              setState(() => _proportional = values.first);
+                            selected: _proportional,
+                            onChanged: (value) {
+                              setState(() => _proportional = value);
                               _scheduleSave();
                             },
                           ),

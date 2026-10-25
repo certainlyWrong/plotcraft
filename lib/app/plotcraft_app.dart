@@ -5,6 +5,8 @@ import 'package:flutter_quill/flutter_quill.dart'
     show FlutterQuillLocalizations;
 
 import '../core/storage/local_storage.dart';
+import '../core/theme/plotcraft_tokens.dart';
+import '../core/ui/gris/paper_grain.dart';
 import 'app_commands.dart';
 import '../features/projects/presentation/project_home_screen.dart';
 import '../features/project_creation/stores/project_creation_store.dart';
@@ -37,9 +39,16 @@ class PlotcraftApp extends StatelessWidget {
       builder: (_) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Plotcraft',
-        themeAnimationDuration: const Duration(milliseconds: 220),
-        themeAnimationCurve: Curves.easeInOutCubic,
+        themeAnimationDuration: const Duration(milliseconds: 600),
+        themeAnimationCurve: PlotcraftMotion.curve,
         theme: themes.selectedTheme.toThemeData(fontFamily: themes.fontFamily),
+        builder: (context, child) => StageScope(
+          stage: StageId.grey,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [child!, const PaperGrain()],
+          ),
+        ),
         locale: context.locale,
         supportedLocales: context.supportedLocales,
         localizationsDelegates: [

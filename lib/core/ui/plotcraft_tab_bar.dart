@@ -3,6 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
+import '../theme/plotcraft_tokens.dart';
+
 class PlotcraftTabData {
   const PlotcraftTabData({
     required this.id,
@@ -54,8 +56,12 @@ class PlotcraftTabBar extends StatelessWidget {
     return Container(
       height: 38,
       decoration: BoxDecoration(
-        color: scheme.surfaceContainerLow,
-        border: Border(bottom: BorderSide(color: scheme.outlineVariant)),
+        color: scheme.surfaceContainerLow.withValues(alpha: .6),
+        border: Border(
+          bottom: BorderSide(
+            color: scheme.outlineVariant.withValues(alpha: .6),
+          ),
+        ),
       ),
       child: Row(
         children: [
@@ -138,19 +144,24 @@ class _TabState extends State<_Tab> {
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: widget.onSelect,
-          child: Container(
+          child: AnimatedContainer(
+            duration: PlotcraftMotion.medium,
+            curve: PlotcraftMotion.curve,
             constraints: const BoxConstraints(minWidth: 110, maxWidth: 220),
             padding: const EdgeInsets.only(left: 12, right: 4),
+            // The open tab is the one resting on the paper, with a line of ink
+            // beneath it; the others are only a breath of tint on hover.
             decoration: BoxDecoration(
               color: widget.active
-                  ? scheme.surfaceContainerLowest
+                  ? scheme.surfaceContainerLowest.withValues(alpha: .84)
                   : _hovered
-                  ? scheme.surfaceContainer
+                  ? context.tokens.ink.withValues(alpha: .06)
                   : null,
               border: Border(
-                right: BorderSide(color: scheme.outlineVariant),
-                top: BorderSide(
-                  color: widget.active ? scheme.primary : Colors.transparent,
+                bottom: BorderSide(
+                  color: widget.active
+                      ? context.tokens.ink
+                      : Colors.transparent,
                   width: 2,
                 ),
               ),
@@ -162,7 +173,7 @@ class _TabState extends State<_Tab> {
                   data.icon,
                   size: 14,
                   color: widget.active
-                      ? scheme.primary
+                      ? context.tokens.ink
                       : scheme.onSurfaceVariant,
                 ),
                 const SizedBox(width: 7),
@@ -172,9 +183,7 @@ class _TabState extends State<_Tab> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.labelLarge?.copyWith(
-                      fontWeight: widget.active
-                          ? FontWeight.w700
-                          : FontWeight.w500,
+                      fontWeight: FontWeight.w500,
                       color: widget.active
                           ? scheme.onSurface
                           : scheme.onSurfaceVariant,
@@ -204,7 +213,7 @@ class _TabState extends State<_Tab> {
                             width: 7,
                             height: 7,
                             decoration: BoxDecoration(
-                              color: scheme.primary,
+                              color: context.tokens.ink,
                               shape: BoxShape.circle,
                             ),
                           ),

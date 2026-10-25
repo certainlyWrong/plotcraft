@@ -22,6 +22,8 @@ import '../manuscript/editor_fonts.dart';
 import '../manuscript/embeds.dart';
 import '../manuscript/mention_card.dart';
 import '../manuscript/mention_hover_controller.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/gris/arch_bridge.dart';
 
 /// Reading mode: the book shown one chapter at a time, as a reader would see
 /// it. No toolbar, no cursor, no spell checking; names linked to elements show
@@ -282,13 +284,14 @@ class _ReadingViewState extends State<ReadingView> {
         focusNode: _focus,
         autofocus: true,
         child: Container(
-          color: scheme.surfaceContainerLowest,
+          color: scheme.surfaceContainerLowest.withValues(alpha: .84),
           child: Column(
             children: [
               _header(context),
               LinearProgressIndicator(
                 value: overall,
                 minHeight: 2,
+                color: context.tokens.ink,
                 backgroundColor: scheme.outlineVariant.withValues(alpha: .4),
               ),
               Expanded(child: _page(context)),
@@ -309,7 +312,7 @@ class _ReadingViewState extends State<ReadingView> {
       ),
       child: Row(
         children: [
-          Icon(Feather.book_open, size: 18, color: scheme.primary),
+          Icon(Feather.book_open, size: 18, color: context.tokens.ink),
           const SizedBox(width: 10),
           Expanded(
             child: widget.chapters.length > 1
@@ -386,7 +389,8 @@ class _ReadingViewState extends State<ReadingView> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontFamily: PlotcraftFonts.serif,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
@@ -440,8 +444,9 @@ class _ReadingViewState extends State<ReadingView> {
                   _chapterTitle,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.headlineMedium?.copyWith(
+                    fontFamily: PlotcraftFonts.serif,
                     fontSize: _textSize * 1.7,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w400,
                     height: 1.25,
                   ),
                 ),
@@ -467,7 +472,6 @@ class _ReadingViewState extends State<ReadingView> {
   }
 
   Widget _text(BuildContext context, QuillController quill, TextStyle base) {
-    final scheme = Theme.of(context).colorScheme;
     return QuillEditor(
       key: ObjectKey(quill),
       controller: quill,
@@ -504,7 +508,7 @@ class _ReadingViewState extends State<ReadingView> {
           }
           if (attribute.key == RichDocument.mentionKey) {
             return TextStyle(
-              color: scheme.primary,
+              color: context.tokens.ink,
               fontWeight: FontWeight.w600,
             );
           }
@@ -544,8 +548,9 @@ class _ReadingViewState extends State<ReadingView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Divider(color: scheme.outlineVariant),
-        const SizedBox(height: 16),
+        // Where the chapter ends, a bridge of arches draws itself across.
+        const ArchBridge(height: 56),
+        const SizedBox(height: 20),
         Row(
           children: [
             Expanded(
@@ -564,6 +569,7 @@ class _ReadingViewState extends State<ReadingView> {
                       child: Text(
                         'reading.the_end'.tr(),
                         style: theme.textTheme.titleMedium?.copyWith(
+                          fontFamily: PlotcraftFonts.serif,
                           fontStyle: FontStyle.italic,
                           color: scheme.onSurfaceVariant,
                         ),
@@ -637,7 +643,8 @@ class _NavButton extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             textAlign: alignEnd ? TextAlign.end : TextAlign.start,
             style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
+              fontFamily: PlotcraftFonts.serif,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],

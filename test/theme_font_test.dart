@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plotcraft/core/theme/interface_fonts.dart';
+import 'package:plotcraft/core/theme/plotcraft_tokens.dart';
 import 'package:plotcraft/core/theme/theme_definition.dart';
 
 void main() {
@@ -30,9 +31,13 @@ void main() {
         };
         styles.forEach((name, style) {
           expect(style, isNotNull, reason: '$name sem estilo');
+          // Dialog titles are the voice of the app: always the serif.
+          final expected = name == 'dialog.title'
+              ? PlotcraftFonts.serif
+              : font.family;
           expect(
             style!.fontFamily,
-            font.family,
+            expected,
             reason: '$name não herdou a fonte ${font.family}',
           );
         });

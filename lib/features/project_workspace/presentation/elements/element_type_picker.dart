@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../core/theme/plotcraft_tokens.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
@@ -12,6 +11,8 @@ import 'package:plotcraft_core/features/project_workspace/domain/element_type.da
 import 'element_type_label.dart';
 import '../../../../core/icons/icon_data.dart';
 import '../element_colors.dart';
+import '../../../../core/ui/plotcraft_surface.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 /// Returned instead of a type ID when the person asks to create a new type.
 const createElementTypeChoice = '\u0000create-type';
@@ -94,7 +95,7 @@ class ElementTypeGrid extends StatelessWidget {
         style: theme.textTheme.labelSmall?.copyWith(
           color: theme.colorScheme.onSurfaceVariant,
           letterSpacing: .8,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );
@@ -131,7 +132,7 @@ class ElementTypeGrid extends StatelessWidget {
             if (allowCreate)
               _TypeCard(
                 icon: Feather.plus,
-                color: theme.colorScheme.primary,
+                color: context.tokens.ink,
                 label: 'elements.new_type'.tr(),
                 hint: 'elements.new_type_hint'.tr(),
                 dashed: true,
@@ -186,65 +187,54 @@ class _TypeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    return Material(
-      color: dashed ? Colors.transparent : scheme.surfaceContainerLow,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
-        side: BorderSide(
-          color: dashed ? scheme.outline : scheme.outlineVariant,
-        ),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
-          child: Row(
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: .16),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, size: 22, color: color),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      hint,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: scheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (onEdit != null)
-                PlotcraftIconButton(
-                  icon: Feather.edit_2,
-                  tooltip: 'elements.edit_type'.tr(),
-                  size: 14,
-                  onPressed: onEdit,
-                ),
-            ],
+    return PlotcraftSurface(
+      onTap: onTap,
+      padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
+      color: dashed ? Colors.transparent : null,
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: .16),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, size: 22, color: color),
           ),
-        ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  hint,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (onEdit != null)
+            PlotcraftIconButton(
+              icon: Feather.edit_2,
+              tooltip: 'elements.edit_type'.tr(),
+              size: 14,
+              onPressed: onEdit,
+            ),
+        ],
       ),
     );
   }

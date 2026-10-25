@@ -8,6 +8,8 @@ import '../../../../core/spellcheck/text_overlays.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/rich/mention_index.dart';
 
+import '../../../../core/theme/plotcraft_tokens.dart';
+
 /// Keeps track of the names of elements written in plain text in a document
 /// and draws a dotted underline under them. Like the spell checker it works
 /// from the document without changing it: ranges move with every edit and are
@@ -111,7 +113,7 @@ class AutoMentionTracker extends ChangeNotifier implements TextOverlaySource {
 
   @override
   List<TextOverlay> overlays(BuildContext context) {
-    final color = Theme.of(context).colorScheme.primary;
+    final color = context.tokens.ink;
     return [
       for (final hit in _hits)
         TextOverlay(

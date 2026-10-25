@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import OrbitRings from './OrbitRings.vue'
 import { useI18n } from 'vue-i18n'
 import AppFrame from './AppFrame.vue'
 
@@ -14,6 +15,7 @@ const stats = [
 
 <template>
   <section id="sample" class="section">
+    <OrbitRings class="deco rings" :size="520" />
     <div class="container split">
       <div class="copy">
         <h2>{{ t('sample.title') }}</h2>
@@ -72,5 +74,9 @@ h2 {
   .split {
     grid-template-columns: 1fr;
   }
+}
+.rings {
+  left: -240px;
+  bottom: -120px;
 }
 </style>

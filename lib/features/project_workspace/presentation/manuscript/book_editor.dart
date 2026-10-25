@@ -34,6 +34,7 @@ import 'find_bar.dart';
 import 'rich_toolbar.dart';
 import 'mention_card.dart';
 import 'mention_hover_controller.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 /// One open manuscript document: toolbar, find bar, rich text and status bar.
 class BookEditor extends StatefulWidget {
@@ -429,7 +430,6 @@ class _BookEditorState extends State<BookEditor> {
 
   Widget _editor(BuildContext context) {
     final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
     final base = theme.textTheme.bodyLarge!.copyWith(height: 1.7);
     return ListenableBuilder(
       listenable: Listenable.merge([_spell, _auto]),
@@ -477,9 +477,9 @@ class _BookEditorState extends State<BookEditor> {
             }
             if (attribute.key == RichDocument.mentionKey) {
               return TextStyle(
-                color: scheme.primary,
+                color: context.tokens.ink,
                 fontWeight: FontWeight.w600,
-                backgroundColor: scheme.primary.withValues(alpha: .08),
+                backgroundColor: context.tokens.ink.withValues(alpha: .08),
               );
             }
             return const TextStyle();

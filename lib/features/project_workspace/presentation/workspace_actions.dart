@@ -25,6 +25,7 @@ import 'elements/element_type_picker.dart';
 import 'manuscript/chapter_list.dart';
 import 'manuscript/project_fonts_dialog.dart';
 import 'shell/gallery_image_viewer_launcher.dart';
+import '../../../core/ui/plotcraft_toast.dart';
 
 /// User-initiated workspace operations. Each one gathers what it needs from
 /// the user (dialogs), asks the controller or store to act and reports
@@ -36,13 +37,12 @@ class WorkspaceActions {
 
   ProjectWorkspaceStore get store => controller.store;
 
-  void _snack(ScaffoldMessengerState messenger, String key) =>
-      messenger.showSnackBar(SnackBar(content: Text(key.tr())));
+  void _snack(PlotcraftToaster toaster, String key) => toaster.show(key.tr());
 
   // --- Tabs ---------------------------------------------------------------
 
   Future<void> closeTab(BuildContext context, String tabId) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     try {
       if (await controller.canClose(tabId)) controller.closeTabNow(tabId);
     } catch (_) {
@@ -58,7 +58,7 @@ class WorkspaceActions {
 
   /// Leaves the project after every open document is saved or discarded.
   Future<bool> leave(BuildContext context) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     try {
       if (!await controller.canCloseAll()) return false;
     } catch (_) {
@@ -72,7 +72,7 @@ class WorkspaceActions {
   // --- Manuscript ---------------------------------------------------------
 
   Future<void> saveManuscript(BuildContext context, String? chapterId) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     try {
       await controller.saveBuffer(chapterId ?? 'single');
     } catch (_) {
@@ -82,7 +82,7 @@ class WorkspaceActions {
 
   /// Saves pending text so a structural change starts from what is on disk.
   Future<bool> _settle(BuildContext context) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     if (store.isSaving || store.isBookUpdating) return false;
     try {
       return await controller.saveAllBuffers();
@@ -96,7 +96,7 @@ class WorkspaceActions {
     BuildContext context,
     Future<void> Function() operation,
   ) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     try {
       await operation();
       controller.syncWithBook();
@@ -200,7 +200,7 @@ class WorkspaceActions {
     BuildContext context,
     NarrativeElement element,
   ) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     final confirmed = await showConfirmDialog(
       context,
       title: 'elements.remove_title'.tr(),
@@ -255,7 +255,7 @@ class WorkspaceActions {
     BuildContext context, {
     ElementType? current,
   }) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     final usedBy = current == null
         ? 0
         : store.elements.where((e) => e.typeId == current.id).length;
@@ -309,7 +309,7 @@ class WorkspaceActions {
     NarrativeElement element,
     String term,
   ) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     try {
       final policy = element.mentionPolicy;
       await store.saveElement(
@@ -339,7 +339,7 @@ class WorkspaceActions {
   // --- Gallery ------------------------------------------------------------
 
   Future<void> importImages(BuildContext context) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     if (store.isImporting) return;
     try {
       final files = await openFiles(
@@ -358,7 +358,7 @@ class WorkspaceActions {
   }
 
   Future<void> removeGalleryImage(BuildContext context, String path) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     if (store.isRemovingImage || store.isImporting) return;
     final confirmed = await showConfirmDialog(
       context,
@@ -392,7 +392,7 @@ class WorkspaceActions {
     ProjectMetadataInput input,
     bool removeCover,
   ) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     try {
       await store.updateMetadata(input, removeCover: removeCover);
       controller.setDirty(WorkspaceTab.settings.id, false);
@@ -405,7 +405,7 @@ class WorkspaceActions {
   // --- Window -------------------------------------------------------------
 
   Future<void> toggleFullscreen(BuildContext context) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     final next = !controller.editorFullscreen;
     try {
       await WindowService.setFullScreen(next);

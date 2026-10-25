@@ -14,6 +14,7 @@ import '../shell/side_panel_widgets.dart';
 import 'element_type_label.dart';
 import '../../../../core/icons/icon_data.dart';
 import '../element_colors.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 enum ElementAction { remove }
 
@@ -235,9 +236,9 @@ class _GroupHeader extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-                letterSpacing: .8,
-                fontWeight: FontWeight.w700,
+                color: context.tokens.ink,
+                letterSpacing: 1.6,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -289,14 +290,18 @@ class _FilterButton extends StatelessWidget {
           for (final option in options.entries)
             PopupMenuItem(value: option.key, child: Text(option.value)),
         ],
-        child: Container(
+        child: AnimatedContainer(
+          duration: PlotcraftMotion.quick,
           height: 28,
-          padding: const EdgeInsets.symmetric(horizontal: 9),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
-            color: active ? scheme.primaryContainer : Colors.transparent,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: active ? scheme.primary : scheme.outlineVariant,
+            color: context.tokens.ink.withValues(alpha: active ? .2 : .08),
+            borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
+            border: Border(
+              bottom: BorderSide(
+                color: active ? context.tokens.ink : Colors.transparent,
+                width: 1.5,
+              ),
             ),
           ),
           child: Row(
@@ -305,9 +310,7 @@ class _FilterButton extends StatelessWidget {
               Icon(
                 icon,
                 size: 13,
-                color: active
-                    ? scheme.onPrimaryContainer
-                    : scheme.onSurfaceVariant,
+                color: active ? context.tokens.ink : scheme.onSurfaceVariant,
               ),
               const SizedBox(width: 5),
               Flexible(
@@ -316,21 +319,18 @@ class _FilterButton extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.labelMedium?.copyWith(
-                    color: active
-                        ? scheme.onPrimaryContainer
-                        : scheme.onSurfaceVariant,
+                    color: active ? scheme.onSurface : scheme.onSurfaceVariant,
                   ),
                 ),
               ),
               const SizedBox(width: 2),
               if (active)
-                InkWell(
-                  borderRadius: BorderRadius.circular(8),
+                GestureDetector(
                   onTap: () => onChanged(null),
                   child: Icon(
                     Feather.x,
                     size: 13,
-                    color: scheme.onPrimaryContainer,
+                    color: scheme.onSurfaceVariant,
                   ),
                 )
               else

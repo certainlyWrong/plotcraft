@@ -31,7 +31,7 @@ class PlotcraftDropdown<T> extends StatelessWidget {
       labelText: label,
       isDense: compact,
       contentPadding: EdgeInsets.symmetric(
-        horizontal: 12,
+        horizontal: 2,
         vertical: compact ? 8 : 10,
       ),
     ),

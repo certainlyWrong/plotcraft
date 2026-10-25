@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import OrbitRings from './OrbitRings.vue'
+import ArchBridge from './ArchBridge.vue'
 import { computed } from 'vue'
 import { Download, Laptop, Monitor, Terminal } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
@@ -47,6 +49,8 @@ const quarantine = 'xattr -dr com.apple.quarantine /Applications/Plotcraft.app'
 
 <template>
   <section id="download" class="section">
+    <ArchBridge class="deco bridge" />
+    <OrbitRings class="deco rings" :size="600" />
     <div class="container">
       <div class="section-head">
         <h2>{{ t('download.title') }}</h2>
@@ -259,5 +263,13 @@ code {
   color: var(--fg);
   font-size: 0.82rem;
   user-select: all;
+}
+.bridge {
+  left: 0;
+  top: 0;
+}
+.rings {
+  right: -260px;
+  top: 80px;
 }
 </style>

@@ -5,6 +5,7 @@ import 'package:plotcraft_core/features/export/domain/export_options.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/plotcraft_dropdown.dart';
+import '../../../../core/ui/plotcraft_choice.dart';
 
 /// What the author chose in the export dialog.
 class ExportChoice {
@@ -73,18 +74,16 @@ class _ExportDialogState extends State<_ExportDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SegmentedButton<ExportFormat>(
-              showSelectedIcon: false,
-              segments: [
+            PlotcraftChoice<ExportFormat>(
+              options: [
                 for (final format in ExportFormat.values)
-                  ButtonSegment(
+                  PlotcraftChoiceOption(
                     value: format,
-                    label: Text('export.format_${format.name}'.tr()),
+                    label: 'export.format_${format.name}'.tr(),
                   ),
               ],
-              selected: {_format},
-              onSelectionChanged: (values) =>
-                  setState(() => _format = values.first),
+              selected: _format,
+              onChanged: (value) => setState(() => _format = value),
             ),
             const SizedBox(height: 8),
             Text(

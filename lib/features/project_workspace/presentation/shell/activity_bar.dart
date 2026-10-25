@@ -2,12 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/gris/brand_mark.dart';
+import '../../../../core/ui/plotcraft_nav_icon.dart';
 import '../../domain/workspace_tab.dart';
 import 'workspace_icons.dart';
 
-/// Narrow icon rail with the workspace sections and the way back to the
-/// library. Names appear as tooltips.
+/// Narrow rail of icons with the workspace sections and the way back to the
+/// library. It has no fill and no rule: the icons rest on the paper, and the
+/// section you are in carries a patch of pigment. Names appear as tooltips.
 class ActivityBar extends StatelessWidget {
   const ActivityBar({
     super.key,
@@ -18,7 +20,7 @@ class ActivityBar extends StatelessWidget {
     this.sections = WorkspaceSection.values,
   });
 
-  static const width = 48.0;
+  static const width = 56.0;
 
   static const _labels = {
     WorkspaceSection.overview: 'workspace.overview',
@@ -40,103 +42,43 @@ class ActivityBar extends StatelessWidget {
   final List<WorkspaceSection> sections;
 
   @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Container(
-      width: width,
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerLowest,
-        border: Border(right: BorderSide(color: scheme.outlineVariant)),
-      ),
-      child: Column(
-        children: [
-          const SizedBox(height: 8),
-          _BrandMark(color: scheme.primary),
-          const SizedBox(height: 12),
-          for (final section in sections)
-            _item(
-              context,
-              section,
-              WorkspaceIcons.of(section),
-              _labels[section]!,
-            ),
-          const Spacer(),
-          if (onExport != null)
-            Tooltip(
-              message: 'export.menu'.tr(),
-              child: IconButton(
-                onPressed: onExport,
-                icon: Icon(
-                  Feather.download,
-                  size: 18,
-                  color: scheme.onSurfaceVariant,
-                ),
-              ),
-            ),
-          Tooltip(
-            message: 'workspace.back_to_library'.tr(),
-            child: IconButton(
-              onPressed: onBack,
-              icon: Icon(
-                Feather.arrow_left,
-                size: 18,
-                color: scheme.onSurfaceVariant,
-              ),
+  Widget build(BuildContext context) => SizedBox(
+    width: width,
+    child: Column(
+      children: [
+        const SizedBox(height: 16),
+        const BrandMark(size: 30),
+        const SizedBox(height: 22),
+        for (final section in sections)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: PlotcraftNavIcon(
+              icon: WorkspaceIcons.of(section),
+              tooltip: _labels[section]!.tr(),
+              selected: section == selected,
+              onTap: () => onSelect(section),
             ),
           ),
-          const SizedBox(height: 8),
-        ],
-      ),
-    );
-  }
-
-  Widget _item(
-    BuildContext context,
-    WorkspaceSection section,
-    IconData icon,
-    String labelKey,
-  ) {
-    final scheme = Theme.of(context).colorScheme;
-    final active = section == selected;
-    return Tooltip(
-      message: labelKey.tr(),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-        decoration: BoxDecoration(
-          color: active ? scheme.primaryContainer : Colors.transparent,
-          borderRadius: BorderRadius.circular(PlotcraftRadii.control),
-        ),
-        child: IconButton(
-          onPressed: () => onSelect(section),
-          icon: Icon(
-            icon,
-            size: 18,
-            color: active ? scheme.onPrimaryContainer : scheme.onSurfaceVariant,
+        const Spacer(),
+        if (onExport != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: PlotcraftNavIcon(
+              icon: Feather.download,
+              tooltip: 'export.menu'.tr(),
+              onTap: onExport,
+            ),
+          ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3),
+          child: PlotcraftNavIcon(
+            icon: Feather.arrow_left,
+            tooltip: 'workspace.back_to_library'.tr(),
+            onTap: onBack,
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _BrandMark extends StatelessWidget {
-  const _BrandMark({required this.color});
-
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    width: 30,
-    height: 30,
-    decoration: BoxDecoration(
-      color: color,
-      borderRadius: BorderRadius.circular(PlotcraftRadii.control),
-    ),
-    alignment: Alignment.center,
-    child: Icon(
-      Feather.book_open,
-      color: Theme.of(context).colorScheme.onPrimary,
-      size: 16,
+        const SizedBox(height: 14),
+      ],
     ),
   );
 }

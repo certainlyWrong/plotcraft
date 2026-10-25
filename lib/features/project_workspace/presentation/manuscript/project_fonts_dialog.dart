@@ -12,6 +12,7 @@ import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/project_font.dart';
 
 import '../../stores/editor_fonts_store.dart';
+import '../../../../core/ui/plotcraft_toast.dart';
 
 /// Lists the fonts that belong to the project and lets the person add font
 /// files to it or remove them. The files live in the project's `fonts/`
@@ -32,7 +33,7 @@ class _ProjectFontsDialog extends StatelessWidget {
   final StoryProject project;
 
   Future<void> _add(BuildContext context) async {
-    final messenger = ScaffoldMessenger.of(context);
+    final messenger = PlotcraftToaster.of(context);
     try {
       final files = await openFiles(
         acceptedTypeGroups: [
@@ -48,20 +49,14 @@ class _ProjectFontsDialog extends StatelessWidget {
         files.map((file) => file.path).toList(),
       );
       if (added.length < files.length) {
-        messenger.showSnackBar(
-          SnackBar(
-            content: Text(
-              'editor.fonts_skipped'.tr(
-                namedArgs: {'count': '${files.length - added.length}'},
-              ),
-            ),
+        messenger.show(
+          'editor.fonts_skipped'.tr(
+            namedArgs: {'count': '${files.length - added.length}'},
           ),
         );
       }
     } catch (_) {
-      messenger.showSnackBar(
-        SnackBar(content: Text('editor.fonts_error'.tr())),
-      );
+      messenger.show('editor.fonts_error'.tr());
     }
   }
 

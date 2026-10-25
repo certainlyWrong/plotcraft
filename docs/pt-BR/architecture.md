@@ -9,13 +9,14 @@ O código segue a organização por funcionalidade. `core/` guarda o que não pe
 ```text
 lib/
   main.dart                inicializa dependências, descobre idiomas e inicia o app
-  app/                     PlotcraftApp: MaterialApp, localização e tema ativo
+  app/                     PlotcraftApp: MaterialApp, localização, tema ativo, estágio e grão de papel
   core/
     platform/              WindowService (tamanho da janela) e corretor ortográfico nativo
     storage/               LocalStorage (preferências com SharedPreferences)
     icons/                 IconRef e IconCatalog (catálogo gerado de ícones do icons_flutter)
-    theme/                 ThemeDefinition, fontes da interface, PlotcraftTokens e PlotcraftRadii
-    ui/                    componentes reutilizáveis (botões, campos, diálogos, menus, imagens)
+    theme/                 ThemeDefinition, fontes da interface, PlotcraftTokens (estágios, raios, movimento) e StageScope
+    ui/                    componentes reutilizáveis (botões, etiquetas, campos, diálogos, menus, imagens)
+    ui/gris/               o visual de aquarela: fundo, grão, anéis, arcos, traços, revelações (veja visual-language.md)
   features/
     projects/              biblioteca de projetos
     project_creation/      criação de projetos
@@ -61,7 +62,7 @@ O app leva uma história completa, "Herdeiros do Silêncio", em `assets/sample/h
 
 ## Persistência
 
-Cada projeto é uma pasta local com manifesto e materiais. As preferências guardam apenas os caminhos da biblioteca, a localização padrão para novos projetos, o tema e a fonte. O `easy_localization` persiste o idioma. Sem preferências anteriores, o idioma inicial é inglês e o tema é Violet. O formato em disco está descrito em [Modelo de projeto](project-model.md).
+Cada projeto é uma pasta local com manifesto e materiais. As preferências guardam apenas os caminhos da biblioteca, a localização padrão para novos projetos, o tema e a fonte. O `easy_localization` persiste o idioma. Sem preferências anteriores, o idioma inicial é inglês e o tema é Gris Night. O formato em disco está descrito em [Modelo de projeto](project-model.md).
 
 ## Extensão
 

@@ -42,6 +42,9 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+  shaders:
+    - shaders/watercolor.frag
+    - shaders/grain.frag
   assets:
     - assets/translations/
     - assets/themes/

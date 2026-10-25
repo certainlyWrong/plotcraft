@@ -47,8 +47,8 @@ Plotcraft é um aplicativo desktop para quem escreve histórias de qualquer gên
       <b>Galeria.</b> Referências visuais em um mosaico que respeita a proporção real de cada imagem.
     </td>
     <td width="50%">
-      <img src="docs/screenshots/tema-claro.png" alt="Modo leitura com o tema claro Paper">
-      <b>O seu visual.</b> Oito temas com variantes clara e escura, temas JSON próprios, várias fontes de interface e fontes que viajam com o projeto.
+      <img src="docs/screenshots/tema-claro.png" alt="Modo leitura com o tema claro Gris Day">
+      <b>O seu visual.</b> Uma interface de aquarela inspirada na arte de Gris, em um tema noturno e um diurno, com temas JSON próprios, várias fontes de interface e fontes que viajam com o projeto.
     </td>
   </tr>
 </table>
@@ -104,7 +104,7 @@ Imagens de referência em um mosaico em que cada uma mantém a sua proporção. 
 
 ### O seu visual e o seu idioma
 
-- **Oito temas**, cada um com variantes clara e escura: Violet, Paper, Midnight, Lavender, Moss, Rose, Ocean e Plum. Adicione os seus como um arquivo JSON.
+- **Um visual de aquarela** inspirado na arte de Gris: a janela começa cinza e ganha cor conforme você passa da escrita aos elementos da história, ao mapa e à leitura. Dois temas, Gris Night e Gris Day; adicione os seus como um arquivo JSON. Veja a [Linguagem visual](docs/pt-BR/visual-language.md).
 - **Interface em inglês e português**, com mais idiomas acrescentados ao incluir um arquivo de tradução. O idioma da interface não limita o idioma da sua história.
 - **Fontes.** Escolha a fonte da interface (Times New Roman, DM Sans, Lora, Merriweather, Roboto) e adicione fontes `.ttf`, `.otf` ou `.ttc` a um projeto para que viajem com ele e possam ser usadas no texto.
 - **Sua pasta de projetos.** Guarde suas histórias onde quiser; a biblioteca pode reunir projetos de lugares diferentes.
@@ -210,6 +210,7 @@ O catálogo completo de ferramentas, os erros e os exemplos estão em [`packages
 - [Visão do produto](docs/pt-BR/product-vision.md) — propósito, público e experiência desejada.
 - [Modelo de projeto](docs/pt-BR/project-model.md) — o que compõe um projeto de história e seus arquivos.
 - [Experiência e preferências](docs/pt-BR/experience-and-preferences.md) — foco desktop, temas e idiomas.
+- [Linguagem visual](docs/pt-BR/visual-language.md) — o visual de aquarela, seus estágios, efeitos e acessibilidade.
 - [Arquitetura da aplicação](docs/pt-BR/architecture.md) — organização do código, pacotes e projeto de exemplo.
 - [Site](website/README.pt-BR.md) — o site em Vue que apresenta o Plotcraft e oferece os downloads.
 - [MCP](docs/pt-BR/mcp.md) — como uma IA cria e gerencia histórias pelo Plotcraft (servidor em [`packages/plotcraft_mcp`](packages/plotcraft_mcp/README.pt-BR.md)).

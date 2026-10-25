@@ -79,16 +79,16 @@ void main() {
 
   test('preferências e temas', () async {
     final prefs = await call('get_preferences') as Map;
-    expect(prefs['theme'], 'violet');
+    expect(prefs['theme'], 'gris-night');
     expect(prefs['languages'], ['en', 'pt']);
     expect(prefs['projects_folder'], root.path);
     final listed = await call('list_themes') as Map;
-    expect((listed['themes'] as List).first, containsPair('id', 'violet'));
+    expect((listed['themes'] as List).first, containsPair('id', 'gris-night'));
   });
 
   test('trocar tema, fonte e idioma, e recusar valores inválidos', () async {
-    await call('set_theme', {'theme_id': 'paper'});
-    expect(themes.selectedThemeId, 'paper');
+    await call('set_theme', {'theme_id': 'gris-day'});
+    expect(themes.selectedThemeId, 'gris-day');
     await expectLater(
       call('set_theme', {'theme_id': 'nao-existe'}),
       throwsA(

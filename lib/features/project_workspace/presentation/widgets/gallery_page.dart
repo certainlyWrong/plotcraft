@@ -8,6 +8,8 @@ import 'package:icons_flutter/icons_flutter.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import 'gallery_mosaic.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/gris/orbit_rings.dart';
 
 /// Gallery tab: toolbar plus the image mosaic (or an empty-state action).
 class GalleryPage extends StatelessWidget {
@@ -47,7 +49,8 @@ class GalleryPage extends StatelessWidget {
                     Text(
                       'workspace.gallery'.tr(),
                       style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontFamily: PlotcraftFonts.serif,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -67,11 +70,7 @@ class GalleryPage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               if (importing)
-                const SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
+                const OrbitRings(size: 40)
               else
                 PlotcraftButton(
                   icon: Feather.plus,
@@ -84,16 +83,28 @@ class GalleryPage extends StatelessWidget {
         Expanded(
           child: images.isEmpty
               ? Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                  child: Stack(
+                    alignment: Alignment.center,
                     children: [
-                      Icon(Feather.image, size: 34, color: scheme.outline),
-                      const SizedBox(height: 12),
-                      Text(
-                        'workspace.gallery_empty'.tr(),
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: scheme.onSurfaceVariant,
-                        ),
+                      const OrbitRings(size: 340),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Feather.image,
+                            size: 26,
+                            color: context.tokens.ink,
+                          ),
+                          const SizedBox(height: 14),
+                          Text(
+                            'workspace.gallery_empty'.tr(),
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontFamily: PlotcraftFonts.serif,
+                              fontWeight: FontWeight.w500,
+                              color: scheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

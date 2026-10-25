@@ -21,6 +21,7 @@ void main() {
               box(PlotcraftTextField(controller: field, label: 'Nome')),
               box(
                 PlotcraftDropdown<String>(
+                  label: 'Nome',
                   initialValue: 'a',
                   items: items,
                   onChanged: (_) {},

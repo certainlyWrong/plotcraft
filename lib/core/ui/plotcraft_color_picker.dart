@@ -121,9 +121,7 @@ class _Swatch extends StatelessWidget {
         color: color,
         borderRadius: BorderRadius.circular(PlotcraftRadii.control),
         border: Border.all(
-          color: selected
-              ? Theme.of(context).colorScheme.onSurface
-              : Colors.transparent,
+          color: selected ? context.tokens.ink : Colors.transparent,
           width: 2,
         ),
       ),

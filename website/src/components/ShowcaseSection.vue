@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Constellation from './Constellation.vue'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import AppFrame from './AppFrame.vue'
@@ -32,6 +33,7 @@ function onKey(event: KeyboardEvent) {
 
 <template>
   <section id="tour" class="section alt">
+    <Constellation class="deco stars" />
     <div class="container">
       <div class="section-head">
         <h2>{{ t('showcase.title') }}</h2>
@@ -73,8 +75,12 @@ function onKey(event: KeyboardEvent) {
 </template>
 
 <style scoped>
+.stars {
+  right: 4%;
+  top: 48px;
+}
 .alt {
-  background: color-mix(in srgb, var(--surface) 55%, var(--bg));
+  background: color-mix(in srgb, var(--surface) 38%, transparent);
   border-block: 1px solid var(--border);
 }
 .tabs {

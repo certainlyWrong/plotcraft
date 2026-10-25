@@ -73,7 +73,7 @@ class LocalStorage {
   Future<void> saveDouble(String key, double value) =>
       _preferences.setDouble('plotcraft.$key', value);
 
-  String loadTheme() => _preferences.getString(_themeKey) ?? 'violet';
+  String loadTheme() => _preferences.getString(_themeKey) ?? 'gris-night';
   Future<void> saveTheme(String value) =>
       _preferences.setString(_themeKey, value);
 

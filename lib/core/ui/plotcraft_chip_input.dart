@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'plotcraft_chip.dart';
+
 /// Editable list of short values shown as chips (aliases, tags). Typing a
 /// value and pressing Enter or a comma adds it; empty and repeated values
 /// (ignoring case) are skipped.
@@ -67,7 +69,7 @@ class _PlotcraftChipInputState extends State<PlotcraftChipInput> {
         labelText: widget.label,
         floatingLabelBehavior: FloatingLabelBehavior.always,
         isDense: true,
-        contentPadding: const EdgeInsets.fromLTRB(12, 14, 12, 8),
+        contentPadding: const EdgeInsets.fromLTRB(2, 14, 2, 8),
       ),
       child: Wrap(
         spacing: 6,
@@ -75,10 +77,8 @@ class _PlotcraftChipInputState extends State<PlotcraftChipInput> {
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           for (final value in widget.values)
-            InputChip(
-              label: Text(value),
-              visualDensity: VisualDensity.compact,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            PlotcraftChip(
+              label: value,
               onDeleted: () => widget.onChanged(
                 widget.values.where((item) => item != value).toList(),
               ),

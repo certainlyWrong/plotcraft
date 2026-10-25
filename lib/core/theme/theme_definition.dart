@@ -34,23 +34,31 @@ class ThemeDefinition {
   final Color? onAccent;
 
   ThemeData toThemeData({required String fontFamily}) {
-    final generated = ColorScheme.fromSeed(
-      seedColor: accent,
-      brightness: isDark ? Brightness.dark : Brightness.light,
-    );
-    final panel = surface ?? _blend(background, generated.surface, .28);
+    final panel = surface ?? _blend(background, foreground, isDark ? .05 : .02);
     final raisedPanel =
         surfaceRaised ?? _blend(panel, foreground, isDark ? .08 : .035);
     final mutedPanel =
         surfaceMuted ?? _blend(background, foreground, isDark ? .06 : .035);
-    final border = outline ?? generated.outline;
+    final border = outline ?? _blend(background, foreground, isDark ? .4 : .34);
     final subtleBorder =
-        outlineVariant ?? _blend(background, foreground, isDark ? .22 : .16);
+        outlineVariant ?? _blend(background, foreground, isDark ? .16 : .13);
     final mutedForeground =
         onSurfaceVariant ?? _blend(foreground, background, isDark ? .3 : .38);
-    final scheme = generated.copyWith(
+    final stages = isDark ? GrisStages.dark : GrisStages.light;
+    final scheme = ColorScheme(
+      brightness: isDark ? Brightness.dark : Brightness.light,
       primary: accent,
       onPrimary: onAccent ?? _contrastColor(accent),
+      primaryContainer: _blend(raisedPanel, accent, .16),
+      onPrimaryContainer: foreground,
+      secondary: mutedForeground,
+      onSecondary: background,
+      secondaryContainer: _blend(raisedPanel, accent, .18),
+      onSecondaryContainer: foreground,
+      tertiary: _blend(accent, foreground, .35),
+      onTertiary: _contrastColor(_blend(accent, foreground, .35)),
+      error: stages[StageId.red]!.ink,
+      onError: _contrastColor(stages[StageId.red]!.ink),
       surface: panel,
       onSurface: foreground,
       onSurfaceVariant: mutedForeground,
@@ -63,12 +71,7 @@ class ThemeDefinition {
       surfaceContainerHighest: _blend(raisedPanel, foreground, .04),
       inverseSurface: foreground,
       onInverseSurface: background,
-      secondary: mutedForeground,
-      onSecondary: background,
-      secondaryContainer: _blend(raisedPanel, accent, .18),
-      onSecondaryContainer: foreground,
-      tertiary: _blend(accent, foreground, .35),
-      onTertiary: _contrastColor(_blend(accent, foreground, .35)),
+      surfaceTint: Colors.transparent,
       scrim: _blend(foreground, const Color(0xFF000000), isDark ? .85 : .6),
       shadow: _blend(foreground, const Color(0xFF000000), isDark ? .9 : .7),
     );
@@ -82,12 +85,21 @@ class ThemeDefinition {
     );
     final text = base.textTheme;
     return base.copyWith(
-      extensions: const [PlotcraftTokens()],
+      extensions: [
+        PlotcraftTokens(
+          stage: stages[StageId.grey]!,
+          // Weak enough that text keeps AA contrast even where the pigment
+          // lies thickest (test/gris/contrast_test.dart).
+          washOpacity: isDark ? .2 : .24,
+          paper: panel,
+          isDark: isDark,
+        ),
+      ],
       scaffoldBackgroundColor: background,
       visualDensity: VisualDensity.compact,
-      splashFactory: InkSparkle.splashFactory,
-      focusColor: accent.withValues(alpha: .12),
-      hoverColor: accent.withValues(alpha: .06),
+      splashFactory: NoSplash.splashFactory,
+      focusColor: accent.withValues(alpha: .10),
+      hoverColor: accent.withValues(alpha: .07),
       highlightColor: accent.withValues(alpha: .08),
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: accent,
@@ -119,69 +131,113 @@ class ThemeDefinition {
       dialogTheme: DialogThemeData(
         backgroundColor: panel,
         surfaceTintColor: Colors.transparent,
-        elevation: 12,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(PlotcraftRadii.surface),
           side: BorderSide(color: subtleBorder),
         ),
         titleTextStyle: text.headlineSmall?.copyWith(
           color: foreground,
-          fontSize: 21,
-          fontWeight: FontWeight.w600,
+          fontFamily: PlotcraftFonts.serif,
+          fontSize: 22,
+          fontWeight: FontWeight.w500,
+          height: 1.15,
         ),
         contentTextStyle: text.bodyMedium?.copyWith(
           color: mutedForeground,
           height: 1.4,
         ),
       ),
+      // Buttons have no state layer or ripple: hover is a faint wash of the
+      // accent, focus a line of ink, and the primary button blooms a drop of
+      // pigment (see PlotcraftButton). Labels are medium, never bold.
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           backgroundColor: scheme.primary,
           foregroundColor: scheme.onPrimary,
           disabledBackgroundColor: scheme.onSurface.withValues(alpha: .12),
           disabledForegroundColor: scheme.onSurface.withValues(alpha: .38),
-          minimumSize: const Size(0, 34),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          overlayColor: Colors.transparent,
+          minimumSize: const Size(0, 36),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(PlotcraftRadii.control),
           ),
-          textStyle: text.labelLarge?.copyWith(fontWeight: FontWeight.w600),
+          textStyle: text.labelLarge?.copyWith(
+            fontWeight: FontWeight.w500,
+            letterSpacing: .2,
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: scheme.primary,
-          minimumSize: const Size(0, 34),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-          side: BorderSide(color: scheme.outlineVariant),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+        style: ButtonStyle(
+          foregroundColor: WidgetStatePropertyAll(scheme.primary),
+          overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => _hovered(states)
+                ? scheme.primary.withValues(alpha: .08)
+                : Colors.transparent,
           ),
-          textStyle: text.labelLarge?.copyWith(fontWeight: FontWeight.w600),
+          minimumSize: const WidgetStatePropertyAll(Size(0, 36)),
+          padding: const WidgetStatePropertyAll(
+            EdgeInsets.symmetric(horizontal: 18, vertical: 7),
+          ),
+          side: WidgetStateProperty.resolveWith(
+            (states) => BorderSide(
+              color: states.contains(WidgetState.focused)
+                  ? scheme.primary
+                  : _hovered(states)
+                  ? scheme.outline
+                  : scheme.outlineVariant,
+              width: states.contains(WidgetState.focused) ? 1.6 : 1,
+            ),
+          ),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+            ),
+          ),
+          textStyle: WidgetStatePropertyAll(
+            text.labelLarge?.copyWith(
+              fontWeight: FontWeight.w500,
+              letterSpacing: .2,
+            ),
+          ),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: scheme.primary,
-          minimumSize: const Size(0, 34),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+        style: ButtonStyle(
+          foregroundColor: WidgetStatePropertyAll(scheme.primary),
+          overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => _hovered(states)
+                ? scheme.primary.withValues(alpha: .09)
+                : Colors.transparent,
           ),
-          textStyle: text.labelLarge?.copyWith(fontWeight: FontWeight.w600),
+          minimumSize: const WidgetStatePropertyAll(Size(0, 36)),
+          padding: const WidgetStatePropertyAll(
+            EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+          ),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+            ),
+          ),
+          textStyle: WidgetStatePropertyAll(
+            text.labelLarge?.copyWith(
+              fontWeight: FontWeight.w500,
+              letterSpacing: .2,
+            ),
+          ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: mutedPanel,
+        filled: false,
         isDense: true,
         hintStyle: text.bodyLarge?.copyWith(color: scheme.onSurfaceVariant),
         labelStyle: text.bodyLarge?.copyWith(color: scheme.onSurfaceVariant),
         floatingLabelStyle: text.bodyLarge?.copyWith(color: scheme.primary),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 10,
-        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 2, vertical: 10),
         border: _fieldBorder(subtleBorder),
         enabledBorder: _fieldBorder(subtleBorder),
         focusedBorder: _fieldBorder(scheme.primary, width: 1.6),
@@ -190,22 +246,32 @@ class ThemeDefinition {
       ),
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
-          foregroundColor: WidgetStatePropertyAll(scheme.onSurfaceVariant),
+          foregroundColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.disabled)
+                ? scheme.onSurface.withValues(alpha: .38)
+                : _hovered(states)
+                ? scheme.primary
+                : scheme.onSurfaceVariant,
+          ),
           minimumSize: const WidgetStatePropertyAll(Size(32, 32)),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(PlotcraftRadii.control),
             ),
           ),
-          overlayColor: WidgetStatePropertyAll(
-            scheme.primary.withValues(alpha: .08),
+          overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => _hovered(states)
+                ? scheme.primary.withValues(alpha: .08)
+                : Colors.transparent,
           ),
         ),
       ),
       popupMenuTheme: PopupMenuThemeData(
         color: scheme.surfaceContainer,
         surfaceTintColor: Colors.transparent,
-        elevation: 8,
+        elevation: 3,
+        shadowColor: scheme.shadow.withValues(alpha: .35),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
           side: BorderSide(color: scheme.outlineVariant),
@@ -221,16 +287,14 @@ class ThemeDefinition {
         labelType: NavigationRailLabelType.none,
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: mutedPanel,
-        selectedColor: scheme.primaryContainer,
-        secondarySelectedColor: scheme.primaryContainer,
+        backgroundColor: scheme.primary.withValues(alpha: .08),
+        selectedColor: scheme.primary.withValues(alpha: .2),
+        secondarySelectedColor: scheme.primary.withValues(alpha: .2),
         labelStyle: text.labelLarge?.copyWith(color: scheme.onSurface),
-        secondaryLabelStyle: text.labelLarge?.copyWith(
-          color: scheme.onPrimaryContainer,
-        ),
-        side: BorderSide(color: scheme.outlineVariant),
+        secondaryLabelStyle: text.labelLarge?.copyWith(color: scheme.onSurface),
+        side: BorderSide.none,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+          borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
         ),
       ),
       tooltipTheme: TooltipThemeData(
@@ -249,20 +313,67 @@ class ThemeDefinition {
           foreground.withValues(alpha: isDark ? .3 : .22),
         ),
       ),
-      snackBarTheme: SnackBarThemeData(
-        backgroundColor: scheme.inverseSurface,
-        contentTextStyle: text.bodyMedium?.copyWith(
-          color: scheme.onInverseSurface,
+      // Small controls: a hairline track and a small round thumb, a leaf-shaped
+      // check, and progress as a thin line. No tonal fills, no state layers.
+      sliderTheme: SliderThemeData(
+        trackHeight: 2,
+        activeTrackColor: scheme.primary,
+        inactiveTrackColor: subtleBorder,
+        thumbColor: scheme.primary,
+        overlayColor: Colors.transparent,
+        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+        trackShape: const RectangularSliderTrackShape(),
+        showValueIndicator: ShowValueIndicator.never,
+      ),
+      switchTheme: SwitchThemeData(
+        trackOutlineWidth: const WidgetStatePropertyAll(1),
+        trackOutlineColor: WidgetStateProperty.resolveWith(
+          (states) =>
+              states.contains(WidgetState.selected) ? scheme.primary : border,
         ),
+        trackColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? scheme.primary.withValues(alpha: .22)
+              : Colors.transparent,
+        ),
+        thumbColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? scheme.primary
+              : mutedForeground,
+        ),
+        overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        side: BorderSide(color: border, width: 1.2),
+        fillColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? scheme.primary
+              : Colors.transparent,
+        ),
+        checkColor: WidgetStatePropertyAll(scheme.onPrimary),
+        overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: scheme.primary,
+        linearTrackColor: subtleBorder,
+        linearMinHeight: 2,
+        circularTrackColor: Colors.transparent,
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: scheme.surfaceContainerHigh,
+        contentTextStyle: text.bodyMedium?.copyWith(color: scheme.onSurface),
         behavior: SnackBarBehavior.floating,
+        elevation: 3,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
+          borderRadius: BorderRadius.circular(PlotcraftRadii.surface),
+          side: BorderSide(color: subtleBorder),
         ),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: ButtonStyle(
           textStyle: WidgetStatePropertyAll(
-            text.labelLarge?.copyWith(fontWeight: FontWeight.w600),
+            text.labelLarge?.copyWith(fontWeight: FontWeight.w500),
           ),
           foregroundColor: WidgetStateProperty.resolveWith(
             (states) => states.contains(WidgetState.selected)
@@ -313,9 +424,13 @@ class ThemeDefinition {
     );
   }
 
-  static OutlineInputBorder _fieldBorder(Color color, {double width = 1}) =>
-      OutlineInputBorder(
-        borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+  static bool _hovered(Set<WidgetState> states) =>
+      states.contains(WidgetState.hovered) ||
+      states.contains(WidgetState.focused);
+
+  /// Fields are a line of ink under the text, not a box.
+  static UnderlineInputBorder _fieldBorder(Color color, {double width = 1}) =>
+      UnderlineInputBorder(
         borderSide: BorderSide(color: color, width: width),
       );
 
@@ -366,145 +481,46 @@ class ThemeDefinition {
   }
 }
 
+/// Previous theme ids and the Gris theme that replaces each, so a saved
+/// preference never points at a theme that no longer exists.
+String migrateThemeId(String id) {
+  if (builtInThemes.any((theme) => theme.id == id)) return id;
+  const darkIds = {
+    'violet-dark',
+    'paper-dark',
+    'midnight',
+    'lavender-dark',
+    'moss-dark',
+    'rose-dark',
+    'ocean-dark',
+    'plum-night',
+  };
+  return darkIds.contains(id) ? 'gris-night' : 'gris-day';
+}
+
 const builtInThemes = <ThemeDefinition>[
   ThemeDefinition(
-    id: 'violet',
-    name: 'Violet',
-    background: Color(0xFFF4F0FA),
-    surface: Color(0xFFFCFAFF),
-    foreground: Color(0xFF302A3D),
-    accent: Color(0xFF7654A6),
-    isDark: false,
-  ),
-  ThemeDefinition(
-    id: 'violet-dark',
-    name: 'Violet Dark',
-    background: Color(0xFF211A2C),
-    surface: Color(0xFF2C243A),
-    foreground: Color(0xFFF3ECFC),
-    accent: Color(0xFFC1A2E3),
-    isDark: true,
-  ),
-  ThemeDefinition(
-    id: 'paper',
-    name: 'Paper',
-    background: Color(0xFFF5F2EC),
-    foreground: Color(0xFF293B38),
-    accent: Color(0xFF56756C),
-    isDark: false,
-  ),
-  ThemeDefinition(
-    id: 'paper-dark',
-    name: 'Paper Dark',
-    background: Color(0xFF26231E),
-    surface: Color(0xFF322E28),
-    foreground: Color(0xFFF2EDE3),
-    accent: Color(0xFFD6B887),
-    isDark: true,
-  ),
-  ThemeDefinition(
-    id: 'midnight',
-    name: 'Midnight',
+    id: 'gris-night',
+    name: 'Gris Night',
     background: Color(0xFF202526),
+    surface: Color(0xFF2A3031),
+    surfaceRaised: Color(0xFF323A3B),
     foreground: Color(0xFFE9ECE8),
-    accent: Color(0xFF93B5A6),
+    onSurfaceVariant: Color(0xFFA8B3AE),
+    accent: Color(0xFFB9C0BF),
+    onAccent: Color(0xFF17201D),
     isDark: true,
   ),
   ThemeDefinition(
-    id: 'midnight-light',
-    name: 'Midnight Light',
+    id: 'gris-day',
+    name: 'Gris Day',
     background: Color(0xFFEDF1F1),
     surface: Color(0xFFFAFCFC),
+    surfaceRaised: Color(0xFFFFFFFF),
     foreground: Color(0xFF273233),
-    accent: Color(0xFF46696A),
-    isDark: false,
-  ),
-  ThemeDefinition(
-    id: 'lavender',
-    name: 'Lavender',
-    background: Color(0xFFF3EFF7),
-    foreground: Color(0xFF453A54),
-    accent: Color(0xFF89749F),
-    isDark: false,
-  ),
-  ThemeDefinition(
-    id: 'lavender-dark',
-    name: 'Lavender Dark',
-    background: Color(0xFF25212E),
-    surface: Color(0xFF302A3B),
-    foreground: Color(0xFFF0EAF7),
-    accent: Color(0xFFC2A8E0),
-    isDark: true,
-  ),
-  ThemeDefinition(
-    id: 'moss',
-    name: 'Moss',
-    background: Color(0xFFF0F2E9),
-    foreground: Color(0xFF354234),
-    accent: Color(0xFF74845D),
-    isDark: false,
-  ),
-  ThemeDefinition(
-    id: 'moss-dark',
-    name: 'Moss Dark',
-    background: Color(0xFF20261E),
-    surface: Color(0xFF2A3227),
-    foreground: Color(0xFFEEF2E8),
-    accent: Color(0xFFA8BB8B),
-    isDark: true,
-  ),
-  ThemeDefinition(
-    id: 'rose',
-    name: 'Rose',
-    background: Color(0xFFFAF0F2),
-    surface: Color(0xFFFFFAFB),
-    foreground: Color(0xFF422C34),
-    accent: Color(0xFFAD526F),
-    isDark: false,
-  ),
-  ThemeDefinition(
-    id: 'rose-dark',
-    name: 'Rose Dark',
-    background: Color(0xFF302128),
-    surface: Color(0xFF3B2932),
-    foreground: Color(0xFFF8ECF0),
-    accent: Color(0xFFE49AB0),
-    isDark: true,
-  ),
-  ThemeDefinition(
-    id: 'ocean',
-    name: 'Ocean',
-    background: Color(0xFFEEF4F8),
-    surface: Color(0xFFF9FCFE),
-    foreground: Color(0xFF263744),
-    accent: Color(0xFF397596),
-    isDark: false,
-  ),
-  ThemeDefinition(
-    id: 'ocean-dark',
-    name: 'Ocean Dark',
-    background: Color(0xFF1D2830),
-    surface: Color(0xFF273641),
-    foreground: Color(0xFFEBF2F6),
-    accent: Color(0xFF8CC2DE),
-    isDark: true,
-  ),
-  ThemeDefinition(
-    id: 'plum-night',
-    name: 'Plum Night',
-    background: Color(0xFF211D29),
-    surface: Color(0xFF2C2636),
-    foreground: Color(0xFFF0EAF5),
-    accent: Color(0xFFC5A4E8),
-    isDark: true,
-  ),
-  ThemeDefinition(
-    id: 'plum-day',
-    name: 'Plum Day',
-    background: Color(0xFFF2EFF5),
-    surface: Color(0xFFFCFAFE),
-    foreground: Color(0xFF352D3E),
-    accent: Color(0xFF8762AA),
+    onSurfaceVariant: Color(0xFF4A595A),
+    accent: Color(0xFF4F5A5B),
+    onAccent: Color(0xFFFFFFFF),
     isDark: false,
   ),
 ];

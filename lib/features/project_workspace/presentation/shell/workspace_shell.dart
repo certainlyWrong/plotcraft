@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
+import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/gris/gris.dart';
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_context_menu.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
@@ -20,6 +22,7 @@ import '../widgets/workspace_inspector.dart';
 import '../workspace_actions.dart';
 import 'activity_bar.dart';
 import 'workspace_icons.dart';
+import 'workspace_stage.dart';
 import 'side_panel.dart';
 import 'workspace_tab_content.dart';
 
@@ -77,56 +80,68 @@ class WorkspaceShell extends StatelessWidget {
         );
       }
       final panel = controller.sidePanel;
-      return Scaffold(
-        body: SafeArea(
-          child: Row(
-            children: [
-              ActivityBar(
-                selected: controller.activeSection,
-                sections: _sections,
-                onSelect: controller.selectSection,
-                onBack: onBack,
-                onExport:
-                    ProjectFormats.of(_project.primaryFormat).hasManuscript
-                    ? () => actions.exportBook(context)
-                    : null,
-              ),
-              if (panel != null) ...[
-                SizedBox(
-                  width: controller.sidePanelWidth,
-                  child: _sidePanel(context, panel),
-                ),
-                PlotcraftSplitter(
-                  onDrag: controller.resizeSidePanel,
-                  onDragEnd: controller.persistPanelSizes,
-                ),
-              ],
-              Expanded(
-                child: store.isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : controller.loadFailed
-                    ? _loadError()
-                    : _editorArea(context),
-              ),
-              if (controller.inspectorVisible) ...[
-                PlotcraftSplitter(
-                  onDrag: controller.resizeInspector,
-                  onDragEnd: controller.persistPanelSizes,
-                ),
-                SizedBox(
-                  width: controller.inspectorWidth,
-                  child: WorkspaceInspector(
-                    project: _project,
-                    section: activeTab?.section ?? WorkspaceSection.overview,
-                    wordCount: store.wordCount,
-                    imageCount: store.galleryImages.length,
-                    onEditProject: () =>
-                        controller.openTab(WorkspaceTab.settings),
-                    onClose: controller.toggleInspector,
+      return StageScope(
+        stage: activeTab != null
+            ? stageForTab(activeTab)
+            : stageForSection(controller.activeSection),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          // The wash drifts very slowly, so behind an editor it only needs a
+          // few frames a second.
+          body: GrisBackdrop(
+            fps: 8,
+            child: SafeArea(
+              child: Row(
+                children: [
+                  ActivityBar(
+                    selected: controller.activeSection,
+                    sections: _sections,
+                    onSelect: controller.selectSection,
+                    onBack: onBack,
+                    onExport:
+                        ProjectFormats.of(_project.primaryFormat).hasManuscript
+                        ? () => actions.exportBook(context)
+                        : null,
                   ),
-                ),
-              ],
-            ],
+                  if (panel != null) ...[
+                    SizedBox(
+                      width: controller.sidePanelWidth,
+                      child: _sidePanel(context, panel),
+                    ),
+                    PlotcraftSplitter(
+                      onDrag: controller.resizeSidePanel,
+                      onDragEnd: controller.persistPanelSizes,
+                    ),
+                  ],
+                  Expanded(
+                    child: store.isLoading
+                        ? const Center(child: OrbitRings(size: 140))
+                        : controller.loadFailed
+                        ? _loadError()
+                        : _editorArea(context),
+                  ),
+                  if (controller.inspectorVisible) ...[
+                    PlotcraftSplitter(
+                      onDrag: controller.resizeInspector,
+                      onDragEnd: controller.persistPanelSizes,
+                    ),
+                    SizedBox(
+                      width: controller.inspectorWidth,
+                      child: WorkspaceInspector(
+                        project: _project,
+                        section:
+                            activeTab?.section ?? WorkspaceSection.overview,
+                        wordCount: store.wordCount,
+                        imageCount: store.galleryImages.length,
+                        onEditProject: () =>
+                            controller.openTab(WorkspaceTab.settings),
+                        onClose: controller.toggleInspector,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ),
         ),
       );
@@ -217,21 +232,27 @@ class WorkspaceShell extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: tabs.isEmpty
-              ? _emptyState(context)
-              : IndexedStack(
-                  index: activeIndex < 0 ? 0 : activeIndex,
-                  children: [
-                    for (final tab in tabs)
-                      WorkspaceTabContent(
-                        key: ValueKey(tab.id),
-                        tab: tab,
-                        project: _project,
-                        controller: controller,
-                        actions: actions,
-                      ),
-                  ],
-                ),
+          // The page: paper laid over the wash, so text stays easy to read
+          // while the colour of the stage still shows at the edges.
+          child: ColoredBox(
+            color: Theme.of(context).colorScheme.surfaceContainerLowest
+                .withValues(alpha: .84),
+            child: tabs.isEmpty
+                ? _emptyState(context)
+                : IndexedStack(
+                    index: activeIndex < 0 ? 0 : activeIndex,
+                    children: [
+                      for (final tab in tabs)
+                        WorkspaceTabContent(
+                          key: ValueKey(tab.id),
+                          tab: tab,
+                          project: _project,
+                          controller: controller,
+                          actions: actions,
+                        ),
+                    ],
+                  ),
+          ),
         ),
       ],
     );
@@ -316,22 +337,28 @@ class WorkspaceShell extends StatelessWidget {
   Widget _emptyState(BuildContext context) {
     final theme = Theme.of(context);
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          Icon(Feather.book_open, size: 34, color: theme.colorScheme.outline),
-          const SizedBox(height: 12),
-          Text(
-            'workspace.overview_intro'.tr(),
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-          const SizedBox(height: 14),
-          PlotcraftButton(
-            label: 'workspace.overview'.tr(),
-            variant: PlotcraftButtonVariant.secondary,
-            onPressed: () => controller.openTab(WorkspaceTab.overview),
+          const OrbitRings(size: 380),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'workspace.overview_intro'.tr(),
+                textAlign: TextAlign.center,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontFamily: PlotcraftFonts.serif,
+                  fontWeight: FontWeight.w500,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 18),
+              PlotcraftButton(
+                label: 'workspace.overview'.tr(),
+                onPressed: () => controller.openTab(WorkspaceTab.overview),
+              ),
+            ],
           ),
         ],
       ),

@@ -38,21 +38,23 @@ class WorkspaceInspector extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    return Container(
-      color: scheme.surface,
+    return ColoredBox(
+      color: scheme.surface.withValues(alpha: .7),
       child: Column(
         children: [
           SizedBox(
-            height: 38,
+            height: 52,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 4, 0),
+              padding: const EdgeInsets.fromLTRB(18, 0, 6, 0),
               child: Row(
                 children: [
                   Expanded(
                     child: Text(
                       'workspace.inspector'.tr(),
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w700,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontFamily: PlotcraftFonts.serif,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 19,
                       ),
                     ),
                   ),
@@ -65,7 +67,6 @@ class WorkspaceInspector extends StatelessWidget {
               ),
             ),
           ),
-          Divider(height: 1, color: scheme.outlineVariant),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.all(18),
@@ -168,12 +169,12 @@ class WorkspaceInspector extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: scheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+        color: context.tokens.ink.withValues(alpha: .1),
+        borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 17, color: scheme.primary),
+          Icon(icon, size: 17, color: context.tokens.ink),
           const SizedBox(width: 9),
           Expanded(
             child: Column(
@@ -198,11 +199,8 @@ class WorkspaceInspector extends StatelessWidget {
 
   Widget _sectionLabel(BuildContext context, String label) => Text(
     label.toUpperCase(),
-    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-      color: Theme.of(context).colorScheme.onSurfaceVariant,
-      letterSpacing: .8,
-      fontWeight: FontWeight.w700,
-    ),
+    style: Theme.of(context).textTheme.labelSmall
+        ?.copyWith(color: context.tokens.ink, letterSpacing: 1.6),
   );
 
   String _date(BuildContext context, DateTime date) {
@@ -236,7 +234,7 @@ class WorkspaceInspector extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodySmall
-                  ?.copyWith(fontWeight: FontWeight.w600),
+                  ?.copyWith(fontWeight: FontWeight.w500),
             ),
           ),
         ],

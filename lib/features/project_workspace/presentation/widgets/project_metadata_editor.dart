@@ -17,6 +17,8 @@ import '../../../../core/ui/project_image.dart';
 
 import 'package:plotcraft_core/features/projects/domain/cover_image_rules.dart';
 
+import '../../../../core/ui/plotcraft_surface.dart';
+
 class ProjectMetadataEditor extends StatefulWidget {
   const ProjectMetadataEditor({
     super.key,
@@ -163,7 +165,8 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
                     Text(
                       'workspace.edit_project'.tr(),
                       style: theme.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
+                        fontFamily: PlotcraftFonts.serif,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     const SizedBox(height: 7),
@@ -232,8 +235,7 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
     );
   }
 
-  Widget _fields(BuildContext context) => Card(
-    elevation: 0,
+  Widget _fields(BuildContext context) => PlotcraftCard(
     child: Padding(
       padding: const EdgeInsets.all(18),
       child: Column(
@@ -241,8 +243,10 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
         children: [
           Text(
             'project.sections.identity'.tr(),
-            style: Theme.of(context).textTheme.titleMedium
-                ?.copyWith(fontWeight: FontWeight.w700),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontFamily: PlotcraftFonts.serif,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           const SizedBox(height: 20),
           PlotcraftTextField(
@@ -310,8 +314,10 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
           const SizedBox(height: 17),
           Text(
             'project.sections.story'.tr(),
-            style: Theme.of(context).textTheme.titleMedium
-                ?.copyWith(fontWeight: FontWeight.w700),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontFamily: PlotcraftFonts.serif,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           const SizedBox(height: 20),
           PlotcraftTextField(
@@ -342,8 +348,7 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
   Widget _cover(BuildContext context) {
     final theme = Theme.of(context);
     final existing = widget.project.coverFile != null && !_removeCover;
-    return Card(
-      elevation: 0,
+    return PlotcraftCard(
       child: Padding(
         padding: const EdgeInsets.all(18),
         child: Column(
@@ -352,7 +357,8 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
             Text(
               'project.sections.cover'.tr(),
               style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w700,
+                fontFamily: PlotcraftFonts.serif,
+                fontWeight: FontWeight.w500,
               ),
             ),
             const SizedBox(height: 17),
@@ -425,7 +431,7 @@ class _ProjectMetadataEditorState extends State<ProjectMetadataEditor> {
                         ),
                         border: Border.all(
                           color: selected
-                              ? theme.colorScheme.primary
+                              ? context.tokens.ink
                               : Colors.transparent,
                           width: 3,
                         ),

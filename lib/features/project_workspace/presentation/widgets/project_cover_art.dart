@@ -75,8 +75,9 @@ class ProjectCoverArt extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontFamily: PlotcraftFonts.serif,
                       color: context.tokens.onImage,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   if (project.subtitle.isNotEmpty) ...[

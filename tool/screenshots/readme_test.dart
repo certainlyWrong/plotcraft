@@ -57,7 +57,7 @@ void main() {
 
   Future<WorkspaceController> open(
     WidgetTester tester, {
-    String theme = 'midnight',
+    String theme = 'gris-night',
   }) async {
     final root = await tester.runAsync(
       () => Directory.systemTemp.createTemp('plotcraft-readme-'),
@@ -145,7 +145,7 @@ void main() {
   });
 
   testWidgets('readme: tema claro', (tester) async {
-    final controller = await open(tester, theme: 'paper');
+    final controller = await open(tester, theme: 'gris-day');
     controller.openReading(controller.store.book.chapters[3].id);
     await settle(tester, rounds: 10);
     await shot(tester, 'tema-claro', directory: _out);
@@ -186,7 +186,7 @@ void main() {
         storage: storage,
         commands: AppCommands(),
       ),
-      theme: builtInThemes.firstWhere((t) => t.id == 'midnight'),
+      theme: builtInThemes.firstWhere((t) => t.id == 'gris-night'),
       locale: const Locale('en'),
       size: _size,
     );

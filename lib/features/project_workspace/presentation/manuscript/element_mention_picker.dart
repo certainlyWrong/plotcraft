@@ -88,7 +88,8 @@ class _MentionPickerState extends State<_MentionPicker> {
                 Text(
                   'editor.mention_title'.tr(),
                   style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontFamily: PlotcraftFonts.serif,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -128,7 +129,7 @@ class _MentionPickerState extends State<_MentionPicker> {
                             final selected = index == _highlight;
                             return Material(
                               color: selected
-                                  ? scheme.primaryContainer
+                                  ? context.tokens.ink.withValues(alpha: .18)
                                   : Colors.transparent,
                               borderRadius: BorderRadius.circular(
                                 PlotcraftRadii.control,

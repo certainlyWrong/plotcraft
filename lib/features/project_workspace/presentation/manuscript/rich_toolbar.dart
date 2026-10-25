@@ -6,10 +6,11 @@ import 'package:icons_flutter/icons_flutter.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
 import 'editor_fonts.dart';
 import 'text_color_dialog.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 /// Toggled buttons get a soft tint with a readable icon, instead of the solid
 /// primary fill of the default style.
-QuillIconTheme _iconTheme(ColorScheme scheme) => QuillIconTheme(
+QuillIconTheme _iconTheme(ColorScheme scheme, Color ink) => QuillIconTheme(
   iconButtonUnselectedData: IconButtonData(
     color: scheme.onSurfaceVariant,
     disabledColor: scheme.onSurface.withValues(alpha: 0.38),
@@ -17,11 +18,11 @@ QuillIconTheme _iconTheme(ColorScheme scheme) => QuillIconTheme(
     hoverColor: scheme.onSurface.withValues(alpha: 0.08),
   ),
   iconButtonSelectedData: IconButtonData(
-    color: scheme.onPrimaryContainer,
+    color: ink,
     style: IconButton.styleFrom(
-      backgroundColor: scheme.primaryContainer,
-      foregroundColor: scheme.onPrimaryContainer,
-      hoverColor: scheme.onPrimaryContainer.withValues(alpha: 0.08),
+      backgroundColor: ink.withValues(alpha: .2),
+      foregroundColor: ink,
+      hoverColor: ink.withValues(alpha: 0.1),
     ),
   ),
 );
@@ -56,8 +57,12 @@ class RichToolbar extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: scheme.surfaceContainerLow,
-        border: Border(bottom: BorderSide(color: scheme.outlineVariant)),
+        color: scheme.surfaceContainerLow.withValues(alpha: .6),
+        border: Border(
+          bottom: BorderSide(
+            color: scheme.outlineVariant.withValues(alpha: .6),
+          ),
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +85,7 @@ class RichToolbar extends StatelessWidget {
                 color: Colors.transparent,
                 buttonOptions: QuillSimpleToolbarButtonOptions(
                   base: QuillToolbarBaseButtonOptions(
-                    iconTheme: _iconTheme(scheme),
+                    iconTheme: _iconTheme(scheme, context.tokens.ink),
                   ),
                   fontFamily: QuillToolbarFontFamilyButtonOptions(
                     items: fonts,

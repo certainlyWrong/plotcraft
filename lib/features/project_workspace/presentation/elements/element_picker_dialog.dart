@@ -12,6 +12,7 @@ import '../../../../core/ui/plotcraft_dialog.dart';
 import '../../../../core/ui/plotcraft_text_field.dart';
 import '../element_colors.dart';
 import 'element_type_label.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 /// Searches [candidates] and returns the IDs the person picked, in the order
 /// they were picked (those already in [selected] first), or null if cancelled.
@@ -154,7 +155,9 @@ class _ElementPickerDialogState extends State<_ElementPickerDialog> {
                                 .data,
                             size: 18,
                             color:
-                                element.color ?? type?.color ?? scheme.primary,
+                                element.color ??
+                                type?.color ??
+                                context.tokens.ink,
                           ),
                           title: Text(
                             element.title,

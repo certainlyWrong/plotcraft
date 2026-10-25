@@ -8,11 +8,11 @@ Plotcraft is essentially a desktop app. The main interface should prioritize com
 
 ## Window and density
 
-The window opens at 1280x800 with a minimum size of 1000x680 (`lib/core/platform/window_service.dart`). For that reason the screens have no phone-width layouts. The interface uses a compact density: 34 px buttons, 32 px fields and icons, and small corners (6 px on controls, 8 px on panels and 10 px on surfaces, defined in `PlotcraftRadii`). Text and icon colors over images live in `PlotcraftTokens` (`lib/core/theme/plotcraft_tokens.dart`).
+The window opens at 1280x800 with a minimum size of 1000x680 (`lib/core/platform/window_service.dart`). For that reason the screens have no phone-width layouts. The interface is compact: 36 px buttons and fields with a line of ink under the text rather than a filled box, and soft corners (8 px on controls, 12 px on panels and 14 px on surfaces, defined in `PlotcraftRadii`). There are no ripples and no drop shadows; the look is described in [Visual language](visual-language.md). Text and icon colors over images and the colors of the current stage live in `PlotcraftTokens` (`lib/core/theme/plotcraft_tokens.dart`).
 
 ## Themes
 
-The app offers selectable visual themes and saves the choice locally. Violet (the default), Paper, Midnight, Lavender, Moss, Rose, Ocean and Plum have light and dark variants defined in code. You can also add JSON themes to `assets/themes/`; the app finds those files in the asset manifest and adds them to the theme list.
+The app offers selectable visual themes and saves the choice locally. Two themes are built in, **Gris Night** (the default) and **Gris Day**, both taking their palette from the website's watercolour journey (see [Visual language](visual-language.md)). The themes of earlier versions (Violet, Paper, Midnight and the rest) were retired; a choice saved with one of them is mapped to the nearest built-in theme, dark to Gris Night and light to Gris Day. You can also add JSON themes to `assets/themes/`; the app finds those files in the asset manifest and adds them to the theme list. A JSON theme gets the standard stage colors for its brightness.
 
 Each theme file defines `id`, `name`, `brightness` (`light` or `dark`), `background`, `foreground` and `accent`. `surface`, `surfaceRaised`, `surfaceMuted`, `outline`, `outlineVariant`, `onSurfaceVariant` and `onAccent` are optional; when missing, the app derives consistent values from the main palette to stay compatible with existing themes. Colors use hexadecimal in the `#RRGGBB` format. A working example is in `assets/themes/ink-and-copper.json`. Because they are Flutter assets, new files enter the app when a new version is built.
 

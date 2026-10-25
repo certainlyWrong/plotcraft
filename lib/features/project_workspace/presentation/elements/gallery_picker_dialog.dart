@@ -78,10 +78,10 @@ class _GalleryPickerState extends State<_GalleryPicker> {
                                 PlotcraftRadii.control,
                               ),
                               border: Border.all(
-                                color: scheme.primary,
+                                color: context.tokens.ink,
                                 width: 3,
                               ),
-                              color: scheme.primary.withValues(alpha: .18),
+                              color: context.tokens.ink.withValues(alpha: .18),
                             ),
                             child: Align(
                               alignment: Alignment.topRight,
@@ -89,7 +89,7 @@ class _GalleryPickerState extends State<_GalleryPicker> {
                                 padding: const EdgeInsets.all(4),
                                 child: CircleAvatar(
                                   radius: 11,
-                                  backgroundColor: scheme.primary,
+                                  backgroundColor: context.tokens.ink,
                                   child: Icon(
                                     Feather.check,
                                     size: 14,

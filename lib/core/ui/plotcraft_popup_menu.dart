@@ -37,8 +37,11 @@ class PlotcraftPopupMenuButton<T> extends StatelessWidget {
           borderRadius: BorderRadius.circular(PlotcraftRadii.control),
         ),
       ),
-      overlayColor: WidgetStatePropertyAll(
-        Theme.of(context).colorScheme.primary.withValues(alpha: .08),
+      overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+      backgroundColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.hovered)
+            ? Theme.of(context).colorScheme.primary.withValues(alpha: .08)
+            : Colors.transparent,
       ),
     ),
     child: child,
