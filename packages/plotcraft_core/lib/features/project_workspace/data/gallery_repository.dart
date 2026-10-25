@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 import '../../projects/domain/story_project.dart';
 import '../domain/gallery_item.dart';
 import 'project_files.dart';
+import '../../../core/file_system.dart';
 
 class GalleryImportResult {
   const GalleryImportResult({
@@ -39,7 +40,7 @@ class GalleryRepository {
   /// comes back.
   Future<List<GalleryItem>> items(StoryProject project) async {
     final folder = _files.folder(project);
-    final directory = Directory(p.join(folder, 'gallery'));
+    final directory = fs.directory(p.join(folder, 'gallery'));
     final names = <String>{};
     if (await directory.exists()) {
       await for (final entry in directory.list(followLinks: false)) {
@@ -76,7 +77,7 @@ class GalleryRepository {
   }
 
   File _indexFile(String folder) =>
-      File(p.join(folder, 'gallery', 'index.json'));
+      fs.file(p.join(folder, 'gallery', 'index.json'));
 
   Future<List<({String id, String file})>> _readIndex(String folder) async {
     final file = _indexFile(folder);
@@ -117,12 +118,12 @@ class GalleryRepository {
     List<String> sourcePaths,
   ) async {
     await _files.ensureManifest(project);
-    final gallery = Directory(p.join(_files.folder(project), 'gallery'));
+    final gallery = fs.directory(p.join(_files.folder(project), 'gallery'));
     await gallery.create(recursive: true);
     final imported = <File>[];
     try {
       for (final path in sourcePaths) {
-        final source = File(path);
+        final source = fs.file(path);
         if (!_isImage(path) || !await source.exists()) {
           throw const FormatException('Invalid gallery image');
         }
@@ -131,10 +132,12 @@ class GalleryRepository {
         }
         final extension = p.extension(path).toLowerCase();
         final stem = p.basenameWithoutExtension(path);
-        var destination = File(p.join(gallery.path, '$stem$extension'));
+        var destination = fs.file(p.join(gallery.path, '$stem$extension'));
         var suffix = 2;
         while (await destination.exists()) {
-          destination = File(p.join(gallery.path, '$stem-$suffix$extension'));
+          destination = fs.file(
+            p.join(gallery.path, '$stem-$suffix$extension'),
+          );
           suffix++;
         }
         imported.add(await source.copy(destination.path));
@@ -167,11 +170,11 @@ class GalleryRepository {
     if (!p.equals(p.dirname(normalized), gallery) || !_isImage(normalized)) {
       throw const FormatException('Invalid gallery image path');
     }
-    final image = File(normalized);
+    final image = fs.file(normalized);
     if (!await image.exists()) {
       throw FileSystemException('Gallery image is missing', normalized);
     }
-    final staged = File(
+    final staged = fs.file(
       '${image.path}.${DateTime.now().microsecondsSinceEpoch}.removing',
     );
     await image.rename(staged.path);

@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
+import '../../core/file_system.dart';
+
 /// How Plotcraft (the app) and the MCP server talk to each other: files in
 /// `<projects folder>/.plotcraft/`, which both can reach even when the app is
 /// sandboxed.
@@ -15,9 +17,9 @@ class BridgeFolder {
   final String root;
 
   String get path => p.join(root, '.plotcraft');
-  File get appFile => File(p.join(path, 'app.json'));
-  Directory get inbox => Directory(p.join(path, 'inbox'));
-  Directory get outbox => Directory(p.join(path, 'outbox'));
+  File get appFile => fs.file(p.join(path, 'app.json'));
+  Directory get inbox => fs.directory(p.join(path, 'inbox'));
+  Directory get outbox => fs.directory(p.join(path, 'outbox'));
 }
 
 /// A failure reported by the other side, or by the transport.

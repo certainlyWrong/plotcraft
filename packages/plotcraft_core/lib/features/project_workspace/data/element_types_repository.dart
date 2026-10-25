@@ -7,6 +7,7 @@ import '../../projects/domain/story_project.dart';
 import '../domain/element_type.dart';
 import '../domain/element_type_catalog.dart';
 import 'project_files.dart';
+import '../../../core/file_system.dart';
 
 /// Custom element types, saved in `content/narrative/types.json`. Built-in
 /// types are not stored: they come from [ElementTypeCatalog].
@@ -16,7 +17,7 @@ class ElementTypesRepository {
   final ProjectFiles _files;
 
   File _file(String folder) =>
-      File(p.join(folder, 'content', 'narrative', 'types.json'));
+      fs.file(p.join(folder, 'content', 'narrative', 'types.json'));
 
   Future<List<ElementType>> load(String folder) async {
     final file = _file(folder);

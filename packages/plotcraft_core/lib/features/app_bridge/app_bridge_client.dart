@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 
 import 'bridge_protocol.dart';
+import '../../core/file_system.dart';
 
 /// The side that asks (the MCP server).
 class AppBridgeClient {
@@ -54,14 +55,14 @@ class AppBridgeClient {
     }
     final id = '${DateTime.now().microsecondsSinceEpoch}-${_counter++}';
     await _folder.inbox.create(recursive: true);
-    final request = File(p.join(_folder.inbox.path, '$id.json'));
-    final temp = File('${request.path}.tmp');
+    final request = fs.file(p.join(_folder.inbox.path, '$id.json'));
+    final temp = fs.file('${request.path}.tmp');
     await temp.writeAsString(
       jsonEncode({'id': id, 'method': method, 'params': params}),
     );
     await temp.rename(request.path);
 
-    final response = File(p.join(_folder.outbox.path, '$id.json'));
+    final response = fs.file(p.join(_folder.outbox.path, '$id.json'));
     final deadline = DateTime.now().add(timeout);
     while (DateTime.now().isBefore(deadline)) {
       if (await response.exists()) {
