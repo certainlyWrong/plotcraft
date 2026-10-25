@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/gris/brand_mark.dart';
+import '../../../../core/ui/gris/ink_stroke.dart';
 
+/// The library's navigation: the name of the app, three places, and nothing
+/// else. No drawer fill and no rule — the links sit on the paper, and the one
+/// you are on is underlined in ink.
 class ProjectSidebar extends StatelessWidget {
   const ProjectSidebar({
     super.key,
@@ -27,96 +32,74 @@ class ProjectSidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      width: compact ? 72 : 236,
-      padding: EdgeInsets.fromLTRB(compact ? 8 : 14, 28, compact ? 8 : 14, 20),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerLowest,
-        border: Border(
-          right: BorderSide(color: theme.colorScheme.outlineVariant),
+    return SizedBox(
+      width: compact ? 76 : 236,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(
+          compact ? 10 : 28,
+          36,
+          compact ? 10 : 20,
+          24,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (compact)
-            Center(child: _BrandMark(color: theme.colorScheme.primary))
-          else
-            Row(
-              children: [
-                _BrandMark(color: theme.colorScheme.primary),
-                const SizedBox(width: 11),
-                Text(
-                  'plotcraft',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -.6,
-                  ),
+        child: Column(
+          crossAxisAlignment: compact
+              ? CrossAxisAlignment.center
+              : CrossAxisAlignment.start,
+          children: [
+            const BrandMark(),
+            if (!compact) ...[
+              const SizedBox(height: 10),
+              Text(
+                'plotcraft',
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontFamily: PlotcraftFonts.serif,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: -.4,
                 ),
-              ],
-            ),
-          SizedBox(height: compact ? 28 : 34),
-          _NavigationItem(
-            icon: Feather.grid,
-            label: 'home.projects'.tr(),
-            selected: projectsSelected,
-            onTap: onProjects,
-            compact: compact,
-          ),
-          const SizedBox(height: 4),
-          _NavigationItem(
-            icon: Feather.plus,
-            label: 'home.new_project'.tr(),
-            selected: createSelected,
-            onTap: onNewProject,
-            compact: compact,
-          ),
-          const Spacer(),
-          Divider(color: theme.colorScheme.outlineVariant),
-          _NavigationItem(
-            icon: Feather.sliders,
-            label: 'preferences.title'.tr(),
-            selected: preferencesSelected,
-            onTap: onPreferences,
-            compact: compact,
-          ),
-          const SizedBox(height: 6),
-          if (!compact)
-            Text(
-              'PLOTCRAFT  ·  0.1',
-              style: theme.textTheme.labelSmall?.copyWith(
-                letterSpacing: 1,
-                color: theme.colorScheme.onSurface.withValues(alpha: .45),
               ),
+            ],
+            SizedBox(height: compact ? 40 : 44),
+            _NavigationItem(
+              icon: Feather.grid,
+              label: 'home.projects'.tr(),
+              selected: projectsSelected,
+              onTap: onProjects,
+              compact: compact,
             ),
-        ],
+            const SizedBox(height: 6),
+            _NavigationItem(
+              icon: Feather.plus,
+              label: 'home.new_project'.tr(),
+              selected: createSelected,
+              onTap: onNewProject,
+              compact: compact,
+            ),
+            const Spacer(),
+            _NavigationItem(
+              icon: Feather.sliders,
+              label: 'preferences.title'.tr(),
+              selected: preferencesSelected,
+              onTap: onPreferences,
+              compact: compact,
+            ),
+            if (!compact) ...[
+              const SizedBox(height: 14),
+              Text(
+                'PLOTCRAFT  ·  0.1',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  letterSpacing: 1,
+                  color: theme.colorScheme.onSurface.withValues(alpha: .4),
+                ),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
 }
 
-class _BrandMark extends StatelessWidget {
-  const _BrandMark({required this.color});
-
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    width: 35,
-    height: 35,
-    decoration: BoxDecoration(
-      color: color,
-      borderRadius: BorderRadius.circular(PlotcraftRadii.control),
-    ),
-    child: Icon(
-      Feather.book_open,
-      color: Theme.of(context).colorScheme.onPrimary,
-      size: 19,
-    ),
-  );
-}
-
-class _NavigationItem extends StatelessWidget {
+class _NavigationItem extends StatefulWidget {
   const _NavigationItem({
     required this.icon,
     required this.label,
@@ -132,61 +115,95 @@ class _NavigationItem extends StatelessWidget {
   final bool compact;
 
   @override
+  State<_NavigationItem> createState() => _NavigationItemState();
+}
+
+class _NavigationItemState extends State<_NavigationItem> {
+  bool _hovered = false;
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final iconWidget = SizedBox(
-      width: 24,
-      height: 24,
-      child: Center(
-        child: Icon(
-          icon,
-          size: 19,
-          color: selected
-              ? theme.colorScheme.primary
-              : theme.colorScheme.onSurfaceVariant,
-        ),
-      ),
-    );
+    final ink = context.tokens.ink;
+    final lit = widget.selected || _hovered;
+    final color = lit ? ink : theme.colorScheme.onSurfaceVariant;
+    final icon = Icon(widget.icon, size: 19, color: color);
     return Tooltip(
-      message: compact ? label : '',
-      child: SizedBox(
-        width: double.infinity,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(PlotcraftRadii.control),
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: compact ? 0 : 12,
-              vertical: 11,
-            ),
-            decoration: BoxDecoration(
-              color: selected
-                  ? theme.colorScheme.primaryContainer
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(PlotcraftRadii.control),
-            ),
-            child: compact
-                ? Center(child: iconWidget)
-                : Row(
-                    children: [
-                      iconWidget,
-                      const SizedBox(width: 12),
-                      Text(
-                        label,
-                        style: theme.textTheme.labelLarge?.copyWith(
-                          color: selected
-                              ? theme.colorScheme.primary
-                              : theme.colorScheme.onSurfaceVariant,
-                          fontWeight: selected
-                              ? FontWeight.w700
-                              : FontWeight.w500,
+      message: widget.compact ? widget.label : '',
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() => _hovered = false),
+        child: Semantics(
+          container: true,
+          excludeSemantics: true,
+          button: true,
+          selected: widget.selected,
+          label: widget.label,
+          onTap: widget.onTap,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: widget.onTap,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 9),
+              child: widget.compact
+                  ? Center(
+                      child: _Dot(on: widget.selected, child: icon),
+                    )
+                  : Row(
+                      children: [
+                        _Dot(on: widget.selected, child: icon),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AnimatedDefaultTextStyle(
+                                duration: PlotcraftMotion.quick,
+                                style: theme.textTheme.titleSmall!.copyWith(
+                                  color: widget.selected
+                                      ? theme.colorScheme.onSurface
+                                      : color,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                child: Text(widget.label),
+                              ),
+                              if (widget.selected)
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 3),
+                                  child: InkStroke(width: 56),
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+            ),
           ),
         ),
       ),
     );
   }
+}
+
+/// The icon, with a soft patch of pigment under it while it is the current one.
+class _Dot extends StatelessWidget {
+  const _Dot({required this.on, required this.child});
+
+  final bool on;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => AnimatedContainer(
+    duration: PlotcraftMotion.medium,
+    curve: PlotcraftMotion.curve,
+    width: 34,
+    height: 34,
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+      color: context.tokens.pigment.withValues(alpha: on ? .28 : 0),
+      borderRadius: BorderRadius.circular(on ? 17 : 10),
+    ),
+    child: child,
+  );
 }

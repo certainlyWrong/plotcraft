@@ -20,17 +20,20 @@ import '../../project_workspace/stores/project_workspace_store.dart';
 import '../stores/project_store.dart';
 import '../../preferences/stores/theme_store.dart';
 import '../../../core/ui/plotcraft_button.dart';
+import '../../../core/ui/plotcraft_headings.dart';
 import '../../../core/ui/plotcraft_popup_menu.dart';
 import 'widgets/project_empty_state.dart';
 import 'widgets/project_grid.dart';
 import 'widgets/project_sidebar.dart';
-import 'widgets/project_top_bar.dart';
 import '../../preferences/presentation/preferences_screen.dart';
 import '../../../core/theme/plotcraft_tokens.dart';
+import '../../../core/ui/gris/gris.dart';
+import '../../../core/ui/plotcraft_text_field.dart';
 
 import 'package:plotcraft_core/features/projects/domain/project_format.dart';
 
 import '../../../core/icons/icon_data.dart';
+import '../../../core/ui/plotcraft_toast.dart';
 
 enum _DesktopPage { projects, createProject, preferences }
 
@@ -113,7 +116,7 @@ class _ProjectHomeScreenState extends State<ProjectHomeScreen> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('home.sample_error'.tr())));
+            .showSnackBar(plotcraftToast(context, 'home.sample_error'.tr()));
       }
     } finally {
       if (mounted) setState(() => _installingSample = false);
@@ -144,63 +147,69 @@ class _ProjectHomeScreenState extends State<ProjectHomeScreen> {
       builder: (_) {
         final projects = widget.projects.visibleProjects;
 
-        return Scaffold(
-          body: SafeArea(
-            child: Row(
-              children: [
-                ProjectSidebar(
-                  compact: MediaQuery.sizeOf(context).width < 1100,
-                  onProjects: _showProjects,
-                  onNewProject: _showCreateProject,
-                  onPreferences: _showPreferences,
-                  projectsSelected: _page == _DesktopPage.projects,
-                  createSelected: _page == _DesktopPage.createProject,
-                  preferencesSelected: _page == _DesktopPage.preferences,
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      ProjectTopBar(
-                        title: switch (_page) {
-                          _DesktopPage.projects => 'home.library'.tr(),
-                          _DesktopPage.createProject =>
-                            'project.create_title'.tr(),
-                          _DesktopPage.preferences => 'preferences.title'.tr(),
-                        },
-                        controller: _page == _DesktopPage.projects
-                            ? _searchController
-                            : null,
-                        onSearch: widget.projects.setQuery,
-                        onPreferences: _showPreferences,
+        // Colour enters the world as you make something: the library and the
+        // settings are grey, the page where a project begins turns red.
+        final stage = _page == _DesktopPage.createProject
+            ? StageId.red
+            : StageId.grey;
+        return StageScope(
+          stage: stage,
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: GrisBackdrop(
+              child: SafeArea(
+                child: Row(
+                  children: [
+                    ProjectSidebar(
+                      compact: MediaQuery.sizeOf(context).width < 1100,
+                      onProjects: _showProjects,
+                      onNewProject: _showCreateProject,
+                      onPreferences: _showPreferences,
+                      projectsSelected: _page == _DesktopPage.projects,
+                      createSelected: _page == _DesktopPage.createProject,
+                      preferencesSelected: _page == _DesktopPage.preferences,
+                    ),
+                    Expanded(
+                      child: AnimatedSwitcher(
+                        duration: PlotcraftMotion.medium,
+                        switchInCurve: PlotcraftMotion.curve,
+                        // The default layout centres a page that is shorter
+                        // than the window; pages must start at the top.
+                        layoutBuilder: (current, previous) => Stack(
+                          fit: StackFit.expand,
+                          children: [...previous, ?current],
+                        ),
+                        child: KeyedSubtree(
+                          key: ValueKey(_page),
+                          child: switch (_page) {
+                            _DesktopPage.projects => _ProjectsPage(
+                              projects: projects,
+                              store: widget.projects,
+                              searchController: _searchController,
+                              onCreate: _showCreateProject,
+                              onOpen: _openProject,
+                              onSample: widget.projects.canInstallSample
+                                  ? _openSample
+                                  : null,
+                              installingSample: _installingSample,
+                            ),
+                            _DesktopPage.createProject => ProjectCreationScreen(
+                              onCancel: _showProjects,
+                              onCreated: _openProject,
+                              store: widget.creation,
+                              destinationPath: widget.projects.projectsRoot,
+                            ),
+                            _DesktopPage.preferences => PreferencesScreen(
+                              themes: widget.themes,
+                              projects: widget.projects,
+                            ),
+                          },
+                        ),
                       ),
-                      Expanded(
-                        child: switch (_page) {
-                          _DesktopPage.projects => _ProjectsPage(
-                            projects: projects,
-                            store: widget.projects,
-                            onCreate: _showCreateProject,
-                            onOpen: _openProject,
-                            onSample: widget.projects.canInstallSample
-                                ? _openSample
-                                : null,
-                            installingSample: _installingSample,
-                          ),
-                          _DesktopPage.createProject => ProjectCreationScreen(
-                            onCancel: _showProjects,
-                            onCreated: _openProject,
-                            store: widget.creation,
-                            destinationPath: widget.projects.projectsRoot,
-                          ),
-                          _DesktopPage.preferences => PreferencesScreen(
-                            themes: widget.themes,
-                            projects: widget.projects,
-                          ),
-                        },
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         );
@@ -213,6 +222,7 @@ class _ProjectsPage extends StatelessWidget {
   const _ProjectsPage({
     required this.projects,
     required this.store,
+    required this.searchController,
     required this.onCreate,
     required this.onOpen,
     required this.onSample,
@@ -220,6 +230,7 @@ class _ProjectsPage extends StatelessWidget {
   });
   final List<StoryProject> projects;
   final ProjectStore store;
+  final TextEditingController searchController;
   final VoidCallback onCreate;
   final ValueChanged<StoryProject> onOpen;
 
@@ -228,56 +239,56 @@ class _ProjectsPage extends StatelessWidget {
   final bool installingSample;
 
   @override
-  Widget build(BuildContext context) => LayoutBuilder(
-    builder: (context, constraints) => SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(32, 28, 32, 32),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1480),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _PageHeading(
+  Widget build(BuildContext context) => SingleChildScrollView(
+    padding: const EdgeInsets.fromLTRB(28, 44, 48, 48),
+    child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1480),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _PageHeading(
+              onCreate: onCreate,
+              onSample: onSample,
+              installingSample: installingSample,
+              hasProjects: store.projects.isNotEmpty,
+            ),
+            const SizedBox(height: 64),
+            _ProjectSectionHeader(
+              count: projects.length,
+              searchController: searchController,
+              onSearch: store.setQuery,
+              sortBy: store.sortBy,
+              onSort: store.setSort,
+              formats: store.usedFormats,
+              formatFilter: store.formatFilter,
+              onFormat: store.setFormatFilter,
+            ),
+            const SizedBox(height: 22),
+            if (projects.isEmpty)
+              ProjectEmptyState(
+                hasSearch: store.query.isNotEmpty,
                 onCreate: onCreate,
                 onSample: onSample,
                 installingSample: installingSample,
-                hasProjects: store.projects.isNotEmpty,
-              ),
-              const SizedBox(height: 38),
-              _ProjectSectionHeader(
-                count: projects.length,
-                sortBy: store.sortBy,
-                onSort: store.setSort,
-                formats: store.usedFormats,
-                formatFilter: store.formatFilter,
-                onFormat: store.setFormatFilter,
-              ),
-              const SizedBox(height: 17),
-              if (projects.isEmpty)
-                ProjectEmptyState(
-                  hasSearch: store.query.isNotEmpty,
-                  onCreate: onCreate,
-                  onSample: onSample,
-                  installingSample: installingSample,
-                )
-              else
-                ProjectGrid(
-                  projects: projects,
-                  onOpen: onOpen,
-                  onDelete: (project) async {
-                    try {
-                      await store.delete(project.id);
-                    } catch (_) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('project.delete_error'.tr())),
-                        );
-                      }
+              )
+            else
+              ProjectGrid(
+                projects: projects,
+                onOpen: onOpen,
+                onDelete: (project) async {
+                  try {
+                    await store.delete(project.id);
+                  } catch (_) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        plotcraftToast(context, 'project.delete_error'.tr()),
+                      );
                     }
-                  },
-                ),
-            ],
-          ),
+                  }
+                },
+              ),
+          ],
         ),
       ),
     ),
@@ -326,103 +337,84 @@ class _PageHeadingState extends State<_PageHeading> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final theme = Theme.of(context);
     final presentation = widget.hasProjects ? 'active' : 'empty';
+    final theme = Theme.of(context);
+    final ink = context.tokens.ink;
     final introduction = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'home.eyebrow'.tr(),
-          style: textTheme.labelSmall?.copyWith(
-            letterSpacing: 2.4,
-            fontWeight: FontWeight.w700,
-            color: theme.colorScheme.primary,
-          ),
+        PlotcraftPageTitle(
+          eyebrow: 'home.eyebrow'.tr(),
+          title: 'home.presentations.$presentation.$_presentationKey.title'
+              .tr(),
+          description:
+              'home.presentations.$presentation.$_presentationKey.intro'.tr(),
         ),
-        const SizedBox(height: 14),
-        Text(
-          'home.presentations.$presentation.$_presentationKey.title'.tr(),
-          style: textTheme.headlineLarge?.copyWith(
-            fontSize: 40,
-            fontWeight: FontWeight.w500,
-            letterSpacing: -1.4,
-          ),
-        ),
-        const SizedBox(height: 9),
-        Text(
-          'home.presentations.$presentation.$_presentationKey.intro'.tr(),
-          style: textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-        ),
-        const SizedBox(height: 15),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Feather.feather, size: 15, color: theme.colorScheme.primary),
-            const SizedBox(width: 9),
-            Flexible(
-              child: Text(
-                _phraseKey.tr(),
-                style: textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.primary,
-                  fontStyle: FontStyle.italic,
+        const SizedBox(height: 18),
+        Reveal(
+          delay: const Duration(milliseconds: 360),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Feather.feather, size: 15, color: ink),
+              const SizedBox(width: 9),
+              Flexible(
+                child: Text(
+                  _phraseKey.tr(),
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontFamily: PlotcraftFonts.serif,
+                    color: ink,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
-    );
-    final createButton = Wrap(
-      spacing: 10,
-      runSpacing: 10,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: [
-        if (widget.onSample != null)
-          PlotcraftButton(
-            onPressed: widget.installingSample ? null : widget.onSample,
-            icon: Feather.compass,
-            label: 'home.open_sample'.tr(),
-            variant: PlotcraftButtonVariant.secondary,
+            ],
           ),
-        PlotcraftButton(
-          onPressed: widget.onCreate,
-          icon: Feather.plus,
-          label: 'home.new_project'.tr(),
         ),
       ],
     );
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0, end: 1),
-      duration: const Duration(milliseconds: 520),
-      curve: Curves.easeOutCubic,
-      builder: (context, progress, child) => Opacity(
-        opacity: progress,
-        child: Transform.translate(
-          offset: Offset(0, (1 - progress) * 12),
-          child: child,
+    final actions = Reveal(
+      delay: const Duration(milliseconds: 450),
+      child: Wrap(
+        spacing: 10,
+        runSpacing: 10,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          if (widget.onSample != null)
+            PlotcraftButton(
+              onPressed: widget.installingSample ? null : widget.onSample,
+              icon: Feather.compass,
+              label: 'home.open_sample'.tr(),
+              variant: PlotcraftButtonVariant.secondary,
+            ),
+          PlotcraftButton(
+            onPressed: widget.onCreate,
+            icon: Feather.plus,
+            label: 'home.new_project'.tr(),
+          ),
+        ],
+      ),
+    );
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        // Rings turning slowly in the corner, mostly out of the page.
+        const Positioned(right: -250, top: -360, child: OrbitRings(size: 520)),
+        LayoutBuilder(
+          builder: (context, constraints) => constraints.maxWidth < 900
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [introduction, const SizedBox(height: 24), actions],
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(child: introduction),
+                    actions,
+                  ],
+                ),
         ),
-      ),
-      child: LayoutBuilder(
-        builder: (context, constraints) => constraints.maxWidth < 900
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  introduction,
-                  const SizedBox(height: 20),
-                  createButton,
-                ],
-              )
-            : Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(child: introduction),
-                  createButton,
-                ],
-              ),
-      ),
+      ],
     );
   }
 }
@@ -430,6 +422,8 @@ class _PageHeadingState extends State<_PageHeading> {
 class _ProjectSectionHeader extends StatelessWidget {
   const _ProjectSectionHeader({
     required this.count,
+    required this.searchController,
+    required this.onSearch,
     required this.sortBy,
     required this.onSort,
     required this.formats,
@@ -442,6 +436,8 @@ class _ProjectSectionHeader extends StatelessWidget {
   final String formatFilter;
   final ValueChanged<String> onFormat;
   final int count;
+  final TextEditingController searchController;
+  final ValueChanged<String> onSearch;
   final String sortBy;
   final ValueChanged<String> onSort;
 
@@ -449,16 +445,37 @@ class _ProjectSectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'home.projects'.tr(),
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w700,
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontFamily: PlotcraftFonts.serif,
+            fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(width: 9),
-        _CountBadge(count: count),
+        const SizedBox(width: 12),
+        MorphBadge(
+          size: 28,
+          child: Text(
+            '$count',
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: context.tokens.ink,
+            ),
+          ),
+        ),
         const Spacer(),
+        SizedBox(
+          width: 240,
+          child: PlotcraftTextField(
+            controller: searchController,
+            onChanged: onSearch,
+            hint: 'home.search'.tr(),
+            prefixIcon: const Icon(Feather.search, size: 16),
+            compact: true,
+          ),
+        ),
+        const SizedBox(width: 12),
         if (formats.length > 1)
           PlotcraftPopupMenuButton<String>(
             initialValue: formatFilter,
@@ -481,14 +498,14 @@ class _ProjectSectionHeader extends StatelessWidget {
                         ? Feather.layers
                         : ProjectFormats.of(formatFilter).icon.data,
                     size: 16,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    color: theme.colorScheme.onSurfaceVariant,
                   ),
                   const SizedBox(width: 6),
                   Text(
                     formatFilter.isEmpty
                         ? 'formats.filter'.tr()
                         : ProjectFormats.of(formatFilter).nameKey.tr(),
-                    style: Theme.of(context).textTheme.labelLarge,
+                    style: theme.textTheme.labelLarge,
                   ),
                 ],
               ),
@@ -518,31 +535,6 @@ class _ProjectSectionHeader extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _CountBadge extends StatelessWidget {
-  const _CountBadge({required this.count});
-
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.primary.withValues(alpha: .1),
-        borderRadius: BorderRadius.circular(PlotcraftRadii.surface),
-      ),
-      child: Text(
-        '$count',
-        style: theme.textTheme.labelSmall?.copyWith(
-          color: theme.colorScheme.primary,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
     );
   }
 }

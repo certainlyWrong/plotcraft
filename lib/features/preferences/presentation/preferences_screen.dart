@@ -8,8 +8,12 @@ import '../stores/theme_store.dart';
 import '../../../core/theme/interface_fonts.dart';
 import '../../../core/theme/theme_definition.dart';
 import '../../../core/ui/plotcraft_button.dart';
+import '../../../core/ui/plotcraft_chip.dart';
+import '../../../core/ui/plotcraft_headings.dart';
+import '../../../core/ui/plotcraft_surface.dart';
 import '../../../core/ui/plotcraft_dropdown.dart';
 import '../../../core/theme/plotcraft_tokens.dart';
+import '../../../core/ui/plotcraft_toast.dart';
 
 class PreferencesScreen extends StatelessWidget {
   const PreferencesScreen({
@@ -39,27 +43,21 @@ class PreferencesScreen extends StatelessWidget {
   }
 
   void _showFolderError(BuildContext context) => ScaffoldMessenger.of(context)
-      .showSnackBar(SnackBar(content: Text('preferences.folder_error'.tr())));
+      .showSnackBar(plotcraftToast(context, 'preferences.folder_error'.tr()));
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return LayoutBuilder(
       builder: (context, pageConstraints) => SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(32, 28, 32, 32),
+        padding: const EdgeInsets.fromLTRB(28, 44, 48, 48),
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 1040),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'preferences.title'.tr(),
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 30),
+                PlotcraftPageTitle(title: 'preferences.title'.tr()),
+                const SizedBox(height: 44),
                 LayoutBuilder(
                   builder: (context, constraints) {
                     final languagePanel = _SettingsPanel(
@@ -70,10 +68,10 @@ class PreferencesScreen extends StatelessWidget {
                           final selected =
                               context.locale.languageCode ==
                               locale.languageCode;
-                          return ChoiceChip(
-                            label: Text(_localeName(locale)),
+                          return PlotcraftChip(
+                            label: _localeName(locale),
                             selected: selected,
-                            onSelected: (_) => context.setLocale(locale),
+                            onTap: () => context.setLocale(locale),
                           );
                         }).toList(),
                       ),
@@ -125,7 +123,7 @@ class PreferencesScreen extends StatelessWidget {
                       return Column(
                         children: [
                           languagePanel,
-                          const SizedBox(height: 18),
+                          const SizedBox(height: 44),
                           fontPanel,
                         ],
                       );
@@ -134,13 +132,13 @@ class PreferencesScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(child: languagePanel),
-                        const SizedBox(width: 22),
+                        const SizedBox(width: 56),
                         Expanded(child: fontPanel),
                       ],
                     );
                   },
                 ),
-                const SizedBox(height: 22),
+                const SizedBox(height: 44),
                 _SettingsPanel(
                   title: 'preferences.theme'.tr(),
                   child: Observer(
@@ -159,7 +157,7 @@ class PreferencesScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 22),
+                const SizedBox(height: 44),
                 _SettingsPanel(
                   title: 'preferences.projects_folder'.tr(),
                   description: 'preferences.projects_folder_description'.tr(),
@@ -204,11 +202,13 @@ class PreferencesScreen extends StatelessWidget {
     final loaded = await themes.selectFont(family);
     if (!loaded && context.mounted) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('preferences.font_error'.tr())));
+          .showSnackBar(plotcraftToast(context, 'preferences.font_error'.tr()));
     }
   }
 }
 
+/// One setting, set on open paper: a serif title with a stroke of ink, a note
+/// and the control. Not a card.
 class _SettingsPanel extends StatelessWidget {
   const _SettingsPanel({
     required this.title,
@@ -219,38 +219,18 @@ class _SettingsPanel extends StatelessWidget {
   final String? description;
   final Widget child;
   @override
-  Widget build(BuildContext context) => Card(
-    elevation: 0,
-    child: Padding(
-      padding: const EdgeInsets.all(18),
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w700),
-            ),
-            if (description != null) ...[
-              const SizedBox(height: 7),
-              Text(
-                description!,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ],
-            const SizedBox(height: 18),
-            child,
-          ],
-        ),
-      ),
+  Widget build(BuildContext context) => SizedBox(
+    width: double.infinity,
+    child: PlotcraftSection(
+      title: title,
+      description: description,
+      child: child,
     ),
   );
 }
 
+/// A theme shown as a small page of itself: its paper, its panels, and the
+/// five pigments the journey passes through.
 class _ThemeChoice extends StatelessWidget {
   const _ThemeChoice({
     required this.theme,
@@ -261,78 +241,83 @@ class _ThemeChoice extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
   @override
-  Widget build(BuildContext context) => InkWell(
-    onTap: onTap,
-    borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
-    child: Container(
-      width: 176,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
-        border: Border.all(
-          color: selected
-              ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.outlineVariant,
-          width: selected ? 2 : 1,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 78,
-            width: double.infinity,
-            padding: const EdgeInsets.all(9),
-            decoration: BoxDecoration(
-              color: theme.background,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: Theme.of(context).colorScheme.outlineVariant,
+  Widget build(BuildContext context) {
+    final stages = theme.isDark ? GrisStages.dark : GrisStages.light;
+    return SizedBox(
+      width: 200,
+      child: PlotcraftSurface(
+        selected: selected,
+        onTap: onTap,
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 84,
+              width: double.infinity,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: theme.background,
+                borderRadius: BorderRadius.circular(PlotcraftRadii.control),
               ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 55,
-                  height: 6,
-                  decoration: BoxDecoration(
-                    color: theme.accent,
-                    borderRadius: BorderRadius.circular(4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      for (final stage in StageId.values)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 6),
+                          child: Container(
+                            width: 14,
+                            height: 14,
+                            decoration: BoxDecoration(
+                              color: stages[stage]!.pigment,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
-                ),
-                const Spacer(),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 32,
-                        decoration: BoxDecoration(
-                          color: theme.surface ?? theme.background,
-                          borderRadius: BorderRadius.circular(5),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: theme.surface ?? theme.background,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 6),
-                    Container(
-                      width: 38,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: theme.surfaceRaised ?? theme.background,
-                        borderRadius: BorderRadius.circular(5),
+                      const SizedBox(width: 6),
+                      Container(
+                        width: 38,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: theme.surfaceRaised ?? theme.background,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text(theme.name, style: Theme.of(context).textTheme.labelLarge),
-        ],
+            const SizedBox(height: 10),
+            Text(
+              theme.name,
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontFamily: PlotcraftFonts.serif,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 String _localeName(Locale locale) => switch (locale.languageCode) {

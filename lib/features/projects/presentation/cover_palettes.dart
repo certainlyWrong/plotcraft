@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import '../../../core/theme/plotcraft_tokens.dart';
 
-const coverPalettes = [
-  [Color(0xFFB86D52), Color(0xFFE5B99C)],
-  [Color(0xFF526E70), Color(0xFFB5C7B4)],
-  [Color(0xFF66608A), Color(0xFFB9A9C9)],
-  [Color(0xFF9B7842), Color(0xFFE3CE9B)],
-  [Color(0xFF4B657E), Color(0xFF9FB9C8)],
+/// Cover colours, one per stage of the journey: a pigment and the paler ink it
+/// thins to. A project's `coverIndex` picks one; the order is the order in which
+/// colour enters the world (grey, red, green, blue, yellow).
+final coverPalettes = [
+  for (final stage in StageId.values)
+    [GrisStages.dark[stage]!.pigment, GrisStages.dark[stage]!.ink],
 ];
