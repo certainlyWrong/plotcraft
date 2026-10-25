@@ -5,6 +5,7 @@ import 'package:icons_flutter/icons_flutter.dart';
 import 'package:plotcraft_core/core/icons/suggested_icons.dart';
 
 import '../theme/plotcraft_tokens.dart';
+import 'plotcraft_chip.dart';
 import 'plotcraft_button.dart';
 import 'plotcraft_dialog.dart';
 import 'plotcraft_text_field.dart';
@@ -82,13 +83,18 @@ class _PlotcraftIconPickerState extends State<PlotcraftIconPicker> {
         onTap: () => widget.onSelected(ref),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: selected ? scheme.primaryContainer : null,
+            color: selected ? context.tokens.ink.withValues(alpha: .2) : null,
             borderRadius: BorderRadius.circular(PlotcraftRadii.control),
+            border: selected
+                ? Border(
+                    bottom: BorderSide(color: context.tokens.ink, width: 1.6),
+                  )
+                : null,
           ),
           child: Icon(
             ref.data,
             size: 22,
-            color: selected ? scheme.onPrimaryContainer : scheme.onSurface,
+            color: selected ? context.tokens.ink : scheme.onSurface,
           ),
         ),
       ),
@@ -183,16 +189,16 @@ class _PlotcraftIconPickerState extends State<PlotcraftIconPicker> {
         spacing: 6,
         runSpacing: 6,
         children: [
-          ChoiceChip(
-            label: Text('ui.icon_suggested'.tr()),
+          PlotcraftChip(
+            label: 'ui.icon_suggested'.tr(),
             selected: _set == _suggested,
-            onSelected: (_) => setState(() => _set = _suggested),
+            onTap: () => setState(() => _set = _suggested),
           ),
           for (final set in IconCatalog.sets)
-            ChoiceChip(
-              label: Text(IconCatalog.labelOf(set)),
+            PlotcraftChip(
+              label: IconCatalog.labelOf(set),
               selected: set == _set,
-              onSelected: (_) => setState(() => _set = set),
+              onTap: () => setState(() => _set = set),
             ),
         ],
       ),

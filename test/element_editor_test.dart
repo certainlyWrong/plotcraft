@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:icons_flutter/icons_flutter.dart';
 import 'package:path/path.dart' as p;
 import 'package:plotcraft/core/theme/theme_definition.dart';
 import 'package:plotcraft/core/ui/plotcraft_chip_input.dart';
@@ -106,7 +107,7 @@ void main() {
       await tester.pump();
       expect(values, ['Mari', 'A Corredora', 'Lia', 'Ana']);
 
-      await tester.tap(find.byIcon(Icons.clear).first);
+      await tester.tap(find.byIcon(Feather.x).first);
       await tester.pump();
       expect(values, ['A Corredora', 'Lia', 'Ana']);
     },

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../theme/plotcraft_tokens.dart';
+import 'gris/pigment_drop.dart';
+
 enum PlotcraftButtonVariant { primary, secondary, text, destructive }
 
 /// Shared button facade. Dimensions, colors, focus and shape are supplied by
 /// the active app theme so every feature uses the same desktop interaction.
+/// The primary button blooms a drop of pigment under the pointer.
 class PlotcraftButton extends StatelessWidget {
   const PlotcraftButton({
     super.key,
@@ -36,17 +40,33 @@ class PlotcraftButton extends StatelessWidget {
               ),
             ],
           );
+    // The accent is the ink of the current stage, so a button turns red in the
+    // manuscript and green among the elements, as the website's does.
+    final ink = context.tokens.ink;
+    final onInk = ink.computeLuminance() > .38
+        ? const Color(0xFF17201D)
+        : Colors.white;
     return switch (variant) {
-      PlotcraftButtonVariant.primary => FilledButton(
-        onPressed: onPressed,
-        child: child,
+      // The drop of pigment only blooms for a button that can be pressed.
+      PlotcraftButtonVariant.primary => PigmentDrop(
+        active: onPressed == null ? false : null,
+        child: FilledButton(
+          onPressed: onPressed,
+          style: FilledButton.styleFrom(
+            backgroundColor: ink,
+            foregroundColor: onInk,
+          ),
+          child: child,
+        ),
       ),
       PlotcraftButtonVariant.secondary => OutlinedButton(
         onPressed: onPressed,
+        style: ButtonStyle(foregroundColor: WidgetStatePropertyAll(ink)),
         child: child,
       ),
       PlotcraftButtonVariant.text => TextButton(
         onPressed: onPressed,
+        style: ButtonStyle(foregroundColor: WidgetStatePropertyAll(ink)),
         child: child,
       ),
       PlotcraftButtonVariant.destructive => TextButton(
