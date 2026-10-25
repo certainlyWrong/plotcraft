@@ -11,6 +11,7 @@ This documentation is written in English, with translations in [Portuguese](pt-B
 - [Product vision](product-vision.md)
 - [Project model](project-model.md)
 - [Experience and preferences](experience-and-preferences.md)
+- [Visual language](visual-language.md)
 - [Application architecture](architecture.md)
 - [MCP: an AI that creates and manages stories](mcp.md)
 

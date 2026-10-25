@@ -45,8 +45,8 @@ Plotcraft is a desktop app for people who write stories of any genre and format.
       <b>Gallery.</b> Visual references in a mosaic that respects each image's real proportion.
     </td>
     <td width="50%">
-      <img src="docs/screenshots/tema-claro.png" alt="Reading mode with the light Paper theme">
-      <b>Your look.</b> Eight themes with light and dark variants, your own JSON themes, several interface fonts and fonts that travel with the project.
+      <img src="docs/screenshots/tema-claro.png" alt="Reading mode with the light Gris Day theme">
+      <b>Your look.</b> A watercolour interface inspired by the art of Gris, in a night and a day theme, with your own JSON themes, several interface fonts and fonts that travel with the project.
     </td>
   </tr>
 </table>
@@ -102,7 +102,7 @@ Reference images in a mosaic where each one keeps its own proportion. Add images
 
 ### Your look and your language
 
-- **Eight themes**, each with light and dark variants: Violet, Paper, Midnight, Lavender, Moss, Rose, Ocean and Plum. Add your own as a JSON file.
+- **A watercolour look** inspired by the art of Gris: the window starts grey and takes on colour as you move from writing to story elements, the map and reading. Two themes, Gris Night and Gris Day; add your own as a JSON file. See [Visual language](docs/visual-language.md).
 - **Interface in English and Portuguese**, with more languages added by dropping in a translation file. The language of the interface does not limit the language of your story.
 - **Fonts.** Choose the interface font (Times New Roman, DM Sans, Lora, Merriweather, Roboto) and add `.ttf`, `.otf` or `.ttc` fonts to a project so they travel with it and can be used in the text.
 - **Your projects folder.** Keep your stories wherever you want; the library can gather projects from different places.
@@ -208,6 +208,7 @@ The full tool catalog, the errors and the examples are in [`packages/plotcraft_m
 - [Product vision](docs/product-vision.md) — purpose, audience and the intended experience.
 - [Project model](docs/project-model.md) — what makes up a story project, and its files.
 - [Experience and preferences](docs/experience-and-preferences.md) — desktop focus, themes and languages.
+- [Visual language](docs/visual-language.md) — the watercolour look, its stages, effects and accessibility.
 - [Application architecture](docs/architecture.md) — how the code is organized, packages and the sample project.
 - [Website](website/README.md) — the Vue site that presents Plotcraft and offers the downloads.
 - [MCP](docs/mcp.md) — how an AI creates and manages stories through Plotcraft (server in [`packages/plotcraft_mcp`](packages/plotcraft_mcp/README.md)).

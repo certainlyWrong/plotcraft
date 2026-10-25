@@ -9,13 +9,14 @@ The code is organized by feature. `core/` holds what does not belong to any feat
 ```text
 lib/
   main.dart                initializes dependencies, discovers languages and starts the app
-  app/                     PlotcraftApp: MaterialApp, localization and the active theme
+  app/                     PlotcraftApp: MaterialApp, localization, the active theme, the stage and the paper grain
   core/
     platform/              WindowService (window size) and the native spell checker
     storage/               LocalStorage (preferences with SharedPreferences)
     icons/                 IconRef and IconCatalog (generated catalog of icons_flutter icons)
-    theme/                 ThemeDefinition, interface fonts, PlotcraftTokens and PlotcraftRadii
-    ui/                    reusable components (buttons, fields, dialogs, menus, images)
+    theme/                 ThemeDefinition, interface fonts, PlotcraftTokens (stages, radii, motion) and StageScope
+    ui/                    reusable components (buttons, chips, fields, dialogs, menus, images)
+    ui/gris/               the watercolour look: wash, grain, rings, arches, strokes, reveals (see visual-language.md)
   features/
     projects/              project library
     project_creation/      project creation
@@ -39,7 +40,7 @@ lib/
 - **`features/preferences/`**: `ThemeStore` (theme catalog, font and persistence) and the preferences page.
 - **`core/ui/`**: components receive data and callbacks; colors, focus, borders and states come from the active theme. `ProjectImage` shows images from the project folder and `ProportionalImage` shows them whole, in their own shape.
 - The interface uses Feather icons from the `icons_flutter` package; the default typography is Times New Roman, with selectable bundled families.
-- `assets/translations/`, `assets/themes/` and `assets/fonts/` hold the languages, the JSON themes and the fonts (declared in `pubspec.yaml`).
+- `assets/translations/`, `assets/themes/` and `assets/fonts/` hold the languages, the JSON themes and the fonts (declared in `pubspec.yaml`). `shaders/` holds the two fragment shaders of the watercolour wash and the paper grain.
 
 Dependencies between features always point toward `projects` (domain and data); only the home screen of `projects` composes the pages of the other features.
 
@@ -61,7 +62,7 @@ The app ships a complete story, "Herdeiros do Silêncio", in `assets/sample/herd
 
 ## Persistence
 
-Each project is a local folder with a manifest and materials. Preferences only store the library paths, the default location for new projects, the theme and the font. `easy_localization` persists the language. With no previous preferences, the initial language is English and the theme is Violet. The on-disk format is described in [Project model](project-model.md).
+Each project is a local folder with a manifest and materials. Preferences only store the library paths, the default location for new projects, the theme and the font. `easy_localization` persists the language. With no previous preferences, the initial language is English and the theme is Gris Night. The on-disk format is described in [Project model](project-model.md).
 
 ## Extension
 

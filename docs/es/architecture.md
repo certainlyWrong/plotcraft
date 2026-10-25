@@ -9,13 +9,14 @@ El código sigue una organización por funcionalidad. `core/` guarda lo que no p
 ```text
 lib/
   main.dart                inicializa dependencias, descubre idiomas y arranca la app
-  app/                     PlotcraftApp: MaterialApp, localización y tema activo
+  app/                     PlotcraftApp: MaterialApp, localización, tema activo, etapa y grano de papel
   core/
     platform/              WindowService (tamaño de la ventana) y corrector ortográfico nativo
     storage/               LocalStorage (preferencias con SharedPreferences)
     icons/                 IconRef e IconCatalog (catálogo generado de iconos de icons_flutter)
-    theme/                 ThemeDefinition, fuentes de la interfaz, PlotcraftTokens y PlotcraftRadii
-    ui/                    componentes reutilizables (botones, campos, diálogos, menús, imágenes)
+    theme/                 ThemeDefinition, fuentes de la interfaz, PlotcraftTokens (etapas, radios, movimiento) y StageScope
+    ui/                    componentes reutilizables (botones, etiquetas, campos, diálogos, menús, imágenes)
+    ui/gris/               el aspecto de acuarela: fondo, grano, anillos, arcos, trazos, revelaciones (véase visual-language.md)
   features/
     projects/              biblioteca de proyectos
     project_creation/      creación de proyectos
@@ -61,7 +62,7 @@ La aplicación incluye una historia completa, "Herdeiros do Silêncio", en `asse
 
 ## Persistencia
 
-Cada proyecto es una carpeta local con un manifiesto y materiales. Las preferencias solo guardan las rutas de la biblioteca, la ubicación predeterminada para los proyectos nuevos, el tema y la fuente. `easy_localization` persiste el idioma. Sin preferencias previas, el idioma inicial es el inglés y el tema es Violet. El formato en disco se describe en [Modelo de proyecto](project-model.md).
+Cada proyecto es una carpeta local con un manifiesto y materiales. Las preferencias solo guardan las rutas de la biblioteca, la ubicación predeterminada para los proyectos nuevos, el tema y la fuente. `easy_localization` persiste el idioma. Sin preferencias previas, el idioma inicial es el inglés y el tema es Gris Night. El formato en disco se describe en [Modelo de proyecto](project-model.md).
 
 ## Extensión
 

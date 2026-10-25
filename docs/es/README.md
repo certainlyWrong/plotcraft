@@ -11,6 +11,7 @@ El idioma de referencia de esta documentación es el inglés; esta es la traducc
 - [Visión del producto](product-vision.md)
 - [Modelo de proyecto](project-model.md)
 - [Experiencia y preferencias](experience-and-preferences.md)
+- [Lenguaje visual](visual-language.md)
 - [Arquitectura de la aplicación](architecture.md)
 - [MCP: una IA que crea y gestiona historias](mcp.md)
 
