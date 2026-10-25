@@ -60,6 +60,10 @@ Cores dos modelos são números ARGB (`colorValue`) e ícones são `IconRef {set
 
 O app leva uma história completa, "Herdeiros do Silêncio", em `assets/sample/herdeiros-do-silencio/` (a pasta de um projeto como as demais, com as imagens da galeria e a capa em JPEG para manter o app leve). Na tela inicial, "Explorar a história de exemplo" aparece enquanto ela não está na biblioteca: `SampleProjectInstaller` copia os arquivos para a pasta de projetos (numa pasta `.partial` que só vira a final ao terminar), a biblioteca é recarregada e o projeto abre. Depois disso ele é um projeto comum, que pode ser editado ou excluído; se for excluído, a ação volta a aparecer. Instalar de novo sem excluir não copia nada. Os arquivos novos do exemplo precisam estar declarados em `pubspec.yaml`, pasta por pasta.
 
+## Demo na web
+
+O app também compila para a web (`flutter build web`), como uma demo para a qual o site aponta. Um navegador não tem pastas, então todos os repositórios leem e gravam por `fs`, em `packages/plotcraft_core/lib/core/file_system.dart`: o disco de verdade no desktop e um `MemoryFileSystem` (do `package:file`) no navegador, escolhido no `main`. O código que precisa de um arquivo usa `fs.file(path)` e `fs.directory(path)` no lugar de `File(path)` e `Directory(path)`. No navegador o app começa pela história de exemplo, então o que for escrito some quando a página fecha. O que só existe no desktop (a janela, o corretor do sistema, as fontes do sistema, a ponte do MCP, a observação da pasta) fica desligado ali, e `isMacOS`/`isLinux`/`isWindows`, em `lib/core/platform/platform_support.dart`, substituem `Platform`, que lança erro na web. O workflow `Website` compila a demo e a publica em `/demo/`, ao lado do site.
+
 ## Persistência
 
 Cada projeto é uma pasta local com manifesto e materiais. As preferências guardam apenas os caminhos da biblioteca, a localização padrão para novos projetos, o tema e a fonte. O `easy_localization` persiste o idioma. Sem preferências anteriores, o idioma inicial é inglês e o tema é Gris Night. O formato em disco está descrito em [Modelo de projeto](project-model.md).

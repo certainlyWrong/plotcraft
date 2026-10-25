@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 
 import 'package:plotcraft_core/core/fonts/font_file_info.dart';
+import 'package:plotcraft_core/core/file_system.dart';
 
 /// Registers font files with Flutter under project-specific family names.
 /// A registration lasts for the whole run, so each file is loaded once.
@@ -17,7 +16,7 @@ class ProjectFontLoader {
     final byFamily = <String, FontLoader>{};
     final ready = <String>{};
     for (final path in paths) {
-      final file = File(path);
+      final file = fs.file(path);
       final stat = await file.stat();
       final bytes = await file.readAsBytes();
       final info = FontFileInfo.read(bytes);

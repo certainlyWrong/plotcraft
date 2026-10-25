@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../../../app/app_commands.dart';
+import '../../../core/platform/window_service.dart';
 import '../../../core/storage/local_storage.dart';
 
 import 'package:plotcraft_core/features/projects/domain/story_project.dart';
@@ -66,7 +67,7 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
     );
     _actions = WorkspaceActions(_controller);
     widget.commands?.workspaceOpened(widget.project.id, _controller);
-    windowManager.addListener(this);
+    WindowService.addListener(this);
     _controller
         .load(firstChapterTitle: 'book.first_chapter'.tr())
         .then((_) => _startWatching());
@@ -115,9 +116,9 @@ class _ProjectWorkspaceScreenState extends State<ProjectWorkspaceScreen>
     widget.commands?.workspaceClosed(_controller);
     unawaited(_watching?.cancel());
     _watcher?.dispose();
-    windowManager.removeListener(this);
+    WindowService.removeListener(this);
     if (_controller.editorFullscreen) {
-      windowManager.setFullScreen(false);
+      WindowService.setFullScreen(false);
     }
     _controller.dispose();
     super.dispose();

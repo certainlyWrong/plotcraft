@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 import 'package:path/path.dart' as p;
+import 'package:plotcraft_core/core/file_system.dart';
 
 /// Tells when projects appear, disappear or change their manifest inside the
 /// projects folder (for example when the MCP server creates one). Events from
@@ -23,13 +26,18 @@ class LibraryWatcher {
   Stream<void> get changes => _controller.stream;
 
   void start() {
-    if (_disposed || _subscription != null) return;
+    // The browser demo keeps its files in memory: nothing else changes them.
+    if (kIsWeb || _disposed || _subscription != null) return;
     try {
-      _subscription = Directory(root)
+      _subscription = fs
+          .directory(root)
           .watch(recursive: true)
           .listen(_onEvent, onError: (_) {});
     } on UnsupportedError {
-      _subscription = Directory(root).watch().listen(_onEvent, onError: (_) {});
+      _subscription = fs
+          .directory(root)
+          .watch()
+          .listen(_onEvent, onError: (_) {});
     } on FileSystemException {
       // The folder does not exist (yet); nothing to watch.
     }

@@ -1,7 +1,8 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/services.dart';
+
+import '../../core/platform/platform_support.dart';
 
 /// A misspelled stretch of text, as UTF-16 offsets into the checked string.
 class Misspelling {
@@ -43,7 +44,7 @@ class MethodChannelSpellCheckBackend implements SpellCheckBackend {
   static const _channel = MethodChannel('plotcraft/spell_check');
 
   /// True where a native checker is wired up.
-  static bool get isSupported => Platform.isMacOS;
+  static bool get isSupported => isMacOS;
 
   @override
   Future<List<Misspelling>> check(String text, Locale locale) async {
