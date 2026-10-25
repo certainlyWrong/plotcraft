@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dart_quill_delta/dart_quill_delta.dart';
 import 'package:path/path.dart' as p;
 
@@ -9,6 +7,7 @@ import '../../projects/domain/story_project.dart';
 import '../domain/export_book.dart';
 import '../domain/export_options.dart';
 import 'delta_blocks.dart';
+import '../../../core/file_system.dart';
 
 /// Reads a project from disk and builds the [ExportBook] to write. It only
 /// reads: a project with a single manuscript is exported as one chapter
@@ -79,7 +78,7 @@ class BookAssembler {
         id: item.id,
         fileName: item.file,
         mimeType: mime,
-        bytes: await File(item.path).readAsBytes(),
+        bytes: await fs.file(item.path).readAsBytes(),
       );
     }
 
@@ -102,7 +101,7 @@ class BookAssembler {
   Future<ExportImage?> _cover(StoryProject project) async {
     final relative = project.coverFile;
     if (relative == null || relative.isEmpty) return null;
-    final file = File(p.join(project.directoryPath!, relative));
+    final file = fs.file(p.join(project.directoryPath!, relative));
     final mime = _mimeByExtension[p.extension(file.path).toLowerCase()];
     if (mime == null || !await file.exists()) return null;
     return ExportImage(

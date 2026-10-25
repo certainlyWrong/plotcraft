@@ -14,6 +14,7 @@ import '../../core/theme/interface_fonts.dart';
 import '../preferences/stores/theme_store.dart';
 import '../project_workspace/domain/workspace_tab.dart';
 import '../projects/stores/project_store.dart';
+import '../../core/platform/platform_support.dart';
 
 /// Lets the MCP server (and so an AI) do the things only the running app can:
 /// change preferences, open screens and use the system spell checker. It
@@ -134,7 +135,7 @@ class AppBridgeService {
     },
     'set_projects_root': (params) async {
       final path = _string(params, 'path');
-      if (Platform.isMacOS) {
+      if (isMacOS) {
         throw const BridgeError(
           'unsupported',
           'On macOS the projects folder can only be chosen in the app '

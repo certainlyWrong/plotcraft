@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 
+import '../../core/platform/platform_support.dart';
+
 /// The font families installed on this computer.
 abstract interface class SystemFontLister {
   Future<List<String>> families();
@@ -22,11 +24,11 @@ class PlatformSystemFontLister implements SystemFontLister {
     final cached = _cache;
     if (cached != null) return cached;
     try {
-      final found = Platform.isMacOS
+      final found = isMacOS
           ? await _macOs()
-          : Platform.isLinux
+          : isLinux
           ? await _linux()
-          : Platform.isWindows
+          : isWindows
           ? await _windows()
           : const <String>[];
       return _cache = normalizeFamilies(found);

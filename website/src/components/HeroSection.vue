@@ -2,10 +2,11 @@
 import OrbitRings from './OrbitRings.vue'
 import ArchBridge from './ArchBridge.vue'
 import { computed, onMounted, ref } from 'vue'
-import { Download } from 'lucide-vue-next'
+import { Download, Play } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
 import { detectPlatform, groupAssets } from '../lib/releases'
 import { useLatestRelease } from '../lib/useLatestRelease'
+import { DEMO_URL } from '../config'
 import AppFrame from './AppFrame.vue'
 
 const { t } = useI18n()
@@ -44,6 +45,10 @@ const direct = computed(() => {
           <a v-else class="btn btn-primary" href="#download">
             <Download :size="18" />
             {{ t('nav.download') }}
+          </a>
+          <a class="btn btn-ghost" :href="DEMO_URL">
+            <Play :size="18" />
+            {{ t('hero.tryDemo') }}
           </a>
           <a class="btn btn-ghost" href="#features">{{ t('hero.seeFeatures') }}</a>
         </div>

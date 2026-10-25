@@ -1,9 +1,15 @@
-# Builds the website (website/) and publishes it with GitHub Pages.
+# Builds the website (website/) and the web demo of the app, and publishes both
+# with GitHub Pages: the site at /<repository>/ and the demo at
+# /<repository>/demo/.
 #
 # One-time setup: Settings -> Pages -> Source: "GitHub Actions".
 #
-# The site is rebuilt when the site, the screenshots or the fonts it shares with
-# the app change. Pull requests only build and test it. The downloads on the
+# The demo is the Flutter app built for the web. A browser has no folders, so it
+# keeps its projects in memory and starts from the bundled sample story: what
+# is written there is gone when the page is closed.
+#
+# Everything is rebuilt when the site, the app or what they share change. Pull
+# requests only build and test it. The downloads on the
 # page are read from the latest GitHub release when the page is opened, so a
 # new release does not need a new deploy.
 name: Website
@@ -14,13 +20,25 @@ on:
     paths:
       - 'website/**'
       - 'docs/screenshots/**'
-      - 'assets/fonts/**'
+      - 'assets/**'
+      - 'lib/**'
+      - 'packages/plotcraft_core/**'
+      - 'shaders/**'
+      - 'web/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
       - '.github/workflows/website.yml'
   pull_request:
     paths:
       - 'website/**'
       - 'docs/screenshots/**'
-      - 'assets/fonts/**'
+      - 'assets/**'
+      - 'lib/**'
+      - 'packages/plotcraft_core/**'
+      - 'shaders/**'
+      - 'web/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
       - '.github/workflows/website.yml'
   workflow_dispatch:
 
@@ -31,9 +49,45 @@ concurrency:
   group: pages-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  FLUTTER_VERSION: '3.47.7'
+
 jobs:
+  demo:
+    name: Build the web demo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Build
+        # --no-tree-shake-icons: the icon catalog lists every icon of
+        # icons_flutter and the font subsetter stops at one it does not have.
+        # --no-web-resources-cdn: CanvasKit ships with the demo instead of
+        # being fetched from gstatic.com.
+        run: >
+          flutter build web --release
+          --no-tree-shake-icons
+          --no-web-resources-cdn
+          --base-href /${{ github.event.repository.name }}/demo/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-demo
+          path: build/web
+          if-no-files-found: error
+          retention-days: 1
+
   build:
     name: Build and test
+    needs: demo
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -54,6 +108,12 @@ jobs:
         run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
+
+      - name: Add the web demo
+        uses: actions/download-artifact@v4
+        with:
+          name: web-demo
+          path: website/dist/demo
 
       - uses: actions/configure-pages@v5
         if: github.event_name != 'pull_request'

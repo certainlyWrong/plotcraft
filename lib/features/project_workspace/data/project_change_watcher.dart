@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 import 'package:path/path.dart' as p;
+import 'package:plotcraft_core/core/file_system.dart';
 
 /// Tells when something other than the app changes files inside a project
 /// folder (another program, the MCP server). Events come in bursts, so they
@@ -23,10 +26,12 @@ class ProjectChangeWatcher {
   Stream<void> get changes => _controller.stream;
 
   void start() {
-    if (_disposed || _subscriptions.isNotEmpty) return;
+    // The browser demo keeps its files in memory: nothing else changes them.
+    if (kIsWeb || _disposed || _subscriptions.isNotEmpty) return;
     try {
       _subscriptions.add(
-        Directory(folder)
+        fs
+            .directory(folder)
             .watch(recursive: true)
             .listen(_onEvent, onError: (_) {}),
       );
@@ -41,9 +46,9 @@ class ProjectChangeWatcher {
         p.join(folder, 'content', 'narrative', 'elements'),
         p.join(folder, 'gallery'),
       ]) {
-        if (Directory(path).existsSync()) {
+        if (fs.directory(path).existsSync()) {
           _subscriptions.add(
-            Directory(path).watch().listen(_onEvent, onError: (_) {}),
+            fs.directory(path).watch().listen(_onEvent, onError: (_) {}),
           );
         }
       }

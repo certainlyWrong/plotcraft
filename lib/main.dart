@@ -1,4 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:file/memory.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +12,7 @@ import 'core/platform/window_service.dart';
 import 'core/storage/local_storage.dart';
 import 'features/projects/data/project_repository.dart';
 
+import 'package:plotcraft_core/core/file_system.dart';
 import 'package:plotcraft_core/features/projects/data/project_creation_service.dart';
 
 import 'features/project_creation/stores/project_creation_store.dart';
@@ -18,6 +21,9 @@ import 'features/preferences/stores/theme_store.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // The browser has no disk: the demo keeps its projects in memory, so every
+  // visit starts from the bundled sample story.
+  if (kIsWeb) fs = MemoryFileSystem();
   await WindowService.configure();
   await EasyLocalization.ensureInitialized();
 
@@ -34,17 +40,21 @@ Future<void> main() async {
   );
   final themes = ThemeStore(storage);
   await Future.wait([projects.load(), themes.load()]);
+  if (kIsWeb) await projects.installSample();
   projects.startWatching();
 
   final commands = AppCommands();
-  AppBridgeService(
-    projects: projects,
-    themes: themes,
-    commands: commands,
-    languages: [for (final locale in supportedLocales) locale.languageCode],
-    currentLanguage: () => commands.currentLanguage,
-    version: '0.1.0',
-  ).start();
+  // The bridge lets the MCP server talk to a desktop app through files.
+  if (!kIsWeb) {
+    AppBridgeService(
+      projects: projects,
+      themes: themes,
+      commands: commands,
+      languages: [for (final locale in supportedLocales) locale.languageCode],
+      currentLanguage: () => commands.currentLanguage,
+      version: '0.1.0',
+    ).start();
+  }
 
   final english = supportedLocales.firstWhere(
     (locale) => locale.languageCode == 'en',

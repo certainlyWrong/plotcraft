@@ -24,7 +24,7 @@ Mientras el repositorio sea privado, o si GitHub no responde, la sección muestr
 
 ## Publicarlo
 
-[`.github/workflows/website.yml`](../.github/workflows/website.yml) construye, prueba y publica el sitio en GitHub Pages cuando cambian `website/`, las capturas o las fuentes en `main`. Actívalo una vez en **Settings → Pages → Source: GitHub Actions**. La ruta base es el nombre del repositorio, definida por el workflow en `VITE_BASE`.
+[`.github/workflows/website.yml`](../.github/workflows/website.yml) construye, prueba y publica el sitio en GitHub Pages cuando cambian `website/`, las capturas, las fuentes o la app en `main`. También compila la demo web de Flutter (`flutter build web`) y la deja en `demo/` junto al sitio, que es adonde apuntan los botones «Pruébalo»; ver «Demo web» en [`docs/es/architecture.md`](../docs/es/architecture.md). Actívalo una vez en **Settings → Pages → Source: GitHub Actions**. La ruta base es el nombre del repositorio, definida por el workflow en `VITE_BASE`.
 
 ## Traducir
 

@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
+import 'package:plotcraft_core/core/file_system.dart';
 
 /// The story bundled with the app so a new person has something to explore:
 /// "Herdeiros do Silêncio", complete, with elements, relations, phases and
@@ -29,8 +29,10 @@ class SampleProjectInstaller {
   /// already there, nothing is copied. The copy is made beside the final folder
   /// and renamed at the end, so an interrupted install leaves no half project.
   Future<String> install(String root) async {
-    final target = Directory(p.join(root, '$_folderName-${await sampleId()}'));
-    if (await File(p.join(target.path, 'project.json')).exists()) {
+    final target = fs.directory(
+      p.join(root, '$_folderName-${await sampleId()}'),
+    );
+    if (await fs.file(p.join(target.path, 'project.json')).exists()) {
       return target.path;
     }
     final manifest = await AssetManifest.loadFromAssetBundle(_bundle);
@@ -38,11 +40,11 @@ class SampleProjectInstaller {
         .listAssets()
         .where((key) => key.startsWith(assetRoot))
         .toList();
-    final partial = Directory('${target.path}.partial');
+    final partial = fs.directory('${target.path}.partial');
     if (await partial.exists()) await partial.delete(recursive: true);
     try {
       for (final key in files) {
-        final file = File(
+        final file = fs.file(
           p.join(partial.path, key.substring(assetRoot.length)),
         );
         await file.parent.create(recursive: true);

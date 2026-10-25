@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'platform_support.dart';
 
 /// Flutter's default spell checker has no desktop backend. On macOS this
 /// adapter asks NSSpellChecker for ranges and replacement suggestions.
@@ -23,7 +24,7 @@ class NativeSpellCheckService implements SpellCheckService {
     final request = _generation;
     _debounce?.cancel();
     if (_pending != null && !_pending!.isCompleted) _pending!.complete(null);
-    if (!Platform.isMacOS || text.isEmpty) return const [];
+    if (!isMacOS || text.isEmpty) return const [];
     final completer = Completer<List<SuggestionSpan>?>();
     _pending = completer;
     _debounce = Timer(const Duration(milliseconds: 350), () async {

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:window_manager/window_manager.dart';
 
 /// Desktop window configuration. The minimum size keeps every screen in a
@@ -11,6 +12,7 @@ class WindowService {
   static const minimumSize = Size(1000, 680);
 
   static Future<void> configure() async {
+    if (kIsWeb) return;
     await windowManager.ensureInitialized();
     await windowManager.waitUntilReadyToShow(
       const WindowOptions(
@@ -26,6 +28,16 @@ class WindowService {
     );
   }
 
-  static Future<void> setFullScreen(bool value) =>
-      windowManager.setFullScreen(value);
+  static Future<void> setFullScreen(bool value) async {
+    if (!kIsWeb) await windowManager.setFullScreen(value);
+  }
+
+  /// Tells [listener] when the window leaves full screen (desktop only).
+  static void addListener(WindowListener listener) {
+    if (!kIsWeb) windowManager.addListener(listener);
+  }
+
+  static void removeListener(WindowListener listener) {
+    if (!kIsWeb) windowManager.removeListener(listener);
+  }
 }

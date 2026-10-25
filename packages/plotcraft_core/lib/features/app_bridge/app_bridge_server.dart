@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 
 import 'bridge_protocol.dart';
+import '../../core/file_system.dart';
 
 typedef BridgeHandler = Future<Object?> Function(Map<String, Object?> params);
 
@@ -70,7 +71,7 @@ class AppBridgeServer {
   Future<void> _writeHeartbeat() async {
     if (_stopped) return;
     try {
-      final temp = File('${_folder.appFile.path}.tmp');
+      final temp = fs.file('${_folder.appFile.path}.tmp');
       await temp.writeAsString(
         jsonEncode({
           'pid': pid,
@@ -161,8 +162,8 @@ class AppBridgeServer {
         response = _error('internal', '$error');
       }
     }
-    final target = File(p.join(_folder.outbox.path, '$id.json'));
-    final temp = File('${target.path}.tmp');
+    final target = fs.file(p.join(_folder.outbox.path, '$id.json'));
+    final temp = fs.file('${target.path}.tmp');
     await temp.writeAsString(jsonEncode({'id': id, ...response}));
     await temp.rename(target.path);
   }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:path/path.dart' as p;
@@ -11,6 +12,10 @@ import 'package:plotcraft_core/features/projects/domain/story_project.dart';
 
 import '../../../core/storage/local_storage.dart';
 import 'sample_project_installer.dart';
+
+import 'package:plotcraft_core/core/file_system.dart';
+
+import '../../../core/platform/platform_support.dart';
 
 /// Owns the on-disk project format. The preference store only indexes folders.
 class ProjectRepository {
@@ -28,8 +33,9 @@ class ProjectRepository {
 
   late final Future<String> _defaultRoot = _resolveDefaultRoot();
 
-  Future<String> _resolveDefaultRoot() async =>
-      p.join((await getApplicationDocumentsDirectory()).path, 'Plotcraft');
+  Future<String> _resolveDefaultRoot() async => kIsWeb
+      ? '/Plotcraft'
+      : p.join((await getApplicationDocumentsDirectory()).path, 'Plotcraft');
 
   Future<String> get defaultRoot => _defaultRoot;
 
@@ -38,10 +44,10 @@ class ProjectRepository {
 
   Future<void> setProjectsRoot(String? path) async {
     if (path != null) {
-      if (Platform.isMacOS) {
+      if (isMacOS) {
         throw StateError('Select macOS project folders with the native picker');
       }
-      final directory = Directory(p.normalize(p.absolute(path)));
+      final directory = fs.directory(p.normalize(p.absolute(path)));
       if (!await directory.exists()) {
         throw FileSystemException('Directory does not exist', directory.path);
       }
@@ -55,7 +61,7 @@ class ProjectRepository {
   Future<bool> chooseProjectsRoot() async {
     String? path;
     String? bookmark;
-    if (Platform.isMacOS) {
+    if (isMacOS) {
       final selection = await _folderAccess.invokeMapMethod<String, String>(
         'selectFolder',
         await projectsRoot,
@@ -69,7 +75,7 @@ class ProjectRepository {
     } else {
       final current = await projectsRoot;
       path = await getDirectoryPath(
-        initialDirectory: await Directory(current).exists()
+        initialDirectory: await fs.directory(current).exists()
             ? current
             : p.dirname(current),
         canCreateDirectories: true,
@@ -77,7 +83,7 @@ class ProjectRepository {
       if (path == null) return false;
     }
 
-    final directory = Directory(p.normalize(p.absolute(path)));
+    final directory = fs.directory(p.normalize(p.absolute(path)));
     if (!await directory.exists()) {
       throw FileSystemException('Directory does not exist', directory.path);
     }
@@ -91,7 +97,7 @@ class ProjectRepository {
   }
 
   Future<List<StoryProject>> load() async {
-    if (Platform.isMacOS) {
+    if (isMacOS) {
       for (final bookmark in _storage.loadFolderBookmarks().values) {
         try {
           await _folderAccess.invokeMethod<String>(

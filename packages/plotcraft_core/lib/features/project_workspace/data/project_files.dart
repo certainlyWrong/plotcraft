@@ -5,6 +5,7 @@ import 'package:path/path.dart' as p;
 
 import '../../../core/time_id.dart';
 import '../../projects/domain/story_project.dart';
+import '../../../core/file_system.dart';
 
 /// Low-level access to a project folder: the manifest and atomic writes.
 /// Every workspace repository goes through it so the safety checks (known
@@ -21,7 +22,7 @@ class ProjectFiles {
   String newId() => newTimeId();
 
   Future<void> ensureManifest(StoryProject project) async {
-    final file = File(p.join(folder(project), 'project.json'));
+    final file = fs.file(p.join(folder(project), 'project.json'));
     if (!await file.exists()) {
       throw FileSystemException('Project manifest is missing', file.path);
     }
@@ -32,8 +33,8 @@ class ProjectFiles {
   }
 
   Future<void> writeManifest(StoryProject project) async {
-    final file = File(p.join(folder(project), 'project.json'));
-    final temp = File('${file.path}.tmp');
+    final file = fs.file(p.join(folder(project), 'project.json'));
+    final temp = fs.file('${file.path}.tmp');
     await temp.writeAsString(
       const JsonEncoder.withIndent('  ').convert(project.toJson()),
     );
@@ -49,14 +50,14 @@ class ProjectFiles {
 
   Future<void> writeJson(File file, Map<String, Object?> value) async {
     await file.parent.create(recursive: true);
-    final temp = File('${file.path}.tmp');
+    final temp = fs.file('${file.path}.tmp');
     await temp.writeAsString(const JsonEncoder.withIndent('  ').convert(value));
     await temp.rename(file.path);
   }
 
   Future<void> writeText(File file, String value) async {
     await file.parent.create(recursive: true);
-    final temp = File('${file.path}.tmp');
+    final temp = fs.file('${file.path}.tmp');
     await temp.writeAsString(value);
     await temp.rename(file.path);
   }

@@ -32,14 +32,19 @@ Uint8List exportEpub(ExportBook book, ExportOptions options, {DateTime? now}) {
 
   // The first entry must be `mimetype`, stored without compression.
   final mimetype = utf8.encode('application/epub+zip');
-  archive.addFile(ArchiveFile.noCompress('mimetype', mimetype.length, mimetype));
   archive.addFile(
-    ArchiveFile.string('META-INF/container.xml', '''<?xml version="1.0" encoding="UTF-8"?>
+    ArchiveFile.noCompress('mimetype', mimetype.length, mimetype),
+  );
+  archive.addFile(
+    ArchiveFile.string(
+      'META-INF/container.xml',
+      '''<?xml version="1.0" encoding="UTF-8"?>
 <container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
   <rootfiles>
     <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
   </rootfiles>
-</container>'''),
+</container>''',
+    ),
   );
 
   String page(String title, String body) =>
@@ -95,7 +100,9 @@ $body</body>
     );
   }
   titleBody
-    ..writeln('<p class="author">${escapeHtml(strings.by)} ${escapeHtml(author)}</p>')
+    ..writeln(
+      '<p class="author">${escapeHtml(strings.by)} ${escapeHtml(author)}</p>',
+    )
     ..writeln('</header>');
   add('title.xhtml', page(meta.title, titleBody.toString()));
   item('title', 'title.xhtml', 'application/xhtml+xml');
@@ -185,16 +192,19 @@ $spine  </spine>
   return Uint8List.fromList(ZipEncoder().encode(archive));
 }
 
-/// A stable UUID-shaped identifier derived from the project id.
+/// A stable UUID-shaped identifier derived from the project id. The 64-bit
+/// arithmetic uses [BigInt] because plain ints are doubles in the browser.
 String _uuidFrom(String id) {
-  var hash = 0xcbf29ce484222325;
+  final mask = BigInt.parse('7fffffffffffffff', radix: 16);
+  final prime = BigInt.parse('100000001b3', radix: 16);
+  var hash = BigInt.parse('cbf29ce484222325', radix: 16);
   final bytes = utf8.encode(id);
   final out = StringBuffer();
   for (var round = 0; round < 2; round++) {
     for (final b in bytes) {
-      hash = ((hash ^ b) * 0x100000001b3) & 0x7fffffffffffffff;
+      hash = ((hash ^ BigInt.from(b)) * prime) & mask;
     }
-    hash = (hash ^ (round + 1)) * 0x100000001b3 & 0x7fffffffffffffff;
+    hash = ((hash ^ BigInt.from(round + 1)) * prime) & mask;
     out.write(hash.toRadixString(16).padLeft(16, '0'));
   }
   final hex = out.toString().substring(0, 32);

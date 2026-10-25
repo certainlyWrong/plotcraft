@@ -6,6 +6,7 @@ import '../../projects/domain/cover_image_rules.dart';
 import '../../projects/domain/project_metadata_input.dart';
 import '../../projects/domain/story_project.dart';
 import 'project_files.dart';
+import '../../../core/file_system.dart';
 
 /// Project identity (title, tags, ...) and the cover image in `covers/`.
 class ProjectMetadataRepository {
@@ -24,14 +25,14 @@ class ProjectMetadataRepository {
     File? newCover;
     try {
       if (input.coverSourcePath != null) {
-        final source = File(input.coverSourcePath!);
+        final source = fs.file(input.coverSourcePath!);
         final extension = CoverImageRules.extensionOf(source.path);
         if (!await CoverImageRules.isValid(source.path)) {
           throw const FormatException('Invalid cover image');
         }
-        final covers = Directory(p.join(folder, 'covers'));
+        final covers = fs.directory(p.join(folder, 'covers'));
         await covers.create(recursive: true);
-        newCover = File(
+        newCover = fs.file(
           p.join(
             covers.path,
             'cover-${DateTime.now().microsecondsSinceEpoch}$extension',
@@ -54,7 +55,7 @@ class ProjectMetadataRepository {
       );
       await _files.writeManifest(updated);
       if ((removeCover || newCover != null) && project.coverFile != null) {
-        final oldCover = File(p.join(folder, project.coverFile!));
+        final oldCover = fs.file(p.join(folder, project.coverFile!));
         try {
           if (p.isWithin(p.join(folder, 'covers'), oldCover.path) &&
               await oldCover.exists()) {

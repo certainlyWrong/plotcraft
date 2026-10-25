@@ -1,15 +1,16 @@
-import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
 import 'project_image.dart';
 
+import 'package:plotcraft_core/core/file_system.dart';
+
 /// Width / height of the image file, read from its header: the pixels are not
 /// decoded. Throws when the file cannot be read as an image.
 Future<double> readImageAspect(String path) async {
   final buffer = await ui.ImmutableBuffer.fromUint8List(
-    await File(path).readAsBytes(),
+    await fs.file(path).readAsBytes(),
   );
   try {
     final descriptor = await ui.ImageDescriptor.encoded(buffer);

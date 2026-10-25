@@ -5,6 +5,7 @@ export default {
       'Plotcraft is a desktop app to architect stories before and while you write: elements, relations, a story map, a timeline and a reading mode, in local files that belong to you.',
   },
   nav: {
+    demo: 'Try it',
     features: 'Features',
     showcase: 'Tour',
     sample: 'Sample story',
@@ -15,6 +16,7 @@ export default {
     theme: 'Switch theme',
   },
   hero: {
+    tryDemo: 'Try it in your browser',
     eyebrow: 'A desktop app for storytellers',
     title: 'Architect your stories before and while you write.',
     subtitle:
