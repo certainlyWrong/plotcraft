@@ -7,6 +7,7 @@ const es: typeof en = {
       'Plotcraft es una aplicación de escritorio para planificar historias antes y mientras las escribes: elementos, relaciones, mapa de la historia, línea de tiempo y modo lectura, en archivos locales que son tuyos.',
   },
   nav: {
+    demo: 'Pruébalo',
     features: 'Funciones',
     showcase: 'Recorrido',
     sample: 'Historia de ejemplo',
@@ -17,6 +18,7 @@ const es: typeof en = {
     theme: 'Cambiar tema',
   },
   hero: {
+    tryDemo: 'Pruébalo en el navegador',
     eyebrow: 'Una aplicación de escritorio para quien cuenta historias',
     title: 'Planifica tus historias antes y mientras las escribes.',
     subtitle:

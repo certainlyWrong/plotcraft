@@ -7,6 +7,7 @@ import '../../projects/domain/story_project.dart';
 import '../domain/element_image.dart';
 import '../domain/narrative_element.dart';
 import 'project_files.dart';
+import '../../../core/file_system.dart';
 
 /// Narrative elements under `content/narrative/`.
 class NarrativeRepository {
@@ -24,7 +25,7 @@ class NarrativeRepository {
     }
     final folder = _files.folder(project);
     await _files.ensureManifest(project);
-    final file = File(
+    final file = fs.file(
       p.join(folder, 'content', 'narrative', 'elements', '${element.id}.json'),
     );
     await file.parent.create(recursive: true);
@@ -42,7 +43,7 @@ class NarrativeRepository {
   };
   static const _maxAttachmentBytes = 10 * 1024 * 1024;
 
-  Directory _attachmentsDir(String folder, String elementId) => Directory(
+  Directory _attachmentsDir(String folder, String elementId) => fs.directory(
     p.join(folder, 'content', 'narrative', 'attachments', elementId),
   );
 
@@ -56,7 +57,7 @@ class NarrativeRepository {
     if (!RegExp(r'^[A-Za-z0-9_-]+$').hasMatch(elementId)) {
       throw const FormatException('Invalid narrative element ID');
     }
-    final source = File(sourcePath);
+    final source = fs.file(sourcePath);
     final extension = p.extension(sourcePath).toLowerCase();
     if (!_attachmentExtensions.contains(extension) ||
         !await source.exists() ||
@@ -68,10 +69,10 @@ class NarrativeRepository {
     final directory = _attachmentsDir(folder, elementId);
     await directory.create(recursive: true);
     final stem = p.basenameWithoutExtension(sourcePath);
-    var destination = File(p.join(directory.path, '$stem$extension'));
+    var destination = fs.file(p.join(directory.path, '$stem$extension'));
     var suffix = 2;
     while (await destination.exists()) {
-      destination = File(p.join(directory.path, '$stem-$suffix$extension'));
+      destination = fs.file(p.join(directory.path, '$stem-$suffix$extension'));
       suffix++;
     }
     await source.copy(destination.path);
@@ -121,11 +122,11 @@ class NarrativeRepository {
     }
     final folder = _files.folder(project);
     await _files.ensureManifest(project);
-    final file = File(
+    final file = fs.file(
       p.join(folder, 'content', 'narrative', 'elements', '$elementId.json'),
     );
     if (await file.exists()) {
-      final archive = File(
+      final archive = fs.file(
         p.join(folder, 'content', 'narrative', 'archive', '$elementId.json'),
       );
       await archive.parent.create(recursive: true);
@@ -135,13 +136,17 @@ class NarrativeRepository {
   }
 
   Future<List<NarrativeElement>> load(String folder) async {
-    final directory = Directory(
+    final directory = fs.directory(
       p.join(folder, 'content', 'narrative', 'elements'),
     );
     if (!await directory.exists()) return [];
     final elements = <NarrativeElement>[];
-    await for (final entry in directory.list(followLinks: false)) {
-      if (entry is! File || p.extension(entry.path) != '.json') continue;
+    final entries = directory
+        .list(followLinks: false)
+        .where((entry) => entry is File)
+        .cast<File>();
+    await for (final entry in entries) {
+      if (p.extension(entry.path) != '.json') continue;
       try {
         final json =
             jsonDecode(await entry.readAsString()) as Map<String, dynamic>;

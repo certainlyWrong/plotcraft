@@ -24,7 +24,7 @@ While the repository is private, or if GitHub cannot be reached, the section sho
 
 ## Publish it
 
-[`.github/workflows/website.yml`](../.github/workflows/website.yml) builds, tests and deploys the site to GitHub Pages when `website/`, the screenshots or the fonts change on `main`. Turn it on once in **Settings → Pages → Source: GitHub Actions**. The base path is the repository name, set by the workflow through `VITE_BASE`.
+[`.github/workflows/website.yml`](../.github/workflows/website.yml) builds, tests and deploys the site to GitHub Pages when `website/`, the screenshots, the fonts or the app change on `main`. It also builds the Flutter web demo (`flutter build web`) and puts it in `demo/` beside the site, which is where the "Try it" buttons point; see "Web demo" in [`docs/architecture.md`](../docs/architecture.md). Turn it on once in **Settings → Pages → Source: GitHub Actions**. The base path is the repository name, set by the workflow through `VITE_BASE`.
 
 ## Translating
 

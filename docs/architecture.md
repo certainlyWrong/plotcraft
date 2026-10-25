@@ -60,6 +60,10 @@ Model colors are ARGB numbers (`colorValue`) and icons are `IconRef {set, name}`
 
 The app ships a complete story, "Herdeiros do Silêncio", in `assets/sample/herdeiros-do-silencio/` (a project folder like any other, with the gallery images and the cover as JPEG to keep the app light). On the home screen, "Explore the sample story" appears while it is not in the library: `SampleProjectInstaller` copies the files to the projects folder (into a `.partial` folder that only becomes the final one when it finishes), the library is reloaded and the project opens. After that it is an ordinary project that can be edited or deleted; if it is deleted, the action comes back. Installing again without deleting copies nothing. New files of the sample must be declared in `pubspec.yaml`, folder by folder.
 
+## Web demo
+
+The app also builds for the web (`flutter build web`), as a demo the website links to. A browser has no folders, so every repository reads and writes through `fs`, in `packages/plotcraft_core/lib/core/file_system.dart`: the real disk on the desktop, a `MemoryFileSystem` (from `package:file`) in the browser, chosen in `main`. Code that needs a file uses `fs.file(path)` and `fs.directory(path)` instead of `File(path)` and `Directory(path)`. In the browser the app starts from the bundled sample story, so what is written is gone when the page closes. The things that only exist on the desktop (the window, the system spell checker, system fonts, the MCP bridge, watching the folder) are switched off there, and `isMacOS`/`isLinux`/`isWindows` in `lib/core/platform/platform_support.dart` replace `Platform`, which throws on the web. The `Website` workflow builds the demo and publishes it at `/demo/` beside the site.
+
 ## Persistence
 
 Each project is a local folder with a manifest and materials. Preferences only store the library paths, the default location for new projects, the theme and the font. `easy_localization` persists the language. With no previous preferences, the initial language is English and the theme is Gris Night. The on-disk format is described in [Project model](project-model.md).

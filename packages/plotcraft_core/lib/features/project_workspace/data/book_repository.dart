@@ -12,6 +12,7 @@ import '../domain/rich/delta_to_markdown.dart';
 import '../domain/rich/markdown_to_delta.dart';
 import '../domain/rich/rich_document.dart';
 import 'project_files.dart';
+import '../../../core/file_system.dart';
 
 class BookWriteResult {
   const BookWriteResult(this.project, this.book);
@@ -78,7 +79,7 @@ class BookRepository {
     late final BookContent next;
     if (enabled) {
       if (book.chapters.isNotEmpty) {
-        final archive = File(
+        final archive = fs.file(
           p.join(
             folder,
             'content',
@@ -191,7 +192,7 @@ class BookRepository {
       _markdownFile(folder, chapterId),
     ]) {
       if (!await file.exists()) continue;
-      final archive = File(
+      final archive = fs.file(
         p.join(folder, 'content', 'book', 'archive', p.basename(file.path)),
       );
       try {
@@ -209,7 +210,7 @@ class BookRepository {
   Future<BookContent> load(StoryProject project) async {
     final folder = _files.folder(project);
     final single = await _loadDocument(project, folder, null);
-    final indexFile = File(p.join(folder, 'content', 'book', 'book.json'));
+    final indexFile = fs.file(p.join(folder, 'content', 'book', 'book.json'));
     if (!await indexFile.exists()) {
       return BookContent(
         chaptersEnabled: false,
@@ -280,7 +281,7 @@ class BookRepository {
     Delta converted,
   ) async {
     try {
-      final backup = File(
+      final backup = fs.file(
         p.join(
           folder,
           'content',
@@ -341,17 +342,17 @@ class BookRepository {
   }
 
   Future<void> _writeBookIndex(String folder, BookContent book) async {
-    final file = File(p.join(folder, 'content', 'book', 'book.json'));
+    final file = fs.file(p.join(folder, 'content', 'book', 'book.json'));
     await _files.writeJson(file, book.toIndexJson());
   }
 
-  File _markdownFile(String folder, String? chapterId) => File(
+  File _markdownFile(String folder, String? chapterId) => fs.file(
     chapterId == null
         ? p.join(folder, 'content', 'book', 'manuscript.md')
         : p.join(folder, 'content', 'book', 'chapters', '$chapterId.md'),
   );
 
-  File _deltaFile(String folder, String? chapterId) => File(
+  File _deltaFile(String folder, String? chapterId) => fs.file(
     chapterId == null
         ? p.join(folder, 'content', 'book', 'manuscript.delta.json')
         : p.join(

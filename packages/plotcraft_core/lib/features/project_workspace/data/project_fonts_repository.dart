@@ -6,6 +6,7 @@ import '../../../core/fonts/font_file_info.dart';
 import '../../projects/domain/story_project.dart';
 import '../domain/project_font.dart';
 import 'project_files.dart';
+import '../../../core/file_system.dart';
 
 /// Fonts that belong to a project, kept in its `fonts/` folder so that they
 /// travel with it when the folder is copied to another computer.
@@ -18,7 +19,7 @@ class ProjectFontsRepository {
   static const maxBytes = 30 * 1024 * 1024;
 
   Directory _directory(StoryProject project) =>
-      Directory(p.join(_files.folder(project), 'fonts'));
+      fs.directory(p.join(_files.folder(project), 'fonts'));
 
   /// Valid font files in `fonts/`, sorted by family. Files that are not
   /// fonts are ignored.
@@ -60,7 +61,7 @@ class ProjectFontsRepository {
     final directory = _directory(project);
     final added = <ProjectFont>[];
     for (final path in sourcePaths) {
-      final source = File(path);
+      final source = fs.file(path);
       if (!extensions.contains(p.extension(path).toLowerCase()) ||
           !await source.exists() ||
           await source.length() > maxBytes) {
@@ -71,10 +72,12 @@ class ProjectFontsRepository {
       await directory.create(recursive: true);
       final stem = p.basenameWithoutExtension(path);
       final extension = p.extension(path).toLowerCase();
-      var destination = File(p.join(directory.path, '$stem$extension'));
+      var destination = fs.file(p.join(directory.path, '$stem$extension'));
       var suffix = 2;
       while (await destination.exists()) {
-        destination = File(p.join(directory.path, '$stem-$suffix$extension'));
+        destination = fs.file(
+          p.join(directory.path, '$stem-$suffix$extension'),
+        );
         suffix++;
       }
       await source.copy(destination.path);
@@ -93,7 +96,7 @@ class ProjectFontsRepository {
   Future<void> remove(StoryProject project, String file) async {
     await _files.ensureManifest(project);
     final directory = _directory(project);
-    final target = File(p.join(directory.path, p.basename(file)));
+    final target = fs.file(p.join(directory.path, p.basename(file)));
     if (p.basename(file) != file) {
       throw const FormatException('Invalid font file name');
     }

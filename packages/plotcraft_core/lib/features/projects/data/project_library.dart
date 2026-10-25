@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 
 import '../domain/story_project.dart';
+import '../../../core/file_system.dart';
 
 /// Finds, reads and deletes project folders. It knows nothing about where the
 /// list of folders is remembered: the app keeps it in its preferences, the
@@ -13,7 +14,7 @@ class ProjectLibrary {
 
   /// The project of [folder], or null when it has no readable `project.json`.
   Future<StoryProject?> read(String folder) async {
-    final file = File(p.join(folder, 'project.json'));
+    final file = fs.file(p.join(folder, 'project.json'));
     if (!await file.exists()) return null;
     try {
       final json =
@@ -37,7 +38,7 @@ class ProjectLibrary {
   }) async {
     final paths = <String>{...knownFolders};
     if (root != null) {
-      final directory = Directory(root);
+      final directory = fs.directory(root);
       if (await directory.exists()) {
         try {
           await for (final entity in directory.list(followLinks: false)) {
@@ -67,6 +68,6 @@ class ProjectLibrary {
     if (existing?.id != project.id) {
       throw StateError('Project manifest does not match the selected project');
     }
-    await Directory(folder).delete(recursive: true);
+    await fs.directory(folder).delete(recursive: true);
   }
 }

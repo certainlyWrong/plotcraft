@@ -23,6 +23,7 @@ import '../domain/rich/mention_scan.dart';
 import '../domain/rich/rich_document.dart';
 import 'content_revision.dart';
 import 'story_error.dart';
+import '../../../core/file_system.dart';
 
 /// A chapter in the list of the book.
 class ChapterInfo {
@@ -160,7 +161,7 @@ class StoryWorkspace {
   Future<BookContent> loadBook() => _repo.book.load(_project);
 
   File _chapterFile(String id) =>
-      File(p.join(folder, 'content', 'book', 'chapters', '$id.delta.json'));
+      fs.file(p.join(folder, 'content', 'book', 'chapters', '$id.delta.json'));
 
   static int wordCount(String text) {
     final trimmed = text.trim();
@@ -428,7 +429,7 @@ class StoryWorkspace {
   // --- Elements ---------------------------------------------------------
 
   File _elementFile(String id) =>
-      File(p.join(folder, 'content', 'narrative', 'elements', '$id.json'));
+      fs.file(p.join(folder, 'content', 'narrative', 'elements', '$id.json'));
 
   Future<List<ElementRecord>> elements() async {
     final data = await _repo.load(_project);
@@ -596,9 +597,9 @@ class StoryWorkspace {
     if (safe.isEmpty || safe.startsWith('.')) {
       throw const StoryError.validation('Invalid file name.');
     }
-    final temp = await Directory.systemTemp.createTemp('plotcraft-image-');
+    final temp = await fs.systemTempDirectory.createTemp('plotcraft-image-');
     try {
-      final file = File(p.join(temp.path, safe));
+      final file = fs.file(p.join(temp.path, safe));
       await file.writeAsBytes(bytes);
       final before = {for (final item in await gallery()) item.id};
       final items = await importImages([file.path]);

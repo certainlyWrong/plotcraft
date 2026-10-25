@@ -7,6 +7,7 @@ import '../domain/story_project.dart';
 import '../domain/project_format.dart';
 import '../domain/project_metadata_input.dart';
 import '../domain/cover_image_rules.dart';
+import '../../../core/file_system.dart';
 
 /// Builds the initial on-disk structure of a story project.
 class ProjectCreationService {
@@ -14,7 +15,7 @@ class ProjectCreationService {
     input.validate();
     final coverSource = input.coverSourcePath == null
         ? null
-        : File(input.coverSourcePath!);
+        : fs.file(input.coverSourcePath!);
     String? coverFile;
     if (coverSource != null) {
       final extension = CoverImageRules.extensionOf(coverSource.path);
@@ -59,9 +60,9 @@ class ProjectCreationService {
       root,
       '${slug.isEmpty ? 'story' : slug}-${project.id}',
     );
-    final directory = Directory(folder);
+    final directory = fs.directory(folder);
     if (await directory.exists()) {
-      final manifest = File(p.join(folder, 'project.json'));
+      final manifest = fs.file(p.join(folder, 'project.json'));
       if (await manifest.exists()) {
         try {
           final json =
@@ -79,43 +80,49 @@ class ProjectCreationService {
 
     await directory.create(recursive: true);
     try {
-      await Directory(p.join(folder, 'covers')).create();
-      await Directory(p.join(folder, 'gallery')).create();
+      await fs.directory(p.join(folder, 'covers')).create();
+      await fs.directory(p.join(folder, 'gallery')).create();
       if (ProjectFormats.of(project.primaryFormat).hasManuscript) {
         final book = p.join(folder, 'content', 'book');
-        await Directory(book).create(recursive: true);
+        await fs.directory(book).create(recursive: true);
         // A new manuscript starts as a Delta (the source of truth) with its
         // Markdown copy, so nothing needs converting on the first open.
-        await File(p.join(book, 'manuscript.delta.json')).writeAsString(
-          const JsonEncoder.withIndent('  ').convert({
-            'schemaVersion': 1,
-            'ops': [
-              {'insert': project.title},
-              {
-                'insert': '\n',
-                'attributes': {'header': 1},
-              },
-              {'insert': '\n'},
-            ],
-          }),
-        );
-        await File(p.join(book, 'manuscript.md'))
+        await fs
+            .file(p.join(book, 'manuscript.delta.json'))
+            .writeAsString(
+              const JsonEncoder.withIndent('  ').convert({
+                'schemaVersion': 1,
+                'ops': [
+                  {'insert': project.title},
+                  {
+                    'insert': '\n',
+                    'attributes': {'header': 1},
+                  },
+                  {'insert': '\n'},
+                ],
+              }),
+            );
+        await fs
+            .file(p.join(book, 'manuscript.md'))
             .writeAsString('# ${project.title}\n');
-        await File(p.join(book, 'book.json')).writeAsString(
-          const JsonEncoder.withIndent('  ').convert({
-            'schemaVersion': 1,
-            'mode': 'single',
-            'chapters': <Object>[],
-          }),
-        );
+        await fs
+            .file(p.join(book, 'book.json'))
+            .writeAsString(
+              const JsonEncoder.withIndent('  ').convert({
+                'schemaVersion': 1,
+                'mode': 'single',
+                'chapters': <Object>[],
+              }),
+            );
       }
-      await Directory(p.join(folder, 'content', 'narrative', 'elements'))
+      await fs
+          .directory(p.join(folder, 'content', 'narrative', 'elements'))
           .create(recursive: true);
       if (coverSource != null && project.coverFile != null) {
         await coverSource.copy(p.join(folder, project.coverFile!));
       }
-      final manifest = File(p.join(folder, 'project.json'));
-      final temp = File('${manifest.path}.tmp');
+      final manifest = fs.file(p.join(folder, 'project.json'));
+      final temp = fs.file('${manifest.path}.tmp');
       await temp.writeAsString(
         const JsonEncoder.withIndent('  ').convert(project.toJson()),
       );
