@@ -76,7 +76,7 @@ class ElementSummaryPanel extends StatelessWidget {
           Text(
             value,
             style: theme.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],
@@ -131,7 +131,8 @@ class ElementSummaryPanel extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
+                        fontFamily: PlotcraftFonts.serif,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     Text(

@@ -10,6 +10,8 @@ import '../../../../core/ui/plotcraft_text_field.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/element_relation.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
 
+import '../../../../core/theme/plotcraft_tokens.dart';
+
 /// Links from an element to others ("sister of"), plus the links other
 /// elements have to it, which are read-only here.
 class ElementRelationsPanel extends StatefulWidget {
@@ -87,7 +89,8 @@ class _ElementRelationsPanelState extends State<ElementRelationsPanel> {
               child: Text(
                 'elements.relations'.tr(),
                 style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontFamily: PlotcraftFonts.serif,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -135,7 +138,7 @@ class _ElementRelationsPanelState extends State<ElementRelationsPanel> {
   Widget _columnHeaders(BuildContext context) {
     final style = Theme.of(context).textTheme.labelSmall?.copyWith(
       color: Theme.of(context).colorScheme.onSurfaceVariant,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w500,
     );
     Widget cell(String key) => Expanded(
       flex: 3,

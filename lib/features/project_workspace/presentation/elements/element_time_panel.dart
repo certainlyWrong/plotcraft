@@ -6,6 +6,8 @@ import '../../../../core/ui/plotcraft_text_field.dart';
 
 import 'package:plotcraft_core/features/project_workspace/domain/story_time.dart';
 
+import '../../../../core/theme/plotcraft_tokens.dart';
+
 /// "When does this happen in the story?": a label written the way the story
 /// tells it, and an optional number that only orders things on the timeline.
 class ElementTimePanel extends StatefulWidget {
@@ -52,7 +54,8 @@ class _ElementTimePanelState extends State<ElementTimePanel> {
         Text(
           'elements.time'.tr(),
           style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w700,
+            fontFamily: PlotcraftFonts.serif,
+            fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(height: 4),

@@ -14,6 +14,7 @@ import 'package:plotcraft_core/features/projects/domain/project_format.dart';
 import 'project_cover_art.dart';
 import '../../../../core/ui/project_image.dart';
 import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/plotcraft_surface.dart';
 
 class ProjectOverview extends StatelessWidget {
   const ProjectOverview({
@@ -57,7 +58,8 @@ class ProjectOverview extends StatelessWidget {
               Text(
                 'workspace.overview'.tr(),
                 style: theme.textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontFamily: PlotcraftFonts.serif,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: 6),
@@ -98,14 +100,13 @@ class ProjectOverview extends StatelessWidget {
     Widget stat(IconData icon, String value, String label) => Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
-        color: scheme.surfaceContainerLow,
+        color: context.tokens.ink.withValues(alpha: .1),
         borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
-        border: Border.all(color: scheme.outlineVariant),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 18, color: scheme.primary),
+          Icon(icon, size: 18, color: context.tokens.ink),
           const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +114,8 @@ class ProjectOverview extends StatelessWidget {
               Text(
                 value,
                 style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontFamily: PlotcraftFonts.serif,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               Text(
@@ -156,8 +158,7 @@ class ProjectOverview extends StatelessWidget {
           const SizedBox(width: 16),
           Expanded(
             flex: 6,
-            child: Card(
-              elevation: 0,
+            child: PlotcraftCard(
               child: Padding(
                 padding: const EdgeInsets.all(18),
                 child: Column(
@@ -195,8 +196,7 @@ class ProjectOverview extends StatelessWidget {
   Widget _manuscriptCard(BuildContext context) {
     final theme = Theme.of(context);
     final excerpt = _excerpt(manuscript);
-    return Card(
-      elevation: 0,
+    return PlotcraftCard(
       child: Padding(
         padding: const EdgeInsets.all(18),
         child: Column(
@@ -211,8 +211,9 @@ class ProjectOverview extends StatelessWidget {
             Text(
               '$wordCount',
               style: theme.textTheme.headlineMedium?.copyWith(
-                color: theme.colorScheme.primary,
-                fontWeight: FontWeight.w700,
+                fontFamily: PlotcraftFonts.serif,
+                color: context.tokens.ink,
+                fontWeight: FontWeight.w500,
               ),
             ),
             Text(
@@ -262,8 +263,7 @@ class ProjectOverview extends StatelessWidget {
 
   Widget _galleryCard(BuildContext context) {
     final theme = Theme.of(context);
-    return Card(
-      elevation: 0,
+    return PlotcraftCard(
       child: Padding(
         padding: const EdgeInsets.all(18),
         child: Column(
@@ -274,8 +274,8 @@ class ProjectOverview extends StatelessWidget {
             Text(
               countLabel('workspace.image_count', images.length),
               style: theme.textTheme.labelMedium?.copyWith(
-                color: theme.colorScheme.primary,
-                fontWeight: FontWeight.w700,
+                color: context.tokens.ink,
+                fontWeight: FontWeight.w500,
               ),
             ),
             const SizedBox(height: 15),
@@ -285,7 +285,7 @@ class ProjectOverview extends StatelessWidget {
                 width: double.infinity,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withValues(alpha: .06),
+                  color: context.tokens.ink.withValues(alpha: .06),
                   borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
                 ),
                 child: Padding(
@@ -293,11 +293,7 @@ class ProjectOverview extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Feather.image,
-                        size: 25,
-                        color: theme.colorScheme.primary,
-                      ),
+                      Icon(Feather.image, size: 25, color: context.tokens.ink),
                       const SizedBox(height: 9),
                       Text(
                         'workspace.gallery_empty'.tr(),
@@ -377,7 +373,7 @@ class ProjectOverview extends StatelessWidget {
           height: 36,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: theme.colorScheme.primaryContainer,
+            color: context.tokens.ink.withValues(alpha: .18),
             borderRadius: BorderRadius.circular(PlotcraftRadii.control),
           ),
           child: Icon(
@@ -393,7 +389,8 @@ class ProjectOverview extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w700,
+              fontFamily: PlotcraftFonts.serif,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
@@ -404,8 +401,8 @@ class ProjectOverview extends StatelessWidget {
   Widget _eyebrow(BuildContext context, String label) => Text(
     label.toUpperCase(),
     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-      color: Theme.of(context).colorScheme.primary,
-      fontWeight: FontWeight.w700,
+      color: context.tokens.ink,
+      fontWeight: FontWeight.w500,
       letterSpacing: 1.1,
     ),
   );

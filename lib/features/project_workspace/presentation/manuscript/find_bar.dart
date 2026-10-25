@@ -33,7 +33,7 @@ class FindBar extends StatelessWidget {
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      color: theme.colorScheme.surfaceContainerLow,
+      color: theme.colorScheme.surfaceContainerLow.withValues(alpha: .6),
       child: Row(
         children: [
           Expanded(

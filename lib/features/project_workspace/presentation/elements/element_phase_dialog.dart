@@ -303,7 +303,7 @@ class _PhaseDialogState extends State<_PhaseDialog> {
           color: scheme.surfaceContainerHigh,
           borderRadius: BorderRadius.circular(PlotcraftRadii.control),
           border: Border.all(
-            color: selected ? scheme.primary : Colors.transparent,
+            color: selected ? context.tokens.ink : Colors.transparent,
             width: 3,
           ),
         ),

@@ -42,7 +42,8 @@ class ElementImagesPanel extends StatelessWidget {
             Text(
               'elements.images'.tr(),
               style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w700,
+                fontFamily: PlotcraftFonts.serif,
+                fontWeight: FontWeight.w500,
               ),
             ),
             const Spacer(),

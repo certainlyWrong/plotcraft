@@ -7,6 +7,8 @@ import 'package:plotcraft_core/features/project_workspace/domain/element_type_ca
 import 'package:plotcraft_core/features/project_workspace/domain/narrative_element.dart';
 
 import '../../../../core/icons/icon_data.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/plotcraft_chip.dart';
 import '../element_colors.dart';
 import 'element_picker_dialog.dart';
 import 'element_type_label.dart';
@@ -123,13 +125,10 @@ class ElementReferencePicker extends StatelessWidget {
       if (!token.isElement) {
         return Tooltip(
           message: 'elements.reference_unmatched'.tr(),
-          child: InputChip(
-            avatar: Icon(
-              Feather.alert_circle,
-              size: 14,
-              color: scheme.tertiary,
-            ),
-            label: Text(token.text),
+          child: PlotcraftChip(
+            icon: Feather.alert_circle,
+            iconColor: scheme.tertiary,
+            label: token.text,
             onDeleted: () => _emit([
               for (final t in tokens)
                 if (t != token) t,
@@ -139,14 +138,11 @@ class ElementReferencePicker extends StatelessWidget {
       }
       final element = elements.firstWhere((e) => e.id == token.elementId);
       final type = ElementTypeCatalog.resolve(element.typeId, types);
-      return InputChip(
-        avatar: Icon(
-          (element.icon ?? type?.icon ?? IconRef.fallback).data,
-          size: 15,
-          color: element.color ?? type?.color ?? scheme.primary,
-        ),
-        label: Text(element.title),
-        onPressed: onOpen == null ? null : () => onOpen!(element.id),
+      return PlotcraftChip(
+        icon: (element.icon ?? type?.icon ?? IconRef.fallback).data,
+        iconColor: element.color ?? type?.color ?? context.tokens.ink,
+        label: element.title,
+        onTap: onOpen == null ? null : () => onOpen!(element.id),
         onDeleted: () => _emit([
           for (final t in tokens)
             if (t != token) t,
@@ -163,10 +159,10 @@ class ElementReferencePicker extends StatelessWidget {
         children: [
           for (final token in tokens) chip(token),
           if (canAdd || (multiple && selectable.isNotEmpty))
-            ActionChip(
-              avatar: Icon(Feather.plus, size: 14, color: scheme.primary),
-              label: Text('elements.reference_add'.tr()),
-              onPressed: () => _pick(context, tokens, selectable),
+            PlotcraftChip(
+              icon: Feather.plus,
+              label: 'elements.reference_add'.tr(),
+              onTap: () => _pick(context, tokens, selectable),
             )
           else if (candidates.isEmpty && tokens.isEmpty)
             Text(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:icons_flutter/icons_flutter.dart';
 import 'package:plotcraft/core/theme/theme_definition.dart';
 import 'package:plotcraft/features/project_workspace/presentation/elements/element_reference_picker.dart';
 import 'package:plotcraft_core/features/project_workspace/domain/element_reference.dart';
@@ -207,7 +208,7 @@ void main() {
         multiple: true,
         changes: changes,
       );
-      await tester.tap(find.byIcon(Icons.clear).first);
+      await tester.tap(find.byIcon(Feather.x).first);
       await tester.pump();
       expect(changes, ['cinzaluz']);
     });

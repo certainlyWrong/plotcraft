@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// Shared display for project keywords, using the typography selected in the
-/// interface preferences.
+import '../../../../core/ui/plotcraft_chip.dart';
+
+/// Shared display for project keywords: small tinted tags in the typography
+/// selected in the interface preferences.
 class ProjectTags extends StatelessWidget {
   const ProjectTags({super.key, required this.tags, this.dense = false});
 
@@ -11,20 +13,9 @@ class ProjectTags extends StatelessWidget {
   final bool dense;
 
   @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 7,
-      runSpacing: 7,
-      children: tags
-          .map(
-            (tag) => Chip(
-              label: Text(tag),
-              visualDensity: dense ? VisualDensity.compact : null,
-              labelStyle: dense ? Theme.of(context).textTheme.bodySmall : null,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-          )
-          .toList(),
-    );
-  }
+  Widget build(BuildContext context) => Wrap(
+    spacing: dense ? 6 : 8,
+    runSpacing: dense ? 6 : 8,
+    children: [for (final tag in tags) PlotcraftChip(label: tag)],
+  );
 }

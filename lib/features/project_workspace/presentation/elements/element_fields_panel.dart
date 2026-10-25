@@ -11,6 +11,7 @@ import 'package:plotcraft_core/features/project_workspace/domain/narrative_eleme
 
 import 'element_reference_picker.dart';
 import 'element_type_label.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 /// Inputs for the details defined by an element's type. Values are strings
 /// keyed by field ID; a value left empty is not saved. Give the panel a key
@@ -177,7 +178,8 @@ class _ElementFieldsPanelState extends State<ElementFieldsPanel> {
         Text(
           'elements.details'.tr(),
           style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w700,
+            fontFamily: PlotcraftFonts.serif,
+            fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(height: 10),

@@ -42,6 +42,8 @@ import 'element_type_label.dart';
 import 'title_body_dialog.dart';
 import '../../../../core/icons/icon_data.dart';
 import '../element_colors.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/plotcraft_toast.dart';
 
 /// Editor of one narrative element, shown in its own tab. A tab whose ID is a
 /// draft creates a new element when saved.
@@ -196,7 +198,7 @@ class _ElementEditorState extends State<ElementEditor> {
   void _snack(String key) {
     if (!mounted) return;
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(key.tr())));
+        .showSnackBar(plotcraftToast(context, key.tr()));
   }
 
   String _newId() => newTimeId();
@@ -275,8 +277,10 @@ class _ElementEditorState extends State<ElementEditor> {
       children: [
         Text(
           'elements.mentions_section'.tr(),
-          style: Theme.of(context).textTheme.titleMedium
-              ?.copyWith(fontWeight: FontWeight.w700),
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontFamily: PlotcraftFonts.serif,
+            fontWeight: FontWeight.w500,
+          ),
         ),
         SwitchListTile(
           contentPadding: EdgeInsets.zero,
@@ -392,7 +396,9 @@ class _ElementEditorState extends State<ElementEditor> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontFamily: PlotcraftFonts.serif,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
@@ -404,13 +410,13 @@ class _ElementEditorState extends State<ElementEditor> {
                       vertical: 3,
                     ),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.tertiaryContainer,
+                      color: context.tokens.ink.withValues(alpha: .16),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
                       'elements.unsaved_changes'.tr(),
                       style: theme.textTheme.labelSmall?.copyWith(
-                        color: theme.colorScheme.onTertiaryContainer,
+                        color: context.tokens.ink,
                       ),
                     ),
                   ),
@@ -679,8 +685,7 @@ class _ElementEditorState extends State<ElementEditor> {
     ElementType? type, {
     bool compact = false,
   }) {
-    final color =
-        _draft.color ?? type?.color ?? Theme.of(context).colorScheme.primary;
+    final color = _draft.color ?? type?.color ?? context.tokens.ink;
     final cover = _draft.images.firstOrNull;
     return ElementSummaryPanel(
       title: _draft.title.text,

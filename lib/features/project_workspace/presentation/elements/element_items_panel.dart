@@ -4,6 +4,8 @@ import 'package:icons_flutter/icons_flutter.dart';
 
 import '../../../../core/ui/plotcraft_button.dart';
 import '../../../../core/ui/plotcraft_icon_button.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
+import '../../../../core/ui/plotcraft_surface.dart';
 
 class ElementItem {
   const ElementItem({required this.title, required this.body, this.badge});
@@ -50,7 +52,8 @@ class ElementItemsPanel extends StatelessWidget {
               child: Text(
                 title,
                 style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontFamily: PlotcraftFonts.serif,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -76,7 +79,7 @@ class ElementItemsPanel extends StatelessWidget {
           _frame(
             context,
             index,
-            Card(
+            PlotcraftCard(
               child: ListTile(
                 title: Row(
                   children: [
@@ -86,7 +89,7 @@ class ElementItemsPanel extends StatelessWidget {
                       Text(
                         items[index].badge!,
                         style: theme.textTheme.labelSmall?.copyWith(
-                          color: theme.colorScheme.primary,
+                          color: context.tokens.ink,
                         ),
                       ),
                     ],
@@ -131,7 +134,7 @@ class ElementItemsPanel extends StatelessWidget {
                   width: 10,
                   height: 10,
                   decoration: BoxDecoration(
-                    color: scheme.primary,
+                    color: context.tokens.ink,
                     shape: BoxShape.circle,
                   ),
                 ),

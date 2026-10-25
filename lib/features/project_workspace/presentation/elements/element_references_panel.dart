@@ -4,6 +4,8 @@ import 'package:icons_flutter/icons_flutter.dart';
 
 import 'package:plotcraft_core/features/project_workspace/domain/rich/mention_scan.dart';
 
+import '../../../../core/theme/plotcraft_tokens.dart';
+
 /// Where an element appears in the book. Choosing an occurrence opens that
 /// chapter with the text selected.
 class ElementReferencesPanel extends StatelessWidget {
@@ -27,7 +29,8 @@ class ElementReferencesPanel extends StatelessWidget {
         Text(
           'elements.references'.tr(),
           style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w700,
+            fontFamily: PlotcraftFonts.serif,
+            fontWeight: FontWeight.w500,
           ),
         ),
         if (occurrences.isNotEmpty)
@@ -53,7 +56,7 @@ class ElementReferencesPanel extends StatelessWidget {
             leading: Icon(
               occurrence.linked ? Feather.link : Feather.file_text,
               size: 16,
-              color: occurrence.linked ? scheme.primary : null,
+              color: occurrence.linked ? context.tokens.ink : null,
             ),
             title: Text(
               occurrence.snippet,

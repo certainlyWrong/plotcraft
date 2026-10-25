@@ -90,6 +90,7 @@ class DividerEmbedBuilder extends EmbedBuilder {
       child: Text(
         '* * *',
         style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          fontFamily: PlotcraftFonts.serif,
           color: Theme.of(context).colorScheme.outline,
           letterSpacing: 8,
         ),

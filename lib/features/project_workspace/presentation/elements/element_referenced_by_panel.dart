@@ -7,6 +7,7 @@ import 'package:plotcraft_core/features/project_workspace/domain/narrative_eleme
 
 import '../../../../core/icons/icon_data.dart';
 import '../element_colors.dart';
+import '../../../../core/theme/plotcraft_tokens.dart';
 
 /// The elements whose details point to this one: the events that happened in
 /// a place, the objects a character owns... Read-only; each opens its element.
@@ -34,7 +35,8 @@ class ElementReferencedByPanel extends StatelessWidget {
         Text(
           'elements.referenced_by'.tr(),
           style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w700,
+            fontFamily: PlotcraftFonts.serif,
+            fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(height: 8),
@@ -57,7 +59,8 @@ class ElementReferencedByPanel extends StatelessWidget {
                       Icon(
                         (source.icon ?? type?.icon ?? IconRef.fallback).data,
                         size: 16,
-                        color: source.color ?? type?.color ?? scheme.primary,
+                        color:
+                            source.color ?? type?.color ?? context.tokens.ink,
                       ),
                       const SizedBox(width: 10),
                       Expanded(
@@ -66,7 +69,7 @@ class ElementReferencedByPanel extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),

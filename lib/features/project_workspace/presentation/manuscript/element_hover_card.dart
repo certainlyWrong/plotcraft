@@ -55,14 +55,14 @@ class ElementHoverCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final color = element.color ?? type?.color ?? scheme.primary;
+    final color = element.color ?? type?.color ?? context.tokens.ink;
     final icon = (element.icon ?? type?.icon ?? IconRef.fallback).data;
     final details = _details();
     final summary = element.summary.trim();
     return Material(
       color: scheme.surfaceContainer,
-      elevation: 6,
-      shadowColor: Colors.black38,
+      elevation: 3,
+      shadowColor: scheme.shadow.withValues(alpha: .35),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(PlotcraftRadii.panel),
         side: BorderSide(color: scheme.outlineVariant),
@@ -109,7 +109,8 @@ class ElementHoverCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontFamily: PlotcraftFonts.serif,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   if (summary.isNotEmpty) ...[
