@@ -20,7 +20,7 @@ abstract class _ThemeStore with Store {
   ObservableList<ThemeDefinition> themes = ObservableList.of(builtInThemes);
 
   @observable
-  String selectedThemeId = 'violet';
+  String selectedThemeId = 'gris-night';
 
   @observable
   String fontFamily = defaultInterfaceFont;
@@ -33,7 +33,7 @@ abstract class _ThemeStore with Store {
 
   @action
   Future<void> load() async {
-    selectedThemeId = _storage.loadTheme();
+    selectedThemeId = migrateThemeId(_storage.loadTheme());
     final savedFontFamily = _storage.loadFontFamily();
     fontFamily = interfaceFonts.any((font) => font.family == savedFontFamily)
         ? savedFontFamily

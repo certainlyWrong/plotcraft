@@ -81,7 +81,7 @@ class PlotcraftTextField extends StatelessWidget {
       helperText: helperText,
       isDense: compact,
       contentPadding: compact
-          ? const EdgeInsets.symmetric(horizontal: 12, vertical: 8)
+          ? const EdgeInsets.symmetric(horizontal: 2, vertical: 8)
           : null,
       alignLabelWithHint: expands || (maxLines ?? 1) > 1,
     ),

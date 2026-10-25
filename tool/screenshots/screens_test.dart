@@ -363,7 +363,7 @@ void main() {
     final controller = await openWorkspace(
       tester,
       book,
-      theme: builtInThemes.firstWhere((t) => t.id == 'midnight'),
+      theme: builtInThemes.firstWhere((t) => t.id == 'gris-night'),
     );
     controller.openManuscript(controller.store.book.chapters.first.id);
     await settle(tester, rounds: 8);
