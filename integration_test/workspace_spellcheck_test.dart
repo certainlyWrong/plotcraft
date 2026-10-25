@@ -71,6 +71,11 @@ void main() {
               ...context.localizationDelegates,
               FlutterQuillLocalizations.delegate,
             ],
+            // The wash behind the workspace drifts forever; settling needs it still.
+            builder: (context, child) => MediaQuery(
+              data: MediaQuery.of(context).copyWith(disableAnimations: true),
+              child: child!,
+            ),
             home: WorkspaceShell(
               project: project,
               controller: controller,

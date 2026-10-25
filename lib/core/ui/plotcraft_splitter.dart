@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/plotcraft_tokens.dart';
+
 /// Draggable divider between two panels. It only reports the drag; the parent
 /// owns the panel size, clamps it and decides when to persist it.
 class PlotcraftSplitter extends StatefulWidget {
@@ -29,7 +31,9 @@ class _PlotcraftSplitterState extends State<PlotcraftSplitter> {
     final scheme = Theme.of(context).colorScheme;
     final vertical = widget.axis == Axis.vertical;
     final line = ColoredBox(
-      color: _active ? scheme.primary : scheme.outlineVariant,
+      color: _active
+          ? context.tokens.ink
+          : scheme.outlineVariant.withValues(alpha: .5),
     );
     return MouseRegion(
       cursor: vertical
